@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "222041280644",
+    "project_id": "ureport-ecaro",
+    "storage_bucket": "ureport-ecaro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:222041280644:android:59e0b07c85ea6a380632d1",
+        "android_client_info": {
+          "package_name": "com.riseuplabs.ureport.ureport_ecaro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "222041280644-nfq46r3hjdd44jk3adpjlksjgc7nf6om.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGxjCKQgXVvbJgP7aTzZBSZRXL5H89oOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "222041280644-nfq46r3hjdd44jk3adpjlksjgc7nf6om.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
