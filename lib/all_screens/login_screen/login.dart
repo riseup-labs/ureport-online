@@ -35,6 +35,23 @@ class Login extends StatelessWidget{
                     await provider.sendmessage();
                   }),
 
+              SizedBox(height: 15,),
+              RaisedButton(
+                  child: Text("startflow"),
+                  onPressed: ()async{
+
+                    await provider.startflow();
+                  }),
+
+
+              SizedBox(height: 15,),
+              RaisedButton(
+                  child: Text("start last flow"),
+                  onPressed: ()async{
+
+                    await provider.startlastFlow();
+                  }),
+
             ],
           ),
 

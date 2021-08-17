@@ -17,8 +17,4 @@ class ApiConst{
   static String CHANEL_TEXTIN = "324a1e1d-e6d2-41ac-bf2d-54bcd957736c";
   static String WORKSPACETOKEN_TEXTIN = "0870174704e6dc9c75e083984d5d875b7effac8c";
   static String BASEURL_TEXTIN = "https://$SERVER/c/fcm/$CHANEL/register";
-
-
-
-
 }

@@ -10,6 +10,8 @@ import 'package:ureport_ecaro/utils/api_constant.dart';
 import 'api_response.dart';
 
 import 'apicall_responsedata/response_contact_creation.dart';
+import 'apicall_responsedata/response_single_contact.dart';
+import 'apicall_responsedata/response_startflow.dart';
 import 'http_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,57 +37,45 @@ class RapidProService {
 
 
 
-  runflow( contact)async{
+  Future<ApiResponse<ResponseSingleContact>> getSingleContact(contact)async{
     
-    await _httpService.getRequest("https://${ApiConst.SERVER_LIVE}/api/v2/contacts.json",qp:{"uuid":contact}).then((value)async {
-
-      var contactUuid =value.data;
-      print("runflow falue ${contactUuid.data['results'][0]['uuid']}");
-
-
-      await _httpService.postRequesturlencoded("https://${ApiConst.SERVER_LIVE}/api/v2/flow_starts.json",data: {
-        "flow": "302595c7-d273-477f-9a96-b91e65923d82",
-        "contacts":[contact]
-      }).then((value) {
-
-        print("thee start value is ${value.data}");
-
-      });
-
-    });
+    var apiResponse = await _httpService.getRequest("https://${ApiConst.SERVER_LIVE}/api/v2/contacts.json",qp: {"uuid":contact});
+    return ApiResponse(
+        httpCode: apiResponse.httpCode,
+        message: apiResponse.message,
+        data: ResponseSingleContact.fromJson(apiResponse.data.data)
+    );
   }
 
 
-  startflow(@required String flow,String contact,@required onSuccess(response),@required onError(error))async{
 
-    await _httpService.postRequesturlencoded("https://${ApiConst.SERVER_LIVE}/api/v2/flow_starts.json",data: {
-      "flow": "302595c7-d273-477f-9a96-b91e65923d82",
-      "contacts":[contact]
-    }).then((value) {
-      onSuccess(value.data);
-    }).onError((error, stackTrace) {
-      onError(error);
+  Future<ApiResponse<ResponseStartflow>> startflow(String flow,String urn)async{
 
+    print("the urn is ${urn}");
+
+  var  apiResponse=  await _httpService.postRequesturlencoded("https://${ApiConst.SERVER_LIVE}/api/v2/flow_starts.json",data: {
+      "flow": flow,
+      "urns":"$urn"
     });
 
+  return ApiResponse(
+      httpCode: apiResponse.httpCode,
+      message: apiResponse.message,
+      data: ResponseStartflow.fromJson(apiResponse.data.data)
+  );
+
+
+
   }
-
-
-  getFlowid(usercontatct) async {
+  startRunflow(usercontatct) async {
     await _httpService.getRequest("https://${ApiConst.SERVER_LIVE}/api/v2/runs.json",
         qp: {"contact": usercontatct}).then((value) async {
       var contatct = value.data;
-      print("this is the flow =${contatct.data['results'][0]['start']["uuid"]}");
+      startflow(contatct.data['results'][0]['flow']['uuid'],contatct.data['results'][0]['contact']['urn']);
+      //print("this is the flow =${contatct.data['results'][0]['flow']["uuid"]}");
     });
   }
-
-
-  sendMessage({
-    @required String? message,
-    @required onSuccess(value)?,
-    @required onError(Exception value)?,
-    urn,
-    fcmToken
+  sendMessage({@required String? message, @required onSuccess(value)?, @required onError(Exception value)?, urn, fcmToken
   }) async {
 
     print("--------------------------------------message method is called");
@@ -110,6 +100,7 @@ class RapidProService {
       onError!(e);
     });*/
   }
+
 /*  register({@required onSuccess(String uuid)?, @required onError(Exception error)?,}) async {
     await http.post("https://$server/c/fcm/$channel/register", body: {
       "urn": urn,

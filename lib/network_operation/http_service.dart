@@ -130,7 +130,7 @@ class HttpService {
         return ApiResponse(httpCode: int.parse(response.statusCode.toString()), data: response, message: '');
       } else {
         return ApiResponse(
-            httpCode:int.parse( response.statusCode.toString()), message: "Connection error. ${response.statusCode}", data: response.data);
+            httpCode:int.parse( response.statusCode.toString()), message: "Connection error. ${response.statusCode}", data: response);
       }
     } on DioError catch (e) {
       if (e.type == DioErrorType.response) {
