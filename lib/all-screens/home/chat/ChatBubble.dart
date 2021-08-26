@@ -18,6 +18,7 @@ class ChatBubble extends StatelessWidget {
           : MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(width: 10,),
         message.sender == "server" ? ChatAvatar("assets/images/ic_ureport_box.png") : Container(),
         SizedBox(width: 5,),
         Column(
@@ -33,8 +34,8 @@ class ChatBubble extends StatelessWidget {
                     : Color(0xff41B6E6),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: message.sender == 'server'? Expanded(child: Text(message.message,style: TextStyle(color: Colors.black))):
-              Expanded(child: Text(message.message,style: TextStyle(color: Colors.white),textAlign: TextAlign.right,)),
+              child: message.sender == 'server'? Text(message.message,style: TextStyle(color: Colors.black)):
+              Text(message.message,style: TextStyle(color: Colors.white),textAlign: TextAlign.right,),
             ),
             message.sender == 'user'
                 ? Text(
@@ -43,7 +44,9 @@ class ChatBubble extends StatelessWidget {
                       fontSize: 10,
                     ),
                   )
-                : Container()
+                : Container(),
+
+            SizedBox(height: 10,)
           ],
         ),
         message.sender == "server" ? Container() : ChatAvatar("assets/images/ic_user_box.png"),

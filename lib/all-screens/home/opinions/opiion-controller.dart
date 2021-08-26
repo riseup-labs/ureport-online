@@ -20,6 +20,15 @@ class OpinionController extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _islodading=true;
+
+
+  bool get islodading => _islodading;
+
+  set islodading(bool value) {
+    _islodading = value;
+    notifyListeners();
+  }
 
   bool _all=false;
   bool _age=false;
@@ -44,6 +53,7 @@ class OpinionController extends ChangeNotifier {
   getOpinions() async {
     var apiresponsedata = await _opinionrepository.getOpinions("30");
     if(apiresponsedata.httpCode==200){
+      _islodading=false;
       responseData=apiresponsedata.data;
       responseData!.results.forEach((element) {
         quistionlist.addAll(element.questions);

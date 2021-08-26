@@ -25,8 +25,8 @@ class RapidProService {
           Exception error)?,}) async {
     //print("the fcm token is ===$fcmtoken");
     var apiResponse = await _httpService.postRequesturlencoded(
-        "https://${ApiConst.SERVER_LIVE}/c/fcm/${ApiConst
-            .CHANEL_LIVE}/register", data: {
+        "https://${ApiConst.SERVER_OFFICIAL}/c/fcm/${ApiConst
+            .CHANEL_OFFICIAL}/register", data: {
       "urn": urn,
       "fcm_token": fcmtoken,
     }, isurlEncoded: true);
@@ -83,7 +83,7 @@ class RapidProService {
   }) async {
     print("--------------------------------------message method is called");
     await _httpService.postRequesturlencoded(
-      "https://${ApiConst.SERVER_LIVE}/c/fcm/${ApiConst.CHANEL_LIVE}/receive",
+      "https://${ApiConst.SERVER_OFFICIAL}/c/fcm/${ApiConst.CHANEL_OFFICIAL}/receive",
       data: {
         "from": urn,
         "fcm_token": fcmToken,

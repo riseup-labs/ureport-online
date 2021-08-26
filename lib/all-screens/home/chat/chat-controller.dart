@@ -43,7 +43,7 @@ class ChatController extends ChangeNotifier{
       // getfirebase();
       if (apiResponse.httpCode == 200) {
         responseContactCreation = apiResponse.data;
-        sendmessage("start");
+        sendmessage("join");
         /* FirebaseMessaging.onMessage.listen((event) {
 
            // MessageModel(message: message['notification']['body'], sender: "server",)
@@ -88,7 +88,7 @@ class ChatController extends ChangeNotifier{
 
 
   }
-  getfirebaseInitialmessage(){
+ /* getfirebaseInitialmessage(){
 
 
     FirebaseMessaging.instance
@@ -99,7 +99,7 @@ class ChatController extends ChangeNotifier{
       MessageModel(sender: 'server',message: message.data["message"],status: "received");
 
     });
-  }
+  }*/
   //on app notification
   getfirebase(){
     FirebaseMessaging.onMessage.listen((RemoteMessage remotemessage){
@@ -133,7 +133,7 @@ class ChatController extends ChangeNotifier{
     });
   }
   // app background notification
-  getfirebaseonApp(BuildContext context){
+  getfirebaseonApp(){
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage){
       RemoteNotification? remoteNotification = remotemessage.notification;
@@ -141,7 +141,7 @@ class ChatController extends ChangeNotifier{
 
       if(remoteNotification!=null && androidNotification!=null){
 
-        showDialog(context: context, builder: (_){
+       /* showDialog(context: context, builder: (_){
           return AlertDialog(
             title: Text("${remoteNotification.title}"),
             content: SingleChildScrollView(
@@ -153,7 +153,7 @@ class ChatController extends ChangeNotifier{
               ),
             ),
           );
-        });
+        });*/
 
         flutterLocalNotificationsPlugin.show(remoteNotification.hashCode, remoteNotification.title, remoteNotification.body, NotificationDetails(
 
