@@ -64,11 +64,11 @@ class OpinionController extends ChangeNotifier {
     });
 
 
-    for(int i = 0; i< category_names.length; i++){
-      if(!filterList.contains(category_names[i])){
-        filterList.add(category_names[i]);
-        print(filterList[i]);
-      }
+    filterList = category_names.toSet().toList();
+
+    for(int i = 0; i< filterList.length; i++){
+
+      print(filterList[i]);
     }
     print("the formated value length is ----${category_names.length}");
 
@@ -124,22 +124,13 @@ class OpinionController extends ChangeNotifier {
 
     notifyListeners();
   }
-
-
-
-
-
-
-
   double getFractionOfYesForGender(index,j,k){
         print("the total response is ${quistionlist[index].resultsByGender[j].resultsSet}");
         print("the total succes is  ${quistionlist[index].resultsByGender[j].categories[k].count}");
     double fraction = (quistionlist[index].resultsByGender[j].categories[k].count)/((quistionlist[index].resultsByGender[j].resultsSet))*100;
     print("the number of progress bar is$k .....result== ${fraction}");
     print("the number of label $k  .....name== ${quistionlist[index].resultsByGender[j].categories[k].label}");
-
         return fraction;
-
   }
 
 

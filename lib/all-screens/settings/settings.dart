@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
+import 'package:ureport_ecaro/all-screens/chooser/program_chooser.dart';
 import 'package:ureport_ecaro/all-screens/settings/privacy_policy.dart';
 import 'package:ureport_ecaro/all-screens/settings/terms_and_conditions.dart';
 
@@ -49,12 +51,25 @@ class Settings extends StatelessWidget {
                     "About Us", "assets/images/drawable-ldpi/ic_about.png"),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ProgramChooser();
+                      },
+                    ),
+                  );
+
+                },
                 child: getItem("Change U-report Program",
                     "assets/images/drawable-ldpi/ic_change_ureport_program.png"),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+
+                  NavUtils.push(context, LanguageChooser());
+                },
                 child: getItem("Change Language",
                     "assets/images/drawable-ldpi/ic_change_language.png"),
               ),

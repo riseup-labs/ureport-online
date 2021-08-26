@@ -6,6 +6,14 @@ class ApiConst{
   static String BASEURL = "https://$SERVER/c/fcm/$CHANEL/register";
 
 
+  // official chanelid
+
+  static String CHANEL_OFFICIAL="58799ac1-bd1a-41c6-9996-ea65ad02a0d7";
+  static String SERVER_OFFICIAL="app.rapidpro.io";
+  static String BASEURL_OFFICIAL = "https://$SERVER_OFFICIAL/c/fcm/$CHANEL_OFFICIAL/register";
+
+
+
   // ilhassoft live chanel credential
   static String SERVER_LIVE="rapidpro.ilhasoft.mobi";
   static String CHANEL_LIVE = "5a1acde6-cba0-423d-ba93-ec9d147dd484";
@@ -21,6 +29,6 @@ class ApiConst{
 
   // Pool Result Credential Restful api link
 
-  static String RESULT_OPINION_BASEURL= "https://ureport.in/api/v1/polls/org/14/";
-  static String RESULT_STORY_BASEURL= "https://ureport.in/api/v1/stories/org/1";
+  static String RESULT_OPINION_BASEURL= "https://ureport.in/api/v1/polls/org/13/";
+  static String RESULT_STORY_BASEURL= "https://ureport.in/api/v1/stories/org/13";
 }

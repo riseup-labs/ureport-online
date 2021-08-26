@@ -4,6 +4,7 @@ import 'package:ureport_ecaro/all-screens/home/stories/stories-details.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/widgets/CNetworkImage.dart';
 
 import 'model/response-story-data.dart';
 
@@ -64,7 +65,7 @@ class StoryList extends StatelessWidget {
                           },
                           child: Container(
                             child: getItem(
-                                provider.responseStoriesData!.results[index].images.length>0?provider.responseStoriesData!.results[index].images[0]:"",
+                                provider.responseStoriesData!.results[index].images.length>0?provider.responseStoriesData!.results[index].images[0]:"assets/images/default.jpg",
                                 provider.responseStoriesData!.results[index].createdOn.toString(),
                                 provider.responseStoriesData!.results[index].title,
                                 provider.responseStoriesData!.results[index].summary),
@@ -114,11 +115,22 @@ getItemTitleImage(String image_url) {
   return ClipRRect(
     borderRadius: BorderRadius.only(
         topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-    child: Image.network(
+    child: CNetworkImage(height: 150,url: image_url,fit: BoxFit.cover,
+      placeholderWidget: Image.asset("assets/images/default.jpg"),
+      errorWidget: Image.asset("assets/images/default.jpg"),
+
+
+    ),
+
+    /*FadeInImage(image: NetworkImage(image_url),
+        placeholder: AssetImage("assets/images/default.jpg"),
+    height: 150,),*/
+    /*Image.network(
       image_url,
       height: 150.0,
       fit: BoxFit.cover,
-    ),
+
+    )*/
   );
 }
 

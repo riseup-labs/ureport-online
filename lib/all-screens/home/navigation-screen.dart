@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_list.dart';
+import 'package:ureport_ecaro/all-screens/settings/settings.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
 
 import 'chat/Chat.dart';
@@ -21,7 +22,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     StoryList(),
     Chat(),
     OpinionsScreen(),
-    Center(child: Text("More")),
+    Settings(),
   ];
   @override
   Widget build(BuildContext context) {

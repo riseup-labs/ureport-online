@@ -88,7 +88,7 @@ class ChatController extends ChangeNotifier{
 
 
   }
-  /*getfirebaseInitialmessage(){
+  getfirebaseInitialmessage(){
 
 
     FirebaseMessaging.instance
@@ -99,7 +99,7 @@ class ChatController extends ChangeNotifier{
       MessageModel(sender: 'server',message: message.data["message"],status: "received");
 
     });
-  }*/
+  }
   //on app notification
   getfirebase(){
     FirebaseMessaging.onMessage.listen((RemoteMessage remotemessage){
@@ -133,7 +133,7 @@ class ChatController extends ChangeNotifier{
     });
   }
   // app background notification
-  /*getfirebaseonApp(BuildContext context){
+  getfirebaseonApp(BuildContext context){
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage){
       RemoteNotification? remoteNotification = remotemessage.notification;
@@ -169,7 +169,7 @@ class ChatController extends ChangeNotifier{
       }
     });
 
-  }*/
+  }
    sendmessage(message)async{
 
     await _rapidproservice.sendMessage(message: message, onSuccess: (value){

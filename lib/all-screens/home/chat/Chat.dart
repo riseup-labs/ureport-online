@@ -25,6 +25,8 @@ class Chat extends StatelessWidget {
   Widget build(BuildContext context) {
     Provider.of<ChatController>(context,listen: false).createContatct();
     Provider.of<ChatController>(context,listen: false).getfirebase();
+    Provider.of<ChatController>(context,listen: false).getfirebaseInitialmessage();
+
     return Consumer<ChatController>(
       builder: (context,provider,child){
         return  Container(
@@ -128,6 +130,8 @@ class Chat extends StatelessWidget {
               provider.sendmessage(message);
               messageModel.status=provider.messagestatus;
               sendMessageKey.currentState!.reset();
+
+
             },
           )
         ],
