@@ -122,6 +122,9 @@ class AppColors {
   static var text33 = Color(0xff333333);
   static var text89 = Color(0xff898989);
   static var text4F = Color(0xff4F4F4F);
+  static var options_background = Color(0xffF5FCFF);
+  static var textfield_hintcolor = Color(0xff232121);
+  static var bluelight = Color(0xFFF5FCFF);
 }
 
 

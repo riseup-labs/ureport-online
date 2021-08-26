@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 
 class RapidProService {
 
+
   var _httpService = locator<HttpService>();
 
   Future<ApiResponse<ResponseContactCreation>> createContact(String urn,
@@ -24,7 +25,8 @@ class RapidProService {
           Exception error)?,}) async {
     //print("the fcm token is ===$fcmtoken");
     var apiResponse = await _httpService.postRequesturlencoded(
-        "https://${ApiConst.SERVER_LIVE}/c/fcm/${ApiConst.CHANEL_LIVE}/register", data: {
+        "https://${ApiConst.SERVER_LIVE}/c/fcm/${ApiConst
+            .CHANEL_LIVE}/register", data: {
       "urn": urn,
       "fcm_token": fcmtoken,
     }, isurlEncoded: true);
@@ -36,10 +38,10 @@ class RapidProService {
   }
 
 
-
-  Future<ApiResponse<ResponseSingleContact>> getSingleContact(contact)async{
-    
-    var apiResponse = await _httpService.getRequest("https://${ApiConst.SERVER_LIVE}/api/v2/contacts.json",qp: {"uuid":contact});
+  Future<ApiResponse<ResponseSingleContact>> getSingleContact(contact) async {
+    var apiResponse = await _httpService.getRequest(
+        "https://${ApiConst.SERVER_LIVE}/api/v2/contacts.json",
+        qp: {"uuid": contact});
     return ApiResponse(
         httpCode: apiResponse.httpCode,
         message: apiResponse.message,
@@ -48,47 +50,49 @@ class RapidProService {
   }
 
 
-
-  Future<ApiResponse<ResponseStartflow>> startflow(String flow,String urn)async{
-
+  Future<ApiResponse<ResponseStartflow>> startflow(String flow,
+      String urn) async {
     print("the urn is ${urn}");
 
-  var  apiResponse=  await _httpService.postRequesturlencoded("https://${ApiConst.SERVER_LIVE}/api/v2/flow_starts.json",data: {
+    var apiResponse = await _httpService.postRequesturlencoded(
+        "https://${ApiConst.SERVER_LIVE}/api/v2/flow_starts.json", data: {
       "flow": flow,
-      "urns":"$urn"
+      "urns": "$urn"
     });
 
-  return ApiResponse(
-      httpCode: apiResponse.httpCode,
-      message: apiResponse.message,
-      data: ResponseStartflow.fromJson(apiResponse.data.data)
-  );
-
-
-
+    return ApiResponse(
+        httpCode: apiResponse.httpCode,
+        message: apiResponse.message,
+        data: ResponseStartflow.fromJson(apiResponse.data.data)
+    );
   }
+
   startRunflow(usercontatct) async {
-    await _httpService.getRequest("https://${ApiConst.SERVER_LIVE}/api/v2/runs.json",
+    await _httpService.getRequest(
+        "https://${ApiConst.SERVER_LIVE}/api/v2/runs.json",
         qp: {"contact": usercontatct}).then((value) async {
       var contatct = value.data;
-      startflow(contatct.data['results'][0]['flow']['uuid'],contatct.data['results'][0]['contact']['urn']);
-      //print("this is the flow =${contatct.data['results'][0]['flow']["uuid"]}");
+      startflow(contatct.data['results'][0]['flow']['uuid'],
+          contatct.data['results'][0]['contact']['urn']);
+      print("this is the flow =${contatct.data['results'][0]['flow']["uuid"]}");
     });
   }
-  sendMessage({@required String? message, @required onSuccess(value)?, @required onError(Exception value)?, urn, fcmToken
+
+  sendMessage({@required String? message, @required onSuccess(
+      value)?, @required onError(Exception value)?, urn, fcmToken
   }) async {
-
     print("--------------------------------------message method is called");
-     await _httpService.postRequesturlencoded(
-        "https://${ApiConst.SERVER_LIVE}/c/fcm/${ApiConst.CHANEL_LIVE}/receive", data: {
-      "from": urn,
-      "fcm_token": fcmToken,
-      "msg": message
-    }, isurlEncoded: true).then((value){
+    await _httpService.postRequesturlencoded(
+      "https://${ApiConst.SERVER_LIVE}/c/fcm/${ApiConst.CHANEL_LIVE}/receive",
+      data: {
+        "from": urn,
+        "fcm_token": fcmToken,
+        "msg": message
+      },).then((value) {
       onSuccess!(value.data);
-     });
+    });
 
-  /*  await http.post(Uri.parse("https://${ApiConst.SERVER}/c/fcm/${ApiConst.CHANEL}/receive"), headers: {
+    /*  await http.post(Uri.parse("https://${ApiConst.SERVER}/c/fcm/${ApiConst.CHANEL}/receive"), headers: {
       "Authorization": "Token ${ApiConst.WORKSPACETOKEN}",
     }, body: {
       "from": urn,
@@ -100,6 +104,25 @@ class RapidProService {
       onError!(e);
     });*/
   }
+
+
+  sendMessagetypehttp({@required String? message, @required onSuccess(
+      value)?, @required onError(Exception value)?, urn, fcmToken}) async
+  {
+    await http.post(Uri.parse("https://${ApiConst.SERVER_LIVE}/c/fcm/${ApiConst
+        .CHANEL_LIVE}/receive"), headers: {
+      "Authorization": "Token ${ApiConst.WORKSPACETOKEN_LIVE}",
+    }, body: {
+      "from": urn,
+      "fcm_token": fcmToken,
+      "msg": message
+    }).then((value) {
+      onSuccess!(value.body);
+    }).catchError((e) {
+      onError!(e);
+    });
+  }
+
 
 /*  register({@required onSuccess(String uuid)?, @required onError(Exception error)?,}) async {
     await http.post("https://$server/c/fcm/$channel/register", body: {

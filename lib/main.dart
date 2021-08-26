@@ -5,10 +5,13 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
-
-import 'all_screens/login_screen/login.dart';
-import 'all_screens/login_screen/provider_login_controller.dart';
-import 'all_screens/splash_screen/splash_screen.dart';
+import 'all-screens/home/chat/chat-controller.dart';
+import 'all-screens/home/navigation-screen.dart';
+import 'all-screens/home/opinions/opiion-controller.dart';
+import 'all-screens/home/stories/story-controller.dart';
+import 'all-screens/login/login.dart';
+import 'all-screens/login/provider_login_controller.dart';
+import 'all-screens/splash-screen/splash_screen.dart';
 import 'locator/locator.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -69,6 +72,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ProviderLoginController()),
+        ChangeNotifierProvider(create: (context) => OpinionController()),
+        ChangeNotifierProvider(create: (context) => StoryController()),
+        ChangeNotifierProvider(create: (context) => ChatController()),
       ],
       child: KeyboardDismissOnTap(
         child: MaterialApp(
@@ -77,7 +83,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: Login(),
+          home: SplashScreen(),
         ),
 
       ),
