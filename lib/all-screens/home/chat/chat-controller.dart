@@ -25,8 +25,9 @@ class ChatController extends ChangeNotifier{
   var _urn="";
   String _token ="";
   getToken() async {
+
     _token = (await FirebaseMessaging.instance.getToken())!;
-    //print("this is firebase fcm token ==  ${_token}");
+    print("this is firebase fcm token ==  ${_token}");
   }
   addMessage(value){
     messagearray.add(value);

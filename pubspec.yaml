@@ -52,8 +52,10 @@ dependencies:
   autocomplete_textfield: ^1.6.4
   flutter_typeahead: ^3.2.0
   cached_network_image: ^3.0.0
+  infinite_scroll_pagination: ^3.0.1
 
-
+  #Remote config
+  firebase_remote_config: ^0.10.0+5
 dev_dependencies:
   flutter_test:
     sdk: flutter

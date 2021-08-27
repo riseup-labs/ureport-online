@@ -25,7 +25,7 @@ class Chat extends StatelessWidget {
   Widget build(BuildContext context) {
     Provider.of<ChatController>(context,listen: false).createContatct();
     Provider.of<ChatController>(context,listen: false).getfirebase();
-    Provider.of<ChatController>(context,listen: false).getfirebaseonApp();
+
 
     return Consumer<ChatController>(
       builder: (context,provider,child){

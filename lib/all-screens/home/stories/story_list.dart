@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/stories-details.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:ureport_ecaro/widgets/CNetworkImage.dart';
+import 'model/response-story-data.dart' as storyarray;
 
 import 'model/response-story-data.dart';
 
@@ -12,7 +15,7 @@ class StoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Provider.of<StoryController>(context,listen: false).getStories();
+    Provider.of<StoryController>(context,listen: false).addPageListener();
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       return SafeArea(
@@ -54,25 +57,54 @@ class StoryList extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          child: ListView.builder(
-                              physics: ScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount:  provider.responseStoriesData?.results.length??0,
-                              itemBuilder: (BuildContext context, int index) {
+                          child:PagedListView<int, storyarray.Result>.separated(
+                            padding: EdgeInsets.only(top: 0),
+                            pagingController: provider.pagingController,
+                            physics: BouncingScrollPhysics(),
+                            separatorBuilder: (context, index) {
+                              return Divider(
+                                height: 0,
+                                color: MyColors.lightestGrayDE(context),
+                              );
+                            },
+                            builderDelegate: PagedChildBuilderDelegate<storyarray.Result>(
+                              itemBuilder: (context, item, index) {
                                 return GestureDetector(
                                   onTap: (){
-                                    NavUtils.push(context, StoryDetails(provider.responseStoriesData!.results[index].content));
+                                    NavUtils.push(context, StoryDetails(item.content));
                                   },
                                   child: Container(
                                     child: getItem(
-                                        provider.responseStoriesData!.results[index].images.length>0?provider.responseStoriesData!.results[index].images[0]:"assets/images/default.jpg",
-                                        provider.responseStoriesData!.results[index].createdOn.toString(),
-                                        provider.responseStoriesData!.results[index].title,
-                                        provider.responseStoriesData!.results[index].summary),
+                                        item.images.length>0? item.images[0]:"assets/images/default.jpg",
+                                        item.createdOn.toString(),
+                                        item.title,
+                                        item.summary),
                                   ),
                                 );
-                              }),
+                              },
+                            ),
+                          ),
                         )
+
+
+                       /* ListView.builder(
+                            physics: ScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount:  provider.responseStoriesData?.results.length??0,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                onTap: (){
+                                  NavUtils.push(context, StoryDetails(provider.responseStoriesData!.results[index].content));
+                                },
+                                child: Container(
+                                  child: getItem(
+                                      provider.responseStoriesData!.results[index].images.length>0?provider.responseStoriesData!.results[index].images[0]:"assets/images/default.jpg",
+                                      provider.responseStoriesData!.results[index].createdOn.toString(),
+                                      provider.responseStoriesData!.results[index].title,
+                                      provider.responseStoriesData!.results[index].summary),
+                                ),
+                              );
+                            }),*/
 
                       ],
 

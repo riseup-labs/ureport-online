@@ -51,16 +51,19 @@ class OpinionController extends ChangeNotifier {
   List<String> filterList= [];
     ResponseOpinions?  responseData;
   getOpinions() async {
-    var apiresponsedata = await _opinionrepository.getOpinions("30");
-    if(apiresponsedata.httpCode==200){
-      _islodading=false;
-      responseData=apiresponsedata.data;
-      responseData!.results.forEach((element) {
-        quistionlist.addAll(element.questions);
-        categorylist.add(element.category);
-      });
 
-      getSearchSuggetion();
+    if(responseData!=null){
+      var apiresponsedata = await _opinionrepository.getOpinions("30");
+      if(apiresponsedata.httpCode==200){
+        _islodading=false;
+        responseData=apiresponsedata.data;
+        responseData!.results.forEach((element) {
+          quistionlist.addAll(element.questions);
+          categorylist.add(element.category);
+        });
+
+        getSearchSuggetion();
+      }
     }
 
         notifyListeners();

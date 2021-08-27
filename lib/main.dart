@@ -12,6 +12,7 @@ import 'all-screens/home/stories/story-controller.dart';
 import 'all-screens/login/login.dart';
 import 'all-screens/login/provider_login_controller.dart';
 import 'all-screens/splash-screen/splash_screen.dart';
+import 'firebase-remote-config/remote-config-controller.dart';
 import 'locator/locator.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -75,6 +76,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => OpinionController()),
         ChangeNotifierProvider(create: (context) => StoryController()),
         ChangeNotifierProvider(create: (context) => ChatController()),
+        ChangeNotifierProvider(create: (context) => RemoteConfigController()),
       ],
       child: KeyboardDismissOnTap(
         child: MaterialApp(

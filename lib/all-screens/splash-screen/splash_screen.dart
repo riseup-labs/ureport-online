@@ -1,39 +1,63 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
-import 'package:ureport_ecaro/all-screens/intro/intro_screen.dart';
-
+import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+
+  @override
+  void initState() {
+
+    Provider.of<RemoteConfigController>(context,listen: false).getInitialData(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+
     Timer(
-      Duration(seconds: 2), () => NavUtils.pushAndRemoveUntil(context,LanguageChooser()),
+      Duration(seconds: 2),
+          () => NavUtils.pushAndRemoveUntil(context, LanguageChooser()),
     );
 
-    return Scaffold(
-    body: Container(
-    decoration: BoxDecoration(
-    image: DecorationImage(
-    image:
-    AssetImage("assets/images/drawable-ldpi/bg_splash_screen.png"),
-    fit: BoxFit.cover,
-    ),
-    ),
-    child: Center(
-    child: Container(
-    height: 42,
-    width: 210,
-    child:
-    Image(
-    fit: BoxFit.fill,
-    image: AssetImage("assets/images/drawable-ldpi/ureport_logo.png"),
-    )
-    ),
-    ) /* add child content here */,
-    ),
+    return Consumer<RemoteConfigController>(
+
+      builder: (context,provider,child){
+        return Scaffold(
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image:
+                AssetImage("assets/images/drawable-ldpi/bg_splash_screen.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Center(
+              child: Container(
+                  height: 42,
+                  width: 210,
+                  child:
+                  Image(
+                    fit: BoxFit.fill,
+                    image: AssetImage("assets/images/drawable-ldpi/ureport_logo.png"),
+                  )
+              ),
+            ) /* add child content here */,
+          ),
+        );
+      },
+
     );
     }
+
 }
