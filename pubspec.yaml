@@ -48,6 +48,10 @@ dependencies:
   firebase_messaging: ^10.0.4
   firebase_core: ^1.4.0
   flutter_local_notifications: ^6.1.0
+  firebase_analytics: ^8.3.1
+
+  #Remote config
+  firebase_remote_config: ^0.10.0+5
 
 
   percent_indicator: ^3.0.1

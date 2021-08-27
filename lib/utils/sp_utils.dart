@@ -19,6 +19,5 @@ class SPUtil {
 
   String getValue(String key) {
     return GetStorage().read(key);
-
   }
 }
