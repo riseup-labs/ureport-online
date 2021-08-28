@@ -23,8 +23,8 @@ class Chat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<ChatController>(context,listen: false).createContatct();
-    Provider.of<ChatController>(context,listen: false).getfirebase();
+    // Provider.of<ChatController>(context,listen: false).createContatct();
+    // Provider.of<ChatController>(context,listen: false).getfirebase();
 
 
     return Consumer<ChatController>(

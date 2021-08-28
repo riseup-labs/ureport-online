@@ -40,6 +40,9 @@ dependencies:
   get_storage: ^2.0.3
   # keyboard handling
   flutter_keyboard_visibility: ^5.0.3
+  #Sqflite
+  sqflite:
+  share: ^2.0.1
 
   # firebase config
   firebase_messaging: ^10.0.4
