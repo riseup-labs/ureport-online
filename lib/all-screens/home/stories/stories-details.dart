@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
+import 'package:ureport_ecaro/all-screens/home/stories/story-details-controller.dart';
 import 'package:ureport_ecaro/utils/api_constant.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
@@ -12,24 +12,24 @@ import 'html_code.dart';
 
 class StoryDetails extends StatelessWidget {
   String id = "";
-
-
   StoryDetails(this.id);
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<StoryController>(context, listen: false)
+    Provider.of<StoryDetailsController>(context, listen: false)
         .getStoriesDetailsFromRemote(
             ApiConst.RESULT_STORY_DETAILS_BASEURL + id);
     String story_content = "";
 
-    return Consumer<StoryController>(builder: (context, provider, snapshot) {
+    return Consumer<StoryDetailsController>(builder: (context, provider, snapshot) {
       story_content = provider.responseStoryDetails==null?"":provider.responseStoryDetails!.content;
 
       return SafeArea(
           child: Scaffold(
               body: Stack(
-        children: [getBackground(), getBody(story_content, context,id)],
+        children: [
+          getBackground(),
+          getBody(story_content, context,id,provider)],
       )));
     });
   }
@@ -41,9 +41,9 @@ getBackground() {
           AssetImage("assets/images/drawable-xxhdpi/bg_select_language.png"));
 }
 
-getBody(String content, context,String id) {
+getBody(String content, context,String id,StoryDetailsController provider) {
   return Column(
-    children: [getAppBar(context,id),SizedBox(height: 10,), getWebView(content)],
+    children: [getAppBar(context,id),SizedBox(height: 10,), getWebView(content,provider)],
   );
 }
 
@@ -87,12 +87,15 @@ getShareButton(String id) {
   );
 }
 
-getWebView(String content) {
+getWebView(String content,StoryDetailsController provider) {
+  if(provider.responseStoryDetails!=null){
+    provider.responseStoryDetails!.content = "";
+  }
   final _key = UniqueKey();
   return Expanded(
     child: Container(
       margin: EdgeInsets.only(left: 20, right: 20),
-      child: WebView(
+      child: content==''?Center(child: CircularProgressIndicator()): WebView(
         key: _key,
         javascriptMode: JavascriptMode.unrestricted,
         initialUrl: Uri.dataFromString(content,

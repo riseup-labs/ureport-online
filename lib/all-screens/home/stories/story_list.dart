@@ -23,7 +23,7 @@ class StoryList extends StatelessWidget {
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       return SafeArea(
           child: Scaffold(
-              body: provider.isloading? Center(child: CircularProgressIndicator()): Container(
+              body:Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image:
@@ -68,13 +68,8 @@ class StoryList extends StatelessWidget {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         stories = List.from(snapshot.data!.reversed);
-                        if(stories!.length == 0){
-                          provider.isloading = true;
-                        }else{
-                          provider.isloading = false;
-                        }
                       }
-                      return ListView.builder(
+                      return stories!.length>0?ListView.builder(
                           physics: ScrollPhysics(),
                           shrinkWrap: true,
                           addAutomaticKeepAlives: true,
@@ -94,7 +89,7 @@ class StoryList extends StatelessWidget {
                                     stories![index].summary),
                               ),
                             );
-                          });
+                          }):Center(child: CircularProgressIndicator());
                     }),
               ),
             ],
