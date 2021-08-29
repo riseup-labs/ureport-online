@@ -48,28 +48,84 @@ class OpinionController extends ChangeNotifier {
 
   List<quistoin.Question>quistionlist =[];
   List<quistoin.ResultCategory?> categorylist= [];
+  List<quistoin.Result?> sugetionsdata= [];
+  List<quistoin.Result?> sugetionsfilterdata= [];
   List<String> filterList= [];
     ResponseOpinions?  responseData;
+
+    List<String> titlecollection=[];
+
+     String title="";
+
   getOpinions() async {
 
-    if(responseData!=null){
-      var apiresponsedata = await _opinionrepository.getOpinions("30");
-      if(apiresponsedata.httpCode==200){
-        _islodading=false;
-        responseData=apiresponsedata.data;
+
+    var apiresponsedata = await _opinionrepository.getOpinions("10");
+
+    if(apiresponsedata.httpCode==200){
+
+      responseData=apiresponsedata.data;
+
+      print("--------------------data length before whole data clll ${responseData!.results.length}");
+      responseData!.results.forEach((element) {
+        quistionlist.addAll(element.questions);
+        categorylist.add(element.category);
+      });
+      getSearchSuggetion();
+      notifyListeners();
+
+      String totalcount= apiresponsedata.data.count.toString();
+      var apiresponsedatafull=await _opinionrepository.getOpinions(totalcount);
+      if(apiresponsedatafull.httpCode==200){
+        print("--------------------total count$totalcount");
+        print("--------------------data length after whole data clll ${responseData!.results.length}");
+        responseData=apiresponsedatafull.data;
         responseData!.results.forEach((element) {
           quistionlist.addAll(element.questions);
           categorylist.add(element.category);
         });
-
         getSearchSuggetion();
+        notifyListeners();
       }
+
     }
 
         notifyListeners();
       }
 
+
+
+
+
+
       getSearchSuggetion(){
+        sugetionsdata.addAll(responseData!.results);
+        sugetionsfilterdata=sugetionsdata;
+
+        sugetionsdata.forEach((element) {
+          title=element!.title;
+        });
+
+        sugetionsfilterdata = sugetionsdata.where((element)=>element!.category.name==element!.category.name).toList();
+
+        sugetionsfilterdata.forEach((element) {
+
+          print("the category is ${element!.category.name }\n and the title is ${element.title}");
+
+        });
+     // titlecollection=  sugetionsdata.where((element) => element.category.name)
+
+        /*for(int i= 0;i<sugetionsdata.length;i++){
+          for(int j=0;j<sugetionsdata.length;j++){
+
+            if(sugetionsdata[i]!.category.name==sugetionsdata[j]!.category.name){
+              titlecollection.add(sugetionsdata[i]!.title.toString());
+            }
+          }
+        }*/
+
+        print("the suggestgion data is ${sugetionsdata.length}");
+
     categorylist.forEach((element) {
       category_names.add(element!.name);
       print("the formated value length is ----${element.name}");
@@ -78,20 +134,26 @@ class OpinionController extends ChangeNotifier {
 
 
     filterList = category_names.toSet().toList();
+        sugetionsfilterdata= sugetionsdata.toSet().toList();
 
     for(int i = 0; i< filterList.length; i++){
 
       print(filterList[i]);
     }
     print("the formated value length is ----${category_names.length}");
-
-
       }
-  List<String>getSuggestions(String query)=>List.of(filterList).where((element) {
-    final namesLower= element.toLowerCase();
-    final queryLower= query.toLowerCase();
-    return namesLower.contains(queryLower);
+
+ /* List <String>getSuggestions(String query)=>filterList.where((element) {
+    final userlower=element.toLowerCase();
+    final querydata=query.toLowerCase();
+    return userlower.contains(querydata);
   }).toList();
+*/
+   List <quistoin.Result?>getSuggestions(String query)=>sugetionsfilterdata.where((element) {
+     final userlower=element!.category.name.toLowerCase();
+     final querydata=query.toLowerCase();
+     return userlower.contains(querydata);
+   }).toList();
 
       double getFractionOfYes(index){
     print("${quistionlist[index].results.categories[0].count/quistionlist[index].results.resultsSet}");

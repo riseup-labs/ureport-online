@@ -31,4 +31,5 @@ class ApiConst{
 
   static String RESULT_OPINION_BASEURL= "https://ureport.in/api/v1/polls/org/13/";
   static String RESULT_STORY_BASEURL= "https://ureport.in/api/v1/stories/org/13";
+  static String RESULT_STORY_DETAILS_BASEURL= "https://ureport.in/api/v1/stories/";
 }

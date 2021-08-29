@@ -21,7 +21,7 @@ class RapidProService {
   var _httpService = locator<HttpService>();
 
   Future<ApiResponse<ResponseContactCreation>> createContact(String urn,
-      String fcmtoken, {@required onSuccess(String uuid)?, @required onError(
+      String fcmtoken,String name,{@required onSuccess(String uuid)?, @required onError(
           Exception error)?,}) async {
     //print("the fcm token is ===$fcmtoken");
     var apiResponse = await _httpService.postRequesturlencoded(
@@ -29,6 +29,7 @@ class RapidProService {
             .CHANEL_OFFICIAL}/register", data: {
       "urn": urn,
       "fcm_token": fcmtoken,
+      "name": name,
     }, isurlEncoded: true);
     return ApiResponse(
         httpCode: apiResponse.httpCode,

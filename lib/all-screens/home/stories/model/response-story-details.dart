@@ -1,47 +1,19 @@
 
 import 'dart:convert';
 
-ResponseStories responseStoriesFromJson(String str) => ResponseStories.fromJson(json.decode(str));
+ResponseStoryDetails responseStoryDetailsFromJson(String str) => ResponseStoryDetails.fromJson(json.decode(str));
 
-String responseStoriesToJson(ResponseStories data) => json.encode(data.toJson());
+String responseStoryDetailsToJson(ResponseStoryDetails data) => json.encode(data.toJson());
 
-class ResponseStories {
-  ResponseStories({
-    required this.count,
-    this.next,
-    this.previous,
-    required this.results,
-  });
-
-  int count;
-  dynamic next;
-  dynamic previous;
-  List<Result> results;
-
-  factory ResponseStories.fromJson(Map<String, dynamic> json) => ResponseStories(
-    count: json["count"],
-    next: json["next"],
-    previous: json["previous"],
-    results: List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "count": count,
-    "next": next,
-    "previous": previous,
-    "results": List<dynamic>.from(results.map((x) => x.toJson())),
-  };
-}
-
-class Result {
-  Result({
+class ResponseStoryDetails {
+  ResponseStoryDetails({
     required this.id,
     required this.title,
     required this.featured,
     required this.summary,
     required this.content,
-    required this.videoId,
-    required this.audioLink,
+    this.videoId,
+    this.audioLink,
     required this.tags,
     required this.org,
     required this.images,
@@ -53,16 +25,16 @@ class Result {
   String title;
   bool featured;
   String summary;
-  String content;
-  String videoId;
-  String audioLink;
+  String content ="";
+  dynamic videoId;
+  dynamic audioLink;
   String tags;
   int org;
   List<String> images;
   Category category;
   DateTime createdOn;
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory ResponseStoryDetails.fromJson(Map<String, dynamic> json) => ResponseStoryDetails(
     id: json["id"],
     title: json["title"],
     featured: json["featured"],
@@ -83,9 +55,9 @@ class Result {
     "featured": featured,
     "summary": summary,
     "content": content,
-    "video_id": videoId == null ? null : videoId,
-    "audio_link": audioLink == null ? null : audioLink,
-    "tags": tags == null ? null : tags,
+    "video_id": videoId,
+    "audio_link": audioLink,
+    "tags": tags,
     "org": org,
     "images": List<dynamic>.from(images.map((x) => x)),
     "category": category.toJson(),

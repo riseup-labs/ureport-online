@@ -27,7 +27,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: tabs[_currentIndex],
+      body:IndexedStack(index: _currentIndex, children: tabs),
       bottomNavigationBar:BottomNavigationBar(
         currentIndex: _currentIndex,
         items: [
@@ -61,9 +61,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           BottomNavigationBarItem(
             icon: Image.asset("assets/images/ic_more.png",height: 45.18,width: 40.66),
             activeIcon: Image.asset(
-              
               "assets/images/ic_more_on.png",height: 45.18,width: 40.66,
-
             ),
             label: "More",
 

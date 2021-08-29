@@ -1,56 +1,51 @@
 
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:ureport_ecaro/all-screens/home/stories/model/response-story-details.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-repository.dart';
+import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
-
-
-import 'model/response-story-data.dart';
+import 'model/ResponseStoryLocal.dart';
 import 'model/response-story-data.dart' as storyarray;
 
 class StoryController extends ChangeNotifier{
 
   var _storyservice = locator<StroyRipository>();
-    ResponseStories? responseStoriesData;
 
-    bool _isloading= false;
-
-
+  bool _isloading= false;
   bool get isloading => _isloading;
-  var pageSize=1;
-
-  PagingController<int, storyarray.Result> pagingController = PagingController(firstPageKey: 1);
-  List<storyarray.Result> items = List.empty(growable: true);
-
-  addPageListener() {
-    pagingController.addPageRequestListener((pageKey) {
-      getStories(pageKey);
-    });
-  }
 
   set isloading(bool value) {
     _isloading = value;
   }
 
-  getStories(int pageno) async {
-    _isloading=true;
-    var apiresponsedata = await _storyservice.getStory("${pageno}");
+  List<storyarray.Result> items = List.empty(growable: true);
+  DatabaseHelper _databaseHelper = DatabaseHelper();
+
+  getStoriesFromRemote(String url) async {
+    var apiresponsedata = await _storyservice.getStory(url);
     if(apiresponsedata.httpCode==200){
-      responseStoriesData=apiresponsedata.data;
-      items.clear();
-      final isLastPage = apiresponsedata.data.results.length < pageSize;
       items.addAll(apiresponsedata.data.results);
-
-      if (isLastPage) {
-        pagingController.appendLastPage(apiresponsedata.data.results);
-      } else {
-        final nextPageKey = pageno + 1;
-        pagingController.appendPage(apiresponsedata.data.results, nextPageKey);
+      if(apiresponsedata.data.next != null){
+        getStoriesFromRemote(apiresponsedata.data.next);
+      }else{
+        _databaseHelper.insertStory(items);
+        notifyListeners();
+        _isloading=false;
       }
-
-      _isloading=false;
     }
-    notifyListeners();
   }
 
+
+
+  getStoriesFromLocal() {
+    return _databaseHelper.getStories();
+
+  }
+
+
+  initializeDatabase(){
+    _databaseHelper.initializeDatabase().then((value) {
+      print('------database intialized');
+    });
+  }
 }

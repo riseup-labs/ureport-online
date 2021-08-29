@@ -4,8 +4,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
+import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 class SplashScreen extends StatefulWidget {
 
@@ -27,7 +30,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(
       Duration(seconds: 2),
-          () => NavUtils.pushAndRemoveUntil(context, LanguageChooser()),
+          () {
+            var spset = locator<SPUtil>();
+            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+            if(isSigned!=null){
+              NavUtils.pushAndRemoveUntil(context, NavigationScreen());
+            }else{
+              NavUtils.pushAndRemoveUntil(context, LanguageChooser());
+            }
+
+          },
     );
 
     return Consumer<RemoteConfigController>(

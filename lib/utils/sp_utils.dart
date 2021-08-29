@@ -8,6 +8,7 @@ class SPUtil {
   static String KEY_USER_ROLE = "KEY_USER_ROLE";
 
   static String KEY_DARK_THEME = "KEY_DARK_THEME";
+  static String PROGRAMKEY = "PROGRAM_KEY";
 
   setValue(String key, String value) async {
     // SharedPreferences prefs = await SharedPreferences.getInstance();
