@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/intro/intro_screen.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
+import 'package:ureport_ecaro/locale/locale_provider.dart';
 
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ureport_ecaro/utils/sp_constant.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 class LanguageChooser extends StatefulWidget {
   const LanguageChooser({Key? key}) : super(key: key);
@@ -14,9 +19,10 @@ class LanguageChooser extends StatefulWidget {
 
 class _LanguageChooserState extends State<LanguageChooser> {
   var dropdownValue = "English";
-
+  String selected_language = "";
   @override
   Widget build(BuildContext context) {
+
     return Consumer<RemoteConfigController>(
       builder: (context,provider,child){
         return SafeArea(
@@ -40,7 +46,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                         children: [
                           Container(
                             child: Text(
-                              "Welcome to U-Report",
+                              AppLocalizations.of(context)!.welcome,
                               style: TextStyle(fontSize: 28),
                             ),
                           ),
@@ -64,7 +70,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Select Language",
+                                  "${AppLocalizations.of(context)!.select_language}",
                                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(height: 10),
@@ -90,7 +96,13 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                           onChanged: (String? newValue) {
                                             setState(() {
                                               dropdownValue = newValue!;
-                                              print(dropdownValue);
+                                              if(dropdownValue == "English"){
+                                                selected_language = "en";
+                                              }else if(dropdownValue == "Española"){
+                                                selected_language = "es";
+                                              }else{
+                                                selected_language = "es";
+                                              }
                                             });
                                           },
                                           items: <String>[
@@ -125,9 +137,19 @@ class _LanguageChooserState extends State<LanguageChooser> {
                               child: Container(
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    NavUtils.push(context, IntroScreen());
+                                    final provider_l = Provider.of<LocaleProvider>(context, listen: false);
+                                    print(selected_language);
+                                    if(selected_language == 'en'){
+                                      provider_l.setLocale(new Locale('en'));
+                                    }else if(selected_language == 'es'){
+                                      provider_l.setLocale(new Locale('es'));
+                                    }else{
+                                      provider_l.setLocale(new Locale('en'));
+                                    }
+                                    SPUtil.setValue(SPConstant.SELECTED_LANGUAGE, selected_language);
+                                    NavUtils.push(context, NavigationScreen());
                                   },
-                                  child: Text('Continue'),
+                                  child: Text(AppLocalizations.of(context)!.continu),
                                   style: ElevatedButton.styleFrom(
                                       shape: StadiumBorder()),
                                 ),

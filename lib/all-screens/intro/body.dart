@@ -4,6 +4,7 @@ import 'package:ureport_ecaro/all-screens/chooser/program_chooser.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:ureport_ecaro/utils/size_config.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'intro_content.dart';
 
@@ -15,25 +16,6 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   int currentPage = 0;
   PageController? _pageController;
-  List<Map<String, String>> splashData = [
-    {
-      "text": "Stories",
-      "text2": "Read U-Report stories and give feedback online",
-      "image": "assets/images/drawable-xxhdpi/intro_1.png"
-    },
-    {
-      "text": "Chat",
-      "text2":
-          "Use chat feature to participate in the polls to share your voice and ask questions",
-      "image": "assets/images/drawable-xxhdpi/intro_2.png"
-    },
-    {
-      "text": "Opinions",
-      "text2":
-          "View current and previous poll results and share result on social media channels",
-      "image": "assets/images/drawable-xxhdpi/intro_3.png"
-    },
-  ];
 
   @override
   void initState() {
@@ -43,6 +25,25 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+
+    List<Map<String, String>> splashData = [
+      {
+        "text": "${AppLocalizations.of(context)!.stories}",
+        "text2": "${AppLocalizations.of(context)!.intro_text1}",
+        "image": "assets/images/drawable-xxhdpi/intro_1.png"
+      },
+      {
+        "text": "${AppLocalizations.of(context)!.chat}",
+        "text2": "${AppLocalizations.of(context)!.intro_text2}",
+        "image": "assets/images/drawable-xxhdpi/intro_2.png"
+      },
+      {
+        "text": "${AppLocalizations.of(context)!.opinions}",
+        "text2": "${AppLocalizations.of(context)!.intro_text3}",
+        "image": "assets/images/drawable-xxhdpi/intro_3.png"
+      },
+    ];
+
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -51,7 +52,7 @@ class _BodyState extends State<Body> {
             Expanded(
               flex: 7,
               child: Container(
-                child: getPageBuilder(0),
+                child: getPageBuilder(0,splashData),
               ),
             ),
             Expanded(
@@ -69,13 +70,13 @@ class _BodyState extends State<Body> {
                         onTap: (){
                           NavUtils.pushAndRemoveUntil(context, ProgramChooser());
                         },
-                        child: Text("Skip",
+                        child: Text("${AppLocalizations.of(context)!.skip}",
                             style:
                                 TextStyle(fontSize: 16, color: Colors.grey[600])),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: getBuildDot(),
+                        children: getBuildDot(splashData),
                       ),
                       GestureDetector(
                           onTap: () {
@@ -91,7 +92,7 @@ class _BodyState extends State<Body> {
                             }
                           },
                           child: Text(
-                            "Next",
+                            "${AppLocalizations.of(context)!.next}",
                             style: TextStyle(
                                 fontSize: 16, color: Colors.blue[300]),
                           )),
@@ -106,14 +107,14 @@ class _BodyState extends State<Body> {
     );
   }
 
-  getBuildDot() {
+  getBuildDot(List<Map<String, String>> splashData) {
     return List.generate(
       splashData.length,
       (index) => buildDot(index: index),
     );
   }
 
-  getPageBuilder(int page) {
+  getPageBuilder(int page,List<Map<String, String>> splashData) {
     return PageView.builder(
       onPageChanged: (value) {
         setState(() {

@@ -1,15 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ureport_ecaro/all-screens/home/stories/model/response-story-data.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/stories-details.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/utils/api_constant.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
-import 'package:ureport_ecaro/widgets/CNetworkImage.dart';
 import 'model/ResponseStoryLocal.dart';
-import 'model/response-story-data.dart' as storyarray;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StoryList extends StatelessWidget {
   @override
@@ -50,7 +48,7 @@ class StoryList extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 margin: EdgeInsets.only(top: 20, bottom: 15),
                 child: Text(
-                  "Stories",
+                  "${AppLocalizations.of(context)!.stories}",
                   style: TextStyle(
                       fontSize: 24.0, color: Colors.black, fontFamily: 'Dosis'),
                 ),

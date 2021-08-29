@@ -43,6 +43,9 @@ dependencies:
   #Sqflite
   sqflite:
   share: ^2.0.1
+  intl: ^0.17.0
+  flutter_localizations: # Add this line
+    sdk: flutter
 
   # firebase config
   firebase_messaging: ^10.0.4
@@ -70,7 +73,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

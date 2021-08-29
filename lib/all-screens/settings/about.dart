@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class About extends StatelessWidget {
   @override
@@ -22,7 +23,7 @@ class About extends StatelessWidget {
           ),
           backgroundColor: Colors.white,
           title: Text(
-            "About",
+            "${AppLocalizations.of(context)!.about_us}",
             style: TextStyle(color: Colors.black),
           ),
         ),

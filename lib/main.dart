@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'all-screens/home/chat/chat-controller.dart';
@@ -14,7 +15,10 @@ import 'all-screens/login/login.dart';
 import 'all-screens/login/provider_login_controller.dart';
 import 'all-screens/splash-screen/splash_screen.dart';
 import 'firebase-remote-config/remote-config-controller.dart';
+import 'l10n/l10n.dart';
+import 'locale/locale_provider.dart';
 import 'locator/locator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -22,31 +26,32 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('Handling a background message ${message.messageId}');
 }
+
 AndroidNotificationChannel channel = const AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
   'This channel is used for important notifications.', // description
   importance: Importance.high,
 );
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-Future <void> _firebaseMessagingBackgroundhandler(RemoteMessage message)async{
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> _firebaseMessagingBackgroundhandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print("a background messaged just swafed up ${message.messageId}");
 }
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
-  await FirebaseMessaging.instance
-      .setForegroundNotificationPresentationOptions(
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
     sound: true,
@@ -59,40 +64,74 @@ void main() async {
   runApp(MyApp());
 }
 
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(create: (context) => ProviderLoginController()),
+//         ChangeNotifierProvider(create: (context) => OpinionController()),
+//         ChangeNotifierProvider(create: (context) => StoryController()),
+//         ChangeNotifierProvider(create: (context) => StoryDetailsController()),
+//         ChangeNotifierProvider(create: (context) => ChatController()),
+//         ChangeNotifierProvider(create: (context) => RemoteConfigController()),
+//       ],
+//       child: KeyboardDismissOnTap(
+//         child: MaterialApp(
+//           title: "Ureport Ecaro",
+//           debugShowCheckedModeBanner: false,
+//           theme: ThemeData(
+//             primarySwatch: Colors.blue,
+//           ),
+//           home: SplashScreen(),
+//           supportedLocales: L10n.all,
+//           localizationsDelegates: [
+//             AppLocalizations.delegate,
+//             GlobalMaterialLocalizations.delegate,
+//             GlobalCupertinoLocalizations.delegate,
+//             GlobalWidgetsLocalizations.delegate,
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-
-/*  void getToken() async {
-    String token ;
-    token = (await FirebaseMessaging.instance.getToken())!;
-    print("this is firebase fcm token ==  ${token}");
-  }*/
-
   @override
-  Widget build(BuildContext context) {
-    //getToken();
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => ProviderLoginController()),
-        ChangeNotifierProvider(create: (context) => OpinionController()),
-        ChangeNotifierProvider(create: (context) => StoryController()),
-        ChangeNotifierProvider(create: (context) => StoryDetailsController()),
-        ChangeNotifierProvider(create: (context) => ChatController()),
-        ChangeNotifierProvider(create: (context) => RemoteConfigController()),
-      ],
-      child: KeyboardDismissOnTap(
-        child: MaterialApp(
-          title: "Ureport Ecaro",
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+    create: (context) => LocaleProvider(),
+    builder: (context, child) {
+      final provider = Provider.of<LocaleProvider>(context);
+      return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => ProviderLoginController()),
+          ChangeNotifierProvider(create: (context) => OpinionController()),
+          ChangeNotifierProvider(create: (context) => StoryController()),
+          ChangeNotifierProvider(create: (context) => StoryDetailsController()),
+          ChangeNotifierProvider(create: (context) => ChatController()),
+          ChangeNotifierProvider(create: (context) => RemoteConfigController()),
+        ],
+        child: KeyboardDismissOnTap(
+          child: MaterialApp(
+            title: "Ureport Ecaro",
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: SplashScreen(),
+            supportedLocales: L10n.all,
+            locale: provider.locale,
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
           ),
-          home: NavigationScreen(),
         ),
-
-      ),
-    );
-  }
+      );
+    },
+  );
 }
-
-

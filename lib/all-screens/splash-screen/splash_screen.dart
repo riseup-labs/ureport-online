@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 
+
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
