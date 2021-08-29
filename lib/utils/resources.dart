@@ -125,6 +125,8 @@ class AppColors {
   static var options_background = Color(0xffF5FCFF);
   static var textfield_hintcolor = Color(0xff232121);
   static var bluelight = Color(0xFFF5FCFF);
+
+  static var errorWidgetBack = Color(0xffF4F4F4);
 }
 
 

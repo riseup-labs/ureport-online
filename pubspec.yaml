@@ -47,10 +47,6 @@ dependencies:
   flutter_localizations: # Add this line
     sdk: flutter
 
-  #Sqflite
-  sqflite:
-  share: ^2.0.1
-
   # firebase config
   firebase_messaging: ^10.0.4
   firebase_core: ^1.4.0
@@ -67,6 +63,7 @@ dependencies:
   flutter_typeahead: ^3.2.0
   cached_network_image: ^3.0.0
   infinite_scroll_pagination: ^3.0.1
+  dotted_line: ^3.0.0
 
 dev_dependencies:
   flutter_test:

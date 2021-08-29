@@ -6,6 +6,7 @@ import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/utils/api_constant.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/utils/resources.dart';
 import 'model/ResponseStoryLocal.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -21,11 +22,10 @@ class StoryList extends StatelessWidget {
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       return SafeArea(
           child: Scaffold(
-              body:Container(
+              body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image:
-                AssetImage("assets/images/bg_home.png"),
+            image: AssetImage("assets/images/bg_home.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -67,27 +67,34 @@ class StoryList extends StatelessWidget {
                       if (snapshot.hasData) {
                         stories = List.from(snapshot.data!.reversed);
                       }
-                      return stories!.length>0?ListView.builder(
-                          physics: ScrollPhysics(),
-                          shrinkWrap: true,
-                          addAutomaticKeepAlives: true,
-                          itemCount: stories!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {
-                                NavUtils.push(context, StoryDetails(stories![index].id.toString(),stories![index].title.toString(),stories![index].images.toString()));
-                              },
-                              child: Container(
-                                child: getItem(
-                                    stories?[index].images != ''
-                                        ? stories![index].images
-                                        : "assets/images/default.jpg",
-                                    "",
-                                    stories![index].title,
-                                    stories![index].summary),
-                              ),
-                            );
-                          }):Center(child: CircularProgressIndicator());
+                      return stories!.length > 0
+                          ? ListView.builder(
+                              physics: ScrollPhysics(),
+                              shrinkWrap: true,
+                              addAutomaticKeepAlives: true,
+                              itemCount: stories!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    NavUtils.push(
+                                        context,
+                                        StoryDetails(
+                                            stories![index].id.toString(),
+                                            stories![index].title.toString(),
+                                            stories![index].images.toString()));
+                                  },
+                                  child: Container(
+                                    child: getItem(
+                                        stories?[index].images != ''
+                                            ? stories![index].images
+                                            : "assets/images/default.jpg",
+                                        "",
+                                        stories![index].title,
+                                        stories![index].summary),
+                                  ),
+                                );
+                              })
+                          : Center(child: CircularProgressIndicator());
                     }),
               ),
             ],
@@ -127,34 +134,28 @@ getItemTitleImage(String image_url) {
     borderRadius: BorderRadius.only(
         topLeft: Radius.circular(10), topRight: Radius.circular(10)),
     child: CachedNetworkImage(
-
-        height: 200,
-        fit: BoxFit.cover,
-        imageUrl: image_url,
-        progressIndicatorBuilder: (context, url, downloadProgress) => Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                    height: 40, width: 40, child: CircularProgressIndicator()),
-                SizedBox(
-                  height: 10,
-                ),
-                Text("Loading")
-              ],
-            ),
-        errorWidget: (context, url, error) => Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error_outline,
-                  size: 30,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text("No image found")
-              ],
-            )),
+      height: 200,
+      fit: BoxFit.cover,
+      imageUrl: image_url,
+      progressIndicatorBuilder: (context, url, downloadProgress) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(height: 40, width: 40, child: CircularProgressIndicator()),
+          SizedBox(
+            height: 10,
+          ),
+          Text("Loading")
+        ],
+      ),
+      errorWidget: (context, url, error) => Container(
+          color: AppColors.errorWidgetBack,
+          child: Center(
+              child: Image(
+            image: AssetImage("assets/images/ic_no_image.png"),
+            height: 50,
+            width: 50,
+          ))),
+    ),
   );
 }
 

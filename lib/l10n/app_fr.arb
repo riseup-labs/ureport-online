@@ -1,0 +1,30 @@
+
+{
+    "skip": "Sauter",
+    "next": "Prochain",
+    "stories": "Histoires",
+    "intro_text1": "Lisez les articles U-Report et donnez votre avis en ligne",
+    "chat": "Discuter",
+    "intro_text2": "Utilisez la fonction de chat pour participer aux sondages, partager votre voix et poser des questions",
+    "opinions": "Des avis",
+    "intro_text3": "Affichez les résultats des sondages actuels et précédents et partagez les résultats sur les réseaux sociaux",
+    "welcome": "Bienvenue à",
+    "continu": "Continuer",
+    "more": "Suite",
+    "choose_program": "Sélectionnez le programme U-Report",
+    "enter_message": "Entrer un message",
+
+    "settings": "Paramètres",
+    "about_us": "À propos de nous",
+    "change_ureport_program": "Changer le programme U-Report",
+    "change_language": "Changer de langue",
+    "feedback": "Retour d'information",
+    "privacy_policy": "Politique de confidentialité",
+    "terms": "Termes et conditions",
+    "sound": "Sonner",
+    "on": "Au",
+    "off": "Désactivé",
+    "select_language": "Choisir la langue",
+    "language": "Langue"
+
+}

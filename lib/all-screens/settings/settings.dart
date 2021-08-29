@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
 import 'package:ureport_ecaro/all-screens/chooser/program_chooser.dart';
-import 'package:ureport_ecaro/all-screens/home/more/select-language.dart';
+import 'package:ureport_ecaro/all-screens/settings/change-language.dart';
 import 'package:ureport_ecaro/all-screens/settings/privacy_policy.dart';
 import 'package:ureport_ecaro/all-screens/settings/terms_and_conditions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -70,7 +70,7 @@ class Settings extends StatelessWidget {
               GestureDetector(
                 onTap: () {
 
-                  NavUtils.push(context, SelectLanguage());
+                  NavUtils.push(context, ChangeLanguage());
                 },
                 child: getItem("${AppLocalizations.of(context)!.change_language}",
                     "assets/images/drawable-ldpi/ic_change_language.png"),

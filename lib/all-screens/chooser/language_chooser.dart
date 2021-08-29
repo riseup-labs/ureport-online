@@ -102,10 +102,18 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                               dropdownValue = newValue!;
                                               if(dropdownValue == "English"){
                                                 selected_language = "en";
+                                              }else if(dropdownValue == "عربي"){
+                                                selected_language = "ar";
+                                              }else if(dropdownValue == "中國人"){
+                                                selected_language = "zh";
+                                              }else if(dropdownValue == "français"){
+                                                selected_language = "fr";
+                                              }else if(dropdownValue == "русский"){
+                                                selected_language = "ru";
                                               }else if(dropdownValue == "Española"){
                                                 selected_language = "es";
                                               }else{
-                                                selected_language = "es";
+                                                selected_language = "en";
                                               }
                                             });
                                           },
@@ -142,16 +150,23 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                 child: ElevatedButton(
                                   onPressed: () {
                                     final provider_l = Provider.of<LocaleProvider>(context, listen: false);
-                                    print(selected_language);
                                     if(selected_language == 'en'){
                                       provider_l.setLocale(new Locale('en'));
+                                    }else if(selected_language == 'ar'){
+                                      provider_l.setLocale(new Locale('ar'));
+                                    }else if(selected_language == 'zh'){
+                                      provider_l.setLocale(new Locale('zh'));
+                                    }else if(selected_language == 'fr'){
+                                      provider_l.setLocale(new Locale('fr'));
+                                    }else if(selected_language == 'ru'){
+                                      provider_l.setLocale(new Locale('ru'));
                                     }else if(selected_language == 'es'){
                                       provider_l.setLocale(new Locale('es'));
                                     }else{
                                       provider_l.setLocale(new Locale('en'));
                                     }
                                     _sp.setValue(SPConstant.SELECTED_LANGUAGE, selected_language);
-                                    NavUtils.push(context, NavigationScreen());
+                                    NavUtils.push(context, IntroScreen());
                                   },
                                   child: Text(AppLocalizations.of(context)!.continu),
                                   style: ElevatedButton.styleFrom(

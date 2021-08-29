@@ -6,6 +6,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:ureport_ecaro/utils/sp_constant.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'all-screens/home/chat/chat-controller.dart';
 import 'all-screens/home/navigation-screen.dart';
 import 'all-screens/home/opinions/opiion-controller.dart';
@@ -13,6 +15,7 @@ import 'all-screens/home/stories/story-controller.dart';
 import 'all-screens/home/stories/story-details-controller.dart';
 import 'all-screens/login/login.dart';
 import 'all-screens/login/provider_login_controller.dart';
+import 'all-screens/settings/change-language.dart';
 import 'all-screens/splash-screen/splash_screen.dart';
 import 'firebase-remote-config/remote-config-controller.dart';
 import 'l10n/l10n.dart';
@@ -64,46 +67,13 @@ void main() async {
   runApp(MyApp());
 }
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider(create: (context) => ProviderLoginController()),
-//         ChangeNotifierProvider(create: (context) => OpinionController()),
-//         ChangeNotifierProvider(create: (context) => StoryController()),
-//         ChangeNotifierProvider(create: (context) => StoryDetailsController()),
-//         ChangeNotifierProvider(create: (context) => ChatController()),
-//         ChangeNotifierProvider(create: (context) => RemoteConfigController()),
-//       ],
-//       child: KeyboardDismissOnTap(
-//         child: MaterialApp(
-//           title: "Ureport Ecaro",
-//           debugShowCheckedModeBanner: false,
-//           theme: ThemeData(
-//             primarySwatch: Colors.blue,
-//           ),
-//           home: SplashScreen(),
-//           supportedLocales: L10n.all,
-//           localizationsDelegates: [
-//             AppLocalizations.delegate,
-//             GlobalMaterialLocalizations.delegate,
-//             GlobalCupertinoLocalizations.delegate,
-//             GlobalWidgetsLocalizations.delegate,
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
     create: (context) => LocaleProvider(),
     builder: (context, child) {
       final provider = Provider.of<LocaleProvider>(context);
+      setLocal(provider);
       return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => ProviderLoginController()),
@@ -134,4 +104,26 @@ class MyApp extends StatelessWidget {
       );
     },
   );
+
+  static void setLocal(LocaleProvider provider) {
+    var sp = locator<SPUtil>();
+    print("the language data is = ${sp.getValue(SPConstant.SELECTED_LANGUAGE)}");
+    if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "en"){
+      provider.setLocale(new Locale('en'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ar"){
+      provider.setLocale(new Locale('ar'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "zh"){
+      provider.setLocale(new Locale('zh'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "fr"){
+      provider.setLocale(new Locale('fr'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ru"){
+      provider.setLocale(new Locale('ru'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "es"){
+      provider.setLocale(new Locale('es'));
+    }else{
+      provider.setLocale(new Locale('en'));
+    }
+
+  }
 }
+
