@@ -9,15 +9,15 @@ class SPUtil {
 
   static String KEY_DARK_THEME = "KEY_DARK_THEME";
 
-  static setValue(String key, String value) async {
+  setValue(String key, String value) async {
     GetStorage().write(key, value);
   }
 
-  static deleteKey(String key) async {
+  deleteKey(String key) async {
     GetStorage().remove(key);
   }
 
-  static String getValue(String key) {
+  String getValue(String key) {
     return GetStorage().read(key);
   }
 }

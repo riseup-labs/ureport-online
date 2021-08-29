@@ -4,6 +4,7 @@ import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/intro/intro_screen.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locale/locale_provider.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
 
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -20,6 +21,9 @@ class LanguageChooser extends StatefulWidget {
 class _LanguageChooserState extends State<LanguageChooser> {
   var dropdownValue = "English";
   String selected_language = "";
+
+  var _sp = locator<SPUtil>();
+
   @override
   Widget build(BuildContext context) {
 
@@ -146,7 +150,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                     }else{
                                       provider_l.setLocale(new Locale('en'));
                                     }
-                                    SPUtil.setValue(SPConstant.SELECTED_LANGUAGE, selected_language);
+                                    _sp.setValue(SPConstant.SELECTED_LANGUAGE, selected_language);
                                     NavUtils.push(context, NavigationScreen());
                                   },
                                   child: Text(AppLocalizations.of(context)!.continu),

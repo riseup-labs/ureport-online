@@ -1,0 +1,109 @@
+
+{
+
+    "stories": "Stories",
+    "@stories": {
+          "description": "Stories"
+    },
+    "skip": "Skip",
+    "@skip": {
+          "description": "Skip"
+    },
+    "next": "Next",
+    "@next": {
+          "description": "Next"
+    },
+    "intro_text1": "Read U-Report stories and give feedback online",
+    "@intro_text1": {
+          "description": "Read U-Report stories and give feedback online"
+    },
+    "chat": "Chat",
+    "@chat": {
+          "description": "Chat"
+    },
+    "intro_text2": "Use chat feature to participate in the polls to share your voice and ask questions",
+    "@intro_text2": {
+          "description": "Use chat feature to participate in the polls to share your voice and ask questions"
+    },
+    "opinions": "Opinions",
+    "@opinions": {
+          "description": "Opinions"
+    },
+    "intro_text3": "View current and previous poll results and share result on social media channels",
+    "@intro_text3": {
+          "description": "View current and previous poll results and share result on social media channels"
+    },
+    "welcome": "Welcome to",
+    "@welcome": {
+          "description": "Welcome to"
+    },
+    "continu": "Continue",
+    "@continu": {
+          "description": "Continue"
+    },
+    "more": "More",
+    "@more": {
+          "description": "More"
+    },
+    "choose_program": "Select U-Report Program",
+    "@choose_program": {
+          "description": "Select U-Report Program"
+    },
+
+
+    "enter_message": "Enter message",
+    "@enter_message": {
+          "description": "Enter message"
+    },
+
+
+    "settings": "Settings",
+    "@settings": {
+          "description": "Settings"
+    },
+    "about_us": "About Us",
+    "@about_us": {
+          "description": "About Us"
+    },
+    "change_ureport_program": "Change U-report Program",
+    "@change_ureport_program": {
+          "description": "Change U-report Program"
+    },
+    "change_language": "Change Language",
+    "@change_language": {
+          "description": "Change Language"
+    },
+    "feedback": "Feedback",
+    "@feedback": {
+          "description": "Feedback"
+    },
+    "privacy_policy": "Privacy Policy",
+    "@privacy_policy": {
+          "description": "Privacy Policy"
+    },
+    "terms": "Terms and Conditions",
+    "@terms": {
+          "description": "Terms and Conditions"
+    },
+    "sound": "Sound",
+    "@sound": {
+          "description": "Sound"
+    },
+    "on": "On",
+    "@on": {
+          "description": "On"
+    },
+    "off": "Off",
+    "@off": {
+          "description": "Off"
+    },
+    "select_language": "Select Language",
+    "@select_language": {
+          "description": "Select Language"
+    },
+    "language": "Language",
+    "@language": {
+          "description": "Language"
+    }
+
+}
