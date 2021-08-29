@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -8,9 +10,12 @@ import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_messag
 import 'package:ureport_ecaro/network_operation/rapidpro_service.dart';
 
 import '../../../main.dart';
+import 'model/rapidpro-response-data.dart';
 
 class ChatController extends ChangeNotifier{
 
+  
+  List<String>quicktype=[];
 
   var contatct = "";
   var _rapidproservice = locator<RapidProService>();
@@ -18,6 +23,7 @@ class ChatController extends ChangeNotifier{
 
   List<MessageModel> messagearray =[];
   var revlist;
+  var filtermessage;
 
   String messagestatus="sending";
 
@@ -29,17 +35,22 @@ class ChatController extends ChangeNotifier{
     _token = (await FirebaseMessaging.instance.getToken())!;
     print("this is firebase fcm token ==  ${_token}");
   }
+
   addMessage(value){
+
     messagearray.add(value);
-    revlist = messagearray.reversed.toList();
+    filtermessage=messagearray.toSet().toList();
+    revlist = filtermessage.reversed.toList();
     notifyListeners();
   }
+
   createContatct() async {
     await getToken();
     if(_token.isNotEmpty){
       print("this is firebase fcm token ==  ${_token}");
-      var apiResponse = await _rapidproservice.createContact(_token, _token,onSuccess:(uuid){
+      var apiResponse = await _rapidproservice.createContact(_token, _token,"Unknown",onSuccess:(uuid){
         contatct=uuid;
+        print("new contact is created ${contatct}");
       } );
       // getfirebase();
       if (apiResponse.httpCode == 200) {
@@ -62,60 +73,41 @@ class ChatController extends ChangeNotifier{
     }
 
   }
-  startlastFlow()async{
-    await _rapidproservice.startRunflow(responseContactCreation.contactUuid);
-  }
-
-  startflow()async{
-
-    var apiresponse = await _rapidproservice.getSingleContact(responseContactCreation.contactUuid);
-
-    if(apiresponse.httpCode==200){
-      _urn=apiresponse.data.results[0].urns.single;
-      print("found contact successfully ${apiresponse.data.results[0].urns}");
-
-      var validator= apiresponse.data;
-      validator.results[0].groups.forEach((element)async {
-
-        if(element['name']=='Registered'){
-
-          return await _rapidproservice.startRunflow(responseContactCreation.contactUuid);
-        }
-
-      });
-
-      await _rapidproservice.startflow("e13441e4-b487-47db-b456-09a228968950", "${apiresponse.data.results[0].urns.single}",);
-    }
 
 
-  }
- /* getfirebaseInitialmessage(){
-
-
-    FirebaseMessaging.instance
-        .getInitialMessage()
-        .then((RemoteMessage? message) async {
-      assert(message != null);
-      print("the message is ${message!.data["message"]}");
-      MessageModel(sender: 'server',message: message.data["message"],status: "received");
-
-    });
-  }*/
   //on app notification
   getfirebase(){
     FirebaseMessaging.onMessage.listen((RemoteMessage remotemessage){
 
-      print("the message is ${remotemessage.data}");
 
-      remotemessage.data.forEach((key, value) {
-        print("the form is ${key} and value $value");
-      });
+      List<dynamic> quicktypest;
+      if(remotemessage.data["quick_replies"]!=null){
+         quicktypest = json.decode(remotemessage.data["quick_replies"]);
+         print("quick type length---------${quicktypest.length}");
+      }else{
+        quicktypest=[""];
+        print("quick type length---------${quicktypest.length}");
+      }
 
-      var serverMessage=MessageModel(sender: 'server',message: remotemessage.data["message"],status: "received");
+      var serverMessage=MessageModel(sender: 'server',message: remotemessage.data["message"],status: "received",quicktypest: quicktypest);
+
       addMessage(serverMessage);
 
 
-      RemoteNotification? remoteNotification = remotemessage.notification;
+      for(int i =0;i<quicktypest.length;i++){
+        print("quick type data --------------------------====0---------------- ${quicktypest[i]}");
+      }
+
+
+
+
+
+
+
+
+
+
+     /* RemoteNotification? remoteNotification = remotemessage.notification;
       AndroidNotification? androidNotification = remotemessage.notification?.android;
 
       if(remoteNotification!=null && androidNotification!=null){
@@ -130,13 +122,62 @@ class ChatController extends ChangeNotifier{
               icon: '@mipmap/ic_launcher',
             )
         ));
-      }
+      }*/
     });
   }
-  // app background notification
-  getfirebaseonApp(){
+
+
+  sendmessage(message)async{
+
+    await _rapidproservice.sendMessage(message: message, onSuccess: (value){
+
+      print("this response message $value");
+      messagestatus="Sent";
+
+    }, onError:(error){
+      print("this is error message $error");
+      messagestatus="failed";
+    },urn: _token,fcmToken: _token);
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* getfirebaseInitialmessage(){
+
+
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) async {
+      assert(message != null);
+      print("the message is ${message!.data["message"]}");
+      MessageModel(sender: 'server',message: message.data["message"],status: "received");
+
+    });
+  }*/
+
+
+// app background notification
+ getfirebaseonApp(){
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage){
+
+
+
       RemoteNotification? remoteNotification = remotemessage.notification;
       AndroidNotification? androidNotification = remotemessage.notification?.android;
 
@@ -171,18 +212,33 @@ class ChatController extends ChangeNotifier{
     });
 
   }
-   sendmessage(message)async{
 
-    await _rapidproservice.sendMessage(message: message, onSuccess: (value){
-
-      print("this response message $value");
-      messagestatus="Sent";
-
-    }, onError:(error){
-      print("this is error message $error");
-      messagestatus="failed";
-    },urn: _token,fcmToken: _token);
-
+/*startlastFlow()async{
+    await _rapidproservice.startRunflow(responseContactCreation.contactUuid);
   }
+
+  startflow()async{
+
+    var apiresponse = await _rapidproservice.getSingleContact(responseContactCreation.contactUuid);
+
+    if(apiresponse.httpCode==200){
+      _urn=apiresponse.data.results[0].urns.single;
+      print("found contact successfully ${apiresponse.data.results[0].urns}");
+
+      var validator= apiresponse.data;
+      validator.results[0].groups.forEach((element)async {
+
+        if(element['name']=='Registered'){
+
+          return await _rapidproservice.startRunflow(responseContactCreation.contactUuid);
+        }
+
+      });
+
+      await _rapidproservice.startflow("e13441e4-b487-47db-b456-09a228968950", "${apiresponse.data.results[0].urns.single}",);
+    }
+
+
+  }*/
 
 }

@@ -1,11 +1,13 @@
 
 
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
 import 'opiion-controller.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'model/Response_opinions.dart' as quistoin;
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+
 
 class OpinionsScreen extends StatefulWidget{
 
@@ -15,9 +17,22 @@ class OpinionsScreen extends StatefulWidget{
 }
 
 class _OpinionsScreenState extends State<OpinionsScreen> {
+
+
+
+  TextEditingController controller = new TextEditingController();
+  late AutoCompleteTextField search;
+  GlobalKey<AutoCompleteTextFieldState< quistoin.Result> > key = new GlobalKey();
+  @override
+  void initState() {
+    Provider.of<OpinionController>(context,listen: false).getOpinions();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    Provider.of<OpinionController>(context,listen: false).getOpinions();
+
 
     print("the buil method is called ...............................");
 
@@ -41,18 +56,20 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
             ),
           ),
           backgroundColor: AppColors.options_background,
-          body: provider.islodading?Center(child: CircularProgressIndicator(),):Container(
+          body: Container(
             margin: EdgeInsets.only(left: 10,top: 20,right: 10),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment:  MainAxisAlignment.start,
                   children: [
                     Image.asset("assets/images/ureport_logo.png",width: 120,height: 35,),
                     Container(
                         padding: EdgeInsets.all(3),
+                        margin: EdgeInsets.only(left: 20),
                         width: 204,
-                        height: 35,
+                        height: 40,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -63,20 +80,40 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
                               bottomRight: const Radius.circular(8.0),
                             )
                         ),
-                        child: TypeAheadFormField<String?>(
+                        child:TypeAheadFormField<quistoin.Result?>(
+
+                          suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                          ),
                           suggestionsCallback: provider.getSuggestions,
-                          itemBuilder: (context,String? suggestions)=>Container(
+                          itemBuilder: (context,quistoin.Result? suggestions)=>Container(
                             color: Colors.white,
-                            child: ListTile(
-                              title: Text("$suggestions"),
+
+                            child: ExpansionTile(
+                              tilePadding: EdgeInsets.all(0),
+                              childrenPadding: EdgeInsets.only(left: 8,top: 0,bottom: 0,right: 0),
+                              trailing: SizedBox.shrink(),
+                              leading: Icon(Icons.play_arrow_rounded,color: Colors.black,),
+                              title: Text("${suggestions!.category.name}",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w700),),
+                              children: [
+                              ListTile(
+                                title: Text("${suggestions.title}"),),
+                              ],
+
                             ),
                           ),
-                          onSuggestionSelected: (String?suggestion){
-                            provider.typeAheadController.text=suggestion.toString();
+                          onSuggestionSelected: (quistoin.Result?suggestion){
+                            provider.typeAheadController.text=suggestion!.title.toString();
+                           setState(() {
+                             provider.quistionlist=suggestion.questions;
+                             provider.title=suggestion.title;
+                           });
                           },
+
                           textFieldConfiguration: TextFieldConfiguration(
                             controller: provider.typeAheadController,
+                            style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w400),
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.zero,
                               hintStyle: TextStyle(color: AppColors.textfield_hintcolor,fontSize: 12),
                               hintText: "Search",
                               border: InputBorder.none,
@@ -86,13 +123,44 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
                           ),
                         )
 
+
+                      /*search =AutoCompleteTextField(
+                          itemBuilder: (context,item){
+                            return row(item);
+                          },
+                          itemFilter: (item,query){
+                            return item.title.toLowerCase().startsWith(query.toLowerCase());
+                          },
+
+                          itemSorter: (a,b){
+                            return a.category.name.compareTo(b.category.name);
+                          },
+                          itemSubmitted: (item){
+                            setState(() {
+                              controller.text = item.title;
+                            });
+                          },
+                          key: key,
+                          controller: controller,
+                          suggestions:provider.sugetionsdata,
+
+                        ),*/
+
+
+
+
                     )
                   ],
                 ),
 
                 SizedBox(height: 20,),
 
-                Expanded(
+                Container(
+                  child: Text("${provider.title}",style: TextStyle(color: Colors.black,fontSize: 19,fontWeight: FontWeight.bold),),
+                ),
+                SizedBox(height: 10,),
+
+               provider.responseData!=null ?Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: AlwaysScrollableScrollPhysics(),
@@ -141,7 +209,6 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
                                                 borderRadius: BorderRadius.all(Radius.circular(20))
                                             ),
                                             child: Row(
-
                                               children: [
                                                 provider.resultCategorytype=="all"? TextButton(
                                                   style: TextButton.styleFrom(padding: EdgeInsets.all(0),
@@ -276,8 +343,6 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
                                             ),
                                           ),
                                         ),
-
-
                                       ],
                                     ),
                                   ),
@@ -904,7 +969,7 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
                       return Container();
                     },
                     itemCount: provider.quistionlist.length>0? provider.quistionlist.length:0,),
-                ),
+                ):Center(child:CircularProgressIndicator()),
 
               ],
             ),
@@ -914,6 +979,13 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
       },
 
     );
+  }
+
+  Widget row(quistoin.Result item)  {
+    return ListTile(
+      title: Text("${item.category.name}"),
+    );
+
   }
 }
 

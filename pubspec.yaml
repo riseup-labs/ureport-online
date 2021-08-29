@@ -47,6 +47,10 @@ dependencies:
   flutter_localizations: # Add this line
     sdk: flutter
 
+  #Sqflite
+  sqflite:
+  share: ^2.0.1
+
   # firebase config
   firebase_messaging: ^10.0.4
   firebase_core: ^1.4.0

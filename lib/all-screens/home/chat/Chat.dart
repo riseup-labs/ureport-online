@@ -23,14 +23,17 @@ class Chat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Provider.of<ChatController>(context,listen: false).createContatct();
-    // Provider.of<ChatController>(context,listen: false).getfirebase();
+
+    Provider.of<ChatController>(context,listen: false).createContatct();
+    Provider.of<ChatController>(context,listen: false).getfirebase();
+    Provider.of<ChatController>(context,listen: false).messagearray.clear();
+
 
 
     return Consumer<ChatController>(
       builder: (context,provider,child){
         return  Container(
-
+          color: Colors.white,
           child: Column(
             children: [
               Expanded(
@@ -65,22 +68,14 @@ class Chat extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(width: 10,),
-                    Image.asset("assets/images/ic_emoji.png",height: 30,width: 30,),
                     SizedBox(width: 15,),
                     Container(
-                      width:300,
+                      width: 350,
                       padding: EdgeInsets.only(left: 5,right: 5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: const BorderRadius.all(Radius.circular(20)),
-                        ),
-                        color: Colors.white,
-                        child:sendMessage(context,provider),
-                      ),
+                      child: sendMessage(context,provider),
                     )
                   ],
                 ),
@@ -96,6 +91,7 @@ class Chat extends StatelessWidget {
     return Form(
       key: sendMessageKey,
       child: Row(
+
         children: [
           SizedBox(width: 10,),
           Expanded(
@@ -116,6 +112,7 @@ class Chat extends StatelessWidget {
               ),
             ),
           ),
+          Spacer(),
           IconButton(
             icon: Image.asset("assets/images/ic_sand.png"),
 
@@ -126,6 +123,7 @@ class Chat extends StatelessWidget {
                 message: message,
                 sender: "user",
                 status: "Sending...",
+                quicktypest: [""],
               );
               provider.addMessage(messageModel);
               provider.sendmessage(message);

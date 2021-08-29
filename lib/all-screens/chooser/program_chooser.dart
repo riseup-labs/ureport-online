@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/settings/settings.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
 
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 class ProgramChooser extends StatefulWidget {
 
@@ -149,6 +151,8 @@ class _ProgramChooserState extends State<ProgramChooser> {
                               child: Container(
                                 child: ElevatedButton(
                                   onPressed: () {
+                                     var spset = locator<SPUtil>();
+                                     spset.setValue(SPUtil.PROGRAMKEY, dropdownValue);
                                     NavUtils.push(context, NavigationScreen());
                                   },
                                   child: Text('Continue'),

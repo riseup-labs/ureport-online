@@ -27,7 +27,7 @@ class ProviderLoginController extends ChangeNotifier{
      await getToken();
       if(_token.isNotEmpty){
         print("this is firebase fcm token ==  ${_token}");
-         var apiResponse = await _rapidproservice.createContact(_token, _token,onSuccess:(uuid){
+         var apiResponse = await _rapidproservice.createContact(_token, _token,"Unknown",onSuccess:(uuid){
            contatct=uuid;
          } );
           // getfirebase();
