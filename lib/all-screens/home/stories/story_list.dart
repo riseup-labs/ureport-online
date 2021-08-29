@@ -77,7 +77,7 @@ class StoryList extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
                               onTap: () {
-                                NavUtils.push(context, StoryDetails(stories![index].id.toString()));
+                                NavUtils.push(context, StoryDetails(stories![index].id.toString(),stories![index].title.toString(),stories![index].images.toString()));
                               },
                               child: Container(
                                 child: getItem(

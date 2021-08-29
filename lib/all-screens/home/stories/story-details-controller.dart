@@ -7,6 +7,7 @@ import 'package:ureport_ecaro/locator/locator.dart';
 class StoryDetailsController extends ChangeNotifier{
 
   var _storyservice = locator<StroyRipository>();
+  var webviewHeight = 1;
 
   ResponseStoryDetails? responseStoryDetails ;
 

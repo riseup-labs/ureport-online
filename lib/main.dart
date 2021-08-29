@@ -9,6 +9,7 @@ import 'all-screens/home/chat/chat-controller.dart';
 import 'all-screens/home/navigation-screen.dart';
 import 'all-screens/home/opinions/opiion-controller.dart';
 import 'all-screens/home/stories/story-controller.dart';
+import 'all-screens/home/stories/story-details-controller.dart';
 import 'all-screens/login/login.dart';
 import 'all-screens/login/provider_login_controller.dart';
 import 'all-screens/splash-screen/splash_screen.dart';
@@ -75,6 +76,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProviderLoginController()),
         ChangeNotifierProvider(create: (context) => OpinionController()),
         ChangeNotifierProvider(create: (context) => StoryController()),
+        ChangeNotifierProvider(create: (context) => StoryDetailsController()),
         ChangeNotifierProvider(create: (context) => ChatController()),
         ChangeNotifierProvider(create: (context) => RemoteConfigController()),
       ],

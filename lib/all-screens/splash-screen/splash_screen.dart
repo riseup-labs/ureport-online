@@ -9,6 +9,11 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    Timer(
+      Duration(seconds: 2),
+          () => NavUtils.pushAndRemoveUntil(context, LanguageChooser()),
+    );
+
     getInitialData(context);
 
     return Scaffold(
