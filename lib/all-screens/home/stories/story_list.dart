@@ -40,8 +40,6 @@ class StoryList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding:
-                    EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
                 margin: EdgeInsets.only(top: 10),
                 child: Image(
                     fit: BoxFit.fill,
@@ -50,8 +48,7 @@ class StoryList extends StatelessWidget {
                     image: AssetImage('assets/images/ureport_logo.png')),
               ),
               Container(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                margin: EdgeInsets.only(top: 10, bottom: 10),
+                margin: EdgeInsets.only(top: 15,bottom: 10),
                 child: Text(
                   "${AppLocalizations.of(context)!.stories}",
                   style: TextStyle(
