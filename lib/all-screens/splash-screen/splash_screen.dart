@@ -40,7 +40,6 @@ class _SplashScreenState extends State<SplashScreen> {
             }else{
               NavUtils.pushAndRemoveUntil(context, LanguageChooser());
             }
-
           },
     );
 
@@ -52,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image:
-                AssetImage("assets/images/drawable-ldpi/bg_splash_screen.png"),
+                AssetImage("assets/images/bg_splash_screen.png"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -63,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child:
                   Image(
                     fit: BoxFit.fill,
-                    image: AssetImage("assets/images/drawable-ldpi/ureport_logo.png"),
+                    image: AssetImage("assets/images/ureport_logo.png"),
                   )
               ),
             ) /* add child content here */,

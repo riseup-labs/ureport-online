@@ -35,6 +35,7 @@ class DatabaseHelper {
         db.execute('''
           create table ${DatabaseConstant.tableName} ( 
           ${DatabaseConstant.columnID} integer primary key, 
+          ${DatabaseConstant.columnPROGRAM} text,
           ${DatabaseConstant.columnTitle} text,
           ${DatabaseConstant.columnFeatured} text,
           ${DatabaseConstant.columnSummary} text,
@@ -80,12 +81,13 @@ class DatabaseHelper {
   }
 
 
-  void insertStory(List<storyarray.Result> list) async {
+  void insertStory(List<storyarray.Result> list, String program) async {
     var db = await this.database;
     list.forEach((element) async {
       // var result = await db.insert(DatabaseConstant.tableName, element.toJson());
       var result = await db.insert(DatabaseConstant.tableName, {
         DatabaseConstant.columnID : element.id,
+        DatabaseConstant.columnPROGRAM : program,
         DatabaseConstant.columnTitle : element.title,
         DatabaseConstant.columnFeatured : element.featured.toString(),
         DatabaseConstant.columnSummary : element.summary,
@@ -126,10 +128,11 @@ class DatabaseHelper {
     print("done");
   }
 
-  Future<List<ResultLocal>> getStories() async {
+  Future<List<ResultLocal>> getStories(String program) async {
     List<ResultLocal> _stories = [];
     var db = await this.database;
-    var result = await db.query(DatabaseConstant.tableName,where: "featured == 'true'");
+    // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
+    var result = await db.rawQuery("SELECT * FROM ${DatabaseConstant.tableName} WHERE featured = 'true' AND program = '$program'");
     result.forEach((element) {
       var list = ResultLocal.fromJson(element);
       _stories.add(list);
@@ -137,8 +140,8 @@ class DatabaseHelper {
     return _stories;
   }
 
-  // Future<int> delete(int id) async {
-  //   var db = await this.database;
-  //   return await db.delete(tableStory, where: '$columnId = ?', whereArgs: [id]);
-  // }
+  Future<int> deleteStoryTable() async {
+    var db = await this.database;
+    return await db.delete(DatabaseConstant.tableName);
+  }
 }

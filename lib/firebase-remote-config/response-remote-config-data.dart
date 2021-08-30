@@ -30,6 +30,7 @@ class Program {
     required this.name,
     required this.logo,
     required this.storyApi,
+    required this.storyDetailsApi,
     required this.opinionApi,
     required this.channelId,
     required this.triggerKeywords,
@@ -39,6 +40,7 @@ class Program {
   String name;
   String logo;
   String storyApi;
+  String storyDetailsApi;
   String opinionApi;
   String channelId;
   TriggerKeywords triggerKeywords;
@@ -48,6 +50,7 @@ class Program {
     name: json["name"],
     logo: json["logo"],
     storyApi: json["story_api"],
+    storyDetailsApi: json["story_details_api"],
     opinionApi: json["opinion_api"],
     channelId: json["channel_id"],
     triggerKeywords: TriggerKeywords.fromJson(json["trigger_keywords"]),
@@ -58,6 +61,7 @@ class Program {
     "name": name,
     "logo": logo,
     "story_api": storyApi,
+    "story_details_api": storyDetailsApi,
     "opinion_api": opinionApi,
     "channel_id": channelId,
     "trigger_keywords": triggerKeywords.toJson(),

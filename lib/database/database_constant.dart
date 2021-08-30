@@ -3,6 +3,7 @@ class DatabaseConstant{
   //Story
   static final tableName = "table_story";
   static final columnID = "id";
+  static final columnPROGRAM = "program";
   static final columnTitle = "title";
   static final columnFeatured = "featured";
   static final columnSummary = "summary";

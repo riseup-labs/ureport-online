@@ -35,7 +35,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                      "assets/images/drawable-xxhdpi/bg_select_language.png"),
+                      "assets/images/bg_select_language.png"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -195,7 +195,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
         width: 210,
         child: Image(
           fit: BoxFit.fill,
-          image: AssetImage("assets/images/drawable-ldpi/ureport_logo.png"),
+          image: AssetImage("assets/images/ureport_logo.png"),
         ));
   }
 }

@@ -46,6 +46,7 @@ class HttpService {
           },
         ),
       );
+      _dio.interceptors.add(LogInterceptor(responseBody: true));
     }
 
     return _dio;

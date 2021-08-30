@@ -25,16 +25,13 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
   GlobalKey<AutoCompleteTextFieldState< quistoin.Result> > key = new GlobalKey();
   @override
   void initState() {
-    Provider.of<OpinionController>(context,listen: false).getOpinions();
+    // Provider.of<OpinionController>(context,listen: false).getOpinions();
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
-    print("the buil method is called ...............................");
 
     AppBar appbarr = AppBar();
     return Consumer<OpinionController>(

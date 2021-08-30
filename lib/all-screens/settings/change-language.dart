@@ -6,6 +6,7 @@ import 'package:ureport_ecaro/locale/locale_provider.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/main.dart';
+import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 
@@ -62,9 +63,17 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
           "${AppLocalizations.of(context)!.language}",
           style: TextStyle(color: Colors.black, fontSize: 22),
         ),
-        leading: Icon(
-          Icons.arrow_back,
-          color: Colors.black,
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: Container(
+            width: 50,
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+          ),
         ),
         actions: [
           Card(

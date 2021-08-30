@@ -82,7 +82,6 @@ class RapidProService {
   sendMessage({@required String? message, @required onSuccess(
       value)?, @required onError(Exception value)?, urn, fcmToken
   }) async {
-    print("--------------------------------------message method is called");
     await _httpService.postRequesturlencoded(
       "https://${ApiConst.SERVER_OFFICIAL}/c/fcm/${ApiConst.CHANEL_OFFICIAL}/receive",
       data: {

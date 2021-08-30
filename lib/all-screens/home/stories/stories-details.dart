@@ -1,12 +1,16 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-details-controller.dart';
-import 'package:ureport_ecaro/utils/api_constant.dart';
 import 'package:share/share.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/remote-config-data.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter/foundation.dart';
 
 class StoryDetails extends StatelessWidget {
   String id = "";
@@ -17,9 +21,10 @@ class StoryDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var sp = locator<SPUtil>();
     Provider.of<StoryDetailsController>(context, listen: false)
         .getStoriesDetailsFromRemote(
-            ApiConst.RESULT_STORY_DETAILS_BASEURL + id);
+        RemoteConfigData.getStoryDetailsUrl(sp.getValue(SPUtil.PROGRAMKEY)) + id);
     String story_content = "";
 
     return Consumer<StoryDetailsController>(
@@ -39,8 +44,8 @@ class StoryDetails extends StatelessWidget {
           ),
           child: Container(
             width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: ListView(
+              scrollDirection: Axis.vertical,
               children: [
                 Container(
                   height: 60,
@@ -65,7 +70,7 @@ class StoryDetails extends StatelessWidget {
                 Container(
                   child: CachedNetworkImage(
                       height: 200,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                       imageUrl:
                           image != '' ? image : "assets/images/default.jpg",
                       progressIndicatorBuilder:
@@ -109,7 +114,7 @@ class StoryDetails extends StatelessWidget {
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      getWebView(story_content, provider),
+                      getWebView(story_content, provider,context),
                     ],
                   ),
                 )
@@ -145,7 +150,7 @@ getShareButton(String id) {
   );
 }
 
-getWebView(String content, StoryDetailsController provider) {
+getWebView(String content, StoryDetailsController provider,BuildContext context) {
 
   print("${content.length}");
   if (provider.responseStoryDetails != null) {
@@ -155,10 +160,19 @@ getWebView(String content, StoryDetailsController provider) {
 
   final _key = UniqueKey();
   return Container(
-    height: 474,
+    height: MediaQuery.of(context).size.height*4,
+    width: MediaQuery.of(context).size.width,
     margin: EdgeInsets.only(left: 10, right: 10),
     child: content == ''
-        ? Center(child: CircularProgressIndicator())
+        ? Container(
+      margin: EdgeInsets.only(top: 30),
+      height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              CircularProgressIndicator(),
+            ],
+          ),
+        )
         : WebView(
             key: _key,
             javascriptMode: JavascriptMode.unrestricted,
@@ -166,7 +180,7 @@ getWebView(String content, StoryDetailsController provider) {
                     mimeType: 'text/html',
                     encoding: Encoding.getByName("UTF-8"))
                 .toString(),
-
+      // gestureRecognizers: Set() ..add(Factory<VerticalDragGestureRecognizer>(() => VerticalDragGestureRecognizer())),
           ),
 
   );

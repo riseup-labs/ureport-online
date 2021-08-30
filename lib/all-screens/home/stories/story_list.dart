@@ -4,20 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/stories-details.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:provider/provider.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/api_constant.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
+import 'package:ureport_ecaro/utils/sp_constant.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'model/ResponseStoryLocal.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var sp = locator<SPUtil>();
     Provider.of<StoryController>(context, listen: false).initializeDatabase();
     List<ResultLocal>? stories = [];
-    Provider.of<StoryController>(context, listen: false).getStoriesFromLocal();
-    Provider.of<StoryController>(context, listen: false)
-        .getStoriesFromRemote(ApiConst.RESULT_STORY_BASEURL);
+    Provider.of<StoryController>(context, listen: false).getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
+    print("===url===${RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY))}");
+    Provider.of<StoryController>(context, listen: false).getStoriesFromRemote(RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),sp.getValue(SPUtil.PROGRAMKEY));
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       return SafeArea(
@@ -36,17 +41,17 @@ class StoryList extends StatelessWidget {
             children: [
               Container(
                 padding:
-                    EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 10),
+                    EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
                 margin: EdgeInsets.only(top: 10),
                 child: Image(
                     fit: BoxFit.fill,
-                    height: 35,
-                    width: 160,
+                    height: 30,
+                    width: 150,
                     image: AssetImage('assets/images/ureport_logo.png')),
               ),
               Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
-                margin: EdgeInsets.only(top: 20, bottom: 15),
+                margin: EdgeInsets.only(top: 10, bottom: 10),
                 child: Text(
                   "${AppLocalizations.of(context)!.stories}",
                   style: TextStyle(
@@ -54,7 +59,6 @@ class StoryList extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
                 child: Divider(
                   height: 1.5,
                   color: Colors.grey[600],
@@ -62,7 +66,7 @@ class StoryList extends StatelessWidget {
               ),
               Expanded(
                 child: FutureBuilder<List<ResultLocal>>(
-                    future: provider.getStoriesFromLocal(),
+                    future: provider.getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY)),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         stories = List.from(snapshot.data!.reversed);
@@ -100,7 +104,8 @@ class StoryList extends StatelessWidget {
             ],
           ),
         ),
-      )));
+      ))
+      );
     });
   }
 }
@@ -135,7 +140,7 @@ getItemTitleImage(String image_url) {
         topLeft: Radius.circular(10), topRight: Radius.circular(10)),
     child: CachedNetworkImage(
       height: 200,
-      fit: BoxFit.cover,
+      fit: BoxFit.fill,
       imageUrl: image_url,
       progressIndicatorBuilder: (context, url, downloadProgress) => Column(
         mainAxisAlignment: MainAxisAlignment.center,

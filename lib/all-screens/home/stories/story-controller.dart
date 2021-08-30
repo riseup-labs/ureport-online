@@ -14,28 +14,30 @@ class StoryController extends ChangeNotifier{
   List<storyarray.Result> items = List.empty(growable: true);
   DatabaseHelper _databaseHelper = DatabaseHelper();
 
-  getStoriesFromRemote(String url) async {
+  getStoriesFromRemote(String url,String program) async {
     var apiresponsedata = await _storyservice.getStory(url);
     if(apiresponsedata.httpCode==200){
       items.addAll(apiresponsedata.data.results);
       if(apiresponsedata.data.next != null){
-        getStoriesFromRemote(apiresponsedata.data.next);
+        getStoriesFromRemote(apiresponsedata.data.next,program);
       }else{
-        _databaseHelper.insertStory(items);
+        _databaseHelper.insertStory(items,program);
         notifyListeners();
       }
     }
   }
 
-  getStoriesFromLocal() {
-    return _databaseHelper.getStories();
+  getStoriesFromLocal(String program) {
+    return _databaseHelper.getStories(program);
 
   }
 
+  clearStoriesTable(){
+    _databaseHelper.deleteStoryTable() ;
+  }
 
   initializeDatabase(){
     _databaseHelper.initializeDatabase().then((value) {
-      print('------database intialized');
     });
   }
 }

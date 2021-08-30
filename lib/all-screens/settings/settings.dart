@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
 import 'package:ureport_ecaro/all-screens/chooser/program_chooser.dart';
 import 'package:ureport_ecaro/all-screens/settings/change-language.dart';
 import 'package:ureport_ecaro/all-screens/settings/privacy_policy.dart';
@@ -19,7 +18,7 @@ class Settings extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/drawable-ldpi/bg_home.png"),
+              image: AssetImage("assets/images/bg_home.png"),
               fit: BoxFit.cover,
             ),
           ),
@@ -43,29 +42,21 @@ class Settings extends StatelessWidget {
               GestureDetector(
                 onTap: () {},
                 child: getItem(
-                    "${AppLocalizations.of(context)!.settings}", "assets/images/drawable-ldpi/ic_settings.png"),
+                    "${AppLocalizations.of(context)!.settings}", "assets/images/ic_settings.png"),
               ),
               GestureDetector(
                 onTap: () {
                   NavUtils.push(context, About());
                 },
                 child: getItem(
-                    "${AppLocalizations.of(context)!.about_us}", "assets/images/drawable-ldpi/ic_about.png"),
+                    "${AppLocalizations.of(context)!.about_us}", "assets/images/ic_about.png"),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ProgramChooser();
-                      },
-                    ),
-                  );
-
+                  NavUtils.push(context, ProgramChooser("more"));
                 },
                 child: getItem("${AppLocalizations.of(context)!.change_ureport_program}",
-                    "assets/images/drawable-ldpi/ic_change_ureport_program.png"),
+                    "assets/images/ic_change_ureport_program.png"),
               ),
               GestureDetector(
                 onTap: () {
@@ -73,26 +64,26 @@ class Settings extends StatelessWidget {
                   NavUtils.push(context, ChangeLanguage());
                 },
                 child: getItem("${AppLocalizations.of(context)!.change_language}",
-                    "assets/images/drawable-ldpi/ic_change_language.png"),
+                    "assets/images/ic_change_language.png"),
               ),
               GestureDetector(
                 onTap: () {},
                 child: getItem(
-                    "${AppLocalizations.of(context)!.feedback}", "assets/images/drawable-ldpi/ic_feedback.png"),
+                    "${AppLocalizations.of(context)!.feedback}", "assets/images/ic_feedback.png"),
               ),
               GestureDetector(
                 onTap: () {
                   NavUtils.push(context, PrivacyPolicy());
                 },
                 child: getItem("${AppLocalizations.of(context)!.privacy_policy}",
-                    "assets/images/drawable-ldpi/ic_privacy_policy.png"),
+                    "assets/images/ic_privacy_policy.png"),
               ),
               GestureDetector(
                 onTap: () {
                   NavUtils.push(context, Terms());
                 },
                 child: getItem("${AppLocalizations.of(context)!.terms}",
-                    "assets/images/drawable-ldpi/ic_terms_and_conditions.png"),
+                    "assets/images/ic_terms_and_conditions.png"),
               ),
             ],
           ),

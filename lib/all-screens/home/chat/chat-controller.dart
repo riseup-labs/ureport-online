@@ -31,13 +31,11 @@ class ChatController extends ChangeNotifier{
   var _urn="";
   String _token ="";
   getToken() async {
-
     _token = (await FirebaseMessaging.instance.getToken())!;
     print("this is firebase fcm token ==  ${_token}");
   }
 
   addMessage(value){
-
     messagearray.add(value);
     filtermessage=messagearray.toSet().toList();
     revlist = filtermessage.reversed.toList();
@@ -47,7 +45,6 @@ class ChatController extends ChangeNotifier{
   createContatct() async {
     await getToken();
     if(_token.isNotEmpty){
-      print("this is firebase fcm token ==  ${_token}");
       var apiResponse = await _rapidproservice.createContact(_token, _token,"Unknown",onSuccess:(uuid){
         contatct=uuid;
         print("new contact is created ${contatct}");
@@ -83,29 +80,15 @@ class ChatController extends ChangeNotifier{
       List<dynamic> quicktypest;
       if(remotemessage.data["quick_replies"]!=null){
          quicktypest = json.decode(remotemessage.data["quick_replies"]);
-         print("quick type length---------${quicktypest.length}");
+         // print("quick type length---------${quicktypest.length}");
       }else{
         quicktypest=[""];
-        print("quick type length---------${quicktypest.length}");
+        // print("quick type length---------${quicktypest.length}");
       }
 
       var serverMessage=MessageModel(sender: 'server',message: remotemessage.data["message"],status: "received",quicktypest: quicktypest);
 
       addMessage(serverMessage);
-
-
-      for(int i =0;i<quicktypest.length;i++){
-        print("quick type data --------------------------====0---------------- ${quicktypest[i]}");
-      }
-
-
-
-
-
-
-
-
-
 
      /* RemoteNotification? remoteNotification = remotemessage.notification;
       AndroidNotification? androidNotification = remotemessage.notification?.android;

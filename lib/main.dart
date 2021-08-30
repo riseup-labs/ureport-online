@@ -107,7 +107,6 @@ class MyApp extends StatelessWidget {
 
   static void setLocal(LocaleProvider provider) {
     var sp = locator<SPUtil>();
-    print("the language data is = ${sp.getValue(SPConstant.SELECTED_LANGUAGE)}");
     if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "en"){
       provider.setLocale(new Locale('en'));
     }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ar"){

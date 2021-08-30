@@ -68,7 +68,7 @@ class _BodyState extends State<Body> {
                     children: <Widget>[
                       GestureDetector(
                         onTap: (){
-                          NavUtils.pushAndRemoveUntil(context, ProgramChooser());
+                          NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
                         },
                         child: Text("${AppLocalizations.of(context)!.skip}",
                             style:
@@ -82,7 +82,7 @@ class _BodyState extends State<Body> {
                           onTap: () {
                             currentPage++;
                             if (currentPage >= 3) {
-                              NavUtils.pushAndRemoveUntil(context, ProgramChooser());
+                              NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
                             }else{
                               _pageController!.nextPage(
                                   duration: Duration(milliseconds: 500),
