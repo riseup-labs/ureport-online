@@ -1,5 +1,4 @@
 
-
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,10 +31,8 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
+    
     print("the buil method is called ...............................");
-
     AppBar appbarr = AppBar();
     return Consumer<OpinionController>(
       builder: (context,provider,child){
@@ -88,25 +85,32 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
                           itemBuilder: (context,quistoin.Result? suggestions)=>Container(
                             color: Colors.white,
 
-                            child: ExpansionTile(
-                              tilePadding: EdgeInsets.all(0),
-                              childrenPadding: EdgeInsets.only(left: 8,top: 0,bottom: 0,right: 0),
-                              trailing: SizedBox.shrink(),
-                              leading: Icon(Icons.play_arrow_rounded,color: Colors.black,),
-                              title: Text("${suggestions!.category.name}",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w700),),
-                              children: [
-                              ListTile(
-                                title: Text("${suggestions.title}"),),
-                              ],
+                            child: ListTileTheme(
+                              contentPadding: EdgeInsets.zero,
+                              dense: true,
+                              child: ExpansionTile(
+                                tilePadding: EdgeInsets.zero,
+                                childrenPadding: EdgeInsets.only(left: 8,top: 0,bottom: 0,right: 0),
+                                trailing: SizedBox.shrink(),
+                                leading: Icon(Icons.play_arrow_rounded,color: Colors.black,),
+                                title: Row(children: [
+                                  Text("${suggestions!.category.name}",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w700),)
+                                ],),
+                                children: [
+                                ListTile(
+                                  dense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  title: Text("${suggestions.title}"),),
+                                ],
 
+                              ),
                             ),
                           ),
                           onSuggestionSelected: (quistoin.Result?suggestion){
-                            provider.typeAheadController.text=suggestion!.title.toString();
-                           setState(() {
-                             provider.quistionlist=suggestion.questions;
-                             provider.title=suggestion.title;
-                           });
+                            suggestion!.title.toString();
+                            provider.quistionlist=suggestion.questions;
+                            provider.title=suggestion.title;
+
                           },
 
                           textFieldConfiguration: TextFieldConfiguration(
