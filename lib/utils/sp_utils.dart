@@ -9,6 +9,9 @@ class SPUtil {
 
   static String KEY_DARK_THEME = "KEY_DARK_THEME";
   static String PROGRAMKEY = "PROGRAM_KEY";
+  static String OPINIONDATA = "DATA";
+  static String CONTACT_URN = "CONTACT_URN";
+  static String REGISTRATION_COMPLETE = "REGISTRATION_COMPLETE";
 
 
 

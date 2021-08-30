@@ -1,6 +1,9 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 import 'model/Response_opinions.dart';
 import 'model/Response_opinions.dart' as quistoin;
@@ -9,37 +12,38 @@ import 'opinion-repository.dart';
 class OpinionController extends ChangeNotifier {
 
   var _opinionrepository = locator<OpinionRepository>();
+  var spservice =locator<SPUtil>();
   List<String>category_names=[];
-
   String _resultCategorytype = "all";
-
   String get resultCategorytype => _resultCategorytype;
-
   set resultCategorytype(String value) {
     _resultCategorytype = value;
     notifyListeners();
   }
-
   bool _islodading=true;
-
-
   bool get islodading => _islodading;
-
   set islodading(bool value) {
     _islodading = value;
     notifyListeners();
   }
 
-  bool _all=false;
-  bool _age=false;
-  bool _gender=false;
-  bool _location=false;
+  Map<String, dynamic> newMap = {};
 
 
+  bool _alllist=false;
+  bool _agelist=false;
+  bool _genderlist=false;
+
+
+  bool get alllist => _alllist;
+
+  set alllist(bool value) {
+    _alllist = value;
+    notifyListeners();
+  }
 
   double fraction_value_yes = 0.0;
    TextEditingController _typeAheadController = TextEditingController();
-
   TextEditingController get typeAheadController => _typeAheadController;
   set typeAheadController(TextEditingController value) {
     _typeAheadController = value;
@@ -55,30 +59,30 @@ class OpinionController extends ChangeNotifier {
 
     List<String> titlecollection=[];
 
-     String title="";
+     String _title="";
+
+
+  String get title => _title;
+
+  set title(String value) {
+    _title = value;
+    notifyListeners();
+  }
+
+  var data2 = {};
+  var data1 = {};
+
 
   getOpinions() async {
 
-
-    var apiresponsedata = await _opinionrepository.getOpinions("10");
-
-    if(apiresponsedata.httpCode==200){
-
-      responseData=apiresponsedata.data;
-
-      print("--------------------data length before whole data clll ${responseData!.results.length}");
-      responseData!.results.forEach((element) {
-        quistionlist.addAll(element.questions);
-        categorylist.add(element.category);
-      });
-      getSearchSuggetion();
-      notifyListeners();
-
-      String totalcount= apiresponsedata.data.count.toString();
+    var offlinedata = await spservice.getValue(SPUtil.OPINIONDATA);
+    if(offlinedata==null){
+      var apiresponsedata = await _opinionrepository.getOpinions("1");
+      if(apiresponsedata.httpCode==200){
+        responseData=apiresponsedata.data;
+        String totalcount= apiresponsedata.data.count.toString();
       var apiresponsedatafull=await _opinionrepository.getOpinions(totalcount);
       if(apiresponsedatafull.httpCode==200){
-        print("--------------------total count$totalcount");
-        print("--------------------data length after whole data clll ${responseData!.results.length}");
         responseData=apiresponsedatafull.data;
         responseData!.results.forEach((element) {
           quistionlist.addAll(element.questions);
@@ -87,60 +91,92 @@ class OpinionController extends ChangeNotifier {
         getSearchSuggetion();
         notifyListeners();
       }
-
-    }
-
+        responseData!.results.forEach((element) {
+          quistionlist.addAll(element.questions);
+          categorylist.add(element.category);
+        });
+        getSearchSuggetion();
         notifyListeners();
       }
+    }else{
+      var apiresponsedata = await _opinionrepository.getOpinionsoffline();
+      if(apiresponsedata.httpCode==200){
+        responseData=apiresponsedata.data;
+        responseData!.results.forEach((element) {
+          quistionlist.addAll(element.questions);
+          categorylist.add(element.category);
+        });
+        getSearchSuggetion();
+        notifyListeners();
+        //await _opinionrepository.getOpinions(responseData!.count.toString());
 
-
-
-
-
-
+      }
+    }
+        notifyListeners();
+      }
       getSearchSuggetion(){
         sugetionsdata.addAll(responseData!.results);
-        sugetionsfilterdata=sugetionsdata;
-
-        sugetionsdata.forEach((element) {
-          title=element!.title;
+        responseData!.results.reversed.forEach((element) {
+          _title=element.title;
         });
+        List<String> newlist = [];
+        for(final i in sugetionsdata){
+          if(!newlist.contains(i!.category.name)){
+            newlist.add(i.category.name);
+          }
 
-        sugetionsfilterdata = sugetionsdata.where((element)=>element!.category.name==element!.category.name).toList();
+        }
 
-        sugetionsfilterdata.forEach((element) {
+        for(int i =0;i<newlist.length;i++){
 
-          print("the category is ${element!.category.name }\n and the title is ${element.title}");
-
-        });
-     // titlecollection=  sugetionsdata.where((element) => element.category.name)
-
-        /*for(int i= 0;i<sugetionsdata.length;i++){
+            titlecollection.clear();
           for(int j=0;j<sugetionsdata.length;j++){
 
-            if(sugetionsdata[i]!.category.name==sugetionsdata[j]!.category.name){
-              titlecollection.add(sugetionsdata[i]!.title.toString());
+            if(newlist[i]==sugetionsdata[j]!.category.name){
+              titlecollection.add(sugetionsdata[j]!.title);
+
             }
+
           }
-        }*/
-
-        print("the suggestgion data is ${sugetionsdata.length}");
-
-    categorylist.forEach((element) {
-      category_names.add(element!.name);
-      print("the formated value length is ----${element.name}");
-
-    });
 
 
-    filterList = category_names.toSet().toList();
-        sugetionsfilterdata= sugetionsdata.toSet().toList();
+          //print("Category == ${newlist[i]} and title == ${titlecollection}\n\n\n");
 
-    for(int i = 0; i< filterList.length; i++){
+         // filterList.addAll(titlecollection);
+          //print("title list is -------------$titlecollection");
 
-      print(filterList[i]);
-    }
-    print("the formated value length is ----${category_names.length}");
+         //data1.addAll({"${newlist[i]}": titlecollection});
+
+         // print("the sugestion data list ------${data1}");
+
+          //print("Whole map is -----------------$data1");
+          
+         /* if(newMap.isNotEmpty){
+            
+            newMap.addAll({"${newlist[i]}":titlecollection});
+            print("Whole map is -----------------$newMap");
+
+          }else{
+            newMap = Map.fromIterable(titlecollection);
+            print("Whole map is -----------------$newMap");
+          }*/
+
+
+
+        }
+
+
+
+
+        //data1.isNotEmpty?print("Whole map is -----------------$data1"):print("Whole map is empty -----------------$newMap");
+
+
+
+
+
+
+
+
       }
 
  /* List <String>getSuggestions(String query)=>filterList.where((element) {
@@ -149,7 +185,7 @@ class OpinionController extends ChangeNotifier {
     return userlower.contains(querydata);
   }).toList();
 */
-   List <quistoin.Result?>getSuggestions(String query)=>sugetionsfilterdata.where((element) {
+   List <quistoin.Result?>getSuggestions(String query)=>sugetionsdata.where((element) {
      final userlower=element!.category.name.toLowerCase();
      final querydata=query.toLowerCase();
      return userlower.contains(querydata);
@@ -157,8 +193,7 @@ class OpinionController extends ChangeNotifier {
 
       double getFractionOfYes(index){
     print("${quistionlist[index].results.categories[0].count/quistionlist[index].results.resultsSet}");
-    print("the yes count${quistionlist[index].results.categories[0].count}");
-    print("total response ${quistionlist[index].results.resultsSet}");
+
       double fraction = (quistionlist[index].results.categories[0].count)/(quistionlist[index].results.resultsSet)*100;
       return fraction;
     }
@@ -166,8 +201,7 @@ class OpinionController extends ChangeNotifier {
 
     double getFractionOfNo(index){
     print("${quistionlist[index].results.categories[1].count/quistionlist[index].results.resultsSet}");
-    print("the yes count${quistionlist[index].results.categories[1].count}");
-    print("total response ${quistionlist[index].results.resultsSet}");
+
     double fraction = (quistionlist[index].results.categories[1].count)/(quistionlist[index].results.resultsSet)*100;
     return fraction;
   }
@@ -200,23 +234,17 @@ class OpinionController extends ChangeNotifier {
     notifyListeners();
   }
   double getFractionOfYesForGender(index,j,k){
-        print("the total response is ${quistionlist[index].resultsByGender[j].resultsSet}");
-        print("the total succes is  ${quistionlist[index].resultsByGender[j].categories[k].count}");
+
     double fraction = (quistionlist[index].resultsByGender[j].categories[k].count)/((quistionlist[index].resultsByGender[j].resultsSet))*100;
-    print("the number of progress bar is$k .....result== ${fraction}");
-    print("the number of label $k  .....name== ${quistionlist[index].resultsByGender[j].categories[k].label}");
+
         return fraction;
   }
 
 
 
   double getFractionProgressForGender(index,j,k){
-    print("the total response is ${quistionlist[index].resultsByGender[j].resultsSet}");
-    print("the total succes is  ${quistionlist[index].resultsByGender[j].categories[k].count}");
-    double fraction = (quistionlist[index].resultsByGender[j].categories[k].count)/((quistionlist[index].resultsByGender[j].resultsSet));
-    print("the number of progress bar is$k .....result== ${fraction}");
-    print("the number of label $k  .....name== ${quistionlist[index].resultsByGender[j].categories[k].label}");
 
+    double fraction = (quistionlist[index].resultsByGender[j].categories[k].count)/((quistionlist[index].resultsByGender[j].resultsSet));
     return fraction;
 
   }
@@ -243,9 +271,19 @@ class OpinionController extends ChangeNotifier {
 
   }
 
+  bool get agelist => _agelist;
 
+  set agelist(bool value) {
+    _agelist = value;
+    notifyListeners();
+  }
 
+  bool get genderlist => _genderlist;
 
+  set genderlist(bool value) {
+    _genderlist = value;
+    notifyListeners();
+  }
 
 /* double getFractionOfNo(index){
     print("${quistionlist[index].results.categories[1].count/quistionlist[index].results.resultsSet}");

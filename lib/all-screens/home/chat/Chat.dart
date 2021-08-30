@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:http/http.dart' as http;
 
 import 'ChatBubble.dart';
 import 'chat-controller.dart';
@@ -107,7 +107,7 @@ class Chat extends StatelessWidget {
                 },
 
                 decoration: InputDecoration.collapsed(
-                  hintText: "${AppLocalizations.of(context)!.enter_message}",
+                  hintText: "Enter message",
                 ),
               ),
             ),

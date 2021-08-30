@@ -28,6 +28,18 @@ class RemoteConfigData{
     return url;
   }
 
+  static getOpinionUrl(String program){
+    String url = "";
+    ResponseRemoteConfigData data = getAllData();
+
+    data.programs.forEach((element) {
+      if(element.name == program){
+        url = element.opinionApi;
+      }
+    });
+    return url;
+  }
+
   static getStoryDetailsUrl(String program){
     String url = "";
     ResponseRemoteConfigData data = getAllData();

@@ -40,7 +40,7 @@ class StoryList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 10),
+                margin: EdgeInsets.only(top: 15),
                 child: Image(
                     fit: BoxFit.fill,
                     height: 30,
@@ -60,6 +60,9 @@ class StoryList extends StatelessWidget {
                   height: 1.5,
                   color: Colors.grey[600],
                 ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Expanded(
                 child: FutureBuilder<List<ResultLocal>>(

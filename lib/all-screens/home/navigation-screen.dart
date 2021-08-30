@@ -30,47 +30,48 @@ class _NavigationScreenState extends State<NavigationScreen> {
         body: IndexedStack(index: _currentIndex, children: tabs),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
               icon: Image.asset(
                 "assets/images/ic_stories.png",
-                height: 45.18,
-                width: 40.66,
+                height: 40.18,
+                width: 33.66,
               ),
               activeIcon: Image.asset(
                 "assets/images/ic_stories_on.png",
-                height: 45.18,
-                width: 40.66,
+                height: 40.18,
+                width: 33.66,
               ),
               label: "${AppLocalizations.of(context)!.stories}",
             ),
             BottomNavigationBarItem(
               icon: Image.asset("assets/images/ic_chat.png",
-                  height: 45.18, width: 40.66),
+                  height: 40.18, width: 33.66),
               activeIcon: Image.asset(
                 "assets/images/ic_chat_on.png",
-                height: 45.18,
-                width: 40.66,
+                height: 40.18,
+                width: 33.66,
               ),
               label: "${AppLocalizations.of(context)!.chat}",
             ),
             BottomNavigationBarItem(
               icon: Image.asset("assets/images/ic_opinions.png",
-                  height: 45.18, width: 40.66),
+                  height: 40.18, width: 33.66),
               activeIcon: Image.asset(
                 "assets/images/ic_opinions_on.png",
-                height: 45.18,
-                width: 40.66,
+                height: 40.18,
+                width: 33.66,
               ),
               label: "${AppLocalizations.of(context)!.opinions}",
             ),
             BottomNavigationBarItem(
               icon: Image.asset("assets/images/ic_more.png",
-                  height: 45.18, width: 40.66),
+                  height: 40.18, width: 33.66),
               activeIcon: Image.asset(
                 "assets/images/ic_more_on.png",
-                height: 45.18,
-                width: 40.66,
+                height: 40.18,
+                width: 33.66,
               ),
               label: "${AppLocalizations.of(context)!.more}",
             ),
@@ -79,6 +80,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
           showUnselectedLabels: true,
           showSelectedLabels: true,
           selectedItemColor: Color(0xff41B6E6),
+          selectedFontSize: 13,
+          unselectedFontSize: 13,
           unselectedItemColor: Colors.black,
           onTap: (int i) {
             setState(() {
