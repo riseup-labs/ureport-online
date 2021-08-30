@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/apicall_responsedata/response_contact_creation.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
 import 'package:ureport_ecaro/network_operation/rapidpro_service.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 import '../../../main.dart';
 import 'model/rapidpro-response-data.dart';
@@ -16,9 +18,10 @@ class ChatController extends ChangeNotifier{
 
   
   List<String>quicktype=[];
-
+  final _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   var contatct = "";
   var _rapidproservice = locator<RapidProService>();
+  var _spservice = locator<SPUtil>();
   FirebaseMessaging firebaseMessaging =  FirebaseMessaging.instance;
 
   List<MessageModel> messagearray =[];
@@ -36,8 +39,15 @@ class ChatController extends ChangeNotifier{
     print("this is firebase fcm token ==  ${_token}");
   }
 
-  addMessage(value){
 
+
+
+  Random _rnd = Random();
+
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
+  addMessage(value){
     messagearray.add(value);
     filtermessage=messagearray.toSet().toList();
     revlist = filtermessage.reversed.toList();
@@ -48,28 +58,33 @@ class ChatController extends ChangeNotifier{
     await getToken();
     if(_token.isNotEmpty){
       print("this is firebase fcm token ==  ${_token}");
-      var apiResponse = await _rapidproservice.createContact(_token, _token,"Unknown",onSuccess:(uuid){
-        contatct=uuid;
-        print("new contact is created ${contatct}");
-      } );
-      // getfirebase();
-      if (apiResponse.httpCode == 200) {
-        responseContactCreation = apiResponse.data;
-        sendmessage("join");
-        /* FirebaseMessaging.onMessage.listen((event) {
 
-           // MessageModel(message: message['notification']['body'], sender: "server",)
+      String _urn =_spservice.getValue(SPUtil.CONTACT_URN);
+      if(_urn==null){
+        String contact_urn = getRandomString(15);
+        var apiResponse = await _rapidproservice.createContact(contact_urn, _token,"Unknown",onSuccess:(uuid){
+          contatct=uuid;
 
-                (Map<String, dynamic> message) async {
+        } );
+        // getfirebase();
+        if (apiResponse.httpCode == 200) {
+          responseContactCreation = apiResponse.data;
+          _spservice.setValue(SPUtil.CONTACT_URN, contact_urn);
+          sendmessage("join");
 
-                  MessageModel(message: message['notification']['body'],sender: "server", status: 'true');
+          notifyListeners();
+        }
 
-                  return true;
+      }else{
 
-          });
-      }*/
-        notifyListeners();
+        String registrationstaus = _spservice.getValue(SPUtil.REGISTRATION_COMPLETE);
+         if(registrationstaus==null|| registrationstaus==""){
+           sendmessage("join");
+         }else{
+           sendmessage("covid");
+         }
       }
+
     }
 
   }
@@ -79,24 +94,25 @@ class ChatController extends ChangeNotifier{
   getfirebase(){
     FirebaseMessaging.onMessage.listen((RemoteMessage remotemessage){
 
-
       List<dynamic> quicktypest;
       if(remotemessage.data["quick_replies"]!=null){
          quicktypest = json.decode(remotemessage.data["quick_replies"]);
-         print("quick type length---------${quicktypest.length}");
       }else{
         quicktypest=[""];
-        print("quick type length---------${quicktypest.length}");
       }
-
       var serverMessage=MessageModel(sender: 'server',message: remotemessage.data["message"],status: "received",quicktypest: quicktypest);
 
-      addMessage(serverMessage);
-
-
-      for(int i =0;i<quicktypest.length;i++){
-        print("quick type data --------------------------====0---------------- ${quicktypest[i]}");
+     const String lastmessage ="You have finished your registration. We are glad to have you with us. Soon you will receive surveys on themes that you care about!";
+     const String lastmessgetwo="You are already registered. Please wait for your first survey.";
+     const String remove_Contact="You are unregistered to UReport. It's sad to see you go. You can come back at anytime by sending the word JOIN.";
+      if(serverMessage.message== lastmessage || serverMessage.message== lastmessgetwo){
+        _spservice.setValue(SPUtil.REGISTRATION_COMPLETE, "YES");
       }
+
+      if(serverMessage.message==remove_Contact){
+        _spservice.setValue(SPUtil.REGISTRATION_COMPLETE, "");
+      }
+      addMessage(serverMessage);
 
 
 
@@ -128,6 +144,7 @@ class ChatController extends ChangeNotifier{
 
 
   sendmessage(message)async{
+    String urn = _spservice.getValue(SPUtil.CONTACT_URN);
 
     await _rapidproservice.sendMessage(message: message, onSuccess: (value){
 
@@ -137,7 +154,7 @@ class ChatController extends ChangeNotifier{
     }, onError:(error){
       print("this is error message $error");
       messagestatus="failed";
-    },urn: _token,fcmToken: _token);
+    },urn: urn,fcmToken: _token);
 
   }
 
@@ -172,7 +189,7 @@ class ChatController extends ChangeNotifier{
 
 
 // app background notification
- getfirebaseonApp(){
+/* getfirebaseonApp(){
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage){
 
@@ -183,7 +200,7 @@ class ChatController extends ChangeNotifier{
 
       if(remoteNotification!=null && androidNotification!=null){
 
-       /* showDialog(context: context, builder: (_){
+       *//* showDialog(context: context, builder: (_){
           return AlertDialog(
             title: Text("${remoteNotification.title}"),
             content: SingleChildScrollView(
@@ -195,7 +212,7 @@ class ChatController extends ChangeNotifier{
               ),
             ),
           );
-        });*/
+        });*//*
 
         flutterLocalNotificationsPlugin.show(remoteNotification.hashCode, remoteNotification.title, remoteNotification.body, NotificationDetails(
 
@@ -211,7 +228,7 @@ class ChatController extends ChangeNotifier{
       }
     });
 
-  }
+  }*/
 
 /*startlastFlow()async{
     await _rapidproservice.startRunflow(responseContactCreation.contactUuid);

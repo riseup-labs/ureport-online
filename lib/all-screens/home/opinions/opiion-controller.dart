@@ -14,33 +14,36 @@ class OpinionController extends ChangeNotifier {
   var _opinionrepository = locator<OpinionRepository>();
   var spservice =locator<SPUtil>();
   List<String>category_names=[];
-
   String _resultCategorytype = "all";
-
   String get resultCategorytype => _resultCategorytype;
-
   set resultCategorytype(String value) {
     _resultCategorytype = value;
     notifyListeners();
   }
-
   bool _islodading=true;
-
-
   bool get islodading => _islodading;
-
   set islodading(bool value) {
     _islodading = value;
     notifyListeners();
   }
 
-
   Map<String, dynamic> newMap = {};
 
 
+  bool _alllist=false;
+  bool _agelist=false;
+  bool _genderlist=false;
+
+
+  bool get alllist => _alllist;
+
+  set alllist(bool value) {
+    _alllist = value;
+    notifyListeners();
+  }
+
   double fraction_value_yes = 0.0;
    TextEditingController _typeAheadController = TextEditingController();
-
   TextEditingController get typeAheadController => _typeAheadController;
   set typeAheadController(TextEditingController value) {
     _typeAheadController = value;
@@ -56,7 +59,15 @@ class OpinionController extends ChangeNotifier {
 
     List<String> titlecollection=[];
 
-     String title="";
+     String _title="";
+
+
+  String get title => _title;
+
+  set title(String value) {
+    _title = value;
+    notifyListeners();
+  }
 
   var data2 = {};
   var data1 = {};
@@ -65,21 +76,13 @@ class OpinionController extends ChangeNotifier {
   getOpinions() async {
 
     var offlinedata = await spservice.getValue(SPUtil.OPINIONDATA);
-    print("The offline data---------------------------------------------------------------${offlinedata}");
     if(offlinedata==null){
-
       var apiresponsedata = await _opinionrepository.getOpinions("1");
-
-
       if(apiresponsedata.httpCode==200){
-
         responseData=apiresponsedata.data;
-
         String totalcount= apiresponsedata.data.count.toString();
       var apiresponsedatafull=await _opinionrepository.getOpinions(totalcount);
       if(apiresponsedatafull.httpCode==200){
-        print("--------------------total count$totalcount");
-        print("--------------------data length after whole data clll ${responseData!.results.length}");
         responseData=apiresponsedatafull.data;
         responseData!.results.forEach((element) {
           quistionlist.addAll(element.questions);
@@ -88,22 +91,17 @@ class OpinionController extends ChangeNotifier {
         getSearchSuggetion();
         notifyListeners();
       }
-
         responseData!.results.forEach((element) {
           quistionlist.addAll(element.questions);
           categorylist.add(element.category);
         });
         getSearchSuggetion();
-
+        notifyListeners();
       }
-
     }else{
-
       var apiresponsedata = await _opinionrepository.getOpinionsoffline();
-
       if(apiresponsedata.httpCode==200){
         responseData=apiresponsedata.data;
-
         responseData!.results.forEach((element) {
           quistionlist.addAll(element.questions);
           categorylist.add(element.category);
@@ -118,22 +116,19 @@ class OpinionController extends ChangeNotifier {
       }
       getSearchSuggetion(){
         sugetionsdata.addAll(responseData!.results);
-        sugetionsdata.forEach((element) {
-          title=element!.title;
+        responseData!.results.reversed.forEach((element) {
+          _title=element.title;
         });
-
-
         List<String> newlist = [];
-
-
-       /* for(final i in sugetionsdata){
+        for(final i in sugetionsdata){
           if(!newlist.contains(i!.category.name)){
             newlist.add(i.category.name);
           }
 
-        }*/
+        }
 
         for(int i =0;i<newlist.length;i++){
+
             titlecollection.clear();
           for(int j=0;j<sugetionsdata.length;j++){
 
@@ -145,17 +140,20 @@ class OpinionController extends ChangeNotifier {
           }
 
 
-         // print("Category == ${newlist[i]} and title == ${titlecollection}\n\n\n");
+          //print("Category == ${newlist[i]} and title == ${titlecollection}\n\n\n");
 
          // filterList.addAll(titlecollection);
           //print("title list is -------------$titlecollection");
-         filterList.addAll(titlecollection);
+
+         //data1.addAll({"${newlist[i]}": titlecollection});
+
+         // print("the sugestion data list ------${data1}");
 
           //print("Whole map is -----------------$data1");
           
          /* if(newMap.isNotEmpty){
             
-           // newMap.addAll({"${newlist[i]}":titlecollection});
+            newMap.addAll({"${newlist[i]}":titlecollection});
             print("Whole map is -----------------$newMap");
 
           }else{
@@ -170,31 +168,12 @@ class OpinionController extends ChangeNotifier {
 
 
 
-        newMap.isNotEmpty?print("Whole map is -----------------$newMap"):print("Whole map is empty -----------------$newMap");
+        //data1.isNotEmpty?print("Whole map is -----------------$data1"):print("Whole map is empty -----------------$newMap");
 
 
 
 
 
-
-
-     /*  for(int i = 0;i<newlist.length;i++){
-         print("the uniq catagory is ========================${newlist[i]}");
-       }
-*/
-
-      /*  sugetionsdata.forEach((object) {
-          sugetionsfilterdata = sugetionsdata.where((element) => element!.category.name==object!.category.name).toList();
-        });
-
-
-        sugetionsfilterdata.forEach((element) {
-
-          print("chek plz-------------------------------${element!.title} and the category  ${element.category.name}");
-
-        });
-*/
-        //titlecollection = sugetionsdata.where((element) => element.category.name)
 
 
 
@@ -292,9 +271,19 @@ class OpinionController extends ChangeNotifier {
 
   }
 
+  bool get agelist => _agelist;
 
+  set agelist(bool value) {
+    _agelist = value;
+    notifyListeners();
+  }
 
+  bool get genderlist => _genderlist;
 
+  set genderlist(bool value) {
+    _genderlist = value;
+    notifyListeners();
+  }
 
 /* double getFractionOfNo(index){
     print("${quistionlist[index].results.categories[1].count/quistionlist[index].results.resultsSet}");

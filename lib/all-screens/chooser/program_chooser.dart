@@ -151,8 +151,6 @@ class _ProgramChooserState extends State<ProgramChooser> {
                               child: Container(
                                 child: ElevatedButton(
                                   onPressed: () {
-                                     var spset = locator<SPUtil>();
-                                     spset.setValue(SPUtil.PROGRAMKEY, dropdownValue);
                                     NavUtils.push(context, NavigationScreen());
                                   },
                                   child: Text('Continue'),

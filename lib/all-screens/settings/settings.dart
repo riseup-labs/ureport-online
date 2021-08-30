@@ -53,14 +53,7 @@ class Settings extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ProgramChooser();
-                      },
-                    ),
-                  );
+
 
                 },
                 child: getItem("Change U-report Program",

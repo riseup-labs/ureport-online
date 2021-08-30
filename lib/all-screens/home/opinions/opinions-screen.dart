@@ -22,16 +22,18 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
   TextEditingController controller = new TextEditingController();
   late AutoCompleteTextField search;
   GlobalKey<AutoCompleteTextFieldState< quistoin.Result> > key = new GlobalKey();
+  String title_local="";
   @override
   void initState() {
     Provider.of<OpinionController>(context,listen: false).getOpinions();
+
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    
+
     print("the buil method is called ...............................");
     AppBar appbarr = AppBar();
     return Consumer<OpinionController>(
@@ -93,9 +95,7 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
                                 childrenPadding: EdgeInsets.only(left: 8,top: 0,bottom: 0,right: 0),
                                 trailing: SizedBox.shrink(),
                                 leading: Icon(Icons.play_arrow_rounded,color: Colors.black,),
-                                title: Row(children: [
-                                  Text("${suggestions!.category.name}",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w700),)
-                                ],),
+                                title: Text("${suggestions!.category.name}",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w700),),
                                 children: [
                                 ListTile(
                                   dense: true,
@@ -107,7 +107,7 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
                             ),
                           ),
                           onSuggestionSelected: (quistoin.Result?suggestion){
-                            suggestion!.title.toString();
+                            provider.typeAheadController.text = suggestion!.title.toString();
                             provider.quistionlist=suggestion.questions;
                             provider.title=suggestion.title;
 
@@ -321,7 +321,7 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
 
                                                   onPressed: (){
 
-                                                    provider.resultCategorytype="location";
+                                                    provider.resultCategorytype="l";
                                                     print("the button type is ${provider.resultCategorytype}");
                                                   },
                                                   child: Text("Location",style: TextStyle(color: Colors.white),),):

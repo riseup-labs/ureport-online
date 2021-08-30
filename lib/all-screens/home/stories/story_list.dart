@@ -17,8 +17,7 @@ class StoryList extends StatelessWidget {
     Provider.of<StoryController>(context, listen: false).initializeDatabase();
     List<ResultLocal>? stories = [];
     Provider.of<StoryController>(context, listen: false).getStoriesFromLocal();
-    Provider.of<StoryController>(context, listen: false)
-        .getStoriesFromRemote(ApiConst.RESULT_STORY_BASEURL);
+    //Provider.of<StoryController>(context, listen: false).getStoriesFromRemote(ApiConst.RESULT_STORY_BASEURL);
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       return SafeArea(

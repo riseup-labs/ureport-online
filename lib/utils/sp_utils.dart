@@ -4,8 +4,9 @@ class SPUtil {
   static String KEY_SUB_DOMAIN = "KEY_SUB_DOMAIN";
 
   static String KEY_AUTH_TOKEN = "KEY_AUTH_TOKEN";
+  static String CONTACT_URN = "CONTACT_URN";
   static String KEY_USER_ID = "KEY_USER_ID";
-  static String KEY_USER_ROLE = "KEY_USER_ROLE";
+  static String REGISTRATION_COMPLETE = "REGISTRATION_COMPLETE";
 
   static String KEY_DARK_THEME = "KEY_DARK_THEME";
   static String PROGRAMKEY = "PROGRAM_KEY";
