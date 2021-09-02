@@ -21,7 +21,6 @@ class LanguageChooser extends StatefulWidget {
 class _LanguageChooserState extends State<LanguageChooser> {
   var dropdownValue = "English";
   String selected_language = "";
-
   var _sp = locator<SPUtil>();
 
   @override

@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 import 'ChatBubble.dart';
 import 'chat-controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 
@@ -107,7 +108,7 @@ class Chat extends StatelessWidget {
                 },
 
                 decoration: InputDecoration.collapsed(
-                  hintText: "Enter message",
+                  hintText: "${AppLocalizations.of(context)!.enter_message}",
                 ),
               ),
             ),
@@ -115,7 +116,6 @@ class Chat extends StatelessWidget {
           Spacer(),
           IconButton(
             icon: Image.asset("assets/images/ic_sand.png"),
-
             onPressed: () {
               sendMessageKey.currentState!.save();
               if (message == "") return;

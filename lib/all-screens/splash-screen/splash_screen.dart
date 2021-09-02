@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
 
     Timer(
-      Duration(seconds: 3),
+      Duration(seconds: 2),
           () {
             var spset = locator<SPUtil>();
             String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
@@ -44,7 +44,6 @@ class _SplashScreenState extends State<SplashScreen> {
     );
 
     return Consumer<RemoteConfigController>(
-
       builder: (context,provider,child){
         return Scaffold(
           body: Container(
