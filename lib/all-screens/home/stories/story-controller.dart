@@ -29,7 +29,6 @@ class StoryController extends ChangeNotifier{
 
   getStoriesFromLocal(String program) {
     return _databaseHelper.getStories(program);
-
   }
 
   clearStoriesTable(){
@@ -38,6 +37,8 @@ class StoryController extends ChangeNotifier{
 
   initializeDatabase(){
     _databaseHelper.initializeDatabase().then((value) {
+
+      print("the database story table created$value");
     });
   }
 }

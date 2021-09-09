@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
@@ -162,14 +163,56 @@ class ChatController extends ChangeNotifier{
 
 
 
+/*
+
+
+getinitialMessage(BuildContext context){
+
+    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+
+      if(message!=null){
+        Navigator.pushNamed(context, routeName);
+      }
+
+
+    });
+
+}
 
 
 
+getNotification(BuildContext context){
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+    if (notification != null && android != null && !kIsWeb) {
+      flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channel.description,
+              // TODO add a proper drawable resource to android, for now using
+              //      one that already exists in example app.
+              icon: 'launch_background',
+            ),
+          ));
+    }
+  });
 
 
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print('A new onMessageOpenedApp event was published!');
+    Navigator.pushNamed(context, '/message', arguments: MessageArguments(message, true));
+  });
+}
 
 
-
+*/
 
 
 
@@ -190,7 +233,7 @@ class ChatController extends ChangeNotifier{
 
 
 // app background notification
-/* getfirebaseonApp(){
+ getfirebaseonApp(){
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage){
 
@@ -201,7 +244,9 @@ class ChatController extends ChangeNotifier{
 
       if(remoteNotification!=null && androidNotification!=null){
 
-       *//* showDialog(context: context, builder: (_){
+
+
+/* showDialog(context: context, builder: (_){
           return AlertDialog(
             title: Text("${remoteNotification.title}"),
             content: SingleChildScrollView(
@@ -213,7 +258,7 @@ class ChatController extends ChangeNotifier{
               ),
             ),
           );
-        });*//*
+        });*/
 
         flutterLocalNotificationsPlugin.show(remoteNotification.hashCode, remoteNotification.title, remoteNotification.body, NotificationDetails(
 
@@ -229,7 +274,7 @@ class ChatController extends ChangeNotifier{
       }
     });
 
-  }*/
+  }
 
 /*startlastFlow()async{
     await _rapidproservice.startRunflow(responseContactCreation.contactUuid);

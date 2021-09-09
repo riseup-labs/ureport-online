@@ -16,4 +16,14 @@ class DatabaseConstant{
   static final columnCategory = "category";
   static final columnCreated_on = "created_on";
 
+
+  // OPINION
+  static final tableNameOpinion = "opinion";
+  static final columnIDOpinion = "id";
+  static final columnTitleOpinion = "title";
+  static final columnCategoryOpinion="category";
+  static final columnOrganizationOpinion = "org";
+  static final columnProgramOpinion = "program";
+  static final columnQuestionOpinion = "questions";
+
 }

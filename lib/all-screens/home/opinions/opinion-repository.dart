@@ -9,6 +9,7 @@ import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 import 'model/Response_opinions.dart';
+import 'model/Response_opinions.dart' as quistionlist;
 
 class OpinionRepository {
   var _httpService = locator<HttpService>();
@@ -16,14 +17,10 @@ class OpinionRepository {
   var sp = locator<SPUtil>();
 
 
-  Future<ApiResponse<ResponseOpinions>> getOpinions( pageno) async {
+  Future<ApiResponse<ResponseOpinions>> getOpinions(String url) async {
 
-    var apiResponse = await _httpService.getRequest(RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),qp: {"limit":pageno});
+    var apiResponse = await _httpService.getRequest(url);
 
-    if(apiResponse.data.data!=null){
-      String makeoffline=jsonEncode(apiResponse.data.data);
-      spservice.setValue( SPUtil.OPINIONDATA, makeoffline);
-    }
     return ApiResponse(
         httpCode: apiResponse.httpCode,
         message: apiResponse.message,
@@ -32,15 +29,24 @@ class OpinionRepository {
 
   }
 
+  Future<ApiResponse<List<quistionlist.Question>>> getOpinionsoffline(quistionlistFromlocal) async {
 
-  Future<ApiResponse<ResponseOpinions>> getOpinionsoffline() async {
+    final mapdata=jsonDecode(quistionlistFromlocal);
 
-    String offlinedata = spservice.getValue(SPUtil.OPINIONDATA);
-    Map<String , dynamic> offlinemapdata= jsonDecode(offlinedata);
+    List<quistionlist.Question> d =(mapdata as List).map((e) => quistionlist.Question.fromJson(e)).toList();
+
+
+
+
+/*    List<quistionlist.Question> quistionlistdata = List.empty(growable: true);
+    (jsonDecode(quistionlistFromlocal) as List).forEach((element) {
+      quistionlistdata.add(quistionlist.Question.fromJson(element));
+    });*/
+
     return ApiResponse(
         httpCode: 200,
         message:"success",
-        data: ResponseOpinions.fromJson(offlinemapdata)
+        data:d
     );
   }
 

@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
+import 'all-screens/home/chat/Chat.dart';
 import 'all-screens/home/chat/chat-controller.dart';
 import 'all-screens/home/navigation-screen.dart';
 import 'all-screens/home/opinions/opiion-controller.dart';
@@ -43,6 +44,9 @@ Future<void> _firebaseMessagingBackgroundhandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print("a background messaged just swafed up ${message.messageId}");
 }
+
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -89,6 +93,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.blue,
+
             ),
             home: SplashScreen(),
             supportedLocales: L10n.all,
