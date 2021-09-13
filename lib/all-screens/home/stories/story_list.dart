@@ -41,115 +41,124 @@ class _StoryListState extends State<StoryList> {
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       return Scaffold(
         body: SafeArea(
-          child: Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 100),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-                      child: Divider(
-                        height: 1.5,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20),
-                        child: FutureBuilder<List<ResultLocal>>(
-                            future: provider.getStoriesFromLocal(
-                                sp.getValue(SPUtil.PROGRAMKEY)),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                stories = List.from(snapshot.data!.reversed);
-                              }
-                              return stories!.length > 0
-                                  ? ListView.builder(
-                                  physics: ScrollPhysics(),
-                                  shrinkWrap: true,
-                                  addAutomaticKeepAlives: true,
-                                  itemCount: stories!.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        NavUtils.push(
-                                            context,
-                                            StoryDetails(
-                                                stories![index]
-                                                    .id
-                                                    .toString(),
-                                                stories![index]
-                                                    .title
-                                                    .toString(),
-                                                stories![index]
-                                                    .images
-                                                    .toString()));
-                                      },
-                                      child: Container(
-                                        child: getItem(
-                                            stories?[index].images != ''
-                                                ? stories![index].images
-                                                : "assets/images/default.jpg",
-                                            "",
-                                            stories![index].title,
-                                            stories![index].summary),
-                                      ),
-                                    );
-                                  })
-                                  : Center(child: CircularProgressIndicator());
-                            }),
-                      ),
-                    ),
-                  ],
-                ),
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/bg_home.png"),
+                fit: BoxFit.cover,
               ),
-              Positioned(
-                  top: 0,
-                  left: 20,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 15),
-                    child: Image(
-                        fit: BoxFit.fill,
-                        height: 30,
-                        width: 150,
-                        image: AssetImage('assets/images/ureport_logo.png')),
-                  )),
-              Positioned(
-                  top: 45,
-                  left: 20,
+            ),
+            child: Stack(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 100),
                   child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: 15, bottom: 10),
-                        child: Text(
-                          "${AppLocalizations.of(context)!.stories}",
-                          style: TextStyle(
-                              fontSize: 24.0,
-                              color: Colors.black,
-                              fontFamily: 'Dosis'),
+                        margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+                        child: Divider(
+                          height: 1.5,
+                          color: Colors.grey[600],
                         ),
-                      )
-                    ],
-                  )),
-              Positioned(
-                  top: 45,
-                  right: 10,
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(4),
-                            bottomRight: Radius.circular(4)),
                       ),
-                      width: 220,
-                      height: 460,
-                      child: searchBarUI(
-                          provider, sp.getValue(SPUtil.PROGRAMKEY)))),
-            ],
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20),
+                          child: FutureBuilder<List<ResultLocal>>(
+                              future: provider.getStoriesFromLocal(
+                                  sp.getValue(SPUtil.PROGRAMKEY)),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  stories = List.from(snapshot.data!.reversed);
+                                }
+                                return stories!.length > 0
+                                    ? ListView.builder(
+                                    physics: ScrollPhysics(),
+                                    shrinkWrap: true,
+                                    addAutomaticKeepAlives: true,
+                                    itemCount: stories!.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          NavUtils.push(
+                                              context,
+                                              StoryDetails(
+                                                  stories![index]
+                                                      .id
+                                                      .toString(),
+                                                  stories![index]
+                                                      .title
+                                                      .toString(),
+                                                  stories![index]
+                                                      .images
+                                                      .toString()));
+                                        },
+                                        child: Container(
+                                          child: getItem(
+                                              stories?[index].images != ''
+                                                  ? stories![index].images
+                                                  : "assets/images/default.jpg",
+                                              "",
+                                              stories![index].title,
+                                              stories![index].summary),
+                                        ),
+                                      );
+                                    })
+                                    : Center(child: CircularProgressIndicator());
+                              }),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                    top: 0,
+                    left: 20,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 15),
+                      child: Image(
+                          fit: BoxFit.fill,
+                          height: 30,
+                          width: 150,
+                          image: AssetImage('assets/images/ureport_logo.png')),
+                    )),
+                Positioned(
+                    top: 45,
+                    left: 20,
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 15, bottom: 10),
+                          child: Text(
+                            "${AppLocalizations.of(context)!.stories}",
+                            style: TextStyle(
+                                fontSize: 24.0,
+                                color: Colors.black,
+                                fontFamily: 'Dosis'),
+                          ),
+                        )
+                      ],
+                    )),
+                Positioned(
+                    top: 45,
+                    right: 10,
+                    child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(4),
+                              bottomRight: Radius.circular(4)),
+                        ),
+                        width: 220,
+                        height: 460,
+                        child: searchBarUI(
+                            provider, sp.getValue(SPUtil.PROGRAMKEY)))),
+              ],
+            ),
           ),
         ),
       );
@@ -288,10 +297,6 @@ class DataPopUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return _buildTiles(popup);
   }
-}
-
-getBackground() {
-  return Image(image: AssetImage("assets/images/bg_home.png"));
 }
 
 getItem(String image_url, String date, String title, String summery) {
