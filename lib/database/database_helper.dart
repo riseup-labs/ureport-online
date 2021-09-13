@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
 import 'package:ureport_ecaro/all-screens/home/opinions/model/response-opinion-localdb.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/model/ResponseStoryLocal.dart';
+import 'package:ureport_ecaro/all-screens/home/stories/model/searchbar.dart';
 import 'package:ureport_ecaro/database/database_constant.dart';
 import '/all-screens/home/stories/model/response-story-data.dart' as storyArray;
 import 'package:ureport_ecaro/all-screens/home/opinions/model/Response_opinions.dart' as opinionArray;
@@ -134,10 +135,31 @@ class DatabaseHelper {
     return _stories;
   }
 
+  Future<List<DataList>> getStoryCategories(String program) async {
+    List<DataList> StoryCategory = [];
+
+    var db = await this.database;
+
+    var result = await db.rawQuery("SELECT DISTINCT category FROM ${DatabaseConstant.tableName} WHERE program = '$program' ORDER BY category ASC");
+    var resultTitle = await db.rawQuery("SELECT * FROM ${DatabaseConstant.tableName} WHERE program = '$program' ORDER by id DESC");
+
+    result.forEach((element) {
+      List<StoryItem> titles = [];
+      var item = ResultLocal.fromJson(element);
+      resultTitle.forEach((element) {
+        var itemTitle = ResultLocal.fromJson(element);
+        if(itemTitle.category == item.category){
+          titles.add(new StoryItem(itemTitle.id,itemTitle.title));
+        }
+      });
+      StoryCategory.add(new DataList(item.category,titles));
+    });
+    return StoryCategory;
+  }
+
   Future<List<ResultOpinionLocal>> getOpinions(String program) async {
     List<ResultOpinionLocal> opinion = [];
     var db = await this.database;
-    // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
     var result = await db.rawQuery("SELECT * FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program'");
     result.forEach((element) {
       var list = ResultOpinionLocal.fromJson(element);

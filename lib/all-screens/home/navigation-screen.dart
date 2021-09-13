@@ -20,8 +20,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final tabs = [
     StoryList(),
     Chat(),
-    OpinionsScreen(),
+    // OpinionsScreen(),
     Settings(),
+    Settings()
   ];
 
   @override

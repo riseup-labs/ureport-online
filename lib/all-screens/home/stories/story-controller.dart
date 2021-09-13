@@ -31,6 +31,10 @@ class StoryController extends ChangeNotifier{
     return _databaseHelper.getStories(program);
   }
 
+  getCategories(String program) {
+    return _databaseHelper.getStoryCategories(program);
+  }
+
   clearStoriesTable(){
     _databaseHelper.deleteStoryTable() ;
   }
