@@ -6,7 +6,9 @@ class DataList {
 }
 
 class StoryItem{
-  StoryItem(this.id, this.title);
+  StoryItem(this.id, this.title, this.image, this.date);
+  String date;
+  String image;
   String title;
   int id;
 }

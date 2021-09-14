@@ -94,6 +94,7 @@ class AppColors {
 
   static var lightBorder = Color(0xffEFEFEF);
   static var offWhiteFA = Color(0xffF5F6FA);
+  static var white = Color(0xffffffff);
   static var lilacColorF7 = Color(0xffE7E7F7);
 
   static var purpleDD = Color(0xff7676DD);

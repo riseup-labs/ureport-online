@@ -9,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'chat/Chat.dart';
 import 'opinions/opinions-screen.dart';
+import 'stories/story_search.dart';
 
 class NavigationScreen extends StatefulWidget {
   @override

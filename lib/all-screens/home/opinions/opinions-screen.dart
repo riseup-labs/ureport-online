@@ -35,8 +35,6 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
     Provider.of<OpinionController>(context, listen: false).getofflinedata(spdata.getValue(SPUtil.PROGRAMKEY));
     Provider.of<OpinionController>(context, listen: false).getOpinionFromServer("${RemoteConfigData.getOpinionUrl(spdata.getValue(SPUtil.PROGRAMKEY))}?limit=30",spdata.getValue(SPUtil.PROGRAMKEY));
     //print("THE BUILD METHOD IS CALLED INSIDE OPINION UI");
-
-
     super.initState();
   }
 
@@ -124,14 +122,14 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
                                                          margin: EdgeInsets.only(left: 25,right: 25,top: 0,bottom: 0),
                                                          padding: EdgeInsets.all(5),
                                                          child:  ListTile(
-                                                           title: Text("${suggestions!.title[index]}",style: TextStyle(color: Colors.black,fontSize: 13,fontWeight: FontWeight.w500),),
+                                                           title: Text("${suggestions.title[index]}",style: TextStyle(color: Colors.black,fontSize: 13,fontWeight: FontWeight.w500),),
                                                          ),),
                                                        SizedBox(height: 3,),
                                                        Divider(height: 1,color: Colors.grey,),
                                                      ],
                                                    );
                                                  },
-                                               itemCount: suggestions!.title.length,
+                                               itemCount: suggestions.title.length,
                                              ),
                                             ],
                                           ),
@@ -2357,7 +2355,7 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemCount: provider.quistionlist[index]
-                                        .resultsByLocation.length??0,
+                                        .resultsByLocation.length,
                                   ),
                                   SizedBox(
                                     height: 10,

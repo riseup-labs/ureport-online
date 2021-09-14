@@ -11,6 +11,12 @@ class StoryController extends ChangeNotifier{
 
   var _storyservice = locator<StroyRipository>();
 
+  var isExpanded = false;
+  void setExpanded(bool state){
+    isExpanded = state;
+    notifyListeners();
+  }
+
   List<storyarray.Result> items = List.empty(growable: true);
   DatabaseHelper _databaseHelper = DatabaseHelper();
 
@@ -29,6 +35,7 @@ class StoryController extends ChangeNotifier{
 
   getStoriesFromLocal(String program) {
     return _databaseHelper.getStories(program);
+
   }
 
   getCategories(String program) {

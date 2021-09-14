@@ -68,11 +68,6 @@ class DatabaseHelper {
     return database;
   }
 
-
-
-
-
-
   Future<bool> insertStory(List<storyArray.Result> list, String program) async {
     var db = await this.database;
     list.forEach((element) async {
@@ -87,15 +82,12 @@ class DatabaseHelper {
         DatabaseConstant.columnVideoId : '',
         DatabaseConstant.columnAudioLink : '',
         DatabaseConstant.columnTags : '',
-        DatabaseConstant.columnImages : element.images.length>0?element.images[0]:'',
+        DatabaseConstant.columnImages : element.images.length>0?element.images[0]:element.category.imageUrl,
         DatabaseConstant.columnCategory : element.category.name,
         DatabaseConstant.columnCreated_on : element.createdOn.toString(),
+
       }, conflictAlgorithm: ConflictAlgorithm.ignore);
-      print("$result");
     });
-
-    print("done");
-
     return true;
 
   }
@@ -149,7 +141,7 @@ class DatabaseHelper {
       resultTitle.forEach((element) {
         var itemTitle = ResultLocal.fromJson(element);
         if(itemTitle.category == item.category){
-          titles.add(new StoryItem(itemTitle.id,itemTitle.title));
+          titles.add(new StoryItem(itemTitle.id,itemTitle.title, itemTitle.images, itemTitle.createdOn));
         }
       });
       StoryCategory.add(new DataList(item.category,titles));

@@ -54,7 +54,7 @@ class HttpService {
 
   Future<ApiResponse<Response>> getRequest(String route, {Map<String, String>? qp}) async {
 
-    _getDio().options.headers={"Authorization":"Token ${ApiConst.WORKSPACETOKEN_LIVE}"};
+    // _getDio().options.headers={"Authorization":"Token ${ApiConst.WORKSPACETOKEN_LIVE}"};
     try {
       Response response = await _getDio().get(
         route,
