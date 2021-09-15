@@ -43,6 +43,24 @@ body {
     margin-bottom:20px;
 }
 
+.cont img{
+  width: 80% !important;
+  margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+.cont iframe{
+  width: 90% !important;
+  margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
 .zoom-holder {
     position: fixed;
     left: 0px;
@@ -113,13 +131,13 @@ body {
             <div class="image_box"><img class = "title_image" src=""></div>
         </div>
 
-        <div id="sourceText" style="display : none"></div>
+        <div id="sourceText" class="cont"></div>
 
-        <div class="textbox" v-bind:style="{ fontSize: font_size + 'px' }">
-            <span v-for="(item,index) in line_array">
-                <span class="tbox" :id="'sp_' + index" v-if="index != 0" v-html="item" v-on:click=""></span>
-            </span>
-        </div>
+<!--        <div class="textbox" v-bind:style="{ fontSize: font_size + 'px' }">-->
+<!--            <span v-for="(item,index) in line_array">-->
+<!--                <span class="tbox" :id="'sp_' + index" v-if="index != 0" v-html="item" v-on:click=""></span>-->
+<!--            </span>-->
+<!--        </div>-->
     </div>
 </div>
 <br><br>
@@ -134,7 +152,7 @@ var vueApp = new Vue({
         storyTitle: "#TitleData",
         line_array: [],
         last_index: 0,
-        line_spliter: " .",
+        line_spliter: "   .",
         stop_flag: false,
         font_size: 16,
         zoomInButton: 1,
@@ -152,7 +170,6 @@ var vueApp = new Vue({
     methods: {
         activate: function() {
             var sourceText = document.getElementById("sourceText").innerHTML;
-            console.log("Playing: "+sourceText);
             this.line_array = sourceText.split(this.line_spliter);
             this.line_array.unshift(this.storyTitle);
 
@@ -178,8 +195,6 @@ var vueApp = new Vue({
             }, 1000);
 
             this.click_locked = 1;
-
-            console.log("Playing: "+textData);
         },
         zoomIn: function() {
             if(this.font_size < 32){

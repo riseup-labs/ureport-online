@@ -118,6 +118,11 @@ class _StorySearchState extends State<StorySearch> {
             scrollPadding: EdgeInsets.only(bottom: 10, top: 5),
             physics: BouncingScrollPhysics(),
             onQueryChanged: (value) {
+              if(value == ""){
+                provider.setExpanded(false);
+              }else{
+                provider.setExpanded(true);
+              }
               setState(() {
                 filteredCategoryList.clear();
                 for (var item in categoryListFull) {
@@ -126,12 +131,10 @@ class _StorySearchState extends State<StorySearch> {
                         .toLowerCase()
                         .contains(value.toLowerCase())) {
                       filteredCategoryList.add(item);
-                      provider.setExpanded(true);
                       break;
                     }
                   }
                 }
-                provider.setExpanded(true);
               });
             },
             automaticallyImplyDrawerHamburger: false,
