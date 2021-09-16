@@ -40,6 +40,7 @@ class _StoryDetailsState extends State<StoryDetails> {
         .responseStoryDetails = null;
   }
 
+
   @override
   Widget build(BuildContext context) {
     var sp = locator<SPUtil>();
@@ -53,51 +54,75 @@ class _StoryDetailsState extends State<StoryDetails> {
           story_content = provider.responseStoryDetails == null
               ? ""
               : provider.responseStoryDetails!.content;
-          return Scaffold(
-              body: SafeArea(
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/bg_select_language.png"),
-                      fit: BoxFit.cover,
+          return WillPopScope(
+            onWillPop: () async {
+              webViewController.webViewController
+                  .canGoBack().then((value) => {
+                if(value){
+                  webViewController.webViewController.
+                  goBack()
+                }else{
+                  Navigator.pop(context)
+                }
+              }
+              );
+              return false;
+            },
+            child: Scaffold(
+                body: SafeArea(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/bg_select_language.png"),
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  child: SafeArea(
-                    child: Stack(
-                      children: [
-                        Container(
-                          height: 60,
-                          padding: EdgeInsets.only(left: 15, right: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(
-                                icon: GestureDetector(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Container(
-                                        width: 50,
-                                        child: Icon(Icons.arrow_back))),
-                                color: Colors.black,
-                                onPressed: () {},
-                              ),
-                              getShareButton(widget.id)
-                            ],
+                    child: SafeArea(
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 60,
+                            padding: EdgeInsets.only(left: 15, right: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  icon: GestureDetector(
+                                      onTap: () {
+                                        webViewController.webViewController
+                                            .canGoBack().then((value) => {
+                                        if(value){
+                                            webViewController.webViewController.
+                                            goBack()
+                                      }else{
+                                        Navigator.pop(context)
+                                        }
+                                      }
+                                        );
+                                      },
+                                      child: Container(
+                                          width: 50,
+                                          child: Icon(Icons.arrow_back))),
+                                  color: Colors.black,
+                                  onPressed: () {},
+                                ),
+                                getShareButton(widget.id)
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 60),
-                          width: double.infinity,
-                          child: loadLocalHTML(
-                              provider, story_content, widget.title,
-                              widget.image, widget.date),
-                        ),
-                      ],
+                          Container(
+                            margin: EdgeInsets.only(top: 60),
+                            width: double.infinity,
+                            child: loadLocalHTML(
+                                provider, story_content, widget.title,
+                                widget.image, widget.date),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ));
+                )),
+          );
         });
   }
 
@@ -126,7 +151,8 @@ class _StoryDetailsState extends State<StoryDetails> {
 
   late WebViewPlusController webViewController;
 
-  loadLocalHTML(StoryDetailsController provider, String content, String title, String image, String date) {
+  loadLocalHTML(StoryDetailsController provider, String content, String title,
+      String image, String date) {
     double _height = 1;
 
     return content == ""
@@ -147,7 +173,7 @@ class _StoryDetailsState extends State<StoryDetails> {
         webViewController = controller;
         controller.webViewController.clearCache();
         // loadData();
-        loadDataRaw(content,title,image,date);
+        loadDataRaw(content, title, image, date);
       },
       onPageFinished: (url) {
         webViewController.getHeight().then((double height) {
@@ -170,27 +196,27 @@ class _StoryDetailsState extends State<StoryDetails> {
         content = content.replaceAll("\"", "\'");
         content = content.replaceAll("\\", "");
 
-        String contentEx = content;
-        if (contentEx.length > 2097152) {
-          contentEx = contentEx.replaceFirst(RegExp('<img.*?>'), '');
-          if (contentEx.length > 2097152) {
-            contentEx = contentEx.replaceFirst(RegExp('<img.*?>'), '');
-            print("Content length3 : ${contentEx.length}");
-            evaluateScript(contentEx);
-          } else {
-            print("Content length2 : ${contentEx.length}");
-            evaluateScript(contentEx);
-          }
-        } else {
-          print("Content length1 : ${contentEx.length}");
-          evaluateScript(contentEx);
-        }
+        // String contentEx = content;
+        // if (contentEx.length > 2097152) {
+        //   contentEx = contentEx.replaceFirst(RegExp('<img.*?>'), '');
+        //   if (contentEx.length > 2097152) {
+        //     contentEx = contentEx.replaceFirst(RegExp('<img.*?>'), '');
+        //     print("Content length3 : ${contentEx.length}");
+        //     evaluateScript(contentEx);
+        //   } else {
+        //     print("Content length2 : ${contentEx.length}");
+        //     evaluateScript(contentEx);
+        //   }
+        // } else {
+        //   print("Content length1 : ${contentEx.length}");
+        //   evaluateScript(contentEx);
+        // }
       },
       javascriptMode: JavascriptMode.unrestricted,
     );
   }
 
-  evaluateScript(String content){
+  evaluateScript(String content) {
     webViewController.webViewController.evaluateJavascript(
         'document.getElementById("sourceText").innerHTML = "$content";');
   }
@@ -200,29 +226,73 @@ class _StoryDetailsState extends State<StoryDetails> {
     webViewController.loadUrl(htmlFilePath);
   }
 
-  loadDataRaw(String content,String title, String image, String date) {
-    String contentEx = content.split('').reversed.join();
+  loadDataRaw(String content, String title, String image, String date) {
+    String contentEx = content
+        .split('')
+        .reversed
+        .join();
     if (contentEx.length > 2097152) {
       contentEx = contentEx.replaceFirst(RegExp('>.*?gmi<'), '');
       if (contentEx.length > 2097152) {
         contentEx = contentEx.replaceFirst(RegExp('>.*?gmi<'), '');
-        loadHtml(contentEx.split('').reversed.join(),title,image,date);
+        loadHtml(contentEx
+            .split('')
+            .reversed
+            .join(), title, image, date);
         // loadHtml(contentEx);
       } else {
-        loadHtml(contentEx.split('').reversed.join(),title,image,date);
+        loadHtml(contentEx
+            .split('')
+            .reversed
+            .join(), title, image, date);
       }
     } else {
-      loadHtml(contentEx.split('').reversed.join(),title,image,date);
+      loadHtml(contentEx
+          .split('')
+          .reversed
+          .join(), title, image, date);
       // String htmlFilePath = 'assets/storypage/pages/story.html';
       // webViewController.loadUrl(htmlFilePath);
     }
   }
 
   loadHtml(String content, String title, String image, String date) {
-
     final dateTime = DateTime.parse(date);
     final format = DateFormat('dd MMMM, yyyy');
     final clockString = format.format(dateTime);
+    content = content.replaceAll("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll("<br><br><br><br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll("<br><br><br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll("<br><br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll("<br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll("<br><br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll("<br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll("<br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll("<br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll("<br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll("<br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll("<br><br><br><br>", "<br><br>");
+    content = content.replaceAll("<br><br><br>", "<br><br>");
+
+
+    content = content.replaceAll("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "\n\n");
+    content = content.replaceAll("\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "\n\n");
+    content = content.replaceAll("\n\n\n\n\n\n\n\n\n\n\n\n\n", "\n\n");
+    content = content.replaceAll("\n\n\n\n\n\n\n\n\n\n\n\n", "\n\n");
+    content = content.replaceAll("\n\n\n\n\n\n\n\n\n\n\n", "\n\n");
+    content = content.replaceAll("\n\n\n\n\n\n\n\n\n\n", "\n\n");
+    content = content.replaceAll("\n\n\n\n\n\n\n\n\n", "\n\n");
+    content = content.replaceAll("\n\n\n\n\n\n\n\n", "\n\n");
+    content = content.replaceAll("\n\n\n\n\n\n\n", "\n\n");
+    content = content.replaceAll("\n\n\n\n\n\n", "\n\n");
+    content = content.replaceAll("\n\n\n\n\n", "\n\n");
+    content = content.replaceAll("\n\n\n\n", "\n\n");
+    content = content.replaceAll("\n\n\n", "\n\n");
+
+
+
+
+
 
     String final_content = '''
     <html> 
@@ -233,7 +303,7 @@ class _StoryDetailsState extends State<StoryDetails> {
     p{font-size: 24px;}
     </style> 
     <body> 
-    <div><h5>$clockString/h5></div>
+    <div><h5>$clockString</h5></div>
     <div><h2>$title</h2></div>
     <div class="image_box"><img class = "title_image" src="$image"></div>
     <div>$content</div> 

@@ -19,123 +19,126 @@ class StoryList extends StatelessWidget {
     var sp = locator<SPUtil>();
     Provider.of<StoryController>(context, listen: false).initializeDatabase();
     List<ResultLocal>? stories = [];
-    Provider.of<StoryController>(context, listen: false).getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
-    Provider.of<StoryController>(context, listen: false).getStoriesFromRemote(RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),sp.getValue(SPUtil.PROGRAMKEY));
+    Provider.of<StoryController>(context, listen: false)
+        .getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
+    Provider.of<StoryController>(context, listen: false).getStoriesFromRemote(
+        RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+        sp.getValue(SPUtil.PROGRAMKEY));
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       return SafeArea(
           child: Scaffold(
               body: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/bg_home.png"),
-                    fit: BoxFit.cover,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/bg_home.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(left: 20, right: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 15),
+                child: Image(
+                    fit: BoxFit.fill,
+                    height: 30,
+                    width: 150,
+                    image: AssetImage('assets/images/ureport_logo.png')),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 15, bottom: 10),
+                    child: Text(
+                      "${AppLocalizations.of(context)!.stories}",
+                      style: TextStyle(
+                          fontSize: 24.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 15),
-                        child: Image(
-                            fit: BoxFit.fill,
-                            height: 30,
-                            width: 150,
-                            image: AssetImage('assets/images/ureport_logo.png')),
+                  GestureDetector(
+                    onTap: () {
+                      NavUtils.push(context, StorySearch());
+                    },
+                    child: Card(
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 15,bottom: 10),
-                            child: Text(
-                              "${AppLocalizations.of(context)!.stories}",
-                              style: TextStyle(
-                                  fontSize: 24.0, color: Colors.black, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: (){
-                              NavUtils.push(context, StorySearch());
-                            },
-                            child: Card(
-                              elevation: 1,
-                              child: Container(
-                                width: 200,
-                                padding: EdgeInsets.only(left: 10),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(8))
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.search),
-                                    SizedBox(width: 5),
-                                    Text("Search")
-                                  ],
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      Container(
-                        child: Divider(
-                          height: 1.5,
-                          color: Colors.grey[600],
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        child: Icon(
+                          Icons.search,
+                          size: 22,
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Expanded(
-                        child: FutureBuilder<List<ResultLocal>>(
-                            future: provider.getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY)),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                stories = List.from(snapshot.data!.reversed);
-                              }
-                              return stories!.length > 0
-                                  ? ListView.builder(
-                                  physics: ScrollPhysics(),
-                                  shrinkWrap: true,
-                                  addAutomaticKeepAlives: true,
-                                  itemCount: stories!.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        print("Date is ${stories![index].createdOn}");
-                                        NavUtils.push(
-                                            context,
-                                            StoryDetails(
-                                                stories![index].id.toString(),
-                                                stories![index].title.toString(),
-                                                stories![index].images.toString(),
-                                                stories![index].createdOn.toString()
-                                            ));
-                                      },
-                                      child: Container(
-                                        child: getItem(
-                                            stories?[index].images != ''
-                                                ? stories![index].images
-                                                : "assets/images/default.jpg",
-                                            "",
-                                            stories![index].title,
-                                            stories![index].summary),
-                                      ),
-                                    );
-                                  })
-                                  : Center(child: CircularProgressIndicator());
-                            }),
-                      ),
-                    ],
-                  ),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: 5,),
+              Container(
+                child: Divider(
+                  height: 1.5,
+                  color: Colors.grey[600],
                 ),
-              ))
-      );
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: FutureBuilder<List<ResultLocal>>(
+                    future: provider
+                        .getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY)),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        stories = List.from(snapshot.data!.reversed);
+                      }
+                      return stories!.length > 0
+                          ? ListView.builder(
+                              physics: ScrollPhysics(),
+                              shrinkWrap: true,
+                              addAutomaticKeepAlives: true,
+                              itemCount: stories!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    print(
+                                        "Date is ${stories![index].createdOn}");
+                                    NavUtils.push(
+                                        context,
+                                        StoryDetails(
+                                            stories![index].id.toString(),
+                                            stories![index].title.toString(),
+                                            stories![index].images.toString(),
+                                            stories![index]
+                                                .createdOn
+                                                .toString()));
+                                  },
+                                  child: Container(
+                                    child: getItem(
+                                        stories?[index].images != ''
+                                            ? stories![index].images
+                                            : "assets/images/default.jpg",
+                                        "",
+                                        stories![index].title,
+                                        stories![index].summary),
+                                  ),
+                                );
+                              })
+                          : Center(child: CircularProgressIndicator());
+                    }),
+              ),
+            ],
+          ),
+        ),
+      )));
     });
   }
 }
@@ -186,10 +189,10 @@ getItemTitleImage(String image_url) {
           color: AppColors.errorWidgetBack,
           child: Center(
               child: Image(
-                image: AssetImage("assets/images/ic_no_image.png"),
-                height: 50,
-                width: 50,
-              ))),
+            image: AssetImage("assets/images/ic_no_image.png"),
+            height: 50,
+            width: 50,
+          ))),
     ),
   );
 }

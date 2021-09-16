@@ -65,6 +65,7 @@ dependencies:
   infinite_scroll_pagination: ^3.0.1
   dotted_line: ^3.0.0
   material_floating_search_bar: ^0.3.4
+  audioplayers: ^0.20.1
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +94,7 @@ flutter:
     - assets/storypage/js/
     - assets/storypage/pages/
     - assets/storypage/tts_anim/
+    - assets/audio/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

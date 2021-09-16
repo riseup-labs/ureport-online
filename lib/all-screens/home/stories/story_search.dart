@@ -28,6 +28,13 @@ class _StorySearchState extends State<StorySearch> {
   var sp = locator<SPUtil>();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<StoryController>(context, listen: false).isExpanded = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     Provider.of<StoryController>(context, listen: false)
         .getCategories(sp.getValue(SPUtil.PROGRAMKEY));
@@ -84,8 +91,7 @@ class _StorySearchState extends State<StorySearch> {
                             color: AppColors.white,
                             child: ListView.builder(
                               itemBuilder: (BuildContext context, int index) =>
-                                  DataPopUp(
-                                      filteredCategoryList[index], provider),
+                                  DataPopUp(filteredCategoryList[index], provider),
                               itemCount: filteredCategoryList.length,
                             ),
                           );
@@ -174,7 +180,7 @@ Widget buildItem(StoryItem item, BuildContext context) {
           onTap: () {
             _floatingSearchBarController.clear();
             _floatingSearchBarController.close();
-            NavUtils.push(
+            NavUtils.pushReplacement(
                 context,
                 StoryDetails(item.id.toString(), item.title.toString(),
                     item.image,
@@ -195,9 +201,12 @@ Widget buildItem(StoryItem item, BuildContext context) {
               SizedBox(
                 height: 3,
               ),
-              Divider(
-                height: 1,
-                color: AppColors.gray7E,
+              Container(
+                margin: EdgeInsets.only(left: 17, right: 17),
+                child: Divider(
+                  height: 1,
+                  color: AppColors.gray7E,
+                ),
               )
             ],
           )));
@@ -219,29 +228,37 @@ class DataPopUp extends StatelessWidget {
       list.add(buildItem(item, context));
     }
 
-    return ExpansionTile(
-      key: PageStorageKey<DataList>(root),
-      textColor: Colors.black,
-      collapsedTextColor: Colors.black,
-      trailing: Icon(Icons.arrow_drop_down),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            root.title,
-            style: TextStyle(fontWeight: FontWeight.bold),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 5, bottom: 3),
+          child: ExpansionTile(
+            key: PageStorageKey<DataList>(root),
+            textColor: Colors.black,
+            collapsedTextColor: Colors.black,
+            trailing: Icon(Icons.arrow_drop_down),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  root.title,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+
+            children: list,
+            initiallyExpanded: provider.isExpanded,
           ),
-          SizedBox(
-            height: 10,
-          ),
-          DottedLine(
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 17, right: 17),
+          child: DottedLine(
             dashColor: AppColors.primary,
             dashLength: 2,
-          )
-        ],
-      ),
-      children: list,
-      initiallyExpanded: provider.isExpanded,
+          ),
+        )
+      ],
     );
   }
 

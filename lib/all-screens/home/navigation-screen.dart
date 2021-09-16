@@ -1,15 +1,12 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_list.dart';
 import 'package:ureport_ecaro/all-screens/settings/settings.dart';
-import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 
 import 'chat/Chat.dart';
-import 'opinions/opinions-screen.dart';
-import 'stories/story_search.dart';
 
 class NavigationScreen extends StatefulWidget {
   @override
@@ -18,6 +15,7 @@ class NavigationScreen extends StatefulWidget {
 
 class _NavigationScreenState extends State<NavigationScreen> {
   int _currentIndex = 0;
+
   final tabs = [
     StoryList(),
     Chat(),
@@ -25,6 +23,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
     Settings(),
     Settings()
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +91,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
           unselectedFontSize: 13,
           unselectedItemColor: Colors.black,
           onTap: (int i) {
+
+            ClickSound.buttonClickYes();
+
             setState(() {
               _currentIndex = i;
               i++;
