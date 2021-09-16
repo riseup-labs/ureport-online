@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:sqflite/sqflite.dart';
+import 'package:ureport_ecaro/all-screens/home/chat/model/response-local-chat-parsing.dart';
 import 'package:ureport_ecaro/all-screens/home/opinions/model/response-opinion-localdb.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/model/ResponseStoryLocal.dart';
 import 'package:ureport_ecaro/database/database_constant.dart';
+import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
 import '/all-screens/home/stories/model/response-story-data.dart' as storyArray;
 import 'package:ureport_ecaro/all-screens/home/opinions/model/Response_opinions.dart' as opinionArray;
 class DatabaseHelper {
@@ -60,6 +62,16 @@ class DatabaseHelper {
           ${DatabaseConstant.columnQuestionOpinion} text)
           
         ''');
+        db.execute('''
+          create table ${DatabaseConstant.tableNameMessage} ( 
+          ${DatabaseConstant.columnIDmessage} integer primary key AUTOINCREMENT NOT NULL, 
+          ${DatabaseConstant.message} text,
+          ${DatabaseConstant.sender} text,
+          ${DatabaseConstant.status} text,
+          ${DatabaseConstant.quicktypest} text,
+          ${DatabaseConstant.time} text)
+          
+        ''');
 
 
       },
@@ -68,6 +80,30 @@ class DatabaseHelper {
   }
 
 
+
+
+
+
+  Future<bool> insertConversation(List<MessageModel> list) async {
+    var db = await this.database;
+    list.forEach((element) async {
+      print("the inserted quicktype data is ..... ${element.quicktypest}");
+      // var result = await db.insert(DatabaseConstant.tableName, element.toJson());
+      var result = await db.insert(DatabaseConstant.tableNameMessage, {
+        DatabaseConstant.message : element.message,
+        DatabaseConstant.sender : element.sender,
+        DatabaseConstant.status : element.status,
+        DatabaseConstant.quicktypest : jsonEncode(element.quicktypest),
+        DatabaseConstant.time : element.time,
+      }, conflictAlgorithm: ConflictAlgorithm.ignore);
+      print("$result");
+    });
+
+    print("done");
+
+    return true;
+
+  }
 
 
 
@@ -122,6 +158,47 @@ class DatabaseHelper {
 
   }
 
+
+
+  Future<List<MessageModelLocal>> getConversation() async {
+    List<MessageModelLocal> _conversation = [];
+    var db = await this.database;
+    // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
+    var result = await db.rawQuery("SELECT * FROM ${DatabaseConstant.tableNameMessage} ");
+    result.forEach((element) {
+      var list =MessageModelLocal.fromJson(element);
+      _conversation.add(list);
+    });
+    return _conversation;
+  }
+
+
+
+  Future<bool> deleteConversation() async {
+    var db = await this.database;
+    db.transaction((txn)async {
+      var batch = txn.batch();
+
+      batch.delete(DatabaseConstant.tableNameMessage);
+      await batch.commit();
+    });
+    // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
+    await db.rawDelete("delete FROM ${DatabaseConstant.tableNameMessage}");
+    print("message deleted");
+    return true;
+  }
+
+  deleteSingelMessage(time)async{
+    var db = await this.database;
+    // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
+    await db.rawDelete("delete  FROM ${DatabaseConstant.tableNameMessage} where ${DatabaseConstant.time}='${time}'");
+    return true;
+
+  }
+
+
+
+
   Future<List<ResultLocal>> getStories(String program) async {
     List<ResultLocal> _stories = [];
     var db = await this.database;
@@ -157,9 +234,9 @@ class DatabaseHelper {
     return category;
   }
 
-  Future<List<String>> getOpinionTitle(String category) async {
+  Future<List<String?>> getOpinionTitle(String category) async {
 
-    List<String> titles =[];
+    List<String?> titles =[];
     var db = await this.database;
     var result = await db.rawQuery("SELECT DISTINCT ${DatabaseConstant.columnTitleOpinion} FROM  ${DatabaseConstant.tableNameOpinion} WHERE ${DatabaseConstant.columnCategoryOpinion} = '$category'");
     result.forEach((element) {

@@ -4,29 +4,48 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_list.dart';
 import 'package:ureport_ecaro/all-screens/settings/settings.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'chat/Chat.dart';
+import 'chat/model/golbakey.dart';
 import 'opinions/opinions-screen.dart';
 
 class NavigationScreen extends StatefulWidget {
+
+
+
+
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
+
+
+
   int _currentIndex = 0;
+
+
   final tabs = [
     StoryList(),
+
     Chat(),
     OpinionsScreen(),
     Settings(),
   ];
 
   @override
+  void initState() {
+
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         body: IndexedStack(index: _currentIndex, children: tabs),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,

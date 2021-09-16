@@ -10,8 +10,8 @@ class ResultOpinionLocal {
   });
 
 
-  int id;
-  String title;
+  int? id;
+  String? title;
   dynamic org;
   String category;
   String questions;

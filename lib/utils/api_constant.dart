@@ -32,4 +32,17 @@ class ApiConst{
   static String RESULT_OPINION_BASEURL= "https://ureport.in/api/v1/polls/org/13/";
   static String RESULT_STORY_BASEURL= "https://ureport.in/api/v1/stories/org/13";
   static String RESULT_STORY_DETAILS_BASEURL= "https://ureport.in/api/v1/stories/";
+
+  static const String KEYWORD1= "join";
+  static const String KEYWORD2= "quit";
+  static const String KEYWORD3= "keyword 3";
+  static const String KEYWORD4= "keyword 4";
+
+  static const List<String>Choicekeyord=[
+    KEYWORD1,
+    KEYWORD2,
+    KEYWORD3,
+    KEYWORD3
+  ];
+
 }

@@ -105,11 +105,11 @@ class OpinionController extends ChangeNotifier {
   List<quistoin.Question> reversequestionlist = [];
   List<quistoin.Result?> opinionList = [];
   List<String> category = [];
-  List<String> title = [];
+  List<String?> title = [];
   ResponseOpinions? responseData;
   List<Sugetiondata> suggetiondataoptimized=[];
   String categorydefault="";
-  String defaultTitle="";
+  String? defaultTitle="";
   var sdata =<String, dynamic>{};
 
 
@@ -167,7 +167,7 @@ Future<bool> getofflinedata(String program)async{
   defaultTitle="";
   categorydefault="";
   suggetiondataoptimized=[];
-  notifyListeners();
+  //notifyListeners();
   print("the programke inside getofilnedata .......$program");
     await  getCategory(program).then((valued)async {
      if(category.isNotEmpty){
@@ -202,7 +202,7 @@ Future<bool> getofflinedata(String program)async{
   }
 
 
-  Future<List<String>> getTitle(String category)async{
+  Future<List<String?>> getTitle(String category)async{
     var apiresponse= await _databaseHelper.getOpinionTitle(category);
     title=apiresponse;
    // getOfflineQuestions(title[0]);
@@ -210,8 +210,8 @@ Future<bool> getofflinedata(String program)async{
   }
 
 
-  getOfflineQuestions(String programTitle)async{
-    List<String> questionsJson= await _databaseHelper.getOpinionQuestion(programTitle);
+  getOfflineQuestions(String? programTitle)async{
+    List<String?> questionsJson= await _databaseHelper.getOpinionQuestion(programTitle!);
 
 
     for(int i =questionsJson.length;i>0;i--){

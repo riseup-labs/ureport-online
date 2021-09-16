@@ -1,6 +1,8 @@
-/*
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
 
 class MessageHandler extends StatefulWidget {
   final Widget child;
@@ -18,15 +20,8 @@ class MessageHandlerState extends State<MessageHandler> {
     child = widget.child;
 
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remoteMessage) {
 
 
-      Navigator.pushNamed(context, '/message',
-          arguments: MessageArguments(message, true));
-
-    });
-
-    */
 /*fm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: ${message['data']['screen']}");
@@ -61,7 +56,7 @@ class MessageHandlerState extends State<MessageHandler> {
           //do nothing
         }
       },
-    );*//*
+    );*/
 
   }
 
@@ -69,4 +64,4 @@ class MessageHandlerState extends State<MessageHandler> {
   Widget build(BuildContext context) {
     return child;
   }
-}*/
+}

@@ -1,4 +1,4 @@
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +21,7 @@ class OpinionsScreen extends StatefulWidget {
 
 class _OpinionsScreenState extends State<OpinionsScreen> {
   TextEditingController controller = new TextEditingController();
-  late AutoCompleteTextField search;
-  GlobalKey<AutoCompleteTextFieldState<quistoin.Result>> key = new GlobalKey();
+
   String title_local = "";
   var spdata = locator<SPUtil>();
   int titleIndex=0;
@@ -33,7 +32,7 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
     //Provider.of<OpinionController>(context, listen: false).forceEmptydata();
     //Provider.of<OpinionController>(context, listen: false).opinionList=[];
     Provider.of<OpinionController>(context, listen: false).getofflinedata(spdata.getValue(SPUtil.PROGRAMKEY));
-    Provider.of<OpinionController>(context, listen: false).getOpinionFromServer("${RemoteConfigData.getOpinionUrl(spdata.getValue(SPUtil.PROGRAMKEY))}?limit=30",spdata.getValue(SPUtil.PROGRAMKEY));
+    //Provider.of<OpinionController>(context, listen: false).getOpinionFromServer("${RemoteConfigData.getOpinionUrl(spdata.getValue(SPUtil.PROGRAMKEY))}?limit=30",spdata.getValue(SPUtil.PROGRAMKEY));
     //print("THE BUILD METHOD IS CALLED INSIDE OPINION UI");
 
 
@@ -186,7 +185,7 @@ class _OpinionsScreenState extends State<OpinionsScreen> {
                     ),
 
                     //title container
-                    provider.defaultTitle!="" ||  provider.defaultTitle.isNotEmpty?   Container(
+                    provider.defaultTitle!="" ||  provider.defaultTitle!=""?   Container(
                       child: Text(
                         "${provider.defaultTitle}",
                         style: TextStyle(

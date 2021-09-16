@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
@@ -6,6 +7,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
+import 'package:ureport_ecaro/all-screens/home/chat/model/messagehandler.dart';
+import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/apicall_responsedata/response_contact_creation.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
@@ -13,7 +17,12 @@ import 'package:ureport_ecaro/network_operation/rapidpro_service.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 import '../../../main.dart';
+import 'Chat.dart';
+import 'message-handler.dart';
+import 'model/golbakey.dart';
 import 'model/rapidpro-response-data.dart';
+import 'model/response-local-chat-parsing.dart';
+import 'notification-service.dart';
 
 class ChatController extends ChangeNotifier{
 
@@ -26,32 +35,171 @@ class ChatController extends ChangeNotifier{
   FirebaseMessaging firebaseMessaging =  FirebaseMessaging.instance;
 
   List<MessageModel> messagearray =[];
-  var revlist;
-  var filtermessage;
+   List<MessageModel> revlist=[];
+   List<MessageModelLocal> localmessage=[];
 
+
+   List<MessageModelLocal> ordered=[];
+   List<MessageThread>messageThread=[];
+   List<dynamic>quicktypedata=[];
+  var filtermessage;
+  DatabaseHelper _databaseHelper = DatabaseHelper();
   String messagestatus="sending";
 
   late ResponseContactCreation responseContactCreation;
   var _urn="";
   String _token ="";
-  getToken() async {
 
+
+  bool _selectall=false;
+
+
+  bool get selectall => _selectall;
+
+  set selectall(bool value) {
+    _selectall = value;
+    notifyListeners();
+  }
+
+  List<int>individualselect=[];
+  List<MessageModelLocal>selectedMessage=[];
+
+
+  deleteorginalMessage(){
+
+    for(int i = 0;i<individualselect.length;i++){
+
+      MessageModelLocal local = MessageModelLocal(
+          message: "This Message was Deleted",
+          sender: localmessage[individualselect[i]].sender,
+          status: localmessage[individualselect[i]].status,
+          quicktypest: localmessage[individualselect[i]].quicktypest,
+          time: localmessage[individualselect[i]].time);
+
+      deleteSingleMessage(localmessage[individualselect[i]].time);
+      localmessage[individualselect[i]]= local;
+      print("individula select is .................${individualselect[i]}");
+
+    }
+    individualselect.clear();
+    selectedMessage.clear();
+    selectall=false;
+    notifyListeners();
+  }
+
+
+  addSelectionMessage(MessageModelLocal msg){
+    selectedMessage.add(msg);
+    notifyListeners();
+  }
+
+  deleteSelectionMessage(MessageModelLocal msg){
+    selectedMessage.remove(msg);
+    notifyListeners();
+  }
+
+
+  sellectAllItems(){
+    print("total item is.................${localmessage.length}");
+    for(int i =0;i<=localmessage.length;i++){
+      individualselect.add(i);
+    }
+    notifyListeners();
+  }
+
+  addselectionitems(int index,){
+
+    individualselect.add(index);
+
+    notifyListeners();
+  }
+  removeIndex(int index,){
+
+    individualselect.remove(index,);
+
+    notifyListeners();
+  }
+
+  getToken() async {
     _token = (await FirebaseMessaging.instance.getToken())!;
     print("this is firebase fcm token ==  ${_token}");
   }
 
-
-
-
   Random _rnd = Random();
-
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
-  addMessage(value){
-    messagearray.add(value);
+  addMessage(MessageModel messageModel)async{
+    messagearray.add(messageModel);
     filtermessage=messagearray.toSet().toList();
     revlist = filtermessage.reversed.toList();
+   await _databaseHelper.insertConversation(messagearray).then((value) async{
+
+     await _databaseHelper.getConversation().then((valuereal) {
+       ordered.addAll(valuereal);
+      localmessage=ordered.reversed.toList();
+
+      List<dynamic>quicktypedata = json.decode(localmessage[0].quicktypest.toString());
+       print("...................getconversation called 2 $quicktypedata");
+
+
+
+      /* for(int i =0;i<localmessage.length;i++){
+
+         List<dynamic>quicktypelist=[];
+         if(localmessage[i].quicktypest!=null){
+           quicktypelist= json.decode(localmessage[i].quicktypest.toString());
+           print("quick type list is ${quicktypelist}");
+
+           var message = MessageThread(message: localmessage[i].message, sender: localmessage[i].sender,
+               status: localmessage[i].status, quicktypest: quicktypelist, time: localmessage[i].time);
+           messageThread.add(message);
+         }
+       }
+*/
+
+     });
+
+   });
+
+    notifyListeners();
+  }
+
+  List<dynamic>quicdata(String ss){
+
+    List<dynamic>data=[];
+    if(ss!="null" && ss.isNotEmpty && ss!=""){
+      data = json.decode(ss);
+      print("the length is ${data.length}");
+      return data;
+    }else {
+      print("the length is ${data.length}");
+      return data;
+    }
+  }
+
+
+  deleteSingleMessage(time)async{
+
+    print("message time $time");
+    //localmessage.remove(item);
+    await _databaseHelper.deleteSingelMessage(time);
+  }
+
+  delteAllMessage( )async{
+
+    await _databaseHelper.deleteConversation();
+    localmessage.clear();
+    notifyListeners();
+
+  }
+
+
+
+  deleteMessageAfterFiveDays()async{
+
+    await _databaseHelper.deleteConversation();
+    print("all message deleted.....................");
     notifyListeners();
   }
 
@@ -59,7 +207,6 @@ class ChatController extends ChangeNotifier{
     await getToken();
     if(_token.isNotEmpty){
       print("this is firebase fcm token ==  ${_token}");
-
       String _urn =_spservice.getValue(SPUtil.CONTACT_URN);
       if(_urn==null){
         String contact_urn = getRandomString(15);
@@ -80,7 +227,7 @@ class ChatController extends ChangeNotifier{
 
         String registrationstaus = _spservice.getValue(SPUtil.REGISTRATION_COMPLETE);
          if(registrationstaus==null|| registrationstaus==""){
-           sendmessage("join");
+           //sendmessage("join");
          }else{
            sendmessage("covid");
          }
@@ -91,17 +238,43 @@ class ChatController extends ChangeNotifier{
   }
 
 
+  deletemsgAfterfiveDays()async{
+    await _databaseHelper.getConversation().then((valuereal) {
+      ordered.addAll(valuereal);
+
+      //get curreent date
+      DateTime now = DateTime.now();
+      var earler = now.subtract(const Duration(seconds: 15));
+      String olderdate = DateFormat('kk:mm:ss \n EEE d MMM').format(earler);
+      //compare c_date with valuereal.date
+      valuereal.forEach((element) async{
+        if(earler.isBefore(DateTime.parse(element.time))){
+          await _databaseHelper.deleteSingelMessage(element.time);
+        }
+      });
+      //if(return 5 days) delete single row where date = valuereal.date
+      notifyListeners();
+    });
+
+      }
+
   //on app notification
   getfirebase(){
     FirebaseMessaging.onMessage.listen((RemoteMessage remotemessage){
 
+      DateTime now = DateTime.now();
+      String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
       List<dynamic> quicktypest;
       if(remotemessage.data["quick_replies"]!=null){
          quicktypest = json.decode(remotemessage.data["quick_replies"]);
       }else{
         quicktypest=[""];
       }
-      var serverMessage=MessageModel(sender: 'server',message: remotemessage.data["message"],status: "received",quicktypest: quicktypest);
+      var serverMessage=MessageModel(sender: 'server',
+          message: remotemessage.data["message"],
+          status: "received",
+          quicktypest: quicktypest,
+          time: formattedDate);
 
      const String lastmessage ="You have finished your registration. We are glad to have you with us. Soon you will receive surveys on themes that you care about!";
      const String lastmessgetwo="You are already registered. Please wait for your first survey.";
@@ -115,13 +288,6 @@ class ChatController extends ChangeNotifier{
         _spservice.setValue(SPUtil.REGISTRATION_COMPLETE, "");
       }
       addMessage(serverMessage);
-
-
-
-
-
-
-
 
 
 
@@ -144,8 +310,37 @@ class ChatController extends ChangeNotifier{
     });
   }
 
+  loaddefaultmessage()async{
+    ordered.clear();
+    localmessage.clear();
+    await _databaseHelper.getConversation().then((valuereal) {
+      ordered.addAll(valuereal);
+      localmessage=ordered.reversed.toList();
+      print("load message called again-------- ${localmessage.length}");
+      notifyListeners();
 
-  sendmessage(message)async{
+    });
+  }
+
+  sendkeyword(String keyword){
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
+    MessageModel messageModel = MessageModel(
+      message: keyword,
+      sender: "user",
+      status: "Sending...",
+      quicktypest: [""],
+      time: formattedDate
+    );
+
+    addMessage(messageModel);
+    sendmessage(keyword);
+    messageModel.status=messagestatus;
+    notifyListeners();
+
+  }
+
+  sendmessage(String message)async{
     String urn = _spservice.getValue(SPUtil.CONTACT_URN);
 
     await _rapidproservice.sendMessage(message: message, onSuccess: (value){
@@ -163,73 +358,29 @@ class ChatController extends ChangeNotifier{
 
 
 
-/*
-
-
-getinitialMessage(BuildContext context){
-
-    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
-
-      if(message!=null){
-        Navigator.pushNamed(context, routeName);
-      }
-
-
-    });
-
-}
-
-
-
-getNotification(BuildContext context){
-
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
-    if (notification != null && android != null && !kIsWeb) {
-      flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channel.description,
-              // TODO add a proper drawable resource to android, for now using
-              //      one that already exists in example app.
-              icon: 'launch_background',
-            ),
-          ));
-    }
-  });
-
-
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    print('A new onMessageOpenedApp event was published!');
-    Navigator.pushNamed(context, '/message', arguments: MessageArguments(message, true));
-  });
-}
-
-
-*/
-
-
-
-
-
-/* getfirebaseInitialmessage(){
-
-
+ getfirebaseInitialmessage(){
     FirebaseMessaging.instance
-        .getInitialMessage()
-        .then((RemoteMessage? message) async {
-      assert(message != null);
-      print("the message is ${message!.data["message"]}");
-      MessageModel(sender: 'server',message: message.data["message"],status: "received");
+        .getInitialMessage().then((RemoteMessage? remotemessage) {
+
+      DateTime now = DateTime.now();
+      String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
+      List<dynamic> quicktypest;
+      if(remotemessage!.data["quick_replies"]!=null){
+        quicktypest = json.decode(remotemessage.data["quick_replies"]);
+      }else{
+        quicktypest=[""];
+      }
+      print("the notification message is ${remotemessage.notification!.body}");
+      var notificationmessage_terminatestate = MessageModel(sender: 'server',
+          message: remotemessage.notification!.body,
+          status: "received",
+          quicktypest: quicktypest,time:formattedDate);
+      addMessage(notificationmessage_terminatestate);
+      //FirebaseNotificationService.display(remotemessage);
+
 
     });
-  }*/
+  }
 
 
 // app background notification
@@ -237,30 +388,35 @@ getNotification(BuildContext context){
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage){
 
+      DateTime now = DateTime.now();
+      String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
+      List<dynamic> quicktypest;
+      if(remotemessage.data["quick_replies"]!=null){
+        quicktypest = json.decode(remotemessage.data["quick_replies"]);
+      }else{
+        quicktypest=[""];
+      }
+      print("the notification message is ${remotemessage.notification!.body}");
+      var notificationmessage = MessageModel(
+          sender: 'server',
+          message: remotemessage.notification!.body,
+          status: "received",
+          quicktypest: quicktypest,
+          time:formattedDate);
+      addMessage(notificationmessage);
+     // FirebaseNotificationService.display(remotemessage);
 
 
-      RemoteNotification? remoteNotification = remotemessage.notification;
-      AndroidNotification? androidNotification = remotemessage.notification?.android;
 
-      if(remoteNotification!=null && androidNotification!=null){
+    /*  if(remoteNotification!=null && androidNotification!=null){
 
 
 
-/* showDialog(context: context, builder: (_){
-          return AlertDialog(
-            title: Text("${remoteNotification.title}"),
-            content: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("${remoteNotification.body}"),
-                ],
-              ),
-            ),
-          );
-        });*/
 
-        flutterLocalNotificationsPlugin.show(remoteNotification.hashCode, remoteNotification.title, remoteNotification.body, NotificationDetails(
+
+
+        flutterLocalNotificationsPlugin.show(remoteNotification.hashCode,
+            remoteNotification.title, remoteNotification.body, NotificationDetails(
 
             android: AndroidNotificationDetails(
               channel.id,
@@ -271,37 +427,11 @@ getNotification(BuildContext context){
               icon: '@mipmap/ic_launcher',
             )
         ));
-      }
+      }*/
     });
 
   }
 
-/*startlastFlow()async{
-    await _rapidproservice.startRunflow(responseContactCreation.contactUuid);
-  }
 
-  startflow()async{
-
-    var apiresponse = await _rapidproservice.getSingleContact(responseContactCreation.contactUuid);
-
-    if(apiresponse.httpCode==200){
-      _urn=apiresponse.data.results[0].urns.single;
-      print("found contact successfully ${apiresponse.data.results[0].urns}");
-
-      var validator= apiresponse.data;
-      validator.results[0].groups.forEach((element)async {
-
-        if(element['name']=='Registered'){
-
-          return await _rapidproservice.startRunflow(responseContactCreation.contactUuid);
-        }
-
-      });
-
-      await _rapidproservice.startflow("e13441e4-b487-47db-b456-09a228968950", "${apiresponse.data.results[0].urns.single}",);
-    }
-
-
-  }*/
 
 }

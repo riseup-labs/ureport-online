@@ -99,7 +99,7 @@ class Category {
     required this.name,
   });
 
-  String imageUrl;
+  String? imageUrl;
   String name;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(

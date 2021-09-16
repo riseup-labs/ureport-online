@@ -25,7 +25,7 @@ class ResultLocal {
   String videoId;
   String audioLink;
   String tags;
-  int org;
+  int? org;
   String images;
   String category;
   String createdOn;

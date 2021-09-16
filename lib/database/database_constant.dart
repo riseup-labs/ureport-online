@@ -26,4 +26,20 @@ class DatabaseConstant{
   static final columnProgramOpinion = "program";
   static final columnQuestionOpinion = "questions";
 
+
+
+
+  // message
+
+  static final tableNameMessage = "messagetable";
+  static final columnIDmessage = "id";
+  static final message = "message";
+  static final sender="sender";
+  static final status="status";
+  static final quicktypest = "quicktypest";
+  static final time = "time";
+
+
+
+
 }

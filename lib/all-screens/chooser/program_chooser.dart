@@ -4,6 +4,7 @@ import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/home/opinions/opiion-controller.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -204,6 +205,8 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                       onPressed: () {
                                         spset.setValue(SPUtil.PROGRAMKEY, dropdownValue);
                                         spset.setValue(SPUtil.OPINIONDATA, "");
+                                        MessageModel messageModel = MessageModel(message: "", sender: "", status: "", quicktypest: [],time: "");
+
                                         NavUtils.pushAndRemoveUntil(context, NavigationScreen());
                                       },
                                       child: Text('Continue'),
