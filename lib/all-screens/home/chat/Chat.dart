@@ -404,7 +404,7 @@ class Chat extends StatelessWidget {
                         ),
                       ],
                     ),
-                    //done
+                    //donee
 
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
