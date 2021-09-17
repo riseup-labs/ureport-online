@@ -514,6 +514,10 @@ class Chat extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
 
+                                        SizedBox(height: 5,),
+
+                                        Text("Are You Sure? Do you want to delete this message? ",style:TextStyle(color:Colors.red,fontSize: 15)),
+                                        SizedBox(height: 5,),
                                         GestureDetector(
                                             onTap:(){
                                               provider.deleteorginalMessage();

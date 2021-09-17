@@ -147,7 +147,7 @@ class _SeetingDetailsState extends State<SeetingDetails> {
                           return Dialog(
 
                             child: Container(
-                              margin: EdgeInsets.only(left: 15,right: 15),
+                              margin: EdgeInsets.only(left: 10,right: 10),
 
                               width: double.infinity,
                               height: 120,
@@ -159,7 +159,19 @@ class _SeetingDetailsState extends State<SeetingDetails> {
                               child: Column(
 
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+
+                                  SizedBox(height: 5,),
+
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("Are You Sure?Do you want to delete this message? ",style:TextStyle(color:Colors.red,fontSize: 15)),
+
+                                    ],
+                                  ),
+                                  SizedBox(height: 5,),
 
                                   GestureDetector(
                                       onTap:()async{
