@@ -418,6 +418,7 @@ class Chat extends StatelessWidget {
                                   ),
                                 ),
                                 provider.localmessage[index].sender == "server" ? Container() : ChatAvatar("assets/images/ic_user_box.png"),
+                                SizedBox(width: 10,),
 
                               ],
                             ),
