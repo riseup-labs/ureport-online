@@ -101,7 +101,7 @@ class Chat extends StatelessWidget {
                         keyword: [
                           "join",
                           "quit",
-                          "covid19"
+                          "covid 19"
                         ],
                          iconColor: Colors.white,
                          onChange: (index) {
@@ -114,7 +114,7 @@ class Chat extends StatelessWidget {
                  ),
                   Expanded(
                     child: Container(
-                      child: ListView.builder(
+                      child:  provider.localmessage.length>0? ListView.builder(
                         controller: _scrollController,
                         itemCount: provider.localmessage.length>0 ? provider.localmessage?.length:0,
                         reverse: true,
@@ -172,7 +172,7 @@ class Chat extends StatelessWidget {
                                   children: [
                                     provider.localmessage[index].sender == 'server' ?
                                     Container(
-                                      padding: EdgeInsets.only(top: 15,bottom: 15,right: 15,left: 15),
+                                      padding: EdgeInsets.only(top: 5,bottom: 5,right: 15,left: 15),
                                       margin: EdgeInsets.only(right: 10),
                                       decoration: BoxDecoration(
                                         color:Color(0xffF5FCFF),
@@ -182,7 +182,7 @@ class Chat extends StatelessWidget {
                                       child:  Text(provider.localmessage[index].message!,style: TextStyle(color: Colors.black,fontSize: 15,fontWeight:FontWeight.w400),textAlign: TextAlign.left,),
                                     ):
                                     Container(
-                                      padding: EdgeInsets.only(top: 15,bottom: 15,right: 10,left: 15),
+                                      padding: EdgeInsets.only(top: 5,bottom: 5,right: 10,left: 15),
                                       decoration: BoxDecoration(
                                         color:  Color(0xff41B6E6),
                                         borderRadius: BorderRadius.circular(10),
@@ -203,12 +203,14 @@ class Chat extends StatelessWidget {
                                           children: [
                                             GestureDetector(
                                               onTap:(){
+                                                DateTime now = DateTime.now();
+                                                String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
                                                 MessageModel messageModel = MessageModel(
                                                     message: provider.quicdata(provider.localmessage[index].quicktypest.toString())[j],
                                                     sender: "user",
                                                     status: "Sending...",
                                                     quicktypest: [""],
-                                                    time: ""
+                                                    time: formattedDate
                                                 );
                                                 provider.addMessage(messageModel);
                                                 provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
@@ -357,12 +359,14 @@ class Chat extends StatelessWidget {
                                             children: [
                                               GestureDetector(
                                                 onTap:(){
+                                                  DateTime now = DateTime.now();
+                                                  String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
                                                   MessageModel messageModel = MessageModel(
                                                       message: provider.quicdata(provider.localmessage[index].quicktypest.toString())[j],
                                                       sender: "user",
                                                       status: "Sending...",
                                                       quicktypest: [""],
-                                                      time: ""
+                                                      time: formattedDate
                                                   );
                                                   provider.addMessage(messageModel);
                                                   provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
@@ -420,6 +424,35 @@ class Chat extends StatelessWidget {
                             ),
                           );
                         },
+                      ):
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child:Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(left:12,right: 12,top: 5,bottom: 5),
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.all(Radius.circular(20))
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+
+                                  Icon(Icons.not_interested_rounded,size: 12,color: Colors.black,),
+                                  SizedBox(width: 5,),
+
+                                  Text("All Previous Message was deleted",
+                                    style: TextStyle(color: Colors.black,fontSize: 12,fontWeight:FontWeight.w700),
+                                    textAlign: TextAlign.left,),
+
+                                ],
+                              ) ,
+                            ),
+                            SizedBox(height: 20,),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -563,7 +596,7 @@ class Chat extends StatelessWidget {
                 String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
                 sendMessageKey.currentState!.save();
                 if (message == "") return;
-                MessageModel messageModel = MessageModel(
+                final messageModel = MessageModel(
                   message: message,
                   sender: "user",
                   status: "Sending...",

@@ -73,7 +73,7 @@ class ChatController extends ChangeNotifier{
           message: "This Message was Deleted",
           sender: localmessage[individualselect[i]].sender,
           status: localmessage[individualselect[i]].status,
-          quicktypest: localmessage[individualselect[i]].quicktypest,
+          quicktypest: "",
           time: localmessage[individualselect[i]].time);
 
       updateSingleMessage(localmessage[individualselect[i]].time,"This Message was Deleted");
@@ -197,6 +197,7 @@ class ChatController extends ChangeNotifier{
   delteAllMessage( )async{
 
     await _databaseHelper.deleteConversation();
+    ordered.clear();
     localmessage.clear();
     notifyListeners();
 
@@ -205,7 +206,6 @@ class ChatController extends ChangeNotifier{
 
 
   deleteMessageAfterFiveDays()async{
-
     await _databaseHelper.deleteConversation();
     print("all message deleted.....................");
     notifyListeners();

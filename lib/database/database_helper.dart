@@ -200,7 +200,7 @@ class DatabaseHelper {
   updateSingleMessage(time,msg)async{
     var db = await this.database;
     // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
-    await db.rawDelete("UPDATE  ${DatabaseConstant.tableNameMessage} SET ${DatabaseConstant.message} ='$msg' where ${DatabaseConstant.time}='${time}'");
+    await db.rawDelete("UPDATE  ${DatabaseConstant.tableNameMessage} SET ${DatabaseConstant.message} ='$msg', ${DatabaseConstant.quicktypest}='null' where ${DatabaseConstant.time}='${time}'");
     return true;
 
   }
