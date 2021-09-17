@@ -69,7 +69,7 @@ class DatabaseHelper {
           ${DatabaseConstant.sender} text,
           ${DatabaseConstant.status} text,
           ${DatabaseConstant.quicktypest} text,
-          ${DatabaseConstant.time} text),
+          ${DatabaseConstant.time} text)
          
           
         ''');

@@ -69,6 +69,8 @@ class ChatController extends ChangeNotifier{
 
     for(int i = 0;i<individualselect.length;i++){
 
+      print("the sender is .....==============================...${i}");
+
       MessageModelLocal local = MessageModelLocal(
           message: "This Message was Deleted",
           sender: localmessage[individualselect[i]].sender,
@@ -248,7 +250,7 @@ class ChatController extends ChangeNotifier{
 
   deletemsgAfterfiveDays()async{
     await _databaseHelper.getConversation().then((valuereal) {
-      ordered.addAll(valuereal);
+     // ordered.addAll(valuereal);
 
       //get curreent date
       DateTime now = DateTime.now();
@@ -256,9 +258,11 @@ class ChatController extends ChangeNotifier{
       String olderdate = DateFormat('kk:mm:ss \n EEE d MMM').format(earler);
       //compare c_date with valuereal.date
       valuereal.forEach((element) async{
+/*
         if(earler.isBefore(DateTime.parse(element.time))){
           await _databaseHelper.deleteSingelMessage(element.time);
         }
+*/
       });
       //if(return 5 days) delete single row where date = valuereal.date
       notifyListeners();

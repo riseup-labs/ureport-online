@@ -30,7 +30,6 @@ class Chat extends StatelessWidget {
     Provider.of<ChatController>(context,listen: false).getfirebaseInitialmessage();
     Provider.of<ChatController>(context,listen: false).getfirebase();
     Provider.of<ChatController>(context,listen: false).getfirebaseonApp();
-    Provider.of<ChatController>(context,listen: false).deletemsgAfterfiveDays();
     Provider.of<ChatController>(context,listen: false).loaddefaultmessage();
   //  Provider.of<ChatController>(context,listen: false).getNotification(context);
    // Provider.of<ChatController>(context,listen: false).messagearray.clear();
@@ -500,7 +499,7 @@ class Chat extends StatelessWidget {
                                 return Dialog(
 
                                   child: Container(
-                                    margin: EdgeInsets.only(left: 15,right: 15),
+                                    margin: EdgeInsets.only(left: 10,right: 10),
 
                                     width: double.infinity,
                                     height: 120,
@@ -514,9 +513,16 @@ class Chat extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
 
+
                                         SizedBox(height: 5,),
 
-                                        Text("Are You Sure? Do you want to delete this message? ",style:TextStyle(color:Colors.red,fontSize: 15)),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text("Are You Sure?Do you want to delete this message? ",style:TextStyle(color:Colors.red,fontSize: 15)),
+
+                                          ],
+                                        ),
                                         SizedBox(height: 5,),
                                         GestureDetector(
                                             onTap:(){
