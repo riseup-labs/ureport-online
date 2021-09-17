@@ -142,12 +142,50 @@ class _SeetingDetailsState extends State<SeetingDetails> {
                     GestureDetector(
                       onTap: ()async{
 
+                        showDialog(context: context, builder: (_){
 
-                        await _databaseHelper.deleteConversation().then((value) {
+                          return Dialog(
 
-                          NavUtils.push(context,NavigationScreen());
+                            child: Container(
+                              margin: EdgeInsets.only(left: 15,right: 15),
 
+                              width: double.infinity,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  color: Colors.white
+
+                              ),
+                              child: Column(
+
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+
+                                  GestureDetector(
+                                      onTap:()async{
+                                        await _databaseHelper.deleteConversation().then((value) {
+
+                                          NavUtils.push(context,NavigationScreen());
+
+                                        });
+                                      },
+                                      child: Text("Delete",style: TextStyle(color: Colors.red,fontSize: 18),)),
+                                  SizedBox(height: 10,),
+                                  Divider(height: 1,color: Colors.grey,),
+                                  SizedBox(height: 10,),
+                                  GestureDetector(
+                                      onTap:(){
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Cancel",style: TextStyle(color: Colors.blue,fontSize: 18),)),
+
+                                ],
+                              ),
+                            ),
+                          );
                         });
+
+
                       },
                       child: Container(
                         padding: EdgeInsets.only(left: 15,right: 15,top: 3,bottom: 3),

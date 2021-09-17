@@ -7,6 +7,7 @@ class MessageModel {
   List<dynamic> quicktypest;
   String time;
 
+
   MessageModel({
     required this.message,
     required this.sender,

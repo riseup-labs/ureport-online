@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
 import 'package:ureport_ecaro/utils/api_constant.dart';
@@ -6,6 +7,8 @@ import 'ChatAvatar.dart';
 import 'ChatBubble.dart';
 import 'chat-controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'custom-popup-menu.dart';
 
 
 
@@ -85,15 +88,28 @@ class Chat extends StatelessWidget {
                          child:Text("Select All",style: TextStyle(color: Colors.blue,fontSize: 15),),
                        ),
                      )
-                         :Container(
+                         :GestureDetector(
+
+                       onTap: (){
+
+                       },
+                           child: Container(
+
                        padding: EdgeInsets.only(left:20,right: 20),
                        margin: EdgeInsets.only(top: 15),
-                       child:Image(
-                           fit: BoxFit.fill,
-                           height: 18,
-                           width: 18,
-                           image: AssetImage('assets/images/ic_chat_menu.png')),
+                       child: SimpleAccountMenu(
+                        keyword: [
+                          "join",
+                          "quit",
+                          "covid19"
+                        ],
+                         iconColor: Colors.white,
+                         onChange: (index) {
+                           print(index);
+                         }, borderRadius: BorderRadius.all(Radius.circular(10)),
+                       ),
                      ),
+                         ),
                    ],
                  ),
                   Expanded(
@@ -104,7 +120,7 @@ class Chat extends StatelessWidget {
                         reverse: true,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
-                          return provider.selectall==true? Row(
+                          return provider.selectall==true && provider.localmessage[index].message!="This Message was Deleted"?  Row(
                             mainAxisAlignment: provider.localmessage[index].sender == 'server'
                                 ? MainAxisAlignment.start
                                 : MainAxisAlignment.end,
@@ -210,7 +226,7 @@ class Chat extends StatelessWidget {
                                                 child: Center(child: Text("${provider.quicdata(provider.localmessage[index].quicktypest.toString())[j]}",style: TextStyle(color: Colors.black,fontSize:15,fontWeight: FontWeight.w400),)),
                                               ),
                                             ),
-                                            SizedBox(height: 10,),
+                                            SizedBox(height: 5,),
                                           ],
                                         );
                                       } ,
@@ -239,6 +255,7 @@ class Chat extends StatelessWidget {
                       Text(message.message,style: TextStyle(color: Colors.black,fontSize: 15,fontWeight:FontWeight.bold),textAlign: TextAlign.left,):
                       Text(message.message,style: TextStyle(color: Colors.white,fontSize: 15,fontWeight:FontWeight.bold),textAlign: TextAlign.right,),
                     ),*/
+
                                     provider.localmessage[index].sender == 'user'
                                         ? Text(
                                       provider.localmessage[index].status != "Sent" ? "Sending.." : "Sent",
@@ -277,31 +294,56 @@ class Chat extends StatelessWidget {
                                     crossAxisAlignment: provider.localmessage[index].sender == 'server'?CrossAxisAlignment.start:CrossAxisAlignment.end,
                                     children: [
                                       provider.localmessage[index].sender == 'server' ?
+
                                       Container(
-                                        padding: EdgeInsets.only(top: 15,bottom: 15,right: 15,left: 15),
+                                        padding: EdgeInsets.only(top: 5,bottom: 5,right: 15,left: 15),
                                         margin: EdgeInsets.only(right: 10),
                                         decoration: BoxDecoration(
-                                          color:Color(0xffF5FCFF),
+                                          color:provider.localmessage[index].message=="This Message was Deleted"?Colors.grey: Color(0xffF5FCFF),
                                           borderRadius: BorderRadius.circular(10),
 
                                         ),
-                                        child: provider.localmessage[index].message=="This Message was Deleted" ? Text(provider.localmessage[index].message!,style
-                                            : TextStyle(color: Colors.grey,fontSize: 15,fontWeight:FontWeight.w400),
-                                          textAlign: TextAlign.left,):Text(provider.localmessage[index].message!,style
-                                            : TextStyle(color: Colors.black,fontSize: 15,fontWeight:FontWeight.w400),
+                                        child: provider.localmessage[index].message=="This Message was Deleted" ? Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(provider.localmessage[index].message!,
+                                              style: TextStyle(color: Colors.black,fontSize: 12,fontWeight:FontWeight.w400),
+                                              textAlign: TextAlign.left,),
+                                            SizedBox(width: 5,),
+                                            Icon(Icons.not_interested_rounded,size: 12,color: Colors.black,),
+                                          ],
+                                        ):
+                                        Text(provider.localmessage[index].message!,style: TextStyle(color: Colors.black,fontSize: 15,fontWeight:FontWeight.w400),
                                           textAlign: TextAlign.left,),
 
 
                                       ):
                                       Container(
-                                        padding: EdgeInsets.only(top: 15,bottom: 15,right: 10,left: 15),
+                                        padding: EdgeInsets.only(top: 5,bottom: 5,right: 10,left: 15),
                                         decoration: BoxDecoration(
-                                          color:  Color(0xff41B6E6),
+                                          color:  provider.localmessage[index].message=="This Message was Deleted"?Colors.grey: Color(0xff41B6E6),
                                           borderRadius: BorderRadius.circular(10),
 
                                         ),
-                                        child:Text(provider.localmessage[index].message!,style: TextStyle(color: Colors.white,fontSize: 15,fontWeight:FontWeight.w400),textAlign: TextAlign.right,),
+                                        child: provider.localmessage[index].message=="This Message was Deleted" ? Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+
+                                            Icon(Icons.not_interested_rounded,size: 12,color: Colors.black,),
+                                            SizedBox(width: 5,),
+
+                                            Text(provider.localmessage[index].message!,
+                                              style: TextStyle(color: Colors.black,fontSize: 12,fontWeight:FontWeight.w400),
+                                              textAlign: TextAlign.left,),
+
+                                          ],
+                                        ):
+                                        Text(provider.localmessage[index].message!,style: TextStyle(color: Colors.white,fontSize: 15,fontWeight:FontWeight.w400),
+                                          textAlign: TextAlign.left,),
                                       ),
+
+
+
                                       SizedBox(
                                         height: 10,
                                       ),
@@ -367,14 +409,6 @@ class Chat extends StatelessWidget {
                       Text(message.message,style: TextStyle(color: Colors.black,fontSize: 15,fontWeight:FontWeight.bold),textAlign: TextAlign.left,):
                       Text(message.message,style: TextStyle(color: Colors.white,fontSize: 15,fontWeight:FontWeight.bold),textAlign: TextAlign.right,),
                     ),*/
-                                      provider.localmessage[index].sender == 'user'
-                                          ? Text(
-                                        provider.localmessage[index].status != "Sent" ? "Sending.." : "Sent",
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                        ),
-                                      )
-                                          : Container(),
 
                                       SizedBox(height: 10,)
                                     ],
@@ -391,6 +425,7 @@ class Chat extends StatelessWidget {
                   ),
                   SizedBox(height: 10,),
                   Container(
+
                     width: double.infinity,
                     height: 64,
                     decoration: BoxDecoration(
@@ -524,6 +559,8 @@ class Chat extends StatelessWidget {
             child: IconButton(
               icon: Image.asset("assets/images/ic_sand.png"),
               onPressed: () {
+                DateTime now = DateTime.now();
+                String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
                 sendMessageKey.currentState!.save();
                 if (message == "") return;
                 MessageModel messageModel = MessageModel(
@@ -531,7 +568,7 @@ class Chat extends StatelessWidget {
                   sender: "user",
                   status: "Sending...",
                   quicktypest: [""],
-                  time: ""
+                  time: formattedDate
                 );
                 provider.addMessage(messageModel);
                 provider.sendmessage(message);
@@ -546,4 +583,12 @@ class Chat extends StatelessWidget {
   }
 
 
+
+
+
 }
+
+
+
+
+

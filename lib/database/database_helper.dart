@@ -69,7 +69,8 @@ class DatabaseHelper {
           ${DatabaseConstant.sender} text,
           ${DatabaseConstant.status} text,
           ${DatabaseConstant.quicktypest} text,
-          ${DatabaseConstant.time} text)
+          ${DatabaseConstant.time} text),
+         
           
         ''');
 
@@ -195,6 +196,16 @@ class DatabaseHelper {
     return true;
 
   }
+
+  updateSingleMessage(time,msg)async{
+    var db = await this.database;
+    // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
+    await db.rawDelete("UPDATE  ${DatabaseConstant.tableNameMessage} SET ${DatabaseConstant.message} ='$msg' where ${DatabaseConstant.time}='${time}'");
+    return true;
+
+  }
+
+
 
 
 

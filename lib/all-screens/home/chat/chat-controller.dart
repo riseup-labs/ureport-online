@@ -76,7 +76,7 @@ class ChatController extends ChangeNotifier{
           quicktypest: localmessage[individualselect[i]].quicktypest,
           time: localmessage[individualselect[i]].time);
 
-      deleteSingleMessage(localmessage[individualselect[i]].time);
+      updateSingleMessage(localmessage[individualselect[i]].time,"This Message was Deleted");
       localmessage[individualselect[i]]= local;
       print("individula select is .................${individualselect[i]}");
 
@@ -97,6 +97,7 @@ class ChatController extends ChangeNotifier{
     selectedMessage.remove(msg);
     notifyListeners();
   }
+
 
 
   sellectAllItems(){
@@ -184,6 +185,13 @@ class ChatController extends ChangeNotifier{
     print("message time $time");
     //localmessage.remove(item);
     await _databaseHelper.deleteSingelMessage(time);
+  }
+
+  updateSingleMessage(time,msg)async{
+
+    print("message time $time");
+    //localmessage.remove(item);
+    await _databaseHelper.updateSingleMessage(time,msg);
   }
 
   delteAllMessage( )async{
@@ -431,6 +439,8 @@ class ChatController extends ChangeNotifier{
     });
 
   }
+
+
 
 
 
