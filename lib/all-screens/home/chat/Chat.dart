@@ -32,7 +32,8 @@ class Chat extends StatelessWidget {
     Provider.of<ChatController>(context,listen: false).getfirebaseonApp();
     Provider.of<ChatController>(context,listen: false).loaddefaultmessage();
   //  Provider.of<ChatController>(context,listen: false).getNotification(context);
-   // Provider.of<ChatController>(context,listen: false).messagearray.clear();
+
+    Provider.of<ChatController>(context,listen: false).deletemsgAfterfiveDays();
 
 
 
@@ -80,7 +81,8 @@ class Chat extends StatelessWidget {
                      provider.selectall==true? GestureDetector(
 
                        onTap: (){
-                         provider.sellectAllItems();
+                        // provider.sellectAllItems();
+                         provider.selectAllMessage();
                        },
                        child: Container(
                          margin: EdgeInsets.only(right: 15),
@@ -113,13 +115,14 @@ class Chat extends StatelessWidget {
                  ),
                   Expanded(
                     child: Container(
-                      child:  provider.localmessage.length>0? ListView.builder(
+                      child:  provider.localmessage.length>0  ? ListView.builder(
                         controller: _scrollController,
                         itemCount: provider.localmessage.length>0 ? provider.localmessage?.length:0,
                         reverse: true,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
-                          return provider.selectall==true && provider.localmessage[index].message!="This Message was Deleted"?  Row(
+                          return provider.selectall==true && provider.localmessage[index].message!="This Message was Deleted"?
+                          Row(
                             mainAxisAlignment: provider.localmessage[index].sender == 'server'
                                 ? MainAxisAlignment.start
                                 : MainAxisAlignment.end,
@@ -203,7 +206,7 @@ class Chat extends StatelessWidget {
                                             GestureDetector(
                                               onTap:(){
                                                 DateTime now = DateTime.now();
-                                                String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
+                                                String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
                                                 MessageModel messageModel = MessageModel(
                                                     message: provider.quicdata(provider.localmessage[index].quicktypest.toString())[j],
                                                     sender: "user",
@@ -257,14 +260,14 @@ class Chat extends StatelessWidget {
                       Text(message.message,style: TextStyle(color: Colors.white,fontSize: 15,fontWeight:FontWeight.bold),textAlign: TextAlign.right,),
                     ),*/
 
-                                    provider.localmessage[index].sender == 'user'
+                                  /*  provider.localmessage[index].sender == 'user'
                                         ? Text(
                                       provider.localmessage[index].status != "Sent" ? "Sending.." : "Sent",
                                       style: TextStyle(
                                         fontSize: 10,
                                       ),
                                     )
-                                        : Container(),
+                                        : Container(),*/
 
                                     SizedBox(height: 10,)
                                   ],
@@ -359,7 +362,7 @@ class Chat extends StatelessWidget {
                                               GestureDetector(
                                                 onTap:(){
                                                   DateTime now = DateTime.now();
-                                                  String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
+                                                  String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
                                                   MessageModel messageModel = MessageModel(
                                                       message: provider.quicdata(provider.localmessage[index].quicktypest.toString())[j],
                                                       sender: "user",
@@ -430,7 +433,7 @@ class Chat extends StatelessWidget {
                         child:Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Container(
+                            provider.firstmessageStatus()==true? Container(
                               padding: EdgeInsets.only(left:12,right: 12,top: 5,bottom: 5),
                               decoration: BoxDecoration(
                                 color: Colors.grey,
@@ -449,7 +452,7 @@ class Chat extends StatelessWidget {
 
                                 ],
                               ) ,
-                            ),
+                            ):SizedBox(),
                             SizedBox(height: 20,),
                           ],
                         ),
@@ -527,7 +530,7 @@ class Chat extends StatelessWidget {
                                         SizedBox(height: 5,),
                                         GestureDetector(
                                             onTap:(){
-                                              provider.deleteorginalMessage();
+                                              provider.deleteMessage();
                                               Navigator.pop(context);
                                             },
                                             child: Text("Delete",style: TextStyle(color: Colors.red,fontSize: 18),)),
@@ -553,7 +556,7 @@ class Chat extends StatelessWidget {
                                 GestureDetector(
                                     onTap: (){
                                       provider.selectall=false;
-                                      provider.individualselect.clear();
+                                      provider.selectedMessage.clear();
                                     },
                                     child: Text("Cancel",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold),)),
 
@@ -604,7 +607,7 @@ class Chat extends StatelessWidget {
               icon: Image.asset("assets/images/ic_sand.png"),
               onPressed: () {
                 DateTime now = DateTime.now();
-                String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
+                String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
                 sendMessageKey.currentState!.save();
                 if (message == "") return;
                 final messageModel = MessageModel(

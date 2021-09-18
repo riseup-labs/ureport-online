@@ -14,6 +14,7 @@ class SPUtil {
   static String CONTACT_URN = "CONTACT_URN";
   static String REGISTRATION_COMPLETE = "REGISTRATION_COMPLETE";
   static String PROGRAMCHANGE = "PROGRAMCHANGE";
+  static String FIRSTMESSAGE = "FIRSTMESSAGE";
 
 
   setValue(String key, String value) async {

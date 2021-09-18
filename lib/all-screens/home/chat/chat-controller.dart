@@ -65,50 +65,88 @@ class ChatController extends ChangeNotifier{
   List<MessageModelLocal>selectedMessage=[];
 
 
-  deleteorginalMessage(){
+  deleteMessage()async{
 
-    for(int i = 0;i<individualselect.length;i++){
+      //localmessage[individualselect[i]]= local;
 
-      print("the sender is .....==============================...${i}");
 
-      MessageModelLocal local = MessageModelLocal(
-          message: "This Message was Deleted",
-          sender: localmessage[individualselect[i]].sender,
-          status: localmessage[individualselect[i]].status,
-          quicktypest: "",
-          time: localmessage[individualselect[i]].time);
+    //updateSingleMessage(localmessage[individualselect[i]].time,"This Message was Deleted");
 
-      updateSingleMessage(localmessage[individualselect[i]].time,"This Message was Deleted");
-      localmessage[individualselect[i]]= local;
-      print("individula select is .................${individualselect[i]}");
+    await _databaseHelper.updateSingleMessage(selectedMessage).then((value) {
+      individualselect.clear();
+      selectedMessage.clear();
+      localmessage.clear();
+      loaddefaultmessage();
 
-    }
-    individualselect.clear();
-    selectedMessage.clear();
+    });
+
+
     selectall=false;
     notifyListeners();
   }
 
 
+  selectAllMessage(){
+    individualselect.clear();
+    selectedMessage.clear();
+    List<MessageModelLocal> willReplacelist = [];
+
+    willReplacelist.addAll(localmessage.where((element) => element.message!= "This Message was Deleted"));
+
+    List<MessageModelLocal> list =[];
+
+    for(int i=0;i<willReplacelist.length;i++){
+      individualselect.add(i);
+      MessageModelLocal mscl =MessageModelLocal(message: "This Message was Deleted",
+          sender: willReplacelist[i].sender, status: willReplacelist[i].status, quicktypest: "", time: willReplacelist[i].time);
+
+      list.add(mscl);
+    }
+
+   if(list.length>0) selectedMessage.addAll(list);
+    print("select message length is ............${selectedMessage.length}");
+    notifyListeners();
+
+  }
   addSelectionMessage(MessageModelLocal msg){
-    selectedMessage.add(msg);
+
+    MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: msg.sender,
+        status: msg.status, quicktypest: "", time: msg.time);
+    selectedMessage.add(msgl);
     notifyListeners();
   }
 
   deleteSelectionMessage(MessageModelLocal msg){
-    selectedMessage.remove(msg);
+    MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: msg.sender,
+        status: msg.status, quicktypest: "", time: msg.time);
+    selectedMessage.remove(msgl);
+    print("after remove/deselect total selected length is -----${selectedMessage.length}");
     notifyListeners();
   }
 
 
 
-  sellectAllItems(){
-    print("total item is.................${localmessage.length}");
+ /* sellectAllItems(){
+
+   // localmessage = localmessage.removeWhere((element) => individualselect.elementAt(index))
+
     for(int i =0;i<=localmessage.length;i++){
-      individualselect.add(i);
+     if(localmessage[i].message!="This Message was Deleted"){
+
+       MessageModelLocal local = MessageModelLocal(
+           message: "This Message was Deleted",
+           sender: localmessage[individualselect[i]].sender,
+           status: localmessage[individualselect[i]].status,
+           quicktypest: "",
+           time: localmessage[individualselect[i]].time);
+       selectedMessage.add(local);
+     }
+
+     print("total selected item length${selectedMessage}");
+
     }
     notifyListeners();
-  }
+  }*/
 
   addselectionitems(int index,){
 
@@ -128,11 +166,21 @@ class ChatController extends ChangeNotifier{
     print("this is firebase fcm token ==  ${_token}");
   }
 
+  bool firstmessageStatus(){
+    String firstvalue = _spservice.getValue(SPUtil.FIRSTMESSAGE);
+    if(firstvalue=="SENT"){
+      return true;
+    } else return false;
+  }
+
   Random _rnd = Random();
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
   addMessage(MessageModel messageModel)async{
+    _spservice.setValue(SPUtil.FIRSTMESSAGE, "SENT");
+    messagearray.clear();
+    ordered.clear();
     messagearray.add(messageModel);
     filtermessage=messagearray.toSet().toList();
     revlist = filtermessage.reversed.toList();
@@ -141,26 +189,6 @@ class ChatController extends ChangeNotifier{
      await _databaseHelper.getConversation().then((valuereal) {
        ordered.addAll(valuereal);
       localmessage=ordered.reversed.toList();
-
-      List<dynamic>quicktypedata = json.decode(localmessage[0].quicktypest.toString());
-       print("...................getconversation called 2 $quicktypedata");
-
-
-
-      /* for(int i =0;i<localmessage.length;i++){
-
-         List<dynamic>quicktypelist=[];
-         if(localmessage[i].quicktypest!=null){
-           quicktypelist= json.decode(localmessage[i].quicktypest.toString());
-           print("quick type list is ${quicktypelist}");
-
-           var message = MessageThread(message: localmessage[i].message, sender: localmessage[i].sender,
-               status: localmessage[i].status, quicktypest: quicktypelist, time: localmessage[i].time);
-           messageThread.add(message);
-         }
-       }
-*/
-
      });
 
    });
@@ -189,13 +217,6 @@ class ChatController extends ChangeNotifier{
     await _databaseHelper.deleteSingelMessage(time);
   }
 
-  updateSingleMessage(time,msg)async{
-
-    print("message time $time");
-    //localmessage.remove(item);
-    await _databaseHelper.updateSingleMessage(time,msg);
-  }
-
   delteAllMessage( )async{
 
     await _databaseHelper.deleteConversation();
@@ -207,11 +228,7 @@ class ChatController extends ChangeNotifier{
 
 
 
-  deleteMessageAfterFiveDays()async{
-    await _databaseHelper.deleteConversation();
-    print("all message deleted.....................");
-    notifyListeners();
-  }
+
 
   createContatct() async {
     await getToken();
@@ -228,12 +245,12 @@ class ChatController extends ChangeNotifier{
         if (apiResponse.httpCode == 200) {
           responseContactCreation = apiResponse.data;
           _spservice.setValue(SPUtil.CONTACT_URN, contact_urn);
-          sendmessage("join");
+         // sendmessage("join");
 
           notifyListeners();
         }
 
-      }else{
+      }/*else{
 
         String registrationstaus = _spservice.getValue(SPUtil.REGISTRATION_COMPLETE);
          if(registrationstaus==null|| registrationstaus==""){
@@ -241,7 +258,7 @@ class ChatController extends ChangeNotifier{
          }else{
            sendmessage("covid");
          }
-      }
+      }*/
 
     }
 
@@ -249,24 +266,32 @@ class ChatController extends ChangeNotifier{
 
 
   deletemsgAfterfiveDays()async{
-    await _databaseHelper.getConversation().then((valuereal) {
-     // ordered.addAll(valuereal);
 
-      //get curreent date
-      DateTime now = DateTime.now();
-      var earler = now.subtract(const Duration(seconds: 15));
-      String olderdate = DateFormat('kk:mm:ss \n EEE d MMM').format(earler);
-      //compare c_date with valuereal.date
-      valuereal.forEach((element) async{
-/*
-        if(earler.isBefore(DateTime.parse(element.time))){
-          await _databaseHelper.deleteSingelMessage(element.time);
-        }
-*/
+
+    print("sp 5days value    -----${_spservice.getValue(SPUtil.DELETE5DAYS)}");
+
+    if(_spservice.getValue(SPUtil.DELETE5DAYS)=="true"){
+
+
+      await _databaseHelper.getConversation().then((valuereal) {
+        //get curreent date
+        DateTime now = DateTime.now();
+        //compare c_date with valuereal.date
+        valuereal.forEach((element) async{
+
+          DateTime valuetime =  new DateFormat('dd-MM-yyyy hh:mm a').parse(element.time);
+          Duration sincetime = now.difference(valuetime);
+          print("the difference time is ....${sincetime.inMinutes}");
+          if(sincetime.inMinutes >= 2){
+
+          await  deleteSingleMessage(element.time);
+          notifyListeners();
+          }
+
+        });
       });
-      //if(return 5 days) delete single row where date = valuereal.date
-      notifyListeners();
-    });
+    }
+
 
       }
 
@@ -275,7 +300,7 @@ class ChatController extends ChangeNotifier{
     FirebaseMessaging.onMessage.listen((RemoteMessage remotemessage){
 
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
+      String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
       List<dynamic> quicktypest;
       if(remotemessage.data["quick_replies"]!=null){
          quicktypest = json.decode(remotemessage.data["quick_replies"]);
@@ -334,23 +359,7 @@ class ChatController extends ChangeNotifier{
     });
   }
 
-  sendkeyword(String keyword){
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
-    MessageModel messageModel = MessageModel(
-      message: keyword,
-      sender: "user",
-      status: "Sending...",
-      quicktypest: [""],
-      time: formattedDate
-    );
 
-    addMessage(messageModel);
-    sendmessage(keyword);
-    messageModel.status=messagestatus;
-    notifyListeners();
-
-  }
 
   sendmessage(String message)async{
     String urn = _spservice.getValue(SPUtil.CONTACT_URN);
@@ -375,7 +384,7 @@ class ChatController extends ChangeNotifier{
         .getInitialMessage().then((RemoteMessage? remotemessage) {
 
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
+      String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
       List<dynamic> quicktypest;
       if(remotemessage!.data["quick_replies"]!=null){
         quicktypest = json.decode(remotemessage.data["quick_replies"]);
@@ -401,7 +410,7 @@ class ChatController extends ChangeNotifier{
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage){
 
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
+      String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
       List<dynamic> quicktypest;
       if(remotemessage.data["quick_replies"]!=null){
         quicktypest = json.decode(remotemessage.data["quick_replies"]);
@@ -418,28 +427,6 @@ class ChatController extends ChangeNotifier{
       addMessage(notificationmessage);
      // FirebaseNotificationService.display(remotemessage);
 
-
-
-    /*  if(remoteNotification!=null && androidNotification!=null){
-
-
-
-
-
-
-        flutterLocalNotificationsPlugin.show(remoteNotification.hashCode,
-            remoteNotification.title, remoteNotification.body, NotificationDetails(
-
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channel.description,
-              color: Colors.blue,
-              playSound: true,
-              icon: '@mipmap/ic_launcher',
-            )
-        ));
-      }*/
     });
 
   }

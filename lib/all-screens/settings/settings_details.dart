@@ -125,7 +125,11 @@ class _SeetingDetailsState extends State<SeetingDetails> {
                     SizedBox(width: 60,),
                     Switch(
                         value: statesf, onChanged: (value){
-                      spservice.setValue(SPUtil.DELETE5DAYS, value.toString());
+
+                          setState(() {
+                            statesf=value;
+                            spservice.setValue(SPUtil.DELETE5DAYS, value.toString());
+                          });
 
                     }
                     ),

@@ -180,7 +180,7 @@ class _SimpleAccountMenuState extends State<SimpleAccountMenu>
                                     return GestureDetector(
                                       onTap: () {
                                         DateTime now = DateTime.now();
-                                        String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
+                                        String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
                                         String messagekeyword = widget.keyword[index];
                                         MessageModel messageModel = MessageModel(
                                             message:messagekeyword,

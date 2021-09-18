@@ -197,12 +197,16 @@ class DatabaseHelper {
 
   }
 
-  updateSingleMessage(time,msg)async{
-    var db = await this.database;
-    // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
-    await db.rawDelete("UPDATE  ${DatabaseConstant.tableNameMessage} SET ${DatabaseConstant.message} ='$msg', ${DatabaseConstant.quicktypest}='null' where ${DatabaseConstant.time}='${time}'");
-    return true;
+ Future<bool> updateSingleMessage(List<MessageModelLocal>msg)async{
 
+    var db = await this.database;
+    msg.forEach((element) async{
+      await db.rawDelete("UPDATE  ${DatabaseConstant.tableNameMessage} SET ${DatabaseConstant.message} ='${element.message}', ${DatabaseConstant.quicktypest}='null' where ${DatabaseConstant.time}='${element.time}'").then((value) {
+        return true;
+      });
+    });
+
+    return false;
   }
 
 
