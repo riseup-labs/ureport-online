@@ -84,34 +84,36 @@ class _SimpleAccountMenuState extends State<SimpleAccountMenu>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      key: _key,
-      decoration: BoxDecoration(
-      ),
-      child: GestureDetector(
-          onTap: (){
+    return GestureDetector(
+      onTap: (){
+        if (isMenuOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.all(5),
+        key: _key,
+        decoration: BoxDecoration(
+        ),
+        child: Image.asset("assets/images/ic_chat_menu.png")
+
+        /* IconButton(
+          icon: AnimatedIcon(
+            icon: AnimatedIcons.menu_close,
+            progress: _animationController,
+          ),
+          color: Colors.black,
+          onPressed: () {
             if (isMenuOpen) {
               closeMenu();
             } else {
               openMenu();
             }
           },
-          child: Image.asset("assets/images/ic_chat_menu.png"))
-
-      /* IconButton(
-        icon: AnimatedIcon(
-          icon: AnimatedIcons.menu_close,
-          progress: _animationController,
-        ),
-        color: Colors.black,
-        onPressed: () {
-          if (isMenuOpen) {
-            closeMenu();
-          } else {
-            openMenu();
-          }
-        },
-      ),*/
+        ),*/
+      ),
     );
   }
 

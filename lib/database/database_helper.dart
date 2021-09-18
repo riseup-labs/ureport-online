@@ -209,6 +209,16 @@ class DatabaseHelper {
     return false;
   }
 
+  Future<bool> updateQuicktypeMessage(time,data)async{
+
+    var db = await this.database;
+    await db.rawDelete("UPDATE  ${DatabaseConstant.tableNameMessage} SET ${DatabaseConstant.quicktypest} ='${jsonEncode(data)}' where ${DatabaseConstant.time}='${time}'").then((value) {
+      return true;
+    });
+
+    return false;
+  }
+
 
 
 

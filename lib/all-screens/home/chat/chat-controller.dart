@@ -148,6 +148,22 @@ class ChatController extends ChangeNotifier{
     notifyListeners();
   }*/
 
+  replaceQuickReplaydata(int index,data)async{
+
+    print("the data is ..======================================================================.........${data}");
+    List<dynamic>repdata=[];
+    repdata.add(data);
+    localmessage[index].quicktypest='["$data"]';
+    print("the data is ..======================================================================.........${ jsonEncode(repdata)}");
+
+    await _databaseHelper.updateQuicktypeMessage(localmessage[index].time,repdata).then((value)async {
+      await loaddefaultmessage();
+      notifyListeners();
+    });
+
+
+  }
+
   addselectionitems(int index,){
 
     individualselect.add(index);
@@ -303,6 +319,7 @@ class ChatController extends ChangeNotifier{
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
       List<dynamic> quicktypest;
       if(remotemessage.data["quick_replies"]!=null){
+        print("the incomeing quick tyupe data is........${remotemessage.data["quick_replies"]}");
          quicktypest = json.decode(remotemessage.data["quick_replies"]);
       }else{
         quicktypest=[""];
