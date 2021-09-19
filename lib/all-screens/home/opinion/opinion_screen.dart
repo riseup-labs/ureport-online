@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/statistics_age.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/statistics_all.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/statistics_gender.dart';
+import 'package:ureport_ecaro/all-screens/home/opinion/statistics_header.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/statistics_location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
@@ -118,7 +119,7 @@ class _OpinionState extends State<Opinion>{
                         margin: EdgeInsets.only(top: 15),
                         child: Column(
                           children: [
-                            headerStatistics(provider.questionList[0],opinions![0],provider),
+                            StatisticsHeader.getHeadingStatistics(provider.questionList[0],opinions![0],provider),
                             ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
@@ -142,293 +143,6 @@ class _OpinionState extends State<Opinion>{
     });
   }
 
-  Widget headerStatistics(questionArray.Question question,ResultOpinionLocal opinions,OpinionController provider) {
-
-    double guysResponseRate = 0.0;
-    double maleResponseRate = 0.0;
-    double femaleResponseRate = 0.0;
-    int guysRespondent = 0;
-    int maleRespondent = 0;
-    int femaleRespondent = 0;
-
-    String title = opinions.title.replaceAll("\n", " ");
-    title = title.replaceAll("\r", " ");
-
-    String category = opinions.category.toUpperCase();
-    final dateTime = DateTime.parse(opinions.polldate);
-    final format = DateFormat('dd MMMM, yyyy');
-    final clockString = format.format(dateTime);
-
-    int respondents = question.results.resultsSet;
-    int totalRespondents = question.results.resultsSet+question.results.unset;
-    double responseRate = (respondents/totalRespondents)*100;
-    if(question.resultsByGender.length == 3){
-
-      int guysSet = question.resultsByGender[2].resultsSet;
-      int guysUnset = question.resultsByGender[2].unset;
-      int femaleSet = question.resultsByGender[1].resultsSet;
-      int femaleUnset = question.resultsByGender[1].unset;
-      int maleSet = question.resultsByGender[0].resultsSet;
-      int maleUnset = question.resultsByGender[0].unset;
-
-      int gendeTotal = guysSet + femaleSet + maleSet;
-
-      guysRespondent = guysSet;
-      maleRespondent = maleSet;
-      femaleRespondent = femaleSet;
-
-      guysResponseRate = (guysSet/gendeTotal)*100;
-      maleResponseRate = (maleSet/gendeTotal)*100;
-      femaleResponseRate = (femaleSet/gendeTotal)*100;
-
-    }else{
-      int femaleSet = question.resultsByGender[1].resultsSet;
-      int femaleUnset = question.resultsByGender[1].unset;
-      int maleSet = question.resultsByGender[0].resultsSet;
-      int maleUnset = question.resultsByGender[0].unset;
-
-      maleRespondent = maleSet;
-      femaleRespondent = femaleSet;
-
-      maleResponseRate = (maleSet/maleUnset)*100;
-      femaleResponseRate = (femaleSet/femaleUnset)*100;
-    }
-
-
-    return Column(
-      children: [
-        Container(
-          child: Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),
-        ),
-        SizedBox(height: 5,),
-        Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-              ),
-              padding: EdgeInsets.all(5),
-              child: Text(category, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 12),)
-            ),
-            SizedBox(width: 15,),
-            Text(clockString, style: TextStyle(fontWeight: FontWeight.w700),)
-          ],
-        ),
-        SizedBox(height: 8,),
-        Container(
-          child: Divider(
-            height: 1.5,
-            color: Colors.grey[600],
-          ),
-        ),
-        SizedBox(height: 15,),
-        Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Column(
-                children: [
-                  Text(
-                    "${respondents.toString()}",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "RESPONDENTS",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Column(
-                children: [
-                  Text(
-                    "${responseRate.round().toString()}%",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "RESPONSE RATE",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 50,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Image.asset(
-                          "assets/images/male.png",
-                          height: 26,
-                          width: 26,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "${question.resultsByGender[0].label}",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Container(
-                    height: 50,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "${maleResponseRate.round().toString()}%",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        Text(
-                          "${maleRespondent}",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 50,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Image.asset(
-                          "assets/images/female.png",
-                          height: 26,
-                          width: 26,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "${question.resultsByGender[1].label}",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Container(
-                    height: 50,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "${femaleResponseRate.round().toString()}%",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        Text(
-                          "${femaleRespondent}",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 50,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Image.asset(
-                          "assets/images/gender_other.png",
-                          height: 26,
-                          width: 26,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "${question.resultsByGender[2].label}",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Container(
-                    height: 50,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "${guysResponseRate.round().toString()}%",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        Text(
-                          "${guysRespondent}",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 8,
-        ),
-      ],
-    );
-  }
 
   int selectedTab = 0;
 
@@ -558,7 +272,7 @@ class _OpinionState extends State<Opinion>{
             ),
             //body
             Container(
-                child: getBody(),
+                child: getBody(question),
               ),
 
           ],
@@ -567,9 +281,9 @@ class _OpinionState extends State<Opinion>{
     );
   }
 
-  getBody(){
+  getBody(questionArray.Question question){
     if(selectedTab == 0){
-      return StatisticsAll.getAllStatistics();
+      return StatisticsAll.getAllStatistics(question);
     }else if(selectedTab == 1){
       return StatisticsLocation.getLocationStatistics();
     }else if(selectedTab == 2){

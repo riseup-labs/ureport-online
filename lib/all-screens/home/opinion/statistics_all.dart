@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'model/response_opinions.dart' as questionArray;
 
 class StatisticsAll {
   static List<MaterialColor> colors = [
@@ -9,15 +10,15 @@ class StatisticsAll {
     Colors.teal
   ];
 
-  static Widget getAllStatistics() {
+  static Widget getAllStatistics(questionArray.Question question) {
     int colorNumber = 0;
-
+    int set  = question.results.resultsSet;
     return ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: 5,
+        itemCount: question.results.categories.length,
         itemBuilder: (context, index) {
-          if(colorNumber > colors.length-1){
+          if (colorNumber > colors.length - 1) {
             colorNumber = 0;
           }
           return Row(
@@ -28,10 +29,15 @@ class StatisticsAll {
                   margin: EdgeInsets.only(top: 5),
                   child: LinearPercentIndicator(
                     animation: false,
-                    lineHeight: 20.0,
+                    lineHeight: 22.0,
                     backgroundColor: Colors.white,
-                    percent: 0.8,
-                    center: Text("80.0%"),
+                    percent: question.results.categories[index].count/set,
+                    center: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text("${question.results.categories[index].label}",style: TextStyle(fontWeight: FontWeight.w700),),
+                      ],
+                    ),
                     linearStrokeCap: LinearStrokeCap.roundAll,
                     progressColor: colors[colorNumber++],
                   ),
@@ -42,7 +48,7 @@ class StatisticsAll {
                 child: Center(
                   child: Container(
                     margin: EdgeInsets.only(top: 4),
-                    child: Text("36%"),
+                    child: Text("${(question.results.categories[index].count/set*100).round()}%"),
                   ),
                 ),
               ),
