@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 
 import 'chat/Chat.dart';
+import 'opinion/opinion_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   @override
@@ -19,8 +20,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final tabs = [
     StoryList(),
     Chat(),
-    // OpinionsScreen(),
-    Settings(),
+    Opinion(),
     Settings()
   ];
 

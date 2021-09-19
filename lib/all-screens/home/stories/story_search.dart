@@ -1,5 +1,6 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/stories-details.dart';
@@ -148,9 +149,9 @@ class _StorySearchState extends State<StorySearch> {
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(4),
                 bottomRight: Radius.circular(4)),
-            transitionDuration: Duration(milliseconds: 500),
+            transitionDuration: Duration(milliseconds: 100),
             transition: CircularFloatingSearchBarTransition(),
-            debounceDelay: Duration(milliseconds: 500),
+            debounceDelay: Duration(milliseconds: 100),
             actions: [],
             builder: (context, transition) {
               return ClipRRect(
@@ -175,6 +176,11 @@ class _StorySearchState extends State<StorySearch> {
 }
 
 Widget buildItem(StoryItem item, BuildContext context) {
+
+  final dateTime = DateTime.parse(item.date);
+  final format = DateFormat('dd MMMM, yyyy');
+  final titleDate = format.format(dateTime);
+
   return Container(
       child: GestureDetector(
           onTap: () {
@@ -187,29 +193,34 @@ Widget buildItem(StoryItem item, BuildContext context) {
                     item.date
                 ));
           },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                child: Text(
-                  item.title,
-                  style: TextStyle(fontSize: 16),
-                ),
-                padding:
-                    EdgeInsets.only(top: 8, left: 15, bottom: 8, right: 15),
-              ),
-              SizedBox(
-                height: 3,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 17, right: 17),
-                child: Divider(
-                  height: 1,
-                  color: AppColors.gray7E,
-                ),
-              )
-            ],
-          )));
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10, right: 17, bottom: 15),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(Icons.arrow_right, size: 20,),
+                Expanded(child: Padding(
+                  padding: const EdgeInsets.only(top: 1),
+                  child: RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontFamily: "Dosis"
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(text: item.title),
+                        TextSpan(text: "  "),
+                        TextSpan(text: titleDate, style: new TextStyle(fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                )),
+              ],
+            ),
+          )
+      ));
 }
 
 class DataPopUp extends StatelessWidget {
@@ -249,6 +260,9 @@ class DataPopUp extends StatelessWidget {
 
             children: list,
             initiallyExpanded: provider.isExpanded,
+            onExpansionChanged: (value){
+
+            },
           ),
         ),
         Container(

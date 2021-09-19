@@ -69,11 +69,8 @@ class HttpService {
       }
     } on DioError catch (e) {
       if (e.type == DioErrorType.response) {
-        print(e.response!.data);
-        print(e.response!.statusCode);
         return ApiResponse(httpCode: int.parse(e.response!.statusCode.toString()), message: "${e.response!.statusMessage}", data: e.response!.data);
       } else {
-        print(e.message);
         return ApiResponse(httpCode: -1, message: "Connection error. ${e.message}", data:e.response!.data);
       }
     }
@@ -100,11 +97,8 @@ class HttpService {
       }
     } on DioError catch (e) {
       if (e.type == DioErrorType.response) {
-        print(e.response!.data);
-        print(e.response!.statusCode);
         return ApiResponse(httpCode: int.parse(e.response!.statusCode.toString()), message: "${e.response!.statusMessage}", data: e.response!.data);
       } else {
-        print(e.message);
         return ApiResponse(httpCode: -1, message: "Connection error. ${e.message}", data: e.response!.data);
       }
     }

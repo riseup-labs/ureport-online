@@ -19,8 +19,8 @@ class RemoteConfigController extends ChangeNotifier {
     RemoteConfig remoteConfig = RemoteConfig.instance;
 
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
-      fetchTimeout: Duration(seconds: 10),
-      minimumFetchInterval: Duration(seconds: 10),
+      fetchTimeout: Duration(seconds: 3600),
+      minimumFetchInterval: Duration(days: 1),
     ));
 
     await remoteConfig.fetchAndActivate();

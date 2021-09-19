@@ -113,6 +113,8 @@ flutter:
         - asset: assets/font/Dosis.ttf
         - asset: assets/font/Regular.ttf
           weight: 500
+        - asset: assets/font/Dosis-Bold.ttf
+          weight: 700
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/model/navigator-srvice.dart';
-import 'package:ureport_ecaro/all-screens/home/opinions/opinion-repository.dart';
+import 'package:ureport_ecaro/all-screens/home/opinion/opinion_repository.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-repository.dart';
 import 'package:ureport_ecaro/network_operation/http_service.dart';
 import 'package:ureport_ecaro/network_operation/rapidpro_service.dart';

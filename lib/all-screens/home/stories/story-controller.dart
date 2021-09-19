@@ -27,7 +27,7 @@ class StoryController extends ChangeNotifier{
       if(apiresponsedata.data.next != null){
         getStoriesFromRemote(apiresponsedata.data.next,program);
       }else{
-        _databaseHelper.insertStory(items,program);
+        await _databaseHelper.insertStory(items,program);
         notifyListeners();
       }
     }
@@ -35,7 +35,6 @@ class StoryController extends ChangeNotifier{
 
   getStoriesFromLocal(String program) {
     return _databaseHelper.getStories(program);
-
   }
 
   getCategories(String program) {

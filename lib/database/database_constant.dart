@@ -25,5 +25,6 @@ class DatabaseConstant{
   static final columnOrganizationOpinion = "org";
   static final columnProgramOpinion = "program";
   static final columnQuestionOpinion = "questions";
+  static final columnPollDateOpinion = "poll_date";
 
 }

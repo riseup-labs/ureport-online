@@ -1,4 +1,3 @@
-import 'package:ureport_ecaro/all-screens/home/opinions/model/Response_opinions.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/model/response-story-details.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/api_response.dart';
