@@ -45,4 +45,8 @@ class OpinionController extends ChangeNotifier{
     return _databaseHelper.getOpinionCategories(program);
   }
 
+  notify(){
+    notifyListeners();
+  }
+
 }

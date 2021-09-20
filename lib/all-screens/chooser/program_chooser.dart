@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
+import 'package:ureport_ecaro/all-screens/home/opinion/opinion_controller.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
@@ -202,7 +203,8 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         spset.setValue(SPUtil.PROGRAMKEY, dropdownValue);
-                                        spset.setValue(SPUtil.OPINIONDATA, "");
+                                        Provider.of<OpinionController>(context, listen: false).opinionID = 0;
+                                        Provider.of<OpinionController>(context, listen: false).notify();
                                         NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
                                       },
                                       child: Text('Continue'),
