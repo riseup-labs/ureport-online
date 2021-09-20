@@ -127,8 +127,8 @@ class DatabaseHelper {
     return _stories;
   }
 
-  Future<List<DataList>> getStoryCategories(String program) async {
-    List<DataList> StoryCategory = [];
+  Future<List<StorySearchList>> getStoryCategories(String program) async {
+    List<StorySearchList> StoryCategory = [];
 
     var db = await this.database;
 
@@ -136,17 +136,39 @@ class DatabaseHelper {
     var resultTitle = await db.rawQuery("SELECT * FROM ${DatabaseConstant.tableName} WHERE program = '$program' ORDER by id DESC");
 
     result.forEach((element) {
-      List<StoryItem> titles = [];
+      List<StorySearchItem> titles = [];
       var item = ResultLocal.fromJson(element);
       resultTitle.forEach((element) {
         var itemTitle = ResultLocal.fromJson(element);
         if(itemTitle.category == item.category){
-          titles.add(new StoryItem(itemTitle.id,itemTitle.title, itemTitle.images, itemTitle.createdOn));
+          titles.add(new StorySearchItem(itemTitle.id,itemTitle.title, itemTitle.images, itemTitle.createdOn));
         }
       });
-      StoryCategory.add(new DataList(item.category,titles));
+      StoryCategory.add(new StorySearchList(item.category,titles));
     });
     return StoryCategory;
+  }
+
+  Future<List<OpinionSearchList>> getOpinionCategories(String program) async {
+    List<OpinionSearchList> opinionCategory = [];
+
+    var db = await this.database;
+
+    var result = await db.rawQuery("SELECT DISTINCT category FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program' ORDER BY category ASC");
+    var resultTitle = await db.rawQuery("SELECT * FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program' ORDER by id DESC");
+
+    result.forEach((element) {
+      List<OpinionSearchItem> titles = [];
+      var item = ResultOpinionLocal.fromJson(element);
+      resultTitle.forEach((element) {
+        var itemTitle = ResultOpinionLocal.fromJson(element);
+        if(itemTitle.category == item.category){
+          titles.add(new OpinionSearchItem(itemTitle.title, itemTitle.polldate));
+        }
+      });
+      opinionCategory.add(new OpinionSearchList(item.category,titles));
+    });
+    return opinionCategory;
   }
 
   Future<List<ResultOpinionLocal>> getOpinions(String program) async {
@@ -160,33 +182,6 @@ class DatabaseHelper {
     return opinion;
   }
 
-  Future<List<String>> getOpinionCategory(String program)async{
-    List<String> category =[];
-    var db = await this.database;
-    var result = await db.rawQuery("SELECT DISTINCT ${DatabaseConstant.columnCategoryOpinion} FROM  ${DatabaseConstant.tableNameOpinion} WHERE program = '$program'");
-    result.forEach((element) {
-      var list =ResultOpinionLocal.fromJson(element);
-      category.add(list.category);
-    });
-    return category;
-  }
-
-  Future<List<String>> getOpinionTitle(String category) async {
-
-    List<String> titles =[];
-    var db = await this.database;
-    var result = await db.rawQuery("SELECT DISTINCT ${DatabaseConstant.columnTitleOpinion} FROM  ${DatabaseConstant.tableNameOpinion} WHERE ${DatabaseConstant.columnCategoryOpinion} = '$category'");
-    result.forEach((element) {
-
-      var list =ResultOpinionLocal.fromJson(element);
-      titles.add(list.title);
-
-    });
-    return titles;
-
-  }
-
-
   Future<List<String>> getOpinionQuestion(String title) async {
     List<String> Question =[];
     var db = await this.database;
@@ -198,9 +193,7 @@ class DatabaseHelper {
     return Question;
 
   }
-  // get opinion category according to program ==select distinct  category From tablenameOpinion where program = $program
-  // get opinion title according to category  select distinct title from tablenameopoinion where category = $category
-  // get opinoin question according to title  select quistion from tablenameopinion where title = $title
+
   Future<int> deleteStoryTable() async {
     var db = await this.database;
     return await db.delete(DatabaseConstant.tableName);

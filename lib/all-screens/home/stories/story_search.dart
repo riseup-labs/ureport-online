@@ -14,8 +14,8 @@ import 'model/searchbar.dart';
 
 FloatingSearchBarController _floatingSearchBarController =
     FloatingSearchBarController();
-List<DataList> filteredCategoryList = [];
-List<DataList> categoryListFull = [];
+List<StorySearchList> filteredCategoryList = [];
+List<StorySearchList> categoryListFull = [];
 var isLoaded = true;
 
 class StorySearch extends StatefulWidget {
@@ -42,22 +42,6 @@ class _StorySearchState extends State<StorySearch> {
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(Icons.arrow_back)),
-            color: Colors.black,
-            onPressed: () {},
-          ),
-          backgroundColor: Colors.white,
-          title: Text(
-            "Search",
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
         resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Container(
@@ -72,14 +56,30 @@ class _StorySearchState extends State<StorySearch> {
             child: Container(
               color: AppColors.bluelight,
               height: 86,
-              padding: EdgeInsets.all(20),
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  searchBarUI(provider, sp.getValue(SPUtil.PROGRAMKEY)),
+                  Positioned(
+                    top: 12,
+                    left: 10,
+                    child: Container(
+                      width: 40,
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        color: Colors.black,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 40,right: 12,top: 10),
+                      child: searchBarUI(provider, sp.getValue(SPUtil.PROGRAMKEY))),
                   Container(
                     margin: EdgeInsets.only(top: 66),
-                    child: FutureBuilder<List<DataList>>(
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    child: FutureBuilder<List<StorySearchList>>(
                         future: provider
                             .getCategories(sp.getValue(SPUtil.PROGRAMKEY)),
                         builder: (context, snapshot) {
@@ -108,7 +108,7 @@ class _StorySearchState extends State<StorySearch> {
   }
 
   Widget searchBarUI(StoryController provider, String program) {
-    return FutureBuilder<List<DataList>>(
+    return FutureBuilder<List<StorySearchList>>(
         future: provider.getCategories(program),
         builder: (context, snapshot) {
           return FloatingSearchBar(
@@ -119,6 +119,7 @@ class _StorySearchState extends State<StorySearch> {
             backgroundColor: AppColors.white,
             controller: _floatingSearchBarController,
             height: 40.0,
+            width: double.infinity,
             elevation: 0.0,
             axisAlignment: 0.0,
             automaticallyImplyBackButton: false,
@@ -175,7 +176,7 @@ class _StorySearchState extends State<StorySearch> {
   }
 }
 
-Widget buildItem(StoryItem item, BuildContext context) {
+Widget buildItem(StorySearchItem item, BuildContext context) {
 
   final dateTime = DateTime.parse(item.date);
   final format = DateFormat('dd MMMM, yyyy');
@@ -226,11 +227,11 @@ Widget buildItem(StoryItem item, BuildContext context) {
 class DataPopUp extends StatelessWidget {
   const DataPopUp(this.popup, this.provider);
 
-  final DataList popup;
+  final StorySearchList popup;
 
   final StoryController provider;
 
-  Widget _buildTiles(DataList root, BuildContext context) {
+  Widget _buildTiles(StorySearchList root, BuildContext context) {
     if (root.children.isEmpty) return ListTile(title: Text(root.title));
 
     List<Widget> list = [];
@@ -243,8 +244,10 @@ class DataPopUp extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 5, bottom: 3),
+          child: Theme(
+          data: ThemeData().copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
-            key: PageStorageKey<DataList>(root),
+            key: PageStorageKey<StorySearchList>(root),
             textColor: Colors.black,
             collapsedTextColor: Colors.black,
             trailing: Icon(Icons.arrow_drop_down),
@@ -263,7 +266,8 @@ class DataPopUp extends StatelessWidget {
             onExpansionChanged: (value){
 
             },
-          ),
+          ),)
+
         ),
         Container(
           margin: EdgeInsets.only(left: 17, right: 17),
