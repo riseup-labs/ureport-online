@@ -57,6 +57,7 @@ class StatisticsHeader{
 
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           child: Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),

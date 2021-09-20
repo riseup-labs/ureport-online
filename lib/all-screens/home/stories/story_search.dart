@@ -33,6 +33,9 @@ class _StorySearchState extends State<StorySearch> {
     // TODO: implement initState
     super.initState();
     Provider.of<StoryController>(context, listen: false).isExpanded = false;
+    filteredCategoryList.clear();
+    categoryListFull.clear();
+    isLoaded = true;
   }
 
   @override
@@ -80,22 +83,23 @@ class _StorySearchState extends State<StorySearch> {
                     margin: EdgeInsets.only(top: 66),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: FutureBuilder<List<StorySearchList>>(
-                        future: provider
-                            .getCategories(sp.getValue(SPUtil.PROGRAMKEY)),
+                        future: provider.getCategories(sp.getValue(SPUtil.PROGRAMKEY)),
                         builder: (context, snapshot) {
                           if (snapshot.hasData && isLoaded) {
                             filteredCategoryList = snapshot.data!;
                             categoryListFull.addAll(snapshot.data!);
                             isLoaded = false;
                           }
-                          return Container(
+                          return filteredCategoryList.length != 0 ?  Container(
                             color: AppColors.white,
                             child: ListView.builder(
                               itemBuilder: (BuildContext context, int index) =>
                                   DataPopUp(filteredCategoryList[index], provider),
                               itemCount: filteredCategoryList.length,
                             ),
-                          );
+                          ):Container(
+                              margin: EdgeInsets.only(top: 66),
+                              child: Center(child: CircularProgressIndicator()));
                         }),
                   )
                 ],

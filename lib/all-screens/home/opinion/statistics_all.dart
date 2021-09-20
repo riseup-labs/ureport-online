@@ -35,7 +35,7 @@ class StatisticsAll {
                     center: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("${question.results.categories[index].label}",style: TextStyle(fontWeight: FontWeight.w700),),
+                        Expanded(child: Text("${question.results.categories[index].label}",style: TextStyle(fontWeight: FontWeight.w700),)),
                       ],
                     ),
                     linearStrokeCap: LinearStrokeCap.roundAll,

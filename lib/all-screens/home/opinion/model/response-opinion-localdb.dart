@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 class ResultOpinionLocal {
-
-
   ResultOpinionLocal({
     required this.id,
     required this.title,

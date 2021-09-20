@@ -45,6 +45,9 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
       ));
     });
 
+    countries.sort();
+    question.resultsByLocation.sort((a, b) => a.label.compareTo(b.label));
+
     if(isLoaded){
       location = question.resultsByLocation[0];
       dropdownValue = countries[0];

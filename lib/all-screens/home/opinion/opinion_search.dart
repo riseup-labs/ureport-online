@@ -32,6 +32,9 @@ class _OpinionSearchState extends State<OpinionSearch> {
     // TODO: implement initState
     super.initState();
     Provider.of<OpinionController>(context, listen: false).isExpanded = false;
+    filteredCategoryList.clear();
+    categoryListFull.clear();
+    isLoaded = true;
   }
 
   @override
@@ -87,14 +90,16 @@ class _OpinionSearchState extends State<OpinionSearch> {
                             categoryListFull.addAll(snapshot.data!);
                             isLoaded = false;
                           }
-                          return Container(
+                          return filteredCategoryList.length != 0 ?  Container(
                             color: AppColors.white,
                             child: ListView.builder(
                               itemBuilder: (BuildContext context, int index) =>
                                   DataPopUp(filteredCategoryList[index], provider),
                               itemCount: filteredCategoryList.length,
                             ),
-                          );
+                          ):Container(
+                              margin: EdgeInsets.only(top: 66),
+                              child: Center(child: CircularProgressIndicator()));
                         }),
                   )
                 ],
@@ -174,7 +179,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
   }
 }
 
-Widget buildItem(OpinionSearchItem item, BuildContext context) {
+Widget buildItem(OpinionController provider, OpinionSearchItem item, BuildContext context) {
 
   final dateTime = DateTime.parse(item.date);
   final format = DateFormat('dd MMMM, yyyy');
@@ -185,12 +190,8 @@ Widget buildItem(OpinionSearchItem item, BuildContext context) {
           onTap: () {
             _floatingSearchBarController.clear();
             _floatingSearchBarController.close();
-            // NavUtils.pushReplacement(
-            //     context,
-            //     OpinionDetails(item.id.toString(), item.title.toString(),
-            //         item.image,
-            //         item.date
-            //     ));
+            provider.setOpinionTitle(item.title);
+            Navigator.pop(context);
           },
           child: Padding(
             padding: const EdgeInsets.only(left: 10, right: 17, bottom: 15),
@@ -235,7 +236,7 @@ class DataPopUp extends StatelessWidget {
     List<Widget> list = [];
 
     for (var item in root.children) {
-      list.add(buildItem(item, context));
+      list.add(buildItem(provider,item, context));
     }
 
     return Column(

@@ -132,7 +132,7 @@ class DatabaseHelper {
 
     var db = await this.database;
 
-    var result = await db.rawQuery("SELECT DISTINCT category FROM ${DatabaseConstant.tableName} WHERE program = '$program' ORDER BY category ASC");
+    var result = await db.rawQuery("SELECT DISTINCT category FROM ${DatabaseConstant.tableName} WHERE program = '$program' ORDER BY LOWER(category) ASC");
     var resultTitle = await db.rawQuery("SELECT * FROM ${DatabaseConstant.tableName} WHERE program = '$program' ORDER by id DESC");
 
     result.forEach((element) {
@@ -154,7 +154,7 @@ class DatabaseHelper {
 
     var db = await this.database;
 
-    var result = await db.rawQuery("SELECT DISTINCT category FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program' ORDER BY category ASC");
+    var result = await db.rawQuery("SELECT DISTINCT category FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program' ORDER BY LOWER(category) ASC");
     var resultTitle = await db.rawQuery("SELECT * FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program' ORDER by id DESC");
 
     result.forEach((element) {

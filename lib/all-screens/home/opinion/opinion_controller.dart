@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
+import 'model/response-opinion-localdb.dart';
 import 'model/response_opinions.dart' as opinionsarray;
 import 'opinion_repository.dart';
 import 'model/response_opinions.dart' as questionArray;
@@ -11,6 +12,15 @@ class OpinionController extends ChangeNotifier{
   DatabaseHelper _databaseHelper = DatabaseHelper();
   List<questionArray.Question> questionList = [];
   var sp = locator<SPUtil>();
+
+  String opinionTitle = "";
+  String opinionTitleEarlier = "";
+  ResultOpinionLocal? opinions;
+  void setOpinionTitle(String title){
+    opinionTitle = title;
+    notifyListeners();
+  }
+
 
   var isExpanded = false;
   void setExpanded(bool state){
@@ -55,7 +65,7 @@ class OpinionController extends ChangeNotifier{
     notifyListeners();
   }
 
-  getCategories(String program) {
+  getCategories(String program){
     return _databaseHelper.getOpinionCategories(program);
   }
 
