@@ -291,4 +291,250 @@ class StatisticsHeader{
       ],
     );
   }
+
+  static Widget getHeadingStatisticsEmpty(ResultOpinionLocal opinions) {
+
+    String title = opinions.title.replaceAll("\n", " ");
+    title = title.replaceAll("\r", " ");
+
+    String category = opinions.category.toUpperCase();
+    final dateTime = DateTime.parse(opinions.polldate);
+    final format = DateFormat('dd MMMM, yyyy');
+    final clockString = format.format(dateTime);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          child: Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),
+        ),
+        SizedBox(height: 5,),
+        Row(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                ),
+                padding: EdgeInsets.all(5),
+                child: Text(category, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 12),)
+            ),
+            SizedBox(width: 15,),
+            Text(clockString, style: TextStyle(fontWeight: FontWeight.w700),)
+          ],
+        ),
+        SizedBox(height: 8,),
+        Container(
+          child: Divider(
+            height: 1.5,
+            color: Colors.grey[600],
+          ),
+        ),
+        SizedBox(height: 15,),
+        Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Column(
+                children: [
+                  Text(
+                    "---",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "RESPONDENTS",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Column(
+                children: [
+                  Text(
+                    "0%",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "RESPONSE RATE",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset(
+                          "assets/images/male.png",
+                          height: 26,
+                          width: 26,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "---",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Container(
+                    height: 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "0%",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        Text(
+                          "---",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset(
+                          "assets/images/female.png",
+                          height: 26,
+                          width: 26,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "---",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Container(
+                    height: 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "0%",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        Text(
+                          "0",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset(
+                          "assets/images/gender_other.png",
+                          height: 26,
+                          width: 26,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "---",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Container(
+                    height: 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "0%",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        Text(
+                          "0",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 8,
+        ),
+      ],
+    );
+  }
 }

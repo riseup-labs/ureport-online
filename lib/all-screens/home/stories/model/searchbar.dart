@@ -24,7 +24,8 @@ class OpinionSearchItem{
 
   String title;
   String date;
+  int id;
 
-  OpinionSearchItem(this.title, this.date);
+  OpinionSearchItem(this.id,this.title, this.date);
 
 }

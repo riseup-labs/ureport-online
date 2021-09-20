@@ -30,7 +30,6 @@ class DatabaseHelper {
   Future<Database> initializeDatabase() async {
     var dir = await getDatabasesPath();
     var path = dir + "database.db";
-    print(path);
 
     var database = await openDatabase(
       path,
@@ -163,7 +162,7 @@ class DatabaseHelper {
       resultTitle.forEach((element) {
         var itemTitle = ResultOpinionLocal.fromJson(element);
         if(itemTitle.category == item.category){
-          titles.add(new OpinionSearchItem(itemTitle.title, itemTitle.polldate));
+          titles.add(new OpinionSearchItem(itemTitle.id,itemTitle.title, itemTitle.polldate));
         }
       });
       opinionCategory.add(new OpinionSearchList(item.category,titles));
@@ -171,28 +170,34 @@ class DatabaseHelper {
     return opinionCategory;
   }
 
-  Future<List<ResultOpinionLocal>> getOpinions(String program) async {
+  Future<List<ResultOpinionLocal>> getOpinions(String program,int id) async {
     List<ResultOpinionLocal> opinion = [];
     var db = await this.database;
-    var result = await db.rawQuery("SELECT * FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program' order by ${DatabaseConstant.columnIDOpinion} DESC");
+    var result;
+    if(id == 0){
+      result = await db.rawQuery("SELECT * FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program' order by ${DatabaseConstant.columnIDOpinion} DESC");
+    }else{
+      result = await db.rawQuery("SELECT * FROM ${DatabaseConstant.tableNameOpinion} WHERE ${DatabaseConstant.columnIDOpinion} = $id order by ${DatabaseConstant.columnIDOpinion} DESC");
+    }
     result.forEach((element) {
       var list = ResultOpinionLocal.fromJson(element);
       opinion.add(list);
     });
+
     return opinion;
   }
 
-  Future<List<String>> getOpinionQuestion(String title) async {
-    List<String> Question =[];
-    var db = await this.database;
-    var result = await db.rawQuery("SELECT  ${DatabaseConstant.columnQuestionOpinion} FROM  ${DatabaseConstant.tableNameOpinion} WHERE ${DatabaseConstant.columnTitleOpinion} = '$title'");
-    result.forEach((element) {
-      var list =ResultOpinionLocal.fromJson(element);
-      Question.add(list.questions);
-    });
-    return Question;
-
-  }
+  // Future<List<String>> getOpinionQuestion(String title) async {
+  //   List<String> Question =[];
+  //   var db = await this.database;
+  //   var result = await db.rawQuery("SELECT  ${DatabaseConstant.columnQuestionOpinion} FROM  ${DatabaseConstant.tableNameOpinion} WHERE ${DatabaseConstant.columnTitleOpinion} = '$title'");
+  //   result.forEach((element) {
+  //     var list =ResultOpinionLocal.fromJson(element);
+  //     Question.add(list.questions);
+  //   });
+  //   return Question;
+  //
+  // }
 
   Future<int> deleteStoryTable() async {
     var db = await this.database;

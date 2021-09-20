@@ -203,7 +203,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                       onPressed: () {
                                         spset.setValue(SPUtil.PROGRAMKEY, dropdownValue);
                                         spset.setValue(SPUtil.OPINIONDATA, "");
-                                        NavUtils.pushAndRemoveUntil(context, NavigationScreen());
+                                        NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
                                       },
                                       child: Text('Continue'),
                                       style: ElevatedButton.styleFrom(

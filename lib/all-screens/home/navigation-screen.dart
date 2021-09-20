@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_list.dart';
@@ -10,33 +9,34 @@ import 'chat/Chat.dart';
 import 'opinion/opinion_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
+  int changedIndex;
+  NavigationScreen(this.changedIndex);
+
   @override
-  _NavigationScreenState createState() => _NavigationScreenState();
+  _NavigationScreenState createState() => _NavigationScreenState(changedIndex);
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
-  int _currentIndex = 0;
 
-  final tabs = [
-    StoryList(),
-    Chat(),
-    Opinion(),
-    Settings()
-  ];
+  int changedIndex;
+  _NavigationScreenState(this.changedIndex);
+
+  final tabs = [StoryList(), Chat(), Opinion(), Settings()];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
-        body: IndexedStack(index: _currentIndex, children: tabs),
+        body: IndexedStack(index: changedIndex, children: tabs),
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
+          currentIndex: changedIndex,
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
@@ -91,11 +91,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
           unselectedFontSize: 13,
           unselectedItemColor: Colors.black,
           onTap: (int i) {
-
             ClickSound.buttonClickYes();
-
             setState(() {
-              _currentIndex = i;
+              changedIndex = i;
               i++;
             });
           },

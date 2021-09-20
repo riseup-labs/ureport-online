@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
             var spset = locator<SPUtil>();
             String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
             if(isSigned!=null){
-              NavUtils.pushAndRemoveUntil(context, NavigationScreen());
+              NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
             }else{
               NavUtils.pushAndRemoveUntil(context, LanguageChooser());
             }

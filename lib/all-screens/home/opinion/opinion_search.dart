@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/model/searchbar.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
@@ -190,8 +191,8 @@ Widget buildItem(OpinionController provider, OpinionSearchItem item, BuildContex
           onTap: () {
             _floatingSearchBarController.clear();
             _floatingSearchBarController.close();
-            provider.setOpinionTitle(item.title);
-            Navigator.pop(context);
+            provider.opinionID = item.id;
+            NavUtils.pushAndRemoveUntil(context, NavigationScreen(2));
           },
           child: Padding(
             padding: const EdgeInsets.only(left: 10, right: 17, bottom: 15),
@@ -264,9 +265,6 @@ class DataPopUp extends StatelessWidget {
 
                 children: list,
                 initiallyExpanded: provider.isExpanded,
-                onExpansionChanged: (value){
-
-                },
               ))
           ,
         ),

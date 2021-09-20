@@ -21,10 +21,19 @@ class _OpinionItemState extends State<OpinionItem> {
 
   int selectedTab = 0;
 
+
+
   _OpinionItemState(this.question);
 
   @override
   Widget build(BuildContext context) {
+
+    print("Data is : ${question.id}");
+
+    int set = question.results.resultsSet;
+    int unset = question.results.unset;
+    int total = set + unset;
+
     return Card(
       child: Container(
         padding: EdgeInsets.all(8),
@@ -36,10 +45,17 @@ class _OpinionItemState extends State<OpinionItem> {
               margin: EdgeInsets.only(bottom: 5),
               child: Text(
                 question.title,
-                style: TextStyle(fontWeight: FontWeight.w600),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
-            SizedBox(height: 7),
+            Container(
+              margin: EdgeInsets.only(bottom: 5),
+              child: Text(
+                "$set responded out of $total polled",
+                style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[500], fontSize: 13),
+              ),
+            ),
+            SizedBox(height: 9),
             //Tab
             question.resultsByGender.length != 0 ? Column(
               children: [
@@ -154,7 +170,7 @@ class _OpinionItemState extends State<OpinionItem> {
                   child: getBody(question),
                 ),
               ],
-            ):WordCloud.getWordCloud(context)
+            ):WordCloud.getWordCloud(context,question)
 
           ],
         ),

@@ -10,22 +10,14 @@ import 'model/response_opinions.dart' as questionArray;
 class OpinionController extends ChangeNotifier{
 
   DatabaseHelper _databaseHelper = DatabaseHelper();
-  List<questionArray.Question> questionList = [];
   var sp = locator<SPUtil>();
 
-  String opinionTitle = "";
-  String opinionTitleEarlier = "";
-  ResultOpinionLocal? opinions;
-  void setOpinionTitle(String title){
-    opinionTitle = title;
-    notifyListeners();
-  }
-
+  int opinionID = 0;
 
   var isExpanded = false;
   void setExpanded(bool state){
     isExpanded = state;
-    notifyListeners();
+    // notifyListeners();
   }
 
   var _opinionrepository = locator<OpinionRepository>();
@@ -35,11 +27,6 @@ class OpinionController extends ChangeNotifier{
     var apiresponsedata = await _opinionrepository.getOpinions(url);
     if(apiresponsedata.httpCode==200){
       items.addAll(apiresponsedata.data.results);
-
-      // DateTime latestDate =  apiresponsedata.data.results[0].pollDate;
-      // DateTime pastDate = DateTime.parse(sp.getValue(SPUtil.OPINION_LATEST_POLL_DATE));
-      // var data = pastDate.isBefore(latestDate);
-
       if(apiresponsedata.data.next != null ){
         sp.setValue(SPUtil.OPINION_LATEST_POLL_DATE,apiresponsedata.data.results[0].pollDate.toString());
         getOpinionsFromRemote(apiresponsedata.data.next,program);
@@ -50,24 +37,12 @@ class OpinionController extends ChangeNotifier{
     }
   }
 
-  getOpinionsFromLocal(String program) {
-    return _databaseHelper.getOpinions(program);
-  }
-
-  getQuestionsFromLocal(String? programTitle) async{
-
-    questionList.clear();
-    List<String?> questionsJson = await _databaseHelper.getOpinionQuestion(programTitle!);
-    for(int i = questionsJson.length; i>0; i--){
-      var apiresponse = await _opinionrepository.getOpinionQuestions(questionsJson[i-1]);
-      questionList.addAll(apiresponse.data.toList());
-    }
-    notifyListeners();
+  getOpinionsFromLocal(String program, int id) {
+    return _databaseHelper.getOpinions(program, id);
   }
 
   getCategories(String program){
     return _databaseHelper.getOpinionCategories(program);
   }
-
 
 }
