@@ -82,7 +82,9 @@ class Chat extends StatelessWidget {
 
                        onTap: (){
                         // provider.sellectAllItems();
-                         provider.selectAllMessage();
+                         if(provider.selectall==true){
+                           provider.selectAllMessage();
+                         }
                        },
                        child: Container(
                          margin: EdgeInsets.only(right: 15),
@@ -222,7 +224,7 @@ class Chat extends StatelessWidget {
 
 
                                                   DateTime now = DateTime.now();
-                                                  String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
+                                                  String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
                                                   MessageModel messageModel = MessageModel(
                                                       message: provider.quicdata(provider.localmessage[index].quicktypest.toString())[j],
                                                       sender: "user",
@@ -269,6 +271,7 @@ class Chat extends StatelessWidget {
                           GestureDetector(
                             onLongPress: (){
                               provider.selectall=true;
+                              provider.individualselect.clear();
                               // provider.deleteSingleMessage(localmessage.time);
 
 
@@ -352,7 +355,7 @@ class Chat extends StatelessWidget {
                                               GestureDetector(
                                                 onTap:(){
                                                   DateTime now = DateTime.now();
-                                                  String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
+                                                  String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
                                                   MessageModel messageModel = MessageModel(
                                                       message: provider.quicdata(provider.localmessage[index].quicktypest.toString())[j],
                                                       sender: "user",
@@ -510,8 +513,6 @@ class Chat extends StatelessWidget {
 
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-
-
                                           SizedBox(height: 5,),
 
                                           Row(
@@ -551,6 +552,7 @@ class Chat extends StatelessWidget {
                                       onTap: (){
                                         provider.selectall=false;
                                         provider.selectedMessage.clear();
+                                        provider.individualselect.clear();
                                       },
                                       child: Text("Cancel",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold),)),
 
@@ -580,12 +582,15 @@ class Chat extends StatelessWidget {
           SizedBox(width: 10,),
           Expanded(
             child: Container(
+
+              width: double.infinity,
               margin: EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
 
               ),
 
               child: TextFormField(
+
                 onChanged: (String value) {
                   message = value;
                 },
@@ -596,7 +601,7 @@ class Chat extends StatelessWidget {
               ),
             ),
           ),
-          Spacer(),
+
           Material(
             child: Row(
               children: [
@@ -605,7 +610,7 @@ class Chat extends StatelessWidget {
                   icon: Image.asset("assets/images/ic_sand.png"),
                   onPressed: () {
                     DateTime now = DateTime.now();
-                    String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
+                    String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
                     sendMessageKey.currentState!.save();
                     if (message == "") return;
                     final messageModel = MessageModel(
@@ -628,11 +633,6 @@ class Chat extends StatelessWidget {
       ),
     );
   }
-
-
-
-
-
 }
 
 

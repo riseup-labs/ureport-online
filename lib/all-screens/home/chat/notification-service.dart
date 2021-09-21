@@ -12,7 +12,7 @@ class FirebaseNotificationService{
 
   }
 
-/*  static void display(RemoteMessage remoteMessage)async{
+  static void display(RemoteMessage remoteMessage)async{
     final id = DateTime.now().microsecondsSinceEpoch ~/100;
 
     final NotificationDetails notificationDetails = NotificationDetails(
@@ -29,6 +29,6 @@ class FirebaseNotificationService{
     await _flutterLocalNotificationsPlugin.show(id, remoteMessage.notification!.title,
         remoteMessage.notification!.body, notificationDetails);
 
-  }*/
+  }
 
 }

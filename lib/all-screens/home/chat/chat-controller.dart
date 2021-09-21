@@ -52,7 +52,15 @@ class ChatController extends ChangeNotifier{
 
 
   bool _selectall=false;
+  bool _allitemselected=false;
 
+
+  bool get allitemselected => _allitemselected;
+
+  set allitemselected(bool value) {
+    _allitemselected = value;
+    notifyListeners();
+  }
 
   bool get selectall => _selectall;
 
@@ -63,45 +71,73 @@ class ChatController extends ChangeNotifier{
 
   List<int>individualselect=[];
   List<MessageModelLocal>selectedMessage=[];
-
+  List<MessageModelLocal> delectionmessage =[];
 
   deleteMessage()async{
 
       //localmessage[individualselect[i]]= local;
 
+    for(int i=0;i<individualselect.length;i++){
+      MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: localmessage[individualselect[i]].sender,
+          status: localmessage[individualselect[i]].status, quicktypest: "", time: localmessage[individualselect[i]].time);
+      localmessage[individualselect[i]]=msgl;
 
-    //updateSingleMessage(localmessage[individualselect[i]].time,"This Message was Deleted");
+      print("the message time is------------ ${msgl.time}");
 
-    await _databaseHelper.updateSingleMessage(selectedMessage).then((value) {
-      individualselect.clear();
-      selectedMessage.clear();
-      localmessage.clear();
-      loaddefaultmessage();
+      await _databaseHelper.updateSingleMessage(msgl);
+    }
 
+
+/*
+
+    localmessage.forEach((element) {
+      if(selectedMessage.contains(element)){
+         MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: element.sender,
+        status: element.status, quicktypest: "", time: element.time);
+        localmessage.add(msgl);
+       // print("total length of localmessage ${localmessage.length}");
+      }
     });
-
-
+*/
+    //updateSingleMessage(localmessage[individualselect[i]].time,"This Message was Deleted");
+    print("selected message length is..................${selectedMessage.length}");
+    /*
+    selectedMessage.forEach((element) {
+       MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: element.sender,
+        status: element.status, quicktypest: "", time: element.time);
+       delectionmessage.add(msgl);
+    });*/
     selectall=false;
     notifyListeners();
   }
 
+  deleteAllMessage(){
+
+
+  }
 
   selectAllMessage(){
     individualselect.clear();
     selectedMessage.clear();
     List<MessageModelLocal> willReplacelist = [];
 
+
+    //final index = localmessage.indexWhere((element) => element.message!="This Message was Deleted");
     willReplacelist.addAll(localmessage.where((element) => element.message!= "This Message was Deleted"));
 
     List<MessageModelLocal> list =[];
+    for(int i=0;i<localmessage.length;i++){
 
-    for(int i=0;i<willReplacelist.length;i++){
-      individualselect.add(i);
-      MessageModelLocal mscl =MessageModelLocal(message: "This Message was Deleted",
+      if(localmessage[i].message!="This Message was Deleted"){
+        individualselect.add(i);
+      }
+     /* MessageModelLocal mscl =MessageModelLocal(message: "This Message was Deleted",
           sender: willReplacelist[i].sender, status: willReplacelist[i].status, quicktypest: "", time: willReplacelist[i].time);
 
-      list.add(mscl);
+      list.add(mscl);*/
     }
+
+
 
    if(list.length>0) selectedMessage.addAll(list);
     print("select message length is ............${selectedMessage.length}");
@@ -110,16 +146,16 @@ class ChatController extends ChangeNotifier{
   }
   addSelectionMessage(MessageModelLocal msg){
 
-    MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: msg.sender,
-        status: msg.status, quicktypest: "", time: msg.time);
-    selectedMessage.add(msgl);
+ /*   MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: msg.sender,
+        status: msg.status, quicktypest: "", time: msg.time);*/
+    selectedMessage.add(msg);
     notifyListeners();
   }
 
   deleteSelectionMessage(MessageModelLocal msg){
-    MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: msg.sender,
-        status: msg.status, quicktypest: "", time: msg.time);
-    selectedMessage.remove(msgl);
+   /* MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: msg.sender,
+        status: msg.status, quicktypest: "", time: msg.time);*/
+    selectedMessage.remove(msg);
     print("after remove/deselect total selected length is -----${selectedMessage.length}");
     notifyListeners();
   }
@@ -217,10 +253,10 @@ class ChatController extends ChangeNotifier{
     List<dynamic>data=[];
     if(ss!="null" && ss.isNotEmpty && ss!=""){
       data = json.decode(ss);
-      print("the length is ${data.length}");
+
       return data;
     }else {
-      print("the length is ${data.length}");
+
       return data;
     }
   }
@@ -243,9 +279,6 @@ class ChatController extends ChangeNotifier{
   }
 
 
-
-
-
   createContatct() async {
     await getToken();
     if(_token.isNotEmpty){
@@ -255,7 +288,6 @@ class ChatController extends ChangeNotifier{
         String contact_urn = getRandomString(15);
         var apiResponse = await _rapidproservice.createContact(contact_urn, _token,"Unknown",onSuccess:(uuid){
           contatct=uuid;
-
         } );
         // getfirebase();
         if (apiResponse.httpCode == 200) {
@@ -287,19 +319,16 @@ class ChatController extends ChangeNotifier{
     print("sp 5days value    -----${_spservice.getValue(SPUtil.DELETE5DAYS)}");
 
     if(_spservice.getValue(SPUtil.DELETE5DAYS)=="true"){
-
-
       await _databaseHelper.getConversation().then((valuereal) {
         //get curreent date
         DateTime now = DateTime.now();
         //compare c_date with valuereal.date
         valuereal.forEach((element) async{
 
-          DateTime valuetime =  new DateFormat('dd-MM-yyyy hh:mm a').parse(element.time);
+          DateTime valuetime =  new DateFormat('dd-MM-yyyy hh:mm:ss a').parse(element.time);
           Duration sincetime = now.difference(valuetime);
           print("the difference time is ....${sincetime.inMinutes}");
-          if(sincetime.inMinutes >= 2){
-
+          if(sincetime.inDays >= 5){
           await  deleteSingleMessage(element.time);
           notifyListeners();
           }
@@ -316,7 +345,7 @@ class ChatController extends ChangeNotifier{
     FirebaseMessaging.onMessage.listen((RemoteMessage remotemessage){
 
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
+      String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
       List<dynamic> quicktypest;
       if(remotemessage.data["quick_replies"]!=null){
         print("the incomeing quick tyupe data is........${remotemessage.data["quick_replies"]}");
@@ -401,7 +430,7 @@ class ChatController extends ChangeNotifier{
         .getInitialMessage().then((RemoteMessage? remotemessage) {
 
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
+      String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
       List<dynamic> quicktypest;
       if(remotemessage!.data["quick_replies"]!=null){
         quicktypest = json.decode(remotemessage.data["quick_replies"]);
@@ -427,7 +456,7 @@ class ChatController extends ChangeNotifier{
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage){
 
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(now);
+      String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
       List<dynamic> quicktypest;
       if(remotemessage.data["quick_replies"]!=null){
         quicktypest = json.decode(remotemessage.data["quick_replies"]);
@@ -442,7 +471,7 @@ class ChatController extends ChangeNotifier{
           quicktypest: quicktypest,
           time:formattedDate);
       addMessage(notificationmessage);
-     // FirebaseNotificationService.display(remotemessage);
+      FirebaseNotificationService.display(remotemessage);
 
     });
 

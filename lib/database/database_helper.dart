@@ -197,15 +197,11 @@ class DatabaseHelper {
 
   }
 
- Future<bool> updateSingleMessage(List<MessageModelLocal>msg)async{
-
+ Future<bool> updateSingleMessage(MessageModelLocal msg)async{
     var db = await this.database;
-    msg.forEach((element) async{
-      await db.rawDelete("UPDATE  ${DatabaseConstant.tableNameMessage} SET ${DatabaseConstant.message} ='${element.message}', ${DatabaseConstant.quicktypest}='null' where ${DatabaseConstant.time}='${element.time}'").then((value) {
-        return true;
-      });
+    await db.rawQuery("UPDATE  ${DatabaseConstant.tableNameMessage} SET ${DatabaseConstant.message} ='${msg.message}', ${DatabaseConstant.quicktypest}='null' where ${DatabaseConstant.time}='${msg.time}'").then((value) {
+      return true;
     });
-
     return false;
   }
 
