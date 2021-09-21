@@ -28,7 +28,6 @@ class OpinionController extends ChangeNotifier{
     if(apiresponsedata.httpCode==200){
       items.addAll(apiresponsedata.data.results);
       if(apiresponsedata.data.next != null ){
-        sp.setValue(SPUtil.OPINION_LATEST_POLL_DATE,apiresponsedata.data.results[0].pollDate.toString());
         getOpinionsFromRemote(apiresponsedata.data.next,program);
       }else{
         await _databaseHelper.insertOpinion(items,program);

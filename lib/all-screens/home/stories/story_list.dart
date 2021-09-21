@@ -7,6 +7,7 @@ import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_search.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/load_data_handling.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
@@ -15,19 +16,27 @@ import 'model/ResponseStoryLocal.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StoryList extends StatelessWidget {
+  var sp = locator<SPUtil>();
+
   @override
   Widget build(BuildContext context) {
-
-    var sp = locator<SPUtil>();
     Provider.of<StoryController>(context, listen: false).initializeDatabase();
     List<ResultLocal>? stories = [];
     Provider.of<StoryController>(context, listen: false)
         .getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
-    // Provider.of<StoryController>(context, listen: false).getStoriesFromRemote(
-    //     RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-    //     sp.getValue(SPUtil.PROGRAMKEY));
+
+    if (LoadDataHandling.checkStoryLoadAvailability()) {
+      Provider.of<StoryController>(context, listen: false).getStoriesFromRemote(
+          RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+          sp.getValue(SPUtil.PROGRAMKEY));
+    } else {
+      print("Load : false");
+    }
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
+      var _futureStory =
+          provider.getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
+
       return SafeArea(
           child: Scaffold(
               body: Container(
@@ -84,7 +93,9 @@ class StoryList extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               Container(
                 child: Divider(
                   height: 1.5,
@@ -94,45 +105,61 @@ class StoryList extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
+              provider.isLoading?Center(
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  padding: EdgeInsets.all(15),
+                  child: CircularProgressIndicator(strokeWidth: 2,),
+                ),
+              ):Container(),
               Expanded(
                 child: FutureBuilder<List<ResultLocal>>(
-                    future: provider
-                        .getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY)),
+                    future: _futureStory,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         stories = List.from(snapshot.data!.reversed);
                       }
-                      return stories!.length > 0
-                          ? ListView.builder(
-                              physics: ScrollPhysics(),
-                              shrinkWrap: true,
-                              addAutomaticKeepAlives: true,
-                              itemCount: 10,
-                              itemBuilder: (BuildContext context, int index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    NavUtils.push(
-                                        context,
-                                        StoryDetails(
-                                            stories![index].id.toString(),
-                                            stories![index].title.toString(),
-                                            stories![index].images.toString(),
-                                            stories![index]
-                                                .createdOn
-                                                .toString()));
-                                  },
-                                  child: Container(
-                                    child: getItem(
-                                        stories?[index].images != ''
-                                            ? stories![index].images
-                                            : "assets/images/default.jpg",
-                                        "",
-                                        stories![index].title,
-                                        stories![index].summary),
-                                  ),
-                                );
-                              })
-                          : Center(child: CircularProgressIndicator());
+                      return RefreshIndicator(
+                              onRefresh: () {
+                                return _futureStory =
+                                    getDataFromApi(context); // EDITED
+                              },
+                              child: ListView.builder(
+                                  physics: ScrollPhysics(),
+                                  shrinkWrap: true,
+                                  addAutomaticKeepAlives: true,
+                                  itemCount: stories!.length < 10 ? stories!.length : 10,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        NavUtils.push(
+                                            context,
+                                            StoryDetails(
+                                                stories![index].id.toString(),
+                                                stories![index]
+                                                    .title
+                                                    .toString(),
+                                                stories![index]
+                                                    .images
+                                                    .toString(),
+                                                stories![index]
+                                                    .createdOn
+                                                    .toString()));
+                                      },
+                                      child: Container(
+                                        child: getItem(
+                                            stories?[index].images != ''
+                                                ? stories![index].images
+                                                : "assets/images/default.jpg",
+                                            "",
+                                            stories![index].title,
+                                            stories![index].summary),
+                                      ),
+                                    );
+                                  }),
+                            );
                     }),
               ),
             ],
@@ -140,6 +167,13 @@ class StoryList extends StatelessWidget {
         ),
       )));
     });
+  }
+
+  Future<String> getDataFromApi(BuildContext context) async {
+    return Provider.of<StoryController>(context, listen: false)
+        .getStoriesFromRemote(
+            RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+            sp.getValue(SPUtil.PROGRAMKEY));
   }
 }
 

@@ -41,9 +41,6 @@ class _StoryDetailsState extends State<StoryDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // Provider
-    //     .of<StoryDetailsController>(context, listen: false)
-    //     .responseStoryDetails = null;
 
     StorageUtil.readStory("${sp.getValue(SPUtil.PROGRAMKEY)}_${widget.id}").then((String value) {
       setState(() {
@@ -57,10 +54,6 @@ class _StoryDetailsState extends State<StoryDetails> {
   @override
   Widget build(BuildContext context) {
 
-    Provider.of<StoryDetailsController>(context, listen: false)
-        .getStoriesDetailsFromRemote(RemoteConfigData.getStoryDetailsUrl(
-        sp.getValue(SPUtil.PROGRAMKEY)) +
-        widget.id);
     String story_content = "";
     return Consumer<StoryDetailsController>(
         builder: (context, provider, snapshot) {

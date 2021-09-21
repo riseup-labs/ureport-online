@@ -13,8 +13,8 @@ class SPUtil {
   static String CONTACT_URN = "CONTACT_URN";
   static String REGISTRATION_COMPLETE = "REGISTRATION_COMPLETE";
   static String PROGRAMCHANGE = "PROGRAMCHANGE";
-  static String OPINION_LATEST_POLL_DATE = "opinion_latest_poll_date";
-  static String STORY_LATEST_POLL_DATE = "opinion_latest_poll_date";
+  static String OPINION_LAST_UPDATE = "opinion_last_update";
+  static String STORY_LAST_UPDATE = "story_last_update";
 
 
   setValue(String key, String value) async {

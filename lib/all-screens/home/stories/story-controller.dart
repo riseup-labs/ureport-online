@@ -5,6 +5,7 @@ import 'package:ureport_ecaro/all-screens/home/stories/save_story.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-repository.dart';
 import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/load_data_handling.dart';
 import 'model/ResponseStoryLocal.dart';
 import 'model/response-story-data.dart' as storyarray;
 
@@ -18,10 +19,17 @@ class StoryController extends ChangeNotifier{
     notifyListeners();
   }
 
+  var isLoading = false;
+  setLoading(){
+    isLoading = true;
+    notifyListeners();
+  }
+
   List<storyarray.Result> items = List.empty(growable: true);
   DatabaseHelper _databaseHelper = DatabaseHelper();
 
   getStoriesFromRemote(String url,String program) async {
+    setLoading();
     var apiresponsedata = await _storyservice.getStory(url);
     if(apiresponsedata.httpCode==200){
       items.addAll(apiresponsedata.data.results);
@@ -32,6 +40,8 @@ class StoryController extends ChangeNotifier{
         items.forEach((element) {
           StorageUtil.writeStory(element.content, "${program}_${element.id}");
         });
+        LoadDataHandling.storeStoryLastUpdate();
+        isLoading = false;
         notifyListeners();
       }
     }

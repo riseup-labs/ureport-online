@@ -29,8 +29,6 @@ class _OpinionItemState extends State<OpinionItem> {
   @override
   Widget build(BuildContext context) {
 
-    print("Data is : ${question.id}");
-
     int set = question.results.resultsSet;
     int unset = question.results.unset;
     int total = set + unset;
