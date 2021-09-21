@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ureport_ecaro/utils/number_format.dart';
 import 'model/response_opinions.dart' as questionArray;
 import 'statistics_age.dart';
 import 'statistics_all.dart';
@@ -51,7 +52,7 @@ class _OpinionItemState extends State<OpinionItem> {
             Container(
               margin: EdgeInsets.only(bottom: 5),
               child: Text(
-                "$set responded out of $total polled",
+                "${FormattedNumber.formatNumber(set)} responded out of ${FormattedNumber.formatNumber(total)} polled",
                 style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[500], fontSize: 13),
               ),
             ),
@@ -61,99 +62,111 @@ class _OpinionItemState extends State<OpinionItem> {
               children: [
                 Center(
                   child: Container(
-                    width: 187,
+                    margin: EdgeInsets.only(bottom: 5),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.black,
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: (){
-                            setState(() {
-                              selectedTab = 0;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: selectedTab == 0?Colors.black:Colors.white,
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
+                    child: Container(
+                      width: 270,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 4,
+                            child: GestureDetector(
+                              onTap: (){
+                                setState(() {
+                                  selectedTab = 0;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: selectedTab == 0?Colors.black:Colors.white,
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
+                                ),
+                                padding: EdgeInsets.only(top: 5, bottom: 5),
+                                child: Center(child: Text("ALL",style: TextStyle(color: selectedTab == 0?Colors.white:Colors.black,fontSize: 13),)),
+                              ) ,
                             ),
-                            padding: EdgeInsets.only(top: 5, bottom: 5),
-                            width: 35,
-                            child: Center(child: Text("All",style: TextStyle(color: selectedTab == 0?Colors.white:Colors.black),)),
-                          ) ,
-                        ),
-                        Container(
-                          height: 28,
-                          child: VerticalDivider(
-                            width: 1.5,
-                            thickness: 1,
-                            color: Colors.grey[600],
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            setState(() {
-                              selectedTab = 1;
-                            });
-                          },
-                          child: Container(
-                            color: selectedTab == 1?Colors.black:Colors.white,
-                            padding: EdgeInsets.only(top: 5, bottom: 5),
-                            width: 55,
-                            child: Center(child: Text("Location",style: TextStyle(color: selectedTab == 1?Colors.white:Colors.black),)),
-                          ),
-                        ),
-                        Container(
-                          height: 28,
-                          child: VerticalDivider(
-                            width: 1.5,
-                            thickness: 1,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            setState(() {
-                              selectedTab = 2;
-                            });
-                          },
-                          child: Container(
-                            color: selectedTab == 2?Colors.black:Colors.white,
-                            padding: EdgeInsets.only(top: 5, bottom: 5),
-                            width: 50,
-                            child: Center(child: Text("Gender",style: TextStyle(color: selectedTab == 2?Colors.white:Colors.black),)),
-                          ),
-                        ),
-                        Container(
-                          height: 28,
-                          child: VerticalDivider(
-                            width: 1.5,
-                            thickness: 1,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            setState(() {
-                              selectedTab = 3;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: selectedTab == 3?Colors.black:Colors.white,
-                              borderRadius: BorderRadius.only(topRight: Radius.circular(30), bottomRight: Radius.circular(30)),
+                          Container(
+                            height: 26,
+                            child: VerticalDivider(
+                              width: 1,
+                              thickness: 1,
+                              color: Colors.grey[600],
                             ),
-                            padding: EdgeInsets.only(top: 5, bottom: 5, right: 7),
-                            width: 40,
-                            child: Center(child: Text("Age",style: TextStyle(color: selectedTab == 3?Colors.white:Colors.black),)),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            flex: 4,
+                            child: GestureDetector(
+                              onTap: (){
+                                setState(() {
+                                  selectedTab = 1;
+                                });
+                              },
+                              child: Container(
+                                color: selectedTab == 1?Colors.black:Colors.white,
+                                padding: EdgeInsets.only(top: 5, bottom: 5),
+                                child: Center(child: Text("AGE",style: TextStyle(color: selectedTab == 1?Colors.white:Colors.black,fontSize: 13),)),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 26,
+                            child: VerticalDivider(
+                              width: 1,
+                              thickness: 1,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: GestureDetector(
+                              onTap: (){
+                                setState(() {
+                                  selectedTab = 2;
+                                });
+                              },
+                              child: Container(
+                                color: selectedTab == 2?Colors.black:Colors.white,
+                                padding: EdgeInsets.only(top: 5, bottom: 5),
+                                child: Center(child: Text("GENDER",style: TextStyle(color: selectedTab == 2?Colors.white:Colors.black,fontSize: 13),)),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 26,
+                            child: VerticalDivider(
+                              width: 1,
+                              thickness: 1,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: GestureDetector(
+                              onTap: (){
+                                setState(() {
+                                  selectedTab = 3;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: selectedTab == 3?Colors.black:Colors.white,
+                                  borderRadius: BorderRadius.only(topRight: Radius.circular(30), bottomRight: Radius.circular(30)),
+                                ),
+                                padding: EdgeInsets.only(top: 5, bottom: 5, right: 7),
+                                width: 70,
+                                child: Center(child: Text("LOCATION",style: TextStyle(color: selectedTab == 3?Colors.white:Colors.black,fontSize: 13),)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -170,8 +183,9 @@ class _OpinionItemState extends State<OpinionItem> {
                   child: getBody(question),
                 ),
               ],
-            ):WordCloud.getWordCloud(context,question)
-
+            ):question.results.categories.length>0?WordCloud.getWordCloud(context,question):Container(
+              child: Text("Cloud is empty"),
+            )
           ],
         ),
       ),
@@ -182,11 +196,11 @@ class _OpinionItemState extends State<OpinionItem> {
     if(selectedTab == 0 && question.resultsByGender.length != 0){
       return StatisticsAll.getAllStatistics(question);
     }else if(selectedTab == 1&& question.resultsByLocation.length != 0){
-      return StatisticsLocationSpinner(question);
+      return StatisticsAge.getAgeStatistics(question);
     }else if(selectedTab == 2 && question.resultsByGender.length != 0){
       return StatisticsGender.getGenderStatistics(question);
     }else if(selectedTab == 3 && question.resultsByAge.length != 0){
-      return StatisticsAge.getAgeStatistics(question);
+      return StatisticsLocationSpinner(question);
     }
   }
 }

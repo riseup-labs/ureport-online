@@ -20,10 +20,12 @@ class Opinion extends StatefulWidget {
   @override
   _OpinionState createState() => _OpinionState();
 }
+
 var count = 0;
 
 class _OpinionState extends State<Opinion> {
   var isLoaded = true;
+
   // List<questionArray.Question> questionList = [];
 
   var sp = locator<SPUtil>();
@@ -32,9 +34,10 @@ class _OpinionState extends State<Opinion> {
   Widget build(BuildContext context) {
     List<ResultOpinionLocal>? opinions = [];
 
-    // Provider.of<OpinionController>(context, listen: false).getOpinionsFromRemote(
-    //     RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-    //     sp.getValue(SPUtil.PROGRAMKEY));
+    // Provider.of<OpinionController>(context, listen: false)
+    //     .getOpinionsFromRemote(
+    //         RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+    //         sp.getValue(SPUtil.PROGRAMKEY));
 
     return Consumer<OpinionController>(builder: (context, provider, child) {
       return SafeArea(
@@ -109,49 +112,56 @@ class _OpinionState extends State<Opinion> {
               Expanded(
                 child: SingleChildScrollView(
                   child: FutureBuilder<List<ResultOpinionLocal>>(
-                      future: provider.getOpinionsFromLocal(sp.getValue(SPUtil.PROGRAMKEY), provider.opinionID),
+                      future: provider.getOpinionsFromLocal(
+                          sp.getValue(SPUtil.PROGRAMKEY), provider.opinionID),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           opinions = snapshot.data;
-                          if(opinions!.length > 0){
+                          if (opinions!.length > 0) {
                             var mapdata = jsonDecode(opinions![0].questions);
                             // questionList.clear();
-                            List<questionArray.Question> questionList = (mapdata as List)
+                            List<questionArray.Question> questionList = (mapdata
+                                    as List)
                                 .map((e) => questionArray.Question.fromJson(e))
                                 .toList();
                             return snapshot.hasData
                                 ? Container(
-                              margin: EdgeInsets.only(top: 15),
-                              child: Column(
-                                children: [
-                                  questionList.length > 0
-                                      ? StatisticsHeader
-                                      .getHeadingStatistics(
-                                      questionList[0],
-                                      opinions![0],
-                                      provider)
-                                      : StatisticsHeader
-                                      .getHeadingStatisticsEmpty(
-                                      opinions![0]),
-                                  ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: BouncingScrollPhysics(),
-                                      itemCount: questionList.length,
-                                      itemBuilder: (context, int index) {
-                                        return OpinionItem(questionList[index]);
-                                      })
-                                ],
-                              ),
-                            )
+                                    margin: EdgeInsets.only(top: 10),
+                                    child: Column(
+                                      children: [
+                                        questionList.length > 0
+                                            ? StatisticsHeader
+                                                .getHeadingStatistics(
+                                                    questionList[0],
+                                                    opinions![0],
+                                                    provider)
+                                            : StatisticsHeader
+                                                .getHeadingStatisticsEmpty(
+                                                    opinions![0]),
+                                        ListView.builder(
+                                            shrinkWrap: true,
+                                            physics: BouncingScrollPhysics(),
+                                            itemCount: questionList.length,
+                                            itemBuilder: (context, int index) {
+                                              return OpinionItem(
+                                                  questionList[index]);
+                                            })
+                                      ],
+                                    ),
+                                  )
                                 : Container(
-                              child: Center(
-                                  child: CircularProgressIndicator()),
-                            );
-                          }else {
-                            return Container();
+                                    child: Center(
+                                        child: CircularProgressIndicator()),
+                                  );
+                          } else {
+                            return Container(
+                                child:
+                                    Center(child: CircularProgressIndicator()));
                           }
                         } else {
-                          return Container();
+                          return Container(
+                              child:
+                                  Center(child: CircularProgressIndicator()));
                         }
                       }),
                 ),
@@ -162,5 +172,4 @@ class _OpinionState extends State<Opinion> {
       )));
     });
   }
-
 }

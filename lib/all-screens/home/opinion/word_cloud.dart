@@ -16,24 +16,26 @@ class WordCloud{
     ];
 
     List<FlutterHashtag> wordList = [];
+    List<Widget> widgets = <Widget>[];
 
     int colorNumber = 0;
     int textsize = 100;
 
-    question.results.categories.forEach((element) {
-      if(colorNumber >= colors.length){
-        colorNumber=0;
+    if(question.results.categories.length > 0){
+      question.results.categories.forEach((element) {
+        if(colorNumber >= colors.length){
+          colorNumber=0;
+        }
+        textsize = textsize - 12;
+        if(textsize < 30){textsize = 30;}
+        wordList.add(FlutterHashtag(element.label, colors[colorNumber++], textsize, false));
+      });
+
+
+      for (var i = 0; i < wordList.length; i++) {
+        widgets.add(ScatterItem(wordList[i], i));
       }
-      textsize = textsize - 12;
-      if(textsize < 30){textsize = 30;}
-      wordList.add(FlutterHashtag(element.label, colors[colorNumber++], textsize, false));
-    });
-
-    List<Widget> widgets = <Widget>[];
-    for (var i = 0; i < wordList.length; i++) {
-      widgets.add(ScatterItem(wordList[i], i));
     }
-
 
 
     final screenSize = MediaQuery.of(context).size;

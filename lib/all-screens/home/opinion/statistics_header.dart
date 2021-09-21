@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ureport_ecaro/utils/number_format.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
 import 'model/response-opinion-localdb.dart';
 import 'model/response_opinions.dart' as questionArray;
@@ -44,15 +45,14 @@ class StatisticsHeader{
 
     }else{
       int femaleSet = question.resultsByGender[1].resultsSet;
-      int femaleUnset = question.resultsByGender[1].unset;
       int maleSet = question.resultsByGender[0].resultsSet;
-      int maleUnset = question.resultsByGender[0].unset;
 
       maleRespondent = maleSet;
       femaleRespondent = femaleSet;
+      int genderTotal = maleSet+femaleSet;
 
-      maleResponseRate = (maleSet/maleUnset)*100;
-      femaleResponseRate = (femaleSet/femaleUnset)*100;
+      maleResponseRate = (maleSet/genderTotal)*100;
+      femaleResponseRate = (femaleSet/genderTotal)*100;
     }
 
 
@@ -92,7 +92,7 @@ class StatisticsHeader{
               child: Column(
                 children: [
                   Text(
-                    "${respondents.toString()}",
+                    "${FormattedNumber.formatNumber(respondents)}",
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   Text(
@@ -167,7 +167,7 @@ class StatisticsHeader{
                           height: 7,
                         ),
                         Text(
-                          "${maleRespondent}",
+                          "${FormattedNumber.formatNumber(maleRespondent)}",
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w700),
                         ),
@@ -220,7 +220,7 @@ class StatisticsHeader{
                           height: 7,
                         ),
                         Text(
-                          "${femaleRespondent}",
+                          "${FormattedNumber.formatNumber(femaleRespondent)}",
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w700),
                         ),

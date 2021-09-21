@@ -107,7 +107,7 @@ class StoryList extends StatelessWidget {
                               physics: ScrollPhysics(),
                               shrinkWrap: true,
                               addAutomaticKeepAlives: true,
-                              itemCount: stories!.length,
+                              itemCount: 10,
                               itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
                                   onTap: () {
