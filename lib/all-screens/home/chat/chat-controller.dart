@@ -353,6 +353,13 @@ class ChatController extends ChangeNotifier{
       }else{
         quicktypest=[""];
       }
+
+      remotemessage.data.forEach((key, value) {
+
+        print("the key is ---------$key ---------and value is -----------$value");
+
+      });
+
       var serverMessage=MessageModel(sender: 'server',
           message: remotemessage.data["message"],
           status: "received",
@@ -390,6 +397,8 @@ class ChatController extends ChangeNotifier{
             )
         ));
       }*/
+
+
     });
   }
 
@@ -421,9 +430,6 @@ class ChatController extends ChangeNotifier{
     },urn: urn,fcmToken: _token);
 
   }
-
-
-
 
  getfirebaseInitialmessage(){
     FirebaseMessaging.instance
@@ -476,9 +482,5 @@ class ChatController extends ChangeNotifier{
     });
 
   }
-
-
-
-
 
 }
