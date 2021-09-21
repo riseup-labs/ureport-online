@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:ureport_ecaro/all-screens/home/stories/save_story.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-details-controller.dart';
 import 'package:share/share.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
@@ -24,6 +25,7 @@ class StoryDetails extends StatefulWidget {
   String image = "";
   String date = "";
 
+
   StoryDetails(this.id, this.title, this.image, this.date);
 
   @override
@@ -31,19 +33,30 @@ class StoryDetails extends StatefulWidget {
 }
 
 class _StoryDetailsState extends State<StoryDetails> {
+
+  var sp = locator<SPUtil>();
+  String storyContent = "";
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider
-        .of<StoryDetailsController>(context, listen: false)
-        .responseStoryDetails = null;
+    // Provider
+    //     .of<StoryDetailsController>(context, listen: false)
+    //     .responseStoryDetails = null;
+
+    StorageUtil.readStory("${sp.getValue(SPUtil.PROGRAMKEY)}_${widget.id}").then((String value) {
+      setState(() {
+        storyContent = value;
+      });
+    });
+
   }
 
 
   @override
   Widget build(BuildContext context) {
-    var sp = locator<SPUtil>();
+
     Provider.of<StoryDetailsController>(context, listen: false)
         .getStoriesDetailsFromRemote(RemoteConfigData.getStoryDetailsUrl(
         sp.getValue(SPUtil.PROGRAMKEY)) +
@@ -114,7 +127,7 @@ class _StoryDetailsState extends State<StoryDetails> {
                             margin: EdgeInsets.only(top: 60),
                             width: double.infinity,
                             child: loadLocalHTML(
-                                provider, story_content, widget.title,
+                                provider, storyContent, widget.title,
                                 widget.image, widget.date),
                           ),
                         ],

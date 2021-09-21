@@ -6,6 +6,7 @@ import 'package:ureport_ecaro/all-screens/home/opinion/opinion_search.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'model/response-opinion-localdb.dart';
 import 'opinion_controller.dart';

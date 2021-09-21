@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/model/response-story-details.dart';
+import 'package:ureport_ecaro/all-screens/home/stories/save_story.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-repository.dart';
 import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
@@ -28,6 +29,9 @@ class StoryController extends ChangeNotifier{
         getStoriesFromRemote(apiresponsedata.data.next,program);
       }else{
         await _databaseHelper.insertStory(items,program);
+        items.forEach((element) {
+          StorageUtil.writeStory(element.content, "${program}_${element.id}");
+        });
         notifyListeners();
       }
     }

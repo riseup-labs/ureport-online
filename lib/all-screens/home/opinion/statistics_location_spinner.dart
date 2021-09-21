@@ -17,8 +17,9 @@ class StatisticsLocationSpinner extends StatefulWidget {
 
 class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
   questionArray.Question question;
-
   _StatisticsLocationSpinnerState(this.question);
+
+  List<ResultsByLocation> resultsByLocation = [];
 
   static List<MaterialColor> colors = [
     Colors.lightBlue,
@@ -37,7 +38,11 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
     List<DropdownMenuItem<String>> countryList = [];
     List<String> countries = [];
 
-    question.resultsByLocation.forEach((element) {
+    resultsByLocation.clear();
+    resultsByLocation.addAll(question.resultsByLocation);
+    resultsByLocation.sort((a, b) => a.label.compareTo(b.label));
+
+    resultsByLocation.forEach((element) {
       countries.add(element.label);
       countryList.add(DropdownMenuItem(
         value: element.label,
@@ -46,7 +51,7 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
     });
 
     countries.sort();
-    question.resultsByLocation.sort((a, b) => a.label.compareTo(b.label));
+
 
     if(isLoaded){
       location = question.resultsByLocation[0];
@@ -66,7 +71,7 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
               onChanged: (String? newValue) {
                   dropdownValue = newValue!;
                   // print("the value is : $dropdownValue");
-                  question.resultsByLocation.forEach((element) { 
+                  resultsByLocation.forEach((element) {
                     if(element.label == dropdownValue){
                       location = element;
                     }
