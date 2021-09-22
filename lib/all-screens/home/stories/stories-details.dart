@@ -135,7 +135,7 @@ class _StoryDetailsState extends State<StoryDetails> {
   getShareButton(String id) {
     return GestureDetector(
       onTap: () async {
-        await Share.share("https://ureport.in/story/" + id);
+        await Share.share("${RemoteConfigData.getStoryShareUrl()}" + id);
       },
       child: Card(
         elevation: 2,

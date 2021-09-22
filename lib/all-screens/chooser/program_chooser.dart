@@ -5,6 +5,7 @@ import 'package:ureport_ecaro/all-screens/home/opinion/opinion_controller.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -129,65 +130,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                                   spset.setValue(SPUtil.PROGRAMKEY, dropdownValue);
                                                 });
                                               },
-                                              items: [
-                                                DropdownMenuItem(
-                                                  value:
-                                                      "Global",
-                                                  child: Row(
-                                                    children: [
-                                                      Image(
-                                                        image: AssetImage(
-                                                            "assets/images/logo_global.png"),
-                                                        height: 30,
-                                                        width: 30,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Text(
-                                                          "Global")
-                                                    ],
-                                                  ),
-                                                ),
-                                                DropdownMenuItem(
-                                                  value:
-                                                      "On The Move",
-                                                  child: Row(
-                                                    children: [
-                                                      Image(
-                                                        image: AssetImage(
-                                                            "assets/images/logo_move.png"),
-                                                        height: 30,
-                                                        width: 30,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Text(
-                                                          "On The Move")
-                                                    ],
-                                                  ),
-                                                ),
-                                                DropdownMenuItem(
-                                                  value:
-                                                      "Italia",
-                                                  child: Row(
-                                                    children: [
-                                                      Image(
-                                                        image: AssetImage(
-                                                            "assets/images/logo_italy.png"),
-                                                        height: 30,
-                                                        width: 30,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Text(
-                                                          "Italia")
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
+                                              items: RemoteConfigData.getProgramListForProgramChooser(),
                                             ),
                                           ),
                                         ),

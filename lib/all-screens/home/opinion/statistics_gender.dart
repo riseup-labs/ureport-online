@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/remote-config-data.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'model/response_opinions.dart' as questionArray;
 
 class StatisticsGender {
-  static List<MaterialColor> colors = [
-    Colors.lightBlue,
-    Colors.deepOrange,
-    Colors.amber,
-    Colors.teal
-  ];
 
   static Widget getGenderStatistics(questionArray.Question question) {
+    var sp = locator<SPUtil>();
+    List<Color> colors = RemoteConfigData.getSecondaryColorList();
     int colorNumber = 0;
     return ListView.builder(
         shrinkWrap: true,
@@ -74,8 +74,6 @@ class StatisticsGender {
           );
         }
     );
-
-
-
   }
+
 }

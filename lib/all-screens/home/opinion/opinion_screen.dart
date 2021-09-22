@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/opinion_search.dart';
@@ -67,12 +68,12 @@ class _OpinionState extends State<Opinion> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 15),
-                child: Image(
-                    fit: BoxFit.fill,
+                  margin: EdgeInsets.only(top: 15),
+                  child: CachedNetworkImage(
+                    imageUrl: RemoteConfigData.getLargeIcon(),
                     height: 30,
                     width: 150,
-                    image: AssetImage('assets/images/ureport_logo.png')),
+                  )
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:ureport_ecaro/firebase-remote-config/response-remote-config-data.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/sp_constant.dart';
@@ -16,6 +19,30 @@ class RemoteConfigData{
     return list;
   }
 
+  static List<DropdownMenuItem<String>> getProgramListForProgramChooser(){
+    List<DropdownMenuItem<String>> list = [];
+    ResponseRemoteConfigData data = getAllData();
+    data.programs.forEach((element) {
+      if(element.status == true){
+        list.add(DropdownMenuItem(
+          value:
+          element.name,
+          child: Row(
+            children: [
+              CachedNetworkImage(imageUrl: element.smallIcon, height: 30, width: 30,),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                  element.name)
+            ],
+          ),
+        ));
+      }
+    });
+    return list;
+  }
+
   static getStoryUrl(String program){
     String url = "";
     ResponseRemoteConfigData data = getAllData();
@@ -28,10 +55,54 @@ class RemoteConfigData{
     return url;
   }
 
-  static getOpinionUrl(String program){
+  static getStoryShareUrl(){
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+
     String url = "";
     ResponseRemoteConfigData data = getAllData();
 
+    data.programs.forEach((element) {
+      if(element.name == program){
+        url = element.storyShareUrl;
+      }
+    });
+    return url;
+  }
+
+  static getLargeIcon(){
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+
+    String url = "";
+    ResponseRemoteConfigData data = getAllData();
+
+    data.programs.forEach((element) {
+      if(element.name == program){
+        url = element.largeIcon;
+      }
+    });
+    return url;
+  }
+
+  static getSmallIcon(){
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+
+    String url = "";
+    ResponseRemoteConfigData data = getAllData();
+
+    data.programs.forEach((element) {
+      if(element.name == program){
+        url = element.smallIcon;
+      }
+    });
+    return url;
+  }
+
+  static getOpinionUrl(String program){
+    String url = "";
+    ResponseRemoteConfigData data = getAllData();
     data.programs.forEach((element) {
       if(element.name == program){
         url = element.opinionApi;
@@ -40,16 +111,36 @@ class RemoteConfigData{
     return url;
   }
 
-  static getStoryDetailsUrl(String program){
-    String url = "";
-    ResponseRemoteConfigData data = getAllData();
+  static getSecondaryColorList(){
 
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+    List<Color> list = [];
+    ResponseRemoteConfigData data = getAllData();
     data.programs.forEach((element) {
       if(element.name == program){
-        url = element.storyDetailsApi;
+        element.secondaryColor.forEach((value) {
+          list.add(HexColor(value));
+        });
       }
     });
-    return url;
+
+    return list;
+  }
+
+  static getPrimaryColor(){
+
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+    Color color = Color(0);
+    ResponseRemoteConfigData data = getAllData();
+    data.programs.forEach((element) {
+      if(element.name == program){
+        color = HexColor(element.primaryColor);
+      }
+    });
+
+    return color;
   }
 
 

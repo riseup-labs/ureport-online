@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ureport_ecaro/utils/number_format.dart';
+import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
 import 'model/response-opinion-localdb.dart';
 import 'model/response_opinions.dart' as questionArray;
@@ -67,7 +68,7 @@ class StatisticsHeader{
           children: [
             Container(
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  color: RemoteConfigData.getPrimaryColor(),
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),
                 padding: EdgeInsets.all(5),

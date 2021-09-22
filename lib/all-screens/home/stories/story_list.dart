@@ -65,11 +65,11 @@ class _StoryListState extends State<StoryList> {
             children: [
               Container(
                 margin: EdgeInsets.only(top: 15),
-                child: Image(
-                    fit: BoxFit.fill,
-                    height: 30,
-                    width: 150,
-                    image: AssetImage('assets/images/ureport_logo.png')),
+                child: CachedNetworkImage(
+                  imageUrl: RemoteConfigData.getLargeIcon(),
+                  height: 30,
+                  width: 150,
+                )
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -137,7 +137,7 @@ class _StoryListState extends State<StoryList> {
                                 return _futureStory =
                                     getDataFromApi(context,provider); // EDITED
                               },
-                              child: ListView.builder(
+                              child: stories!.length>0? ListView.builder(
                                   physics: ScrollPhysics(),
                                   shrinkWrap: true,
                                   addAutomaticKeepAlives: true,
@@ -170,7 +170,14 @@ class _StoryListState extends State<StoryList> {
                                             stories![index].summary),
                                       ),
                                     );
-                                  }),
+                                  }):Center(
+                                child: Container(
+                                  height: 50,
+                                  width: 50,
+                                  padding: EdgeInsets.all(15),
+                                  child: CircularProgressIndicator(strokeWidth: 2,),
+                                ),
+                              ),
                             );
                     }),
               ),

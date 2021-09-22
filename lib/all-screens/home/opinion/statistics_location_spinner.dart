@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/remote-config-data.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'model/response_opinions.dart' as questionArray;
 import 'model/response_opinions.dart';
 import 'opinion_controller.dart';
@@ -20,13 +23,6 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
   _StatisticsLocationSpinnerState(this.question);
 
   List<ResultsByLocation> resultsByLocation = [];
-
-  static List<MaterialColor> colors = [
-    Colors.lightBlue,
-    Colors.deepOrange,
-    Colors.amber,
-    Colors.teal
-  ];
   
   String dropdownValue = "";
   late ResultsByLocation location;
@@ -34,6 +30,8 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
 
   @override
   Widget build(BuildContext context) {
+    var sp = locator<SPUtil>();
+    List<Color> colors = RemoteConfigData.getSecondaryColorList();
     int colorNumber = 0;
     List<DropdownMenuItem<String>> countryList = [];
     List<String> countries = [];

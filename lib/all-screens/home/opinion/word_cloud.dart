@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_scatter/flutter_scatter.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/remote-config-data.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'model/response_opinions.dart' as questionArray;
 
 import 'model/flutter_hashtags.dart';
@@ -8,12 +11,8 @@ class WordCloud{
 
   static Widget getWordCloud(context,questionArray.Question question){
 
-    List<MaterialColor> colors = [
-      Colors.lightBlue,
-      Colors.deepOrange,
-      Colors.amber,
-      Colors.teal
-    ];
+    var sp = locator<SPUtil>();
+    List<Color> colors = RemoteConfigData.getSecondaryColorList();
 
     List<FlutterHashtag> wordList = [];
     List<Widget> widgets = <Widget>[];
