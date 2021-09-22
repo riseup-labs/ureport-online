@@ -23,6 +23,24 @@ class LoadDataHandling{
     }
   }
 
+  static bool checkOpinionLoadAvailability(){
+
+    var sp = locator<SPUtil>();
+    String lastUpdate = sp.getValue("${SPUtil.OPINION_LAST_UPDATE}_${sp.getValue(SPUtil.PROGRAMKEY)}");
+
+    if(lastUpdate == null){
+      return true;
+    }else{
+      DateTime lastDate = DateTime.parse(lastUpdate);
+      DateTime currentDate = getCurrentDate();
+      if(lastDate.isBefore(currentDate)){
+        return true;
+      }else{
+        return false;
+      }
+    }
+  }
+
   static DateTime getCurrentDate(){
 
     final DateTime now = DateTime.now();
@@ -36,6 +54,12 @@ class LoadDataHandling{
 
     var sp = locator<SPUtil>();
     sp.setValue("${SPUtil.STORY_LAST_UPDATE}_${sp.getValue(SPUtil.PROGRAMKEY)}", getCurrentDate().toString());
+
+  }
+
+  static storeOpinionLastUpdate(){
+    var sp = locator<SPUtil>();
+    sp.setValue("${SPUtil.OPINION_LAST_UPDATE}_${sp.getValue(SPUtil.PROGRAMKEY)}", getCurrentDate().toString());
 
   }
 

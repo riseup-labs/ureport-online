@@ -1,42 +1,54 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ureport_ecaro/all-screens/home/stories/save_story.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/stories-details.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_search.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
-import 'package:ureport_ecaro/utils/load_data_handling.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
+import 'package:ureport_ecaro/utils/snackbar.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'model/ResponseStoryLocal.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class StoryList extends StatelessWidget {
+class StoryList extends StatefulWidget {
+  @override
+  _StoryListState createState() => _StoryListState();
+}
+
+class _StoryListState extends State<StoryList> {
   var sp = locator<SPUtil>();
 
   @override
+  void initState() {
+    super.initState();
+     Provider.of<StoryController>(context, listen: false).startMonitoring();
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+
     Provider.of<StoryController>(context, listen: false).initializeDatabase();
     List<ResultLocal>? stories = [];
+
     Provider.of<StoryController>(context, listen: false)
         .getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
 
-    if (LoadDataHandling.checkStoryLoadAvailability()) {
-      Provider.of<StoryController>(context, listen: false).getStoriesFromRemote(
-          RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-          sp.getValue(SPUtil.PROGRAMKEY));
-    } else {
-      print("Load : false");
-    }
+    // if (LoadDataHandling.checkStoryLoadAvailability()) {
+    //   Provider.of<StoryController>(context, listen: false).getStoriesFromRemote(
+    //       RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+    //       sp.getValue(SPUtil.PROGRAMKEY));
+    // } else {
+    //   print("Load : false");
+    // }
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       var _futureStory =
           provider.getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
-
       return SafeArea(
           child: Scaffold(
               body: Container(
@@ -123,7 +135,7 @@ class StoryList extends StatelessWidget {
                       return RefreshIndicator(
                               onRefresh: () {
                                 return _futureStory =
-                                    getDataFromApi(context); // EDITED
+                                    getDataFromApi(context,provider); // EDITED
                               },
                               child: ListView.builder(
                                   physics: ScrollPhysics(),
@@ -169,11 +181,15 @@ class StoryList extends StatelessWidget {
     });
   }
 
-  Future<String> getDataFromApi(BuildContext context) async {
-    return Provider.of<StoryController>(context, listen: false)
-        .getStoriesFromRemote(
-            RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-            sp.getValue(SPUtil.PROGRAMKEY));
+  Future<String?> getDataFromApi(BuildContext context, StoryController provider) async {
+    if(provider.isOnline){
+      return Provider.of<StoryController>(context, listen: false)
+          .getStoriesFromRemote(
+          RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+          sp.getValue(SPUtil.PROGRAMKEY));
+    }else{
+      return ShowSnackBar.showNoInternetMessage(context);
+    }
   }
 }
 

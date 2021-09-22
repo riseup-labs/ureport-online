@@ -5,8 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/opinion_search.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/load_data_handling.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
+import 'package:ureport_ecaro/utils/snackbar.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'model/response-opinion-localdb.dart';
 import 'opinion_controller.dart';
@@ -16,7 +18,6 @@ import 'statistics_header.dart';
 
 class Opinion extends StatefulWidget {
   const Opinion({Key? key}) : super(key: key);
-
   @override
   _OpinionState createState() => _OpinionState();
 }
@@ -24,22 +25,33 @@ class Opinion extends StatefulWidget {
 var count = 0;
 
 class _OpinionState extends State<Opinion> {
-  var isLoaded = true;
-
-  // List<questionArray.Question> questionList = [];
 
   var sp = locator<SPUtil>();
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<OpinionController>(context, listen: false).startMonitoring();
+  }
 
   @override
   Widget build(BuildContext context) {
     List<ResultOpinionLocal>? opinions = [];
 
-    // Provider.of<OpinionController>(context, listen: false)
-    //     .getOpinionsFromRemote(
-    //         RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-    //         sp.getValue(SPUtil.PROGRAMKEY));
+
+    // if (LoadDataHandling.checkOpinionLoadAvailability()) {
+    //   Provider.of<OpinionController>(context, listen: false)
+    //       .getOpinionsFromRemote(
+    //       RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+    //       sp.getValue(SPUtil.PROGRAMKEY));
+    // } else {
+    //   print("Load : false");
+    // }
 
     return Consumer<OpinionController>(builder: (context, provider, child) {
+      var _futureOpinion = provider.getOpinionsFromLocal(
+          sp.getValue(SPUtil.PROGRAMKEY), provider.opinionID);
+
       return SafeArea(
           child: Scaffold(
               body: Container(
@@ -108,12 +120,17 @@ class _OpinionState extends State<Opinion> {
               SizedBox(
                 height: 10,
               ),
-              //done
+              provider.isLoading?Center(
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  padding: EdgeInsets.all(15),
+                  child: CircularProgressIndicator(strokeWidth: 2,),
+                ),
+              ):Container(),
               Expanded(
-                child: SingleChildScrollView(
-                  child: FutureBuilder<List<ResultOpinionLocal>>(
-                      future: provider.getOpinionsFromLocal(
-                          sp.getValue(SPUtil.PROGRAMKEY), provider.opinionID),
+                child: FutureBuilder<List<ResultOpinionLocal>>(
+                      future: _futureOpinion,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           opinions = snapshot.data;
@@ -125,51 +142,63 @@ class _OpinionState extends State<Opinion> {
                                 .map((e) => questionArray.Question.fromJson(e))
                                 .toList();
                             return snapshot.hasData
-                                ? Container(
-                                    margin: EdgeInsets.only(top: 10),
-                                    child: Column(
-                                      children: [
-                                        questionList.length > 0
-                                            ? StatisticsHeader
-                                                .getHeadingStatistics(
-                                                    questionList[0],
-                                                    opinions![0],
-                                                    provider)
-                                            : StatisticsHeader
-                                                .getHeadingStatisticsEmpty(
-                                                    opinions![0]),
-                                        ListView.builder(
-                                            shrinkWrap: true,
-                                            physics: BouncingScrollPhysics(),
-                                            itemCount: questionList.length,
-                                            itemBuilder: (context, int index) {
-                                              return OpinionItem(
-                                                  questionList[index]);
-                                            })
-                                      ],
-                                    ),
-                                  )
-                                : Container(
-                                    child: Center(
-                                        child: CircularProgressIndicator()),
-                                  );
+                                ? RefreshIndicator(
+                              onRefresh: (){
+                                return _futureOpinion = getDataFromApi(context, provider);
+                              },
+                                  child: SingleChildScrollView(
+                              physics: AlwaysScrollableScrollPhysics(),
+                                    child: Container(
+                                        margin: EdgeInsets.only(top: 10),
+                                        child: Column(
+                                          children: [
+                                            questionList.length > 0
+                                                ? StatisticsHeader
+                                                    .getHeadingStatistics(
+                                                        questionList[0],
+                                                        opinions![0],
+                                                        provider)
+                                                : StatisticsHeader
+                                                    .getHeadingStatisticsEmpty(
+                                                        opinions![0]),
+                                            ListView.builder(
+                                                shrinkWrap: true,
+                                                physics: BouncingScrollPhysics(),
+                                                itemCount: questionList.length,
+                                                itemBuilder: (context, int index) {
+                                                  return OpinionItem(
+                                                      questionList[index]);
+                                                })
+                                          ],
+                                        ),
+                                      ),
+                                  ),
+                                )
+                                : Container();
                           } else {
-                            return Container(
-                                child:
-                                    Center(child: CircularProgressIndicator()));
+                            return Container();
                           }
                         } else {
-                          return Container(
-                              child:
-                                  Center(child: CircularProgressIndicator()));
+                          return Container();
                         }
                       }),
-                ),
+                
               )
             ],
           ),
         ),
       )));
     });
+  }
+
+  Future<String?> getDataFromApi(BuildContext context, OpinionController provider) async {
+    if(provider.isOnline){
+      return Provider.of<OpinionController>(context, listen: false)
+          .getOpinionsFromRemote(
+          RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+          sp.getValue(SPUtil.PROGRAMKEY));
+    }else{
+      return ShowSnackBar.showNoInternetMessage(context);
+    }
   }
 }

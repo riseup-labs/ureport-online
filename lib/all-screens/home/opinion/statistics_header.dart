@@ -60,7 +60,7 @@ class StatisticsHeader{
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          child: Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),
+          child: Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),),
         ),
         SizedBox(height: 5,),
         Row(

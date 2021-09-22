@@ -10,7 +10,6 @@ class StroyRipository {
   var _httpService = locator<HttpService>();
 
   Future<ApiResponse<ResponseStories>> getStory(String url) async {
-    //print("the fcm token is ===$fcmtoken");
     var apiResponse = await _httpService.getRequest(url);
     return ApiResponse(
         httpCode: apiResponse.httpCode,

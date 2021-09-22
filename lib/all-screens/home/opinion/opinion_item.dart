@@ -181,9 +181,7 @@ class _OpinionItemState extends State<OpinionItem> {
                   child: getBody(question),
                 ),
               ],
-            ):question.results.categories.length>0?WordCloud.getWordCloud(context,question):Container(
-              child: Text("Cloud is empty"),
-            )
+            ):question.results.categories.length>0?WordCloud.getWordCloud(context,question):Container()
           ],
         ),
       ),

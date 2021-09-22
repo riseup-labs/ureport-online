@@ -20,6 +20,8 @@ import 'locale/locale_provider.dart';
 import 'locator/locator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'network_operation/utils/connectivity_controller.dart';
+
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
@@ -82,6 +84,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => StoryDetailsController()),
           ChangeNotifierProvider(create: (context) => ChatController()),
           ChangeNotifierProvider(create: (context) => RemoteConfigController()),
+          ChangeNotifierProvider(create: (context) => ConnectivityController()),
         ],
         child: KeyboardDismissOnTap(
           child: MaterialApp(
