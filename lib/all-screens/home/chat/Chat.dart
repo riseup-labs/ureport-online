@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -8,35 +9,53 @@ import 'ChatBubble.dart';
 import 'chat-controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'custom-dropdwon.dart';
+import 'custom-popup-individual-case-management.dart';
 import 'custom-popup-menu.dart';
+import 'custom-popup-third.dart';
 
 
 
-class Chat extends StatelessWidget {
-
-
-  final sendMessageKey = GlobalKey<FormState>();
-  ScrollController _scrollController = new ScrollController();
-  String message = "";
-  bool serverStarted = false;
-  bool flowStarted = false;
-
+class Chat extends StatefulWidget {
 
 
   @override
-  Widget build(BuildContext context) {
+  _ChatState createState() => _ChatState();
+}
 
+class _ChatState extends State<Chat> {
+  final sendMessageKey = GlobalKey<FormState>();
+
+  ScrollController _scrollController = new ScrollController();
+
+  String message = "";
+
+  bool serverStarted = false;
+
+  bool flowStarted = false;
+
+  @override
+  void initState() {
     Provider.of<ChatController>(context,listen: false).createContatct();
     Provider.of<ChatController>(context,listen: false).getfirebaseInitialmessage();
     Provider.of<ChatController>(context,listen: false).getfirebase();
     Provider.of<ChatController>(context,listen: false).getfirebaseonApp();
     Provider.of<ChatController>(context,listen: false).loaddefaultmessage();
-  //  Provider.of<ChatController>(context,listen: false).getNotification(context);
+    //  Provider.of<ChatController>(context,listen: false).getNotification(context);
 
     Provider.of<ChatController>(context,listen: false).deletemsgAfterfiveDays();
+    super.initState();
+  }
 
+  @override
+  void dispose() {
 
+    Provider.of<ChatController>(context,listen: false);
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Consumer<ChatController>(
       builder: (context,provider,child){
         return  SafeArea(
@@ -69,6 +88,7 @@ class Chat extends StatelessWidget {
                  Row(
                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                    children: [
+
                      Container(
                        padding: EdgeInsets.only(left:20,right: 25),
                        margin: EdgeInsets.only(top: 15),
@@ -78,6 +98,35 @@ class Chat extends StatelessWidget {
                            width: 150,
                            image: AssetImage('assets/images/ureport_logo.png')),
                      ),
+                     Spacer(),
+                     Container(
+
+                       padding: EdgeInsets.only(left:20,right: 20),
+                       margin: EdgeInsets.only(top: 15),
+                       child: CustomDropdownForth(
+                         keyword: [
+                           "report",
+                           "keyword2",
+                           "keyword3",
+                           "keyword4",
+                         ],
+                         iconColor: Colors.white,
+                         onChange: (index) {
+                           print(index);
+                         }, borderRadius: BorderRadius.all(Radius.circular(10)),
+                       ),
+                     ),
+
+
+
+
+
+
+
+
+
+
+
                      provider.selectall==true? GestureDetector(
 
                        onTap: (){
@@ -100,7 +149,7 @@ class Chat extends StatelessWidget {
 
                        padding: EdgeInsets.only(left:20,right: 20),
                        margin: EdgeInsets.only(top: 15),
-                       child: SimpleAccountMenu(
+                       child: CustomDropdownThird(
                         keyword: [
                           "join",
                           "quit",
@@ -295,7 +344,7 @@ class Chat extends StatelessWidget {
                                         padding: EdgeInsets.only(top: 5,bottom: 5,right: 15,left: 15),
                                         margin: EdgeInsets.only(right: 10),
                                         decoration: BoxDecoration(
-                                          color:provider.localmessage[index].message=="This Message was Deleted"?Colors.grey: Color(0xffF5FCFF),
+                                          color:provider.localmessage[index].message=="This Message was Deleted"?Color(0xffCCCCCC): Color(0xffF5FCFF),
                                           borderRadius: BorderRadius.circular(10),
 
                                         ),
@@ -317,7 +366,7 @@ class Chat extends StatelessWidget {
                                       Container(
                                         padding: EdgeInsets.only(top: 5,bottom: 5,right: 10,left: 15),
                                         decoration: BoxDecoration(
-                                          color:  provider.localmessage[index].message=="This Message was Deleted"?Colors.grey: Color(0xff41B6E6),
+                                          color:  provider.localmessage[index].message=="This Message was Deleted"?Color(0xffCCCCCC): Color(0xff41B6E6),
                                           borderRadius: BorderRadius.circular(10),
 
                                         ),
@@ -431,7 +480,7 @@ class Chat extends StatelessWidget {
                             provider.firstmessageStatus()==true? Container(
                               padding: EdgeInsets.only(left:12,right: 12,top: 5,bottom: 5),
                               decoration: BoxDecoration(
-                                color: Colors.grey,
+                                color: Color(0xffCCCCCC),
                                 borderRadius: BorderRadius.all(Radius.circular(20))
                               ),
                               child: Row(
@@ -573,6 +622,7 @@ class Chat extends StatelessWidget {
       },
     );
   }
+
   Widget sendMessage(context,provider) {
     return Form(
       key: sendMessageKey,

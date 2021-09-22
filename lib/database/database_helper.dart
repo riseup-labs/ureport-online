@@ -98,6 +98,7 @@ class DatabaseHelper {
         DatabaseConstant.time : element.time,
       }, conflictAlgorithm: ConflictAlgorithm.ignore);
       print("$result");
+
     });
 
     print("done");
@@ -169,6 +170,7 @@ class DatabaseHelper {
     result.forEach((element) {
       var list =MessageModelLocal.fromJson(element);
       _conversation.add(list);
+
     });
     return _conversation;
   }

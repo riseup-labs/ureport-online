@@ -34,24 +34,40 @@ class _SeetingDetailsState extends State<SeetingDetails> {
       backgroundColor: Color(0xffF5FCFF),
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: Icon(Icons.arrow_back,color: Colors.black,),
-        title: Text("Seetings",style: TextStyle(color: Colors.black,fontSize: 18),),
+        leading: GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back,color: Colors.black,)),
+        title: Text("Settings",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
       ),
       body: Column(
         children: [
 
+          SizedBox(height: 10,),
           Container(
-            padding: EdgeInsets.all(20),
-            margin: EdgeInsets.all(15),
+            padding: EdgeInsets.only(left: 20,right: 20,top: 0,bottom: 0),
+
+            margin: EdgeInsets.only(left: 15,right: 15,top: 15,bottom: 10),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(10))
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: Offset(0, 1), // changes position of shadow
+                ),
+              ],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Notification",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+                SizedBox(height: 15,),
+                Text("Notification",style: TextStyle(color: Colors.black,fontSize: 21,fontWeight: FontWeight.bold),),
+               SizedBox(height: 15,),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -70,20 +86,31 @@ class _SeetingDetailsState extends State<SeetingDetails> {
               ],
             ),
           ),
-          SizedBox(height: 15,),
-
           Container(
-            padding: EdgeInsets.all(20),
-            margin: EdgeInsets.all(15),
+
+            padding: EdgeInsets.only(left: 20,right: 20,top: 0,bottom: 0),
+
+            margin: EdgeInsets.only(left: 15,right: 15,top: 15,bottom: 10),
             decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10))
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: Offset(0, 1), // changes position of shadow
+                ),
+              ],
+
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Sound",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+                SizedBox(height: 15,),
+                Text("Sound",style: TextStyle(color: Colors.black,fontSize: 21,fontWeight: FontWeight.bold),),
+                SizedBox(height: 10,),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -102,27 +129,33 @@ class _SeetingDetailsState extends State<SeetingDetails> {
               ],
             ),
           ),
-
-          SizedBox(height: 15,),
           Container(
-            padding: EdgeInsets.all(20),
-            margin: EdgeInsets.all(15),
+            padding: EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 20),
+            margin: EdgeInsets.only(left: 15,right: 15,top: 15,bottom: 10),
             decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10))
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: Offset(0, 1), // changes position of shadow
+                ),
+              ],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Chat",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+                Text("Chat",style: TextStyle(color: Colors.black,fontSize: 21,fontWeight: FontWeight.bold),),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset("assets/images/ic_chatt.png",height: 15,width: 15,),
                     SizedBox(width: 8,),
                     Expanded(child: Text("Automatically remove message after 5 days",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w700),)),
-                    SizedBox(width: 60,),
+                    SizedBox(width: 20,),
                     Switch(
                         value: statesf, onChanged: (value){
 
@@ -133,9 +166,11 @@ class _SeetingDetailsState extends State<SeetingDetails> {
 
                     }
                     ),
+                    SizedBox(width: 18,)
 
                   ],
                 ),
+                SizedBox(height: 15,),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -212,7 +247,7 @@ class _SeetingDetailsState extends State<SeetingDetails> {
                         child: Text("Remove",style: TextStyle(color: Colors.white,fontSize: 10),),
                       ),
                     ),
-
+                    SizedBox(width: 15,),
                   ],
                 ),
               ],

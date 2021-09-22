@@ -69,6 +69,8 @@ class ChatController extends ChangeNotifier{
     notifyListeners();
   }
 
+
+
   List<int>individualselect=[];
   List<MessageModelLocal>selectedMessage=[];
   List<MessageModelLocal> delectionmessage =[];
@@ -254,7 +256,6 @@ class ChatController extends ChangeNotifier{
     List<dynamic>data=[];
     if(ss!="null" && ss.isNotEmpty && ss!=""){
       data = json.decode(ss);
-
       return data;
     }else {
 
@@ -285,6 +286,8 @@ class ChatController extends ChangeNotifier{
     if(_token.isNotEmpty){
       print("this is firebase fcm token ==  ${_token}");
       String _urn =_spservice.getValue(SPUtil.CONTACT_URN);
+
+      print("l============================== normal chat contact ${_urn}");
       if(_urn==null){
         String contact_urn = getRandomString(15);
         var apiResponse = await _rapidproservice.createContact(contact_urn, _token,"Unknown",onSuccess:(uuid){
@@ -294,7 +297,7 @@ class ChatController extends ChangeNotifier{
         if (apiResponse.httpCode == 200) {
           responseContactCreation = apiResponse.data;
           _spservice.setValue(SPUtil.CONTACT_URN, contact_urn);
-         // sendmessage("join");
+          sendmessage("join");
 
           notifyListeners();
         }
@@ -313,6 +316,82 @@ class ChatController extends ChangeNotifier{
 
   }
 
+
+  createIndividualCaseManagement(messagekeyword) async {
+    await getToken();
+    if(_token.isNotEmpty){
+
+      String _urn =_spservice.getValue(SPUtil.CONTACT_URN_INDIVIDUAL_CASE);
+      print("l============================== casemanegement ${_urn}");
+      if(_urn==null){
+        String contact_urn = getRandomString(15);
+        print("the new Contact urn for the individual casemanegement ${contact_urn}");
+        var apiResponse = await _rapidproservice.createContact(contact_urn, _token,"Unknown",onSuccess:(uuid){
+          contatct=uuid;
+        } );
+        // getfirebase();
+        if (apiResponse.httpCode == 200) {
+
+          responseContactCreation = apiResponse.data;
+          _spservice.setValue(SPUtil.CONTACT_URN_INDIVIDUAL_CASE, contact_urn);
+
+          DateTime now = DateTime.now();
+          String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
+
+          MessageModel messageModel = MessageModel(
+              message:messagekeyword,
+              sender: "user",
+              status: "Sending...",
+              quicktypest: [""],
+              time: formattedDate
+          );
+          print("the message keyword is ..............${messagekeyword}");
+         addMessage(messageModel);
+          sendmessage(messagekeyword);
+          messageModel.status=messagestatus;
+
+          notifyListeners();
+        }
+
+      }
+
+  else if(_urn!=null){
+
+
+        String contact_urn = getRandomString(15);
+        print("the new Contact urn for the individual casemanegement ${contact_urn}");
+        var apiResponse = await _rapidproservice.createContact(contact_urn, _token,"Unknown",onSuccess:(uuid){
+          contatct=uuid;
+        } );
+        // getfirebase();
+        if (apiResponse.httpCode == 200) {
+
+          responseContactCreation = apiResponse.data;
+          _spservice.setValue(SPUtil.CONTACT_URN_INDIVIDUAL_CASE, contact_urn);
+
+          DateTime now = DateTime.now();
+          String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
+
+          MessageModel messageModel = MessageModel(
+              message:messagekeyword,
+              sender: "user",
+              status: "Sending...",
+              quicktypest: [""],
+              time: formattedDate
+          );
+          print("the message keyword is ..............${messagekeyword}");
+          addMessage(messageModel);
+          sendmessage(messagekeyword);
+          messageModel.status=messagestatus;
+
+          notifyListeners();
+        }
+
+      }
+
+    }
+
+  }
 
   deletemsgAfterfiveDays()async{
 
