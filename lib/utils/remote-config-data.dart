@@ -143,6 +143,34 @@ class RemoteConfigData{
     return color;
   }
 
+  static getDefaultAction(){
+    List<String> list = [];
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+    ResponseRemoteConfigData data = getAllData();
+    data.programs.forEach((element) {
+      if(element.name == program){
+        list = element.defaultTriggerActions;
+      }
+    });
+
+    return list;
+  }
+
+  static getOneToOneAction(){
+    List<String> list = [];
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+    ResponseRemoteConfigData data = getAllData();
+    data.programs.forEach((element) {
+      if(element.name == program){
+        list = element.icmsTriggerActions;
+      }
+    });
+
+    return list;
+  }
+
 
 
   static getAllData(){

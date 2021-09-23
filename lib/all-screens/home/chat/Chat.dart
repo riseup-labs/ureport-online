@@ -104,12 +104,7 @@ class _ChatState extends State<Chat> {
                        padding: EdgeInsets.only(left:20,right: 20),
                        margin: EdgeInsets.only(top: 15),
                        child: CustomDropdownForth(
-                         keyword: [
-                           "report",
-                           "keyword2",
-                           "keyword3",
-                           "keyword4",
-                         ],
+                         keyword: RemoteConfigData.getOneToOneAction(),
                          iconColor: Colors.white,
                          onChange: (index) {
                            print(index);
@@ -140,11 +135,7 @@ class _ChatState extends State<Chat> {
                        padding: EdgeInsets.only(left:20,right: 20),
                        margin: EdgeInsets.only(top: 15),
                        child: CustomDropdownThird(
-                        keyword: [
-                          "join",
-                          "quit",
-                          "covid 19"
-                        ],
+                        keyword: RemoteConfigData.getDefaultAction(),
                          iconColor: Colors.white,
                          onChange: (index) {
                            print(index);
