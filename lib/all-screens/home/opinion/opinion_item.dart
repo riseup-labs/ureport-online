@@ -8,23 +8,26 @@ import 'statistics_location_spinner.dart';
 import 'word_cloud.dart';
 
 class OpinionItem extends StatefulWidget {
+
   questionArray.Question question;
+  Color color;
 
 
-  OpinionItem(this.question);
+  OpinionItem(this.question, this.color);
 
   @override
-  _OpinionItemState createState() => _OpinionItemState(question);
+  _OpinionItemState createState() => _OpinionItemState(question, color);
 }
 
 class _OpinionItemState extends State<OpinionItem> {
   questionArray.Question question;
+  Color color;
 
   int selectedTab = 0;
 
 
 
-  _OpinionItemState(this.question);
+  _OpinionItemState(this.question, this.color);
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +181,7 @@ class _OpinionItemState extends State<OpinionItem> {
                 ),
                 //body
                 Container(
-                  child: getBody(question),
+                  child: getBody(question,color),
                 ),
               ],
             ):question.results.categories.length>0?WordCloud.getWordCloud(context,question):Container()
@@ -188,15 +191,15 @@ class _OpinionItemState extends State<OpinionItem> {
     );
   }
 
-  getBody(questionArray.Question question){
+  getBody(questionArray.Question question,Color color){
     if(selectedTab == 0 && question.resultsByGender.length != 0){
-      return StatisticsAll.getAllStatistics(question);
+      return StatisticsAll.getAllStatistics(question,color);
     }else if(selectedTab == 1&& question.resultsByLocation.length != 0){
-      return StatisticsAge.getAgeStatistics(question);
+      return StatisticsAge.getAgeStatistics(question,color);
     }else if(selectedTab == 2 && question.resultsByGender.length != 0){
-      return StatisticsGender.getGenderStatistics(question);
+      return StatisticsGender.getGenderStatistics(question,color);
     }else if(selectedTab == 3 && question.resultsByAge.length != 0){
-      return StatisticsLocationSpinner(question);
+      return StatisticsLocationSpinner(question,color);
     }
   }
 }

@@ -8,10 +8,8 @@ import 'model/response_opinions.dart' as questionArray;
 
 class StatisticsGender {
 
-  static Widget getGenderStatistics(questionArray.Question question) {
+  static Widget getGenderStatistics(questionArray.Question question,Color color) {
     var sp = locator<SPUtil>();
-    List<Color> colors = RemoteConfigData.getSecondaryColorList();
-    int colorNumber = 0;
     return ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -30,9 +28,6 @@ class StatisticsGender {
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: question.resultsByGender[index1].categories.length,
                   itemBuilder: (context, index) {
-                    if(colorNumber > colors.length-1){
-                      colorNumber = 0;
-                    }
 
                     int set  = question.resultsByGender[index1].resultsSet;
                     int count  = question.resultsByGender[index1].categories[index].count;
@@ -54,7 +49,7 @@ class StatisticsGender {
                                 ],
                               ),
                               linearStrokeCap: LinearStrokeCap.roundAll,
-                              progressColor: colors[colorNumber++],
+                              progressColor: color,
                             ),
                           ),
                         ),

@@ -7,19 +7,13 @@ import 'model/response_opinions.dart' as questionArray;
 
 class StatisticsAll {
 
-  static Widget getAllStatistics(questionArray.Question question) {
-    var sp = locator<SPUtil>();
-    List<Color> colors = RemoteConfigData.getSecondaryColorList();
-    int colorNumber = 0;
+  static Widget getAllStatistics(questionArray.Question question,Color color) {
     int set  = question.results.resultsSet;
     return ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemCount: question.results.categories.length,
         itemBuilder: (context, index) {
-          if (colorNumber > colors.length - 1) {
-            colorNumber = 0;
-          }
           return Row(
             children: [
               Expanded(
@@ -38,7 +32,7 @@ class StatisticsAll {
                       ],
                     ),
                     linearStrokeCap: LinearStrokeCap.roundAll,
-                    progressColor: colors[colorNumber++],
+                    progressColor: color,
                   ),
                 ),
               ),

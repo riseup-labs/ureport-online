@@ -6,6 +6,7 @@ import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_search.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/load_data_handling.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
@@ -25,26 +26,24 @@ class _StoryListState extends State<StoryList> {
   @override
   void initState() {
     super.initState();
-     Provider.of<StoryController>(context, listen: false).startMonitoring();
+    Provider.of<StoryController>(context, listen: false).startMonitoring();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     Provider.of<StoryController>(context, listen: false).initializeDatabase();
     List<ResultLocal>? stories = [];
 
     Provider.of<StoryController>(context, listen: false)
         .getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
 
-    // if (LoadDataHandling.checkStoryLoadAvailability()) {
-    //   Provider.of<StoryController>(context, listen: false).getStoriesFromRemote(
-    //       RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-    //       sp.getValue(SPUtil.PROGRAMKEY));
-    // } else {
-    //   print("Load : false");
-    // }
+    if (LoadDataHandling.checkStoryLoadAvailability()) {
+      Provider.of<StoryController>(context, listen: false).getStoriesFromRemote(
+          RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+          sp.getValue(SPUtil.PROGRAMKEY));
+    } else {
+      print("Load : false");
+    }
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       var _futureStory =
@@ -64,13 +63,12 @@ class _StoryListState extends State<StoryList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 15),
-                child: CachedNetworkImage(
-                  imageUrl: RemoteConfigData.getLargeIcon(),
-                  height: 30,
-                  width: 150,
-                )
-              ),
+                  margin: EdgeInsets.only(top: 15),
+                  child: CachedNetworkImage(
+                    imageUrl: RemoteConfigData.getLargeIcon(),
+                    height: 30,
+                    width: 150,
+                  )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -117,14 +115,18 @@ class _StoryListState extends State<StoryList> {
               SizedBox(
                 height: 10,
               ),
-              provider.isLoading?Center(
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  padding: EdgeInsets.all(15),
-                  child: CircularProgressIndicator(strokeWidth: 2,),
-                ),
-              ):Container(),
+              provider.isLoading
+                  ? Center(
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        padding: EdgeInsets.all(15),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    )
+                  : Container(),
               Expanded(
                 child: FutureBuilder<List<ResultLocal>>(
                     future: _futureStory,
@@ -133,52 +135,52 @@ class _StoryListState extends State<StoryList> {
                         stories = List.from(snapshot.data!.reversed);
                       }
                       return RefreshIndicator(
-                              onRefresh: () {
-                                return _futureStory =
-                                    getDataFromApi(context,provider); // EDITED
-                              },
-                              child: stories!.length>0? ListView.builder(
-                                  physics: ScrollPhysics(),
-                                  shrinkWrap: true,
-                                  addAutomaticKeepAlives: true,
-                                  itemCount: stories!.length < 10 ? stories!.length : 10,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        NavUtils.push(
-                                            context,
-                                            StoryDetails(
-                                                stories![index].id.toString(),
-                                                stories![index]
-                                                    .title
-                                                    .toString(),
-                                                stories![index]
-                                                    .images
-                                                    .toString(),
-                                                stories![index]
-                                                    .createdOn
-                                                    .toString()));
-                                      },
-                                      child: Container(
-                                        child: getItem(
-                                            stories?[index].images != ''
-                                                ? stories![index].images
-                                                : "assets/images/default.jpg",
-                                            "",
-                                            stories![index].title,
-                                            stories![index].summary),
-                                      ),
-                                    );
-                                  }):Center(
+                        onRefresh: () {
+                          return _futureStory =
+                              getDataFromApi(context, provider); // EDITED
+                        },
+                        child: stories!.length > 0
+                            ? ListView.builder(
+                                physics: ScrollPhysics(),
+                                shrinkWrap: true,
+                                addAutomaticKeepAlives: true,
+                                itemCount:
+                                    stories!.length < 10 ? stories!.length : 10,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      NavUtils.push(
+                                          context,
+                                          StoryDetails(
+                                              stories![index].id.toString(),
+                                              stories![index].title.toString(),
+                                              stories![index].images.toString(),
+                                              stories![index]
+                                                  .createdOn
+                                                  .toString()));
+                                    },
+                                    child: Container(
+                                      child: getItem(
+                                          stories?[index].images != ''
+                                              ? stories![index].images
+                                              : "assets/images/default.jpg",
+                                          "",
+                                          stories![index].title,
+                                          stories![index].summary),
+                                    ),
+                                  );
+                                })
+                            : !provider.isLoading?Center(
                                 child: Container(
                                   height: 50,
                                   width: 50,
                                   padding: EdgeInsets.all(15),
-                                  child: CircularProgressIndicator(strokeWidth: 2,),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 ),
-                              ),
-                            );
+                              ):Container(),
+                      );
                     }),
               ),
             ],
@@ -188,13 +190,14 @@ class _StoryListState extends State<StoryList> {
     });
   }
 
-  Future<String?> getDataFromApi(BuildContext context, StoryController provider) async {
-    if(provider.isOnline){
+  Future<String?> getDataFromApi(
+      BuildContext context, StoryController provider) async {
+    if (provider.isOnline) {
       return Provider.of<StoryController>(context, listen: false)
           .getStoriesFromRemote(
-          RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-          sp.getValue(SPUtil.PROGRAMKEY));
-    }else{
+              RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+              sp.getValue(SPUtil.PROGRAMKEY));
+    } else {
       return ShowSnackBar.showNoInternetMessage(context);
     }
   }

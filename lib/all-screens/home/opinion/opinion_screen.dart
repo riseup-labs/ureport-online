@@ -19,6 +19,7 @@ import 'statistics_header.dart';
 
 class Opinion extends StatefulWidget {
   const Opinion({Key? key}) : super(key: key);
+
   @override
   _OpinionState createState() => _OpinionState();
 }
@@ -28,6 +29,8 @@ var count = 0;
 class _OpinionState extends State<Opinion> {
 
   var sp = locator<SPUtil>();
+  List<Color> colors = RemoteConfigData.getSecondaryColorList();
+  int colorNumber = 0;
 
   @override
   void initState() {
@@ -39,15 +42,14 @@ class _OpinionState extends State<Opinion> {
   Widget build(BuildContext context) {
     List<ResultOpinionLocal>? opinions = [];
 
-
-    // if (LoadDataHandling.checkOpinionLoadAvailability()) {
-    //   Provider.of<OpinionController>(context, listen: false)
-    //       .getOpinionsFromRemote(
-    //       RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-    //       sp.getValue(SPUtil.PROGRAMKEY));
-    // } else {
-    //   print("Load : false");
-    // }
+    if (LoadDataHandling.checkOpinionLoadAvailability()) {
+      Provider.of<OpinionController>(context, listen: false)
+          .getOpinionsFromRemote(
+          RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+          sp.getValue(SPUtil.PROGRAMKEY));
+    } else {
+      print("Load : false");
+    }
 
     return Consumer<OpinionController>(builder: (context, provider, child) {
       var _futureOpinion = provider.getOpinionsFromLocal(
@@ -73,8 +75,7 @@ class _OpinionState extends State<Opinion> {
                     imageUrl: RemoteConfigData.getLargeIcon(),
                     height: 30,
                     width: 150,
-                  )
-              ),
+                  )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -121,69 +122,102 @@ class _OpinionState extends State<Opinion> {
               SizedBox(
                 height: 10,
               ),
-              provider.isLoading?Center(
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  padding: EdgeInsets.all(15),
-                  child: CircularProgressIndicator(strokeWidth: 2,),
-                ),
-              ):Container(),
+              provider.isLoading
+                  ? Center(
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        padding: EdgeInsets.all(15),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    )
+                  : Container(),
               Expanded(
                 child: FutureBuilder<List<ResultOpinionLocal>>(
-                      future: _futureOpinion,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          opinions = snapshot.data;
-                          if (opinions!.length > 0) {
-                            var mapdata = jsonDecode(opinions![0].questions);
-                            // questionList.clear();
-                            List<questionArray.Question> questionList = (mapdata
-                                    as List)
-                                .map((e) => questionArray.Question.fromJson(e))
-                                .toList();
-                            return snapshot.hasData
-                                ? RefreshIndicator(
-                              onRefresh: (){
-                                return _futureOpinion = getDataFromApi(context, provider);
-                              },
+                    future: _futureOpinion,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        opinions = snapshot.data;
+                        if (opinions!.length > 0) {
+                          var mapdata = jsonDecode(opinions![0].questions);
+                          // questionList.clear();
+                          List<questionArray.Question> questionList = (mapdata
+                                  as List)
+                              .map((e) => questionArray.Question.fromJson(e))
+                              .toList();
+                          return snapshot.hasData
+                              ? RefreshIndicator(
+                                  onRefresh: () {
+                                    return _futureOpinion =
+                                        getDataFromApi(context, provider);
+                                  },
                                   child: SingleChildScrollView(
-                              physics: AlwaysScrollableScrollPhysics(),
+                                    physics: AlwaysScrollableScrollPhysics(),
                                     child: Container(
-                                        margin: EdgeInsets.only(top: 10),
-                                        child: Column(
-                                          children: [
-                                            questionList.length > 0
-                                                ? StatisticsHeader
-                                                    .getHeadingStatistics(
-                                                        questionList[0],
-                                                        opinions![0],
-                                                        provider)
-                                                : StatisticsHeader
-                                                    .getHeadingStatisticsEmpty(
-                                                        opinions![0]),
-                                            ListView.builder(
-                                                shrinkWrap: true,
-                                                physics: BouncingScrollPhysics(),
-                                                itemCount: questionList.length,
-                                                itemBuilder: (context, int index) {
-                                                  return OpinionItem(
-                                                      questionList[index]);
-                                                })
-                                          ],
-                                        ),
+                                      margin: EdgeInsets.only(top: 10),
+                                      child: Column(
+                                        children: [
+                                          questionList.length > 0
+                                              ? StatisticsHeader
+                                                  .getHeadingStatistics(
+                                                      questionList[0],
+                                                      opinions![0],
+                                                      provider)
+                                              : StatisticsHeader
+                                                  .getHeadingStatisticsEmpty(
+                                                      opinions![0]),
+                                          ListView.builder(
+                                              shrinkWrap: true,
+                                              physics: BouncingScrollPhysics(),
+                                              itemCount: questionList.length,
+                                              itemBuilder: (context, int index) {
+                                                if(colorNumber > colors.length-1){
+                                                  colorNumber = 0;
+                                                }
+                                                return OpinionItem(questionList[index],colors[questionList[index].resultsByGender.length != 0? colorNumber++ : colorNumber]);
+                                              })
+                                        ],
                                       ),
+                                    ),
                                   ),
                                 )
-                                : Container();
-                          } else {
-                            return Container();
-                          }
+                              : !provider.isLoading?Center(
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                              padding: EdgeInsets.all(15),
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          ):Container();
                         } else {
-                          return Container();
+                          return !provider.isLoading?Center(
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                              padding: EdgeInsets.all(15),
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          ):Container();
                         }
-                      }),
-                
+                      } else {
+                        return !provider.isLoading?Center(
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            padding: EdgeInsets.all(15),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        ):Container();
+                      }
+                    }),
               )
             ],
           ),
@@ -192,13 +226,14 @@ class _OpinionState extends State<Opinion> {
     });
   }
 
-  Future<String?> getDataFromApi(BuildContext context, OpinionController provider) async {
-    if(provider.isOnline){
+  Future<String?> getDataFromApi(
+      BuildContext context, OpinionController provider) async {
+    if (provider.isOnline) {
       return Provider.of<OpinionController>(context, listen: false)
           .getOpinionsFromRemote(
-          RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-          sp.getValue(SPUtil.PROGRAMKEY));
-    }else{
+              RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+              sp.getValue(SPUtil.PROGRAMKEY));
+    } else {
       return ShowSnackBar.showNoInternetMessage(context);
     }
   }

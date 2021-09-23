@@ -187,36 +187,8 @@ class _StoryDetailsState extends State<StoryDetails> {
             _height = height;
           });
         });
-        // content = content.substring(0, min(content.length, 2097000));
-
-
-        // content = content.replaceFirst(RegExp('(?s)<img.*?>'), '');
-
-        // webViewController.webViewController.evaluateJavascript(
-        //     'document.querySelector(".title").innerHTML = "$title";');
-        // webViewController.webViewController.evaluateJavascript(
-        //     'document.querySelector(".date_box").innerHTML = "$clockString";');
-        // webViewController.webViewController.evaluateJavascript(
-        //     'document.querySelector(".image_box").innerHTML = "<img src= $image>";');
-
         content = content.replaceAll("\"", "\'");
         content = content.replaceAll("\\", "");
-
-        // String contentEx = content;
-        // if (contentEx.length > 2097152) {
-        //   contentEx = contentEx.replaceFirst(RegExp('<img.*?>'), '');
-        //   if (contentEx.length > 2097152) {
-        //     contentEx = contentEx.replaceFirst(RegExp('<img.*?>'), '');
-        //     print("Content length3 : ${contentEx.length}");
-        //     evaluateScript(contentEx);
-        //   } else {
-        //     print("Content length2 : ${contentEx.length}");
-        //     evaluateScript(contentEx);
-        //   }
-        // } else {
-        //   print("Content length1 : ${contentEx.length}");
-        //   evaluateScript(contentEx);
-        // }
       },
       javascriptMode: JavascriptMode.unrestricted,
     );
@@ -257,8 +229,6 @@ class _StoryDetailsState extends State<StoryDetails> {
           .split('')
           .reversed
           .join(), title, image, date);
-      // String htmlFilePath = 'assets/storypage/pages/story.html';
-      // webViewController.loadUrl(htmlFilePath);
     }
   }
 

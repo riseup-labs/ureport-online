@@ -10,17 +10,19 @@ import 'opinion_controller.dart';
 
 class StatisticsLocationSpinner extends StatefulWidget {
   questionArray.Question question;
+  Color color;
 
-  StatisticsLocationSpinner(this.question);
+  StatisticsLocationSpinner(this.question,this.color);
 
   @override
   _StatisticsLocationSpinnerState createState() =>
-      _StatisticsLocationSpinnerState(question);
+      _StatisticsLocationSpinnerState(question,color);
 }
 
 class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
   questionArray.Question question;
-  _StatisticsLocationSpinnerState(this.question);
+  Color color;
+  _StatisticsLocationSpinnerState(this.question,this.color);
 
   List<ResultsByLocation> resultsByLocation = [];
   
@@ -31,8 +33,6 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
   @override
   Widget build(BuildContext context) {
     var sp = locator<SPUtil>();
-    List<Color> colors = RemoteConfigData.getSecondaryColorList();
-    int colorNumber = 0;
     List<DropdownMenuItem<String>> countryList = [];
     List<String> countries = [];
 
@@ -83,9 +83,6 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
               physics: BouncingScrollPhysics(),
               itemCount: location.categories.length,
               itemBuilder: (context, index) {
-                if (colorNumber > colors.length - 1) {
-                  colorNumber = 0;
-                }
                 int set = location.resultsByLocationSet;
                 int count = location.categories[index].count;
                 return Row(
@@ -109,7 +106,7 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
                             ],
                           ),
                           linearStrokeCap: LinearStrokeCap.roundAll,
-                          progressColor: colors[colorNumber++],
+                          progressColor: color,
                         ),
                       ),
                     ),

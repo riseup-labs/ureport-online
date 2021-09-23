@@ -7,10 +7,8 @@ import 'model/response_opinions.dart' as questionArray;
 
 class StatisticsAge {
 
-  static Widget getAgeStatistics(questionArray.Question question) {
+  static Widget getAgeStatistics(questionArray.Question question,Color color) {
     var sp = locator<SPUtil>();
-    List<Color> colors = RemoteConfigData.getSecondaryColorList();
-    int colorNumber = 0;
     return ListView.builder(
         shrinkWrap: true,
         physics: BouncingScrollPhysics(),
@@ -29,9 +27,6 @@ class StatisticsAge {
                   physics: BouncingScrollPhysics(),
                   itemCount: question.resultsByAge[index1].categories.length,
                   itemBuilder: (context, index) {
-                    if(colorNumber > colors.length-1){
-                      colorNumber = 0;
-                    }
                     int set  = question.resultsByAge[index1].resultsSet;
                     int count  = question.resultsByAge[index1].categories[index].count;
                     return Row(
@@ -51,7 +46,7 @@ class StatisticsAge {
                                 ],
                               ),
                               linearStrokeCap: LinearStrokeCap.roundAll,
-                              progressColor: colors[colorNumber++],
+                              progressColor: color,
                             ),
                           ),
                         ),

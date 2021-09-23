@@ -4,6 +4,7 @@ import 'package:ureport_ecaro/all-screens/home/stories/story_list.dart';
 import 'package:ureport_ecaro/all-screens/settings/settings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
+import 'package:ureport_ecaro/utils/remote-config-data.dart';
 
 import 'chat/Chat.dart';
 import 'opinion/opinion_screen.dart';
@@ -31,8 +32,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
         body: IndexedStack(index: changedIndex, children: tabs),
         bottomNavigationBar: BottomNavigationBar(
@@ -49,6 +48,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 "assets/images/ic_stories_on.png",
                 height: 40.18,
                 width: 33.66,
+                color: RemoteConfigData.getPrimaryColor(),
               ),
               label: "${AppLocalizations.of(context)!.stories}",
             ),
@@ -59,6 +59,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 "assets/images/ic_chat_on.png",
                 height: 40.18,
                 width: 33.66,
+                color: RemoteConfigData.getPrimaryColor(),
               ),
               label: "${AppLocalizations.of(context)!.chat}",
             ),
@@ -69,6 +70,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 "assets/images/ic_opinions_on.png",
                 height: 40.18,
                 width: 33.66,
+                color: RemoteConfigData.getPrimaryColor(),
               ),
               label: "${AppLocalizations.of(context)!.opinions}",
             ),
@@ -79,6 +81,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 "assets/images/ic_more_on.png",
                 height: 40.18,
                 width: 33.66,
+                color: RemoteConfigData.getPrimaryColor(),
               ),
               label: "${AppLocalizations.of(context)!.more}",
             ),
@@ -86,7 +89,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           backgroundColor: Colors.white,
           showUnselectedLabels: true,
           showSelectedLabels: true,
-          selectedItemColor: Color(0xff41B6E6),
+          selectedItemColor: RemoteConfigData.getPrimaryColor(),
           selectedFontSize: 13,
           unselectedFontSize: 13,
           unselectedItemColor: Colors.black,
