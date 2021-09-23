@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MessageModel {
+class MessageModelLocal {
   String? message;
   final String sender;
   String status;
-  List<dynamic> quicktypest;
+  String quicktypest;
   String time;
 
-
-  MessageModel({
+  MessageModelLocal({
     required this.message,
     required this.sender,
     required this.status,
@@ -19,12 +18,12 @@ class MessageModel {
 
 
 
-  factory MessageModel.fromJson(Map<String, dynamic> json) =>
-      MessageModel(
+  factory MessageModelLocal.fromJson(Map<String, dynamic> json) =>
+      MessageModelLocal(
         message: json["message"],
         sender: json["sender"],
         status: json["status"],
-        quicktypest: List<dynamic>.from(json["quicktypest"].map((x) => x)),
+        quicktypest: json["quicktypest"],
         time: json["time"],
       );
 }

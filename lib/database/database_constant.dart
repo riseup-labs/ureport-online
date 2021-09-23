@@ -27,4 +27,14 @@ class DatabaseConstant{
   static final columnQuestionOpinion = "questions";
   static final columnPollDateOpinion = "poll_date";
 
+
+  //CHAt
+  static final tableNameMessage = "messagetable";
+  static final columnIDmessage = "id";
+  static final message = "message";
+  static final sender="sender";
+  static final status="status";
+  static final quicktypest = "quicktypest";
+  static final time = "time";
+
 }

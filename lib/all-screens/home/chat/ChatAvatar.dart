@@ -16,7 +16,7 @@ class ChatAvatar extends StatelessWidget {
           Container(
             height: 30,
             width: 30,
-            child: Image.asset(image,height: 30,width: 30,),
+            child: Image.asset(image,height: 25,width: 25,),
           ),
           /*Container(
             padding: EdgeInsets.all(10),

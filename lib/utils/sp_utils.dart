@@ -16,6 +16,10 @@ class SPUtil {
   static String OPINION_LAST_UPDATE = "opinion_last_update";
   static String STORY_LAST_UPDATE = "story_last_update";
 
+  static String DELETE5DAYS = "DELETE5DAYS";
+  static String CONTACT_URN_INDIVIDUAL_CASE = "CONTACT_URN_INDIVIDUAL_CASE";
+  static String FIRSTMESSAGE = "FIRSTMESSAGE";
+
 
   setValue(String key, String value) async {
     GetStorage().write(key, value);
