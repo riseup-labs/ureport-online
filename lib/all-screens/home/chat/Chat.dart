@@ -131,7 +131,6 @@ class _ChatState extends State<Chat> {
 
                        },
                            child: Container(
-
                        padding: EdgeInsets.only(left:20,right: 20),
                        margin: EdgeInsets.only(top: 15),
                        child: CustomDropdownThird(
@@ -150,7 +149,7 @@ class _ChatState extends State<Chat> {
                     child: Container(
                       child:  provider.localmessage.length>0  ? ListView.builder(
                         controller: _scrollController,
-                        itemCount: provider.localmessage.length>0 ? provider.localmessage?.length:0,
+                        itemCount: provider.localmessage.length>0 ? provider.localmessage.length:0,
                         reverse: true,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
@@ -232,7 +231,7 @@ class _ChatState extends State<Chat> {
                                       Container(
                                         padding: EdgeInsets.only(top: 5,bottom: 5,right: 10,left: 15),
                                         decoration: BoxDecoration(
-                                          color:  Color(0xff41B6E6),
+                                          color:  RemoteConfigData.getPrimaryColor(),
                                           borderRadius: BorderRadius.circular(10),
 
                                         ),
@@ -272,7 +271,7 @@ class _ChatState extends State<Chat> {
                                                   margin: EdgeInsets.only(right: 10),
                                                   decoration: BoxDecoration(
                                                       color:Colors.white,
-                                                      border:Border.all(color: Color(0xff41B6E6)),
+                                                      border:Border.all(color: RemoteConfigData.getPrimaryColor(),),
                                                       borderRadius: BorderRadius.all(Radius.circular(20))
                                                   ),
 
@@ -347,7 +346,7 @@ class _ChatState extends State<Chat> {
                                       Container(
                                         padding: EdgeInsets.only(top: 5,bottom: 5,right: 10,left: 15),
                                         decoration: BoxDecoration(
-                                          color:  provider.localmessage[index].message=="This Message was Deleted"?Color(0xffCCCCCC): Color(0xff41B6E6),
+                                          color:  provider.localmessage[index].message=="This Message was Deleted"?Color(0xffCCCCCC): RemoteConfigData.getPrimaryColor(),
                                           borderRadius: BorderRadius.circular(10),
 
                                         ),
@@ -404,7 +403,7 @@ class _ChatState extends State<Chat> {
                                                   margin: EdgeInsets.only(right: 10),
                                                   decoration: BoxDecoration(
                                                       color:Colors.white,
-                                                      border:Border.all(color: Color(0xff41B6E6)),
+                                                      border:Border.all(color: RemoteConfigData.getPrimaryColor()),
                                                       borderRadius: BorderRadius.all(Radius.circular(20))
                                                   ),
 
@@ -566,7 +565,7 @@ class _ChatState extends State<Chat> {
                                               onTap:(){
                                                 Navigator.pop(context);
                                               },
-                                              child: Text("Cancel",style: TextStyle(color: Colors.blue,fontSize: 18),)),
+                                              child: Text("Cancel",style: TextStyle(color: RemoteConfigData.getPrimaryColor(),fontSize: 18),)),
 
                                         ],
                                       ),

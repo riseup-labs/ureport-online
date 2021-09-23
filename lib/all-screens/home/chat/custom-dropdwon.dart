@@ -46,7 +46,7 @@ class _CustomDropDownSecondState extends State<CustomDropDownSecond>
       vsync: this,
       duration: Duration(milliseconds: 250),
     );
-    _borderRadius = widget.borderRadius ?? BorderRadius.circular(4);
+    _borderRadius = BorderRadius.circular(4);
     _key = LabeledGlobalKey("button_icon");
     super.initState();
   }

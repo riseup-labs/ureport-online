@@ -42,7 +42,7 @@ class _CustomDropdownThirdState extends State<CustomDropdownThird>
       vsync: this,
       duration: Duration(milliseconds: 250),
     );
-    _borderRadius = widget.borderRadius ?? BorderRadius.circular(4);
+    _borderRadius = BorderRadius.circular(4);
     _key = LabeledGlobalKey("button_icon");
     super.initState();
   }
@@ -121,8 +121,8 @@ class _CustomDropdownThirdState extends State<CustomDropdownThird>
     return OverlayEntry(
       builder: (context) {
         return Positioned(
-          top: buttonPosition.dy-20,
-          right: 1,
+          top: 37,
+          right: 5,
           width:150,
           child: Container(
             padding: EdgeInsets.only(left: 10,right: 5,top: 10,bottom: 10),
@@ -130,9 +130,9 @@ class _CustomDropdownThirdState extends State<CustomDropdownThird>
               color: Colors.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
-                  topRight: Radius.circular(0),
+                  topRight: Radius.circular(10),
                   bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(0)
+                  bottomRight: Radius.circular(10)
               ),
               boxShadow: [
                 BoxShadow(

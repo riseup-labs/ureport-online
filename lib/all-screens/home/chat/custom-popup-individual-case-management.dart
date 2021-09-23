@@ -42,7 +42,7 @@ class _CustomDropdownForthState extends State<CustomDropdownForth>
       vsync: this,
       duration: Duration(milliseconds: 250),
     );
-    _borderRadius = widget.borderRadius ?? BorderRadius.circular(4);
+    _borderRadius = BorderRadius.circular(4);
     _key = LabeledGlobalKey("button_icon");
     super.initState();
   }
@@ -121,7 +121,7 @@ class _CustomDropdownForthState extends State<CustomDropdownForth>
     return OverlayEntry(
       builder: (context) {
         return Positioned(
-          top: buttonPosition.dy-20,
+          top: 37,
           right: 10,
           width:150,
           child: Container(
