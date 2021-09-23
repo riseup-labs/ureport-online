@@ -12,7 +12,6 @@ class OpinionItem extends StatefulWidget {
   questionArray.Question question;
   Color color;
 
-
   OpinionItem(this.question, this.color);
 
   @override
@@ -85,7 +84,7 @@ class _OpinionItemState extends State<OpinionItem> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: selectedTab == 0?Colors.black:Colors.white,
+                                  color: selectedTab == 0?Colors.grey[700]:Colors.white,
                                   borderRadius: BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
                                 ),
                                 padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -110,7 +109,7 @@ class _OpinionItemState extends State<OpinionItem> {
                                 });
                               },
                               child: Container(
-                                color: selectedTab == 1?Colors.black:Colors.white,
+                                color: selectedTab == 1?Colors.grey[700]:Colors.white,
                                 padding: EdgeInsets.only(top: 5, bottom: 5),
                                 child: Center(child: Text("AGE",style: TextStyle(color: selectedTab == 1?Colors.white:Colors.black,fontSize: 13),)),
                               ),
@@ -133,7 +132,7 @@ class _OpinionItemState extends State<OpinionItem> {
                                 });
                               },
                               child: Container(
-                                color: selectedTab == 2?Colors.black:Colors.white,
+                                color: selectedTab == 2?Colors.grey[700]:Colors.white,
                                 padding: EdgeInsets.only(top: 5, bottom: 5),
                                 child: Center(child: Text("GENDER",style: TextStyle(color: selectedTab == 2?Colors.white:Colors.black,fontSize: 13),)),
                               ),
@@ -157,7 +156,7 @@ class _OpinionItemState extends State<OpinionItem> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: selectedTab == 3?Colors.black:Colors.white,
+                                  color: selectedTab == 3?Colors.grey[700]:Colors.white,
                                   borderRadius: BorderRadius.only(topRight: Radius.circular(30), bottomRight: Radius.circular(30)),
                                 ),
                                 padding: EdgeInsets.only(top: 5, bottom: 5, right: 7),

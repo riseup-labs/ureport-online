@@ -9,10 +9,12 @@ import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'all-screens/home/chat/chat-controller.dart';
+import 'all-screens/home/navigation-screen.dart';
 import 'all-screens/home/opinion/opinion_controller.dart';
 import 'all-screens/home/stories/story-controller.dart';
 import 'all-screens/home/stories/story-details-controller.dart';
 import 'all-screens/login/provider_login_controller.dart';
+import 'all-screens/settings/about_controller.dart';
 import 'all-screens/splash-screen/splash_screen.dart';
 import 'firebase-remote-config/remote-config-controller.dart';
 import 'l10n/l10n.dart';
@@ -85,6 +87,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => ChatController()),
           ChangeNotifierProvider(create: (context) => RemoteConfigController()),
           ChangeNotifierProvider(create: (context) => ConnectivityController()),
+          ChangeNotifierProvider(create: (context) => AboutController()),
         ],
         child: KeyboardDismissOnTap(
           child: MaterialApp(

@@ -3,9 +3,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
 import 'package:ureport_ecaro/utils/api_constant.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'ChatAvatar.dart';
 import 'ChatBubble.dart';
 import 'chat-controller.dart';
@@ -36,25 +38,24 @@ class _ChatState extends State<Chat> {
 
   bool flowStarted = false;
 
+  var isLoaded = true;
+
   @override
   void initState() {
-    Provider.of<ChatController>(context,listen: false).createContatct();
-    Provider.of<ChatController>(context,listen: false).getfirebaseInitialmessage();
-    Provider.of<ChatController>(context,listen: false).getfirebase();
-    Provider.of<ChatController>(context,listen: false).getfirebaseonApp();
-    Provider.of<ChatController>(context,listen: false).loaddefaultmessage();
-    //  Provider.of<ChatController>(context,listen: false).getNotification(context);
 
-    Provider.of<ChatController>(context,listen: false).deletemsgAfterfiveDays();
+    if(isLoaded) {
+      Provider.of<ChatController>(context, listen: false).createContatct();
+      Provider.of<ChatController>(context, listen: false)
+          .getfirebaseInitialmessage();
+      Provider.of<ChatController>(context, listen: false).getfirebase();
+      Provider.of<ChatController>(context, listen: false).getfirebaseonApp();
+      Provider.of<ChatController>(context, listen: false).loaddefaultmessage();
+      Provider.of<ChatController>(context, listen: false).deletemsgAfterfiveDays();
+      isLoaded = false;
+    }
     super.initState();
   }
 
-  @override
-  void dispose() {
-
-    Provider.of<ChatController>(context,listen: false);
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,31 +63,10 @@ class _ChatState extends State<Chat> {
       builder: (context,provider,child){
         return  SafeArea(
           child: Scaffold(
-           /* appBar: AppBar(
-              backgroundColor: Colors.white,
-              iconTheme: IconThemeData(color: Colors.black, size: 10.0),
-              elevation: 0.5,
-              actions: [
-                PopupMenuButton<String>(
-                    onSelected: provider.sendkeyword,
-                    itemBuilder: (BuildContext context){
-
-                      return ApiConst.Choicekeyord.map((String choice) {
-                        return PopupMenuItem<String>(
-                            value: choice ,
-                            child: Text("$choice",style: TextStyle(color: Colors.black),)
-                        );
-
-                      }).toList();
-
-                })
-              ],
-            ),*/
             body: Container(
               color: Colors.white,
               child: Column(
                 children: [
-
                  Row(
                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                    children: [
@@ -100,7 +80,6 @@ class _ChatState extends State<Chat> {
                          )),
                      Spacer(),
                      Container(
-
                        padding: EdgeInsets.only(left:20,right: 20),
                        margin: EdgeInsets.only(top: 15),
                        child: CustomDropdownForth(
@@ -122,7 +101,7 @@ class _ChatState extends State<Chat> {
                        },
                        child: Container(
                          margin: EdgeInsets.only(right: 15),
-                         child:Text("Select All",style: TextStyle(color: Colors.blue,fontSize: 15),),
+                         child:Text("Select All",style: TextStyle(color: RemoteConfigData.getPrimaryColor(),fontSize: 15),),
                        ),
                      )
                          :GestureDetector(
@@ -195,15 +174,15 @@ class _ChatState extends State<Chat> {
                                         width: 20,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.all(Radius.circular(100)),
-                                          border: Border.all(color: Colors.blue),
-                                          color: Colors.blue,
+                                          border: Border.all(color: RemoteConfigData.getPrimaryColor()),
+                                          color: RemoteConfigData.getPrimaryColor(),
                                         ),
                                       ):Container(
                                         height: 20,
                                         width: 20,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.all(Radius.circular(100)),
-                                          border: Border.all(color: Colors.blue),
+                                          border: Border.all(color: RemoteConfigData.getPrimaryColor()),
 
                                         ),
                                       ),
@@ -250,8 +229,6 @@ class _ChatState extends State<Chat> {
                                             children: [
                                               GestureDetector(
                                                 onTap:(){
-
-
                                                   DateTime now = DateTime.now();
                                                   String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
                                                   MessageModel messageModel = MessageModel(
@@ -651,7 +628,18 @@ class _ChatState extends State<Chat> {
                         time: formattedDate
                     );
                     provider.addMessage(messageModel);
+
+                    List<String> listDefault = RemoteConfigData.getDefaultAction();
+                    List<String> listCaseManagement = RemoteConfigData.getOneToOneAction();
+
+                    if(listDefault.contains(message)){
+                      locator<SPUtil>().setValue(SPUtil.USER_ROLE, "regular");
+                    }else if(listCaseManagement.contains(message)){
+                      locator<SPUtil>().setValue(SPUtil.USER_ROLE, "caseManagement");
+                    }
+
                     provider.sendmessage(message);
+
                     messageModel.status=provider.messagestatus;
                     sendMessageKey.currentState!.reset();
                   },

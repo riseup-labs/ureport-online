@@ -19,6 +19,7 @@ class SPUtil {
   static String DELETE5DAYS = "DELETE5DAYS";
   static String CONTACT_URN_INDIVIDUAL_CASE = "CONTACT_URN_INDIVIDUAL_CASE";
   static String FIRSTMESSAGE = "FIRSTMESSAGE";
+  static String USER_ROLE = "user_role";
 
 
   setValue(String key, String value) async {

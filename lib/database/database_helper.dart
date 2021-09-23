@@ -249,7 +249,7 @@ class DatabaseHelper {
       await batch.commit();
     });
     // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
-    await db.rawDelete("delete FROM ${DatabaseConstant.tableNameMessage}");
+    // await db.rawDelete("delete FROM ${DatabaseConstant.tableNameMessage}");
     print("message deleted");
     return true;
   }

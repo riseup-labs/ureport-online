@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/chooser/program_chooser.dart';
 import 'package:ureport_ecaro/all-screens/settings/change-language.dart';
 import 'package:ureport_ecaro/all-screens/settings/privacy_policy.dart';
+import 'package:ureport_ecaro/all-screens/settings/settings_details.dart';
 import 'package:ureport_ecaro/all-screens/settings/terms_and_conditions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -40,7 +41,9 @@ class Settings extends StatelessWidget {
                 height: 20,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  NavUtils.push(context, SettingDetails());
+                },
                 child: getItem(
                     "${AppLocalizations.of(context)!.settings}", "assets/images/ic_settings.png"),
               ),
