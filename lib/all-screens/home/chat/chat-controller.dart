@@ -85,7 +85,7 @@ class ChatController extends ChangeNotifier{
           status: localmessage[individualselect[i]].status, quicktypest: "", time: localmessage[individualselect[i]].time);
       localmessage[individualselect[i]]=msgl;
 
-      print("the message time is------------ ${msgl.time}");
+     // print("the message time is------------ ${msgl.time}");
 
       await _databaseHelper.updateSingleMessage(msgl);
     }
@@ -103,7 +103,7 @@ class ChatController extends ChangeNotifier{
     });
 */
     //updateSingleMessage(localmessage[individualselect[i]].time,"This Message was Deleted");
-    print("selected message length is..................${selectedMessage.length}");
+   // print("selected message length is..................${selectedMessage.length}");
     /*
     selectedMessage.forEach((element) {
        MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: element.sender,
@@ -143,7 +143,7 @@ class ChatController extends ChangeNotifier{
 
 
    if(list.length>0) selectedMessage.addAll(list);
-    print("select message length is ............${selectedMessage.length}");
+    //print("select message length is ............${selectedMessage.length}");
     notifyListeners();
 
   }
@@ -159,7 +159,7 @@ class ChatController extends ChangeNotifier{
    /* MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: msg.sender,
         status: msg.status, quicktypest: "", time: msg.time);*/
     selectedMessage.remove(msg);
-    print("after remove/deselect total selected length is -----${selectedMessage.length}");
+    //print("after remove/deselect total selected length is -----${selectedMessage.length}");
     notifyListeners();
   }
 
@@ -189,11 +189,11 @@ class ChatController extends ChangeNotifier{
 
   replaceQuickReplaydata(int index,data)async{
 
-    print("the data is ..======================================================================.........${data}");
+   // print("the data is ..======================================================================.........${data}");
     List<dynamic>repdata=[];
     repdata.add(data);
     localmessage[index].quicktypest='["$data"]';
-    print("the data is ..======================================================================.........${ jsonEncode(repdata)}");
+   // print("the data is ..======================================================================.........${ jsonEncode(repdata)}");
 
     await _databaseHelper.updateQuicktypeMessage(localmessage[index].time,repdata).then((value)async {
       await loaddefaultmessage();
@@ -218,7 +218,7 @@ class ChatController extends ChangeNotifier{
 
   getToken() async {
     _token = (await FirebaseMessaging.instance.getToken())!;
-    print("this is firebase fcm token ==  ${_token}");
+   // print("this is firebase fcm token ==  ${_token}");
   }
 
   bool firstmessageStatus(){
@@ -284,12 +284,13 @@ class ChatController extends ChangeNotifier{
   createContatct() async {
     await getToken();
     if(_token.isNotEmpty){
-      print("this is firebase fcm token ==  ${_token}");
+      //print("this is firebase fcm token ==  ${_token}");
       String _urn =_spservice.getValue(SPUtil.CONTACT_URN);
 
-      print("l============================== normal chat contact ${_urn}");
+      //print("l============================== normal chat contact ${_urn}");
       if(_urn==null){
         String contact_urn = getRandomString(15);
+        //print("l============================== normal chat contact ${_urn}");
         var apiResponse = await _rapidproservice.createContact(contact_urn, _token,"Unknown",onSuccess:(uuid){
           contatct=uuid;
         } );
@@ -322,10 +323,10 @@ class ChatController extends ChangeNotifier{
     if(_token.isNotEmpty){
 
       String _urn =_spservice.getValue(SPUtil.CONTACT_URN_INDIVIDUAL_CASE);
-      print("l============================== casemanegement ${_urn}");
+      //print("l============================== casemanegement ${_urn}");
       if(_urn==null){
         String contact_urn = getRandomString(15);
-        print("the new Contact urn for the individual casemanegement ${contact_urn}");
+       // print("the new Contact urn for the individual casemanegement ${contact_urn}");
         var apiResponse = await _rapidproservice.createContact(contact_urn, _token,"Unknown",onSuccess:(uuid){
           contatct=uuid;
         } );
@@ -345,7 +346,7 @@ class ChatController extends ChangeNotifier{
               quicktypest: [""],
               time: formattedDate
           );
-          print("the message keyword is ..............${messagekeyword}");
+        // print("the message keyword is ..............${messagekeyword}");
          addMessage(messageModel);
           sendmessage(messagekeyword);
           messageModel.status=messagestatus;
@@ -358,16 +359,16 @@ class ChatController extends ChangeNotifier{
   else if(_urn!=null){
 
 
-        String contact_urn = getRandomString(15);
-        print("the new Contact urn for the individual casemanegement ${contact_urn}");
-        var apiResponse = await _rapidproservice.createContact(contact_urn, _token,"Unknown",onSuccess:(uuid){
+
+       // print("the new Contact urn for the individual casemanegement ${_urn}");
+        var apiResponse = await _rapidproservice.createContact(_urn, _token,"Unknown",onSuccess:(uuid){
           contatct=uuid;
         } );
         // getfirebase();
         if (apiResponse.httpCode == 200) {
 
           responseContactCreation = apiResponse.data;
-          _spservice.setValue(SPUtil.CONTACT_URN_INDIVIDUAL_CASE, contact_urn);
+          _spservice.setValue(SPUtil.CONTACT_URN_INDIVIDUAL_CASE, _urn);
 
           DateTime now = DateTime.now();
           String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
@@ -387,6 +388,7 @@ class ChatController extends ChangeNotifier{
           notifyListeners();
         }
 
+        // hovered done
       }
 
     }
@@ -396,7 +398,7 @@ class ChatController extends ChangeNotifier{
   deletemsgAfterfiveDays()async{
 
 
-    print("sp 5days value    -----${_spservice.getValue(SPUtil.DELETE5DAYS)}");
+   // print("sp 5days value    -----${_spservice.getValue(SPUtil.DELETE5DAYS)}");
 
     if(_spservice.getValue(SPUtil.DELETE5DAYS)=="true"){
       await _databaseHelper.getConversation().then((valuereal) {
@@ -428,7 +430,7 @@ class ChatController extends ChangeNotifier{
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
       List<dynamic> quicktypest;
       if(remotemessage.data["quick_replies"]!=null){
-        print("the incomeing quick tyupe data is........${remotemessage.data["quick_replies"]}");
+        //print("the incomeing quick tyupe data is........${remotemessage.data["quick_replies"]}");
          quicktypest = json.decode(remotemessage.data["quick_replies"]);
       }else{
         quicktypest=[""];
@@ -436,7 +438,7 @@ class ChatController extends ChangeNotifier{
 
       remotemessage.data.forEach((key, value) {
 
-        print("the key is ---------$key ---------and value is -----------$value");
+        //print("the key is ---------$key ---------and value is -----------$value");
 
       });
 
@@ -488,7 +490,7 @@ class ChatController extends ChangeNotifier{
     await _databaseHelper.getConversation().then((valuereal) {
       ordered.addAll(valuereal);
       localmessage=ordered.reversed.toList();
-      print("load message called again-------- ${localmessage.length}");
+     // print("load message called again-------- ${localmessage.length}");
       notifyListeners();
 
     });
@@ -501,11 +503,11 @@ class ChatController extends ChangeNotifier{
 
     await _rapidproservice.sendMessage(message: message, onSuccess: (value){
 
-      print("this response message $value");
+     // print("this response message $value");
       messagestatus="Sent";
 
     }, onError:(error){
-      print("this is error message $error");
+    //  print("this is error message $error");
       messagestatus="failed";
     },urn: urn,fcmToken: _token);
 
@@ -523,7 +525,7 @@ class ChatController extends ChangeNotifier{
       }else{
         quicktypest=[""];
       }
-      print("the notification message is ${remotemessage.notification!.body}");
+      //print("the notification message is ${remotemessage.notification!.body}");
       var notificationmessage_terminatestate = MessageModel(sender: 'server',
           message: remotemessage.notification!.body,
           status: "received",
@@ -549,7 +551,7 @@ class ChatController extends ChangeNotifier{
       }else{
         quicktypest=[""];
       }
-      print("the notification message is ${remotemessage.notification!.body}");
+      //print("the notification message is ${remotemessage.notification!.body}");
       var notificationmessage = MessageModel(
           sender: 'server',
           message: remotemessage.notification!.body,

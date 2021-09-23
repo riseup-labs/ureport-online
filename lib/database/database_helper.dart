@@ -83,8 +83,6 @@ class DatabaseHelper {
 
 
 
-
-
   Future<bool> insertConversation(List<MessageModel> list) async {
     var db = await this.database;
     list.forEach((element) async {
@@ -217,7 +215,7 @@ class DatabaseHelper {
     return false;
   }
 
-
+// fetechd ata
 
 
 
