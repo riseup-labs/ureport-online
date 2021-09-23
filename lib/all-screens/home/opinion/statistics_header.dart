@@ -274,7 +274,7 @@ class StatisticsHeader{
                           height: 7,
                         ),
                         Text(
-                          "${guysRespondent}",
+                          "${FormattedNumber.formatNumber(guysRespondent)}",
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w700),
                         ),

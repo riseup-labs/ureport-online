@@ -104,7 +104,7 @@ class DatabaseHelper {
         DatabaseConstant.columnPollDateOpinion : element.pollDate.toString(),
         DatabaseConstant.columnProgramOpinion : program,
         DatabaseConstant.columnQuestionOpinion : jsonEncode(element.questions),
-      }, conflictAlgorithm: ConflictAlgorithm.ignore);
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
       print("$result");
     });
 
@@ -186,18 +186,6 @@ class DatabaseHelper {
 
     return opinion;
   }
-
-  // Future<List<String>> getOpinionQuestion(String title) async {
-  //   List<String> Question =[];
-  //   var db = await this.database;
-  //   var result = await db.rawQuery("SELECT  ${DatabaseConstant.columnQuestionOpinion} FROM  ${DatabaseConstant.tableNameOpinion} WHERE ${DatabaseConstant.columnTitleOpinion} = '$title'");
-  //   result.forEach((element) {
-  //     var list =ResultOpinionLocal.fromJson(element);
-  //     Question.add(list.questions);
-  //   });
-  //   return Question;
-  //
-  // }
 
   Future<int> deleteStoryTable() async {
     var db = await this.database;

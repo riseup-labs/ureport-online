@@ -4,7 +4,7 @@ class FormattedNumber{
 
   static String formatNumber(int number){
 
-    var formatter = NumberFormat('###,000');
+    var formatter = NumberFormat('###,###');
     return formatter.format(number);
 
   }
