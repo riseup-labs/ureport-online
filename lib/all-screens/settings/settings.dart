@@ -7,8 +7,9 @@ import 'package:ureport_ecaro/all-screens/settings/terms_and_conditions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/utils/remote-config-data.dart';
 
-import 'about.dart';
+import 'about/about.dart';
 
 class Settings extends StatelessWidget {
   @override
@@ -16,13 +17,8 @@ class Settings extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Container(
+          color: Colors.white,
           width: double.infinity,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/bg_home.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
           child: ListView(
             children: [
               SizedBox(
@@ -30,11 +26,11 @@ class Settings extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  left: 20,
+                  left: 30,
                 ),
                 child: Text(
                   "${AppLocalizations.of(context)!.more}",
-                  style: TextStyle(color: Colors.black, fontSize: 28),
+                  style: TextStyle(color: Colors.black, fontSize: 28,fontWeight: FontWeight.w700),
                 ),
               ),
               SizedBox(
@@ -45,21 +41,21 @@ class Settings extends StatelessWidget {
                   NavUtils.push(context, SettingDetails());
                 },
                 child: getItem(
-                    "${AppLocalizations.of(context)!.settings}", "assets/images/ic_settings.png"),
+                    "${AppLocalizations.of(context)!.settings}", "assets/images/v2_ic_settings.png"),
               ),
               GestureDetector(
                 onTap: () {
                   NavUtils.push(context, About());
                 },
                 child: getItem(
-                    "${AppLocalizations.of(context)!.about_us}", "assets/images/ic_about.png"),
+                    "${AppLocalizations.of(context)!.about_us}", "assets/images/v2_ic_about.png"),
               ),
               GestureDetector(
                 onTap: () {
                   NavUtils.push(context, ProgramChooser("more"));
                 },
                 child: getItem("${AppLocalizations.of(context)!.change_ureport_program}",
-                    "assets/images/ic_change_ureport_program.png"),
+                    "assets/images/v2_ic_program.png"),
               ),
               GestureDetector(
                 onTap: () {
@@ -67,26 +63,7 @@ class Settings extends StatelessWidget {
                   NavUtils.push(context, ChangeLanguage());
                 },
                 child: getItem("${AppLocalizations.of(context)!.change_language}",
-                    "assets/images/ic_change_language.png"),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: getItem(
-                    "${AppLocalizations.of(context)!.feedback}", "assets/images/ic_feedback.png"),
-              ),
-              GestureDetector(
-                onTap: () {
-                  NavUtils.push(context, PrivacyPolicy());
-                },
-                child: getItem("${AppLocalizations.of(context)!.privacy_policy}",
-                    "assets/images/ic_privacy_policy.png"),
-              ),
-              GestureDetector(
-                onTap: () {
-                  NavUtils.push(context, Terms());
-                },
-                child: getItem("${AppLocalizations.of(context)!.terms}",
-                    "assets/images/ic_terms_and_conditions.png"),
+                    "assets/images/v2_ic_language.png"),
               ),
             ],
           ),
@@ -97,23 +74,29 @@ class Settings extends StatelessWidget {
 
   getItem(String title, String image) {
     return Container(
-      margin: EdgeInsets.only(top: 25, left: 30),
+      height: 80,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5),topLeft: Radius.circular(5),topRight: Radius.circular(5),bottomRight: Radius.circular(20)),
+        color: RemoteConfigData.getBackgroundColor(),
+      ),
+
+      padding: EdgeInsets.only(left: 10, right: 15),
+      margin: EdgeInsets.only(top: 15, left: 30,right: 30),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Text(
+            title,
+            style: TextStyle(fontSize: 20, color: RemoteConfigData.getTextColor()),
+          ),
           Container(
-            height: 20,
-            width: 20,
+            height: 35,
+            width: 35,
             child: Image(
+              color:  RemoteConfigData.getTextColor(),
               image: AssetImage(image),
             ),
           ),
-          SizedBox(
-            width: 15,
-          ),
-          Text(
-            title,
-            style: TextStyle(fontSize: 20, color: Colors.black),
-          )
         ],
       ),
     );

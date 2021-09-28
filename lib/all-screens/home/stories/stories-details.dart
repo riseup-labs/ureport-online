@@ -279,9 +279,9 @@ class _StoryDetailsState extends State<StoryDetails> {
     p{font-size: 24px;}
     </style> 
     <body> 
+    <div class="image_box"><img class = "title_image" src="$image"></div>
     <div><h5>$clockString</h5></div>
     <div><h2>$title</h2></div>
-    <div class="image_box"><img class = "title_image" src="$image"></div>
     <div>$content</div> 
     </body> 
     </html>''';

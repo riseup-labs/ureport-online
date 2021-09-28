@@ -36,6 +36,9 @@ class Program {
     required this.largeIcon,
     required this.smallIcon,
     required this.individualCaseManagement,
+    required this.aboutUrl,
+    required this.programBackgroundColor,
+    required this.programTextColor,
     required this.primaryColor,
     required this.secondaryColor,
     required this.defaultTriggerActions,
@@ -53,6 +56,9 @@ class Program {
   String largeIcon;
   String smallIcon;
   bool individualCaseManagement;
+  String aboutUrl;
+  String programBackgroundColor;
+  String programTextColor;
   String primaryColor;
   List<String> secondaryColor;
   List<String> defaultTriggerActions;
@@ -70,6 +76,9 @@ class Program {
     largeIcon: json["large_icon"],
     smallIcon: json["small_icon"],
     individualCaseManagement: json["individual_case_management"],
+    aboutUrl: json["about_url"],
+    programBackgroundColor: json["program_background_color"],
+    programTextColor: json["program_text_color"],
     primaryColor: json["primary_color"],
     secondaryColor: List<String>.from(json["secondary_color"].map((x) => x)),
     defaultTriggerActions: List<String>.from(json["default_trigger_actions"].map((x) => x)),
@@ -88,6 +97,9 @@ class Program {
     "large_icon": largeIcon,
     "small_icon": smallIcon,
     "individual_case_management": individualCaseManagement,
+    "about_url": aboutUrl,
+    "program_background_color": programBackgroundColor,
+    "program_text_color": programTextColor,
     "primary_color": primaryColor,
     "secondary_color": List<dynamic>.from(secondaryColor.map((x) => x)),
     "default_trigger_actions": List<dynamic>.from(defaultTriggerActions.map((x) => x)),

@@ -7,11 +7,13 @@ import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_search.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/load_data_handling.dart';
+import 'package:ureport_ecaro/utils/loading_bar.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:ureport_ecaro/utils/snackbar.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
+import 'package:ureport_ecaro/utils/top_bar_background.dart';
 import 'model/ResponseStoryLocal.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -37,13 +39,9 @@ class _StoryListState extends State<StoryList> {
     Provider.of<StoryController>(context, listen: false)
         .getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
 
-    if (LoadDataHandling.checkStoryLoadAvailability()) {
-      Provider.of<StoryController>(context, listen: false).getStoriesFromRemote(
-          RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-          sp.getValue(SPUtil.PROGRAMKEY));
-    } else {
-      print("Load : false");
-    }
+    // Provider.of<StoryController>(context, listen: false).getRecentStory(
+    //     RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+    //     sp.getValue(SPUtil.PROGRAMKEY));
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       var _futureStory =
@@ -57,134 +55,127 @@ class _StoryListState extends State<StoryList> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                  margin: EdgeInsets.only(top: 15),
-                  child: CachedNetworkImage(
-                    imageUrl: RemoteConfigData.getLargeIcon(),
-                    height: 30,
-                    width: 150,
-                  )),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 15, bottom: 10),
-                    child: Text(
-                      "${AppLocalizations.of(context)!.stories}",
-                      style: TextStyle(
-                          fontSize: 24.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      NavUtils.push(context, StorySearch());
-                    },
-                    child: Card(
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        child: Icon(
-                          Icons.search,
-                          size: 22,
-                        ),
-                      ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TopBar.getTopBar(AppLocalizations.of(context)!.stories),
+            Container(
+              child: Divider(
+                height: 1.5,
+                color: Colors.grey[600],
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            provider.isSyncing
+                ? Container(
+                    height: 5,
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    child: LinearProgressIndicator(
+                      color: RemoteConfigData.getPrimaryColor(),
                     ),
                   )
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Container(
-                child: Divider(
-                  height: 1.5,
-                  color: Colors.grey[600],
+                : Container(),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: GestureDetector(
+                onTap: () {
+                  NavUtils.push(context, StorySearch());
+                },
+                child: Card(
+                  elevation: 2,
+                  child: Container(
+                    height: 40,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Search",
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                          ),
+                          Icon(
+                            Icons.search,
+                            size: 22,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              provider.isLoading
-                  ? Center(
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        padding: EdgeInsets.all(15),
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                        ),
-                      ),
-                    )
-                  : Container(),
-              Expanded(
-                child: FutureBuilder<List<ResultLocal>>(
-                    future: _futureStory,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        stories = List.from(snapshot.data!.reversed);
-                      }
-                      return RefreshIndicator(
-                        onRefresh: () {
-                          return _futureStory =
-                              getDataFromApi(context, provider); // EDITED
-                        },
-                        child: stories!.length > 0
-                            ? ListView.builder(
-                                physics: ScrollPhysics(),
-                                shrinkWrap: true,
-                                addAutomaticKeepAlives: true,
-                                itemCount:
-                                    stories!.length < 10 ? stories!.length : 10,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      NavUtils.push(
-                                          context,
-                                          StoryDetails(
-                                              stories![index].id.toString(),
-                                              stories![index].title.toString(),
-                                              stories![index].images.toString(),
-                                              stories![index]
-                                                  .createdOn
-                                                  .toString()));
-                                    },
-                                    child: Container(
-                                      child: getItem(
-                                          stories?[index].images != ''
-                                              ? stories![index].images
-                                              : "assets/images/default.jpg",
-                                          "",
-                                          stories![index].title,
-                                          stories![index].summary),
-                                    ),
-                                  );
-                                })
-                            : !provider.isLoading?Center(
-                                child: Container(
-                                  height: 50,
-                                  width: 50,
-                                  padding: EdgeInsets.all(15),
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: FutureBuilder<List<ResultLocal>>(
+                  future: _futureStory,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      stories = List.from(snapshot.data!.reversed);
+                    }
+                    return RefreshIndicator(
+                      onRefresh: () {
+                        return _futureStory =
+                            getDataFromApi(context, provider); // EDITED
+                      },
+                      child: stories!.length > 0
+                          ? Container(
+                              padding: EdgeInsets.only(left: 20, right: 20),
+                              child: ListView.builder(
+                                  physics: ScrollPhysics(),
+                                  shrinkWrap: true,
+                                  addAutomaticKeepAlives: true,
+                                  itemCount: stories!.length < 10
+                                      ? stories!.length
+                                      : 10,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        NavUtils.push(
+                                            context,
+                                            StoryDetails(
+                                                stories![index].id.toString(),
+                                                stories![index]
+                                                    .title
+                                                    .toString(),
+                                                stories![index]
+                                                    .images
+                                                    .toString(),
+                                                stories![index]
+                                                    .createdOn
+                                                    .toString()));
+                                      },
+                                      child: Container(
+                                        child: getItem(
+                                            stories?[index].images != ''
+                                                ? stories![index].images
+                                                : "assets/images/default.jpg",
+                                            stories![index].featured,
+                                            stories![index].title,
+                                            stories![index].summary),
+                                      ),
+                                    );
+                                  }),
+                            )
+                          : provider.isLoading
+                              ? Center(
+                                  child: Container(
+                                    height: 60,
+                                    width: 60,
+                                    child: LoadingBar.spinkit,
                                   ),
-                                ),
-                              ):Container(),
-                      );
-                    }),
-              ),
-            ],
-          ),
+                                )
+                              : Container(),
+                    );
+                  }),
+            ),
+          ],
         ),
       )));
     });
@@ -194,7 +185,7 @@ class _StoryListState extends State<StoryList> {
       BuildContext context, StoryController provider) async {
     if (provider.isOnline) {
       return Provider.of<StoryController>(context, listen: false)
-          .getStoriesFromRemote(
+          .getRecentStory(
               RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
               sp.getValue(SPUtil.PROGRAMKEY));
     } else {
@@ -207,7 +198,7 @@ getBackground() {
   return Image(image: AssetImage("assets/images/bg_home.png"));
 }
 
-getItem(String image_url, String date, String title, String summery) {
+getItem(String image_url, String featured, String title, String summery) {
   return Card(
     elevation: 2,
     shape: RoundedRectangleBorder(
@@ -218,7 +209,7 @@ getItem(String image_url, String date, String title, String summery) {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         getItemTitleImage(image_url),
-        getItemDate(date),
+        getItemFeatured(featured),
         getItemTitle(title),
         getItemSummery(summery),
       ],
@@ -257,13 +248,27 @@ getItemTitleImage(String image_url) {
   );
 }
 
-getItemDate(String date) {
-  return Container(
-    padding: EdgeInsets.only(top: 10, left: 10),
-    child: Text(
-      date,
-      style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
-    ),
+getItemFeatured(String featured) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Container(
+        margin: EdgeInsets.only(left: 10, top: 15, bottom: 5,right: 10),
+        height: 10,
+        width: 10,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: RemoteConfigData.getBackgroundColor()
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.only(top: 10),
+        child: Text(
+          featured == "true"?"FEATURED STORY":"STORY",
+          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11),
+        ),
+      )
+    ],
   );
 }
 

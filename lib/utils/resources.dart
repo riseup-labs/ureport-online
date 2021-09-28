@@ -128,6 +128,10 @@ class AppColors {
   static var bluelight = Color(0xFFF5FCFF);
 
   static var errorWidgetBack = Color(0xffF4F4F4);
+  static var mainBgColor = Color(0xFFF6CA02);
+  static var mainBgColor2 = Color(0xFFF05B7C);
+  static var mainBgColor3 = Color(0xFFFF8200);
+
 }
 
 

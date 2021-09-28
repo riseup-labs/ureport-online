@@ -164,7 +164,6 @@ class ChatController extends ChangeNotifier{
     notifyListeners();
   }
 
-
   replaceQuickReplaydata(int index,data)async{
 
    // print("the data is ..======================================================================.........${data}");
@@ -258,7 +257,6 @@ class ChatController extends ChangeNotifier{
     notifyListeners();
 
   }
-
 
   createContatct() async {
 
@@ -406,8 +404,6 @@ class ChatController extends ChangeNotifier{
   }
 
   deletemsgAfterfiveDays()async{
-
-
    // print("sp 5days value    -----${_spservice.getValue(SPUtil.DELETE5DAYS)}");
 
     if(_spservice.getValue(SPUtil.DELETE5DAYS)=="true"){
@@ -439,6 +435,7 @@ class ChatController extends ChangeNotifier{
       DateTime now = DateTime.now();
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
       List<dynamic> quicktypest;
+
       if(remotemessage.data["quick_replies"]!=null){
          quicktypest = json.decode(remotemessage.data["quick_replies"]);
       }else{
@@ -486,6 +483,9 @@ class ChatController extends ChangeNotifier{
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
       List<dynamic> quicktypest;
       if(remotemessage != null){
+
+        print("Remot message:2 ${remotemessage.data.toString()}");
+
         if(remotemessage.data["quick_replies"]!=null){
           quicktypest = json.decode(remotemessage.data["quick_replies"]);
         }else{
@@ -506,11 +506,10 @@ class ChatController extends ChangeNotifier{
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage){
 
-      print("Chat Called");
-
       DateTime now = DateTime.now();
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
       List<dynamic> quicktypest;
+      print("Remot message:3 ${remotemessage.data.toString()}");
       if(remotemessage.data["quick_replies"]!=null){
         quicktypest = json.decode(remotemessage.data["quick_replies"]);
       }else{

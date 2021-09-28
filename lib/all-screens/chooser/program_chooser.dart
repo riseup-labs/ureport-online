@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
@@ -22,20 +23,23 @@ class _ProgramChooserState extends State<ProgramChooser> {
   String from;
 
   var spset = locator<SPUtil>();
+
   _ProgramChooserState(this.from);
 
   var dropdownValue = "";
 
   @override
   void initState() {
-    Provider.of<RemoteConfigController>(context, listen: false).getInitialData(context);
+    Provider.of<RemoteConfigController>(context, listen: false)
+        .getInitialData(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    dropdownValue = spset.getValue(SPUtil.PROGRAMKEY)==null?"Global":spset.getValue(SPUtil.PROGRAMKEY);
+    dropdownValue = spset.getValue(SPUtil.PROGRAMKEY) == null
+        ? "Global"
+        : spset.getValue(SPUtil.PROGRAMKEY);
 
     return Consumer<RemoteConfigController>(
       builder: (context, provider, child) {
@@ -67,18 +71,19 @@ class _ProgramChooserState extends State<ProgramChooser> {
                         )
                       : Container(),
                   Container(
+                    margin: EdgeInsets.only(top: 45),
                     width: double.infinity,
                     child: Column(
                       children: [
                         Expanded(
-                          flex: 1,
+                          flex: 2,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              getLogo(),
-                              SizedBox(
-                                height: 50,
-                              )
+                              Container(
+                                  child: Image(
+                                fit: BoxFit.cover,
+                                image: AssetImage("assets/images/v2_map.png"),
+                              )),
                             ],
                           ),
                         ),
@@ -99,7 +104,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                       "${AppLocalizations.of(context)!.choose_program}",
                                       style: TextStyle(
                                           fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.w500),
                                     ),
                                     SizedBox(height: 10),
                                     Container(
@@ -127,10 +132,13 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                               onChanged: (String? newValue) {
                                                 setState(() {
                                                   dropdownValue = newValue!;
-                                                  spset.setValue(SPUtil.PROGRAMKEY, dropdownValue);
+                                                  spset.setValue(
+                                                      SPUtil.PROGRAMKEY,
+                                                      dropdownValue);
                                                 });
                                               },
-                                              items: RemoteConfigData.getProgramListForProgramChooser(),
+                                              items: RemoteConfigData
+                                                  .getProgramListForProgramChooser(),
                                             ),
                                           ),
                                         ),
@@ -138,21 +146,36 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                     )
                                   ],
                                 ),
-                                SizedBox(height: 70),
                                 Container(
                                   width: double.infinity,
                                   height: 40,
                                   child: Container(
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        spset.setValue(SPUtil.PROGRAMKEY, dropdownValue);
-                                        Provider.of<OpinionController>(context, listen: false).opinionID = 0;
-                                        Provider.of<OpinionController>(context, listen: false).notify();
-                                        NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
-                                      },
-                                      child: Text('Continue'),
-                                      style: ElevatedButton.styleFrom(
-                                          shape: StadiumBorder()),
+                                    child: Container(
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            spset.setValue(SPUtil.PROGRAMKEY,
+                                                dropdownValue);
+                                            Provider.of<OpinionController>(
+                                                    context,
+                                                    listen: false)
+                                                .opinionID = 0;
+                                            Provider.of<OpinionController>(
+                                                    context,
+                                                    listen: false)
+                                                .notify();
+                                            NavUtils.pushAndRemoveUntil(
+                                                context, NavigationScreen(0));
+                                          },
+                                          child: Center(
+                                            child: Text(
+                                              AppLocalizations.of(context)!.continu,
+                                              style: TextStyle(
+                                                  fontSize: 21,
+                                                  fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                          )
+                                      ),
                                     ),
                                   ),
                                 )
@@ -170,14 +193,5 @@ class _ProgramChooserState extends State<ProgramChooser> {
         );
       },
     );
-  }
-
-  getLogo() {
-    return Container(
-        padding: EdgeInsets.only(left: 30, right: 30),
-        child: Image(
-          fit: BoxFit.fill,
-          image: AssetImage("assets/images/map.png"),
-        ));
   }
 }
