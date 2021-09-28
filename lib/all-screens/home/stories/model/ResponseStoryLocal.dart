@@ -42,7 +42,7 @@ class ResultLocal {
     org: json["org"],
     images: json["images"],
     category: json["category"],
-    createdOn: json["createdOn"],
+    createdOn: json["created_on"],
   );
 
   Map<String, dynamic> toJson() => {

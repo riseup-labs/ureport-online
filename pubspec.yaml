@@ -30,7 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   # state management
-  provider: ^4.1.0
+  provider: ^5.0.0
   # nettwork handling
   dio: ^4.0.0
   http: ^0.13.3
@@ -58,14 +58,17 @@ dependencies:
 
 
   percent_indicator: ^3.0.1
-#  webview_flutter: ^0.3.3
- # autocomplete_textfield: ^1.6.4
-  webview_flutter: ^2.0.12
+  webview_flutter_plus: ^0.2.3
+  autocomplete_textfield: ^1.6.4
   flutter_typeahead: ^3.2.0
   cached_network_image: ^3.0.0
   infinite_scroll_pagination: ^3.0.1
   dotted_line: ^3.0.0
-  get: ^4.3.8
+  material_floating_search_bar: ^0.3.4
+  audioplayers: ^0.20.1
+  flutter_scatter: ^0.2.0
+  connectivity: ^3.0.6
+  hexcolor: ^1.0.4
 
 dev_dependencies:
   flutter_test:
@@ -87,6 +90,14 @@ flutter:
     - assets/images/
     - assets/images/drawable-ldpi/
     - assets/images/drawable-xxhdpi/
+    - assets/storypage/
+    - assets/storypage/css/
+    - assets/storypage/font-my/
+    - assets/storypage/images/
+    - assets/storypage/js/
+    - assets/storypage/pages/
+    - assets/storypage/tts_anim/
+    - assets/audio/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -105,6 +116,8 @@ flutter:
         - asset: assets/font/Dosis.ttf
         - asset: assets/font/Regular.ttf
           weight: 500
+        - asset: assets/font/Dosis-Bold.ttf
+          weight: 700
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

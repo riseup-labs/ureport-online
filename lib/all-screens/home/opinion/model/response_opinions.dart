@@ -17,7 +17,7 @@ class ResponseOpinions {
   });
 
   int count;
-  String next;
+  dynamic next;
   dynamic previous;
   List<Result> results;
 

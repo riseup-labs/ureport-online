@@ -42,8 +42,7 @@ class Settings extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-
-                  NavUtils.push(context, SeetingDetails());
+                  NavUtils.push(context, SettingDetails());
                 },
                 child: getItem(
                     "${AppLocalizations.of(context)!.settings}", "assets/images/ic_settings.png"),

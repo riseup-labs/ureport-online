@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 import 'arrow_clipper.dart';
 
@@ -42,7 +44,7 @@ class _CustomDropdownThirdState extends State<CustomDropdownThird>
       vsync: this,
       duration: Duration(milliseconds: 250),
     );
-    _borderRadius = widget.borderRadius ?? BorderRadius.circular(4);
+    _borderRadius = BorderRadius.circular(4);
     _key = LabeledGlobalKey("button_icon");
     super.initState();
   }
@@ -121,8 +123,8 @@ class _CustomDropdownThirdState extends State<CustomDropdownThird>
     return OverlayEntry(
       builder: (context) {
         return Positioned(
-          top: buttonPosition.dy-20,
-          right: 1,
+          top: 37,
+          right: 5,
           width:150,
           child: Container(
             padding: EdgeInsets.only(left: 10,right: 5,top: 10,bottom: 10),
@@ -130,9 +132,9 @@ class _CustomDropdownThirdState extends State<CustomDropdownThird>
               color: Colors.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
-                  topRight: Radius.circular(0),
+                  topRight: Radius.circular(10),
                   bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(0)
+                  bottomRight: Radius.circular(10)
               ),
               boxShadow: [
                 BoxShadow(
@@ -181,7 +183,18 @@ class _CustomDropdownThirdState extends State<CustomDropdownThird>
                                   itemBuilder: (context,index){
                                     return GestureDetector(
                                       onTap: () {
-                                        provider.createIndividualCaseManagement(widget.keyword[index]);
+                                        DateTime now = DateTime.now();
+                                        String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
+                                        final messageModel = MessageModel(
+                                            message: widget.keyword[index],
+                                            sender: "user",
+                                            status: "Sending...",
+                                            quicktypest: [""],
+                                            time: formattedDate
+                                        );
+                                        provider.addMessage(messageModel);
+                                        locator<SPUtil>().setValue(SPUtil.USER_ROLE, "regular");
+                                        provider.sendmessage(widget.keyword[index]);
                                         widget.onChange(index);
                                         closeMenu();
                                       },
@@ -191,8 +204,6 @@ class _CustomDropdownThirdState extends State<CustomDropdownThird>
                                         child: Container(
                                           width: double.infinity,
                                           decoration: BoxDecoration(
-
-
                                           ),
                                           child: Center(child: Text("${widget.keyword[index]}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 15),)),
                                         ),
@@ -200,31 +211,6 @@ class _CustomDropdownThirdState extends State<CustomDropdownThird>
                                     );
                                   }
                               ),
-
-
-
-                              /* List.generate(widget.keyword.length, (index) {
-                          return GestureDetector(
-                            onTap: () {
-                              widget.onChange(index);
-                              closeMenu();
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: 8),
-                              width: double.infinity,
-                              height: 35,
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.blue),
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-
-                                ),
-                                child: Text(),
-                              ),
-                            ),
-                          );
-                        }),*/
                             ]
 
 

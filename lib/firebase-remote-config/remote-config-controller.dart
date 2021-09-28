@@ -27,13 +27,13 @@ class RemoteConfigController extends ChangeNotifier {
     RemoteConfig remoteConfig = RemoteConfig.instance;
 
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
-      fetchTimeout: Duration(seconds: 10),
-      minimumFetchInterval: Duration(seconds: 10),
+      fetchTimeout: Duration(seconds: 60),
+      minimumFetchInterval: Duration(seconds: 60),
     ));
 
     await remoteConfig.fetchAndActivate();
-    if (remoteConfig.getString("values").isNotEmpty) {
-      var firebasedata = remoteConfig.getString("values");
+    if (remoteConfig.getString("ureport_data").isNotEmpty) {
+      var firebasedata = remoteConfig.getString("ureport_data");
       var data = ResponseRemoteConfigData.fromJson(json.decode(firebasedata));
       remoteConfigData = data;
       sp.setValue(SPConstant.ALL_PROGRAMS, firebasedata);

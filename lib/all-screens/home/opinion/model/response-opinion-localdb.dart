@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'response_opinions.dart' as questionArray;
 
 class ResultOpinionLocal {
   ResultOpinionLocal({
@@ -6,7 +7,9 @@ class ResultOpinionLocal {
     required this.title,
     required this.org,
     required this.category,
+    required this.polldate,
     required this.questions,
+    required this.questionList,
   });
 
 
@@ -15,6 +18,9 @@ class ResultOpinionLocal {
   dynamic org;
   String category;
   String questions;
+  String polldate;
+  List<questionArray.Question> questionList;
+
 
   factory ResultOpinionLocal.fromJson(Map<String, dynamic> json) =>
       ResultOpinionLocal(
@@ -22,7 +28,9 @@ class ResultOpinionLocal {
         title: json["title"],
         org: json["org"],
         category: json["category"],
+        polldate: json["poll_date"],
         questions: json["questions"],
+        questionList: json["questionsL"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -30,6 +38,7 @@ class ResultOpinionLocal {
         "title": title,
         "org": org,
         "category": category,
+        "poll_date": polldate,
         "questions": questions,
       };
 }

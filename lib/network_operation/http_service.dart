@@ -54,14 +54,12 @@ class HttpService {
   }
 
   Future<ApiResponse<Response>> getRequest(String route, {Map<String, String>? qp}) async {
-
-    _getDio().options.headers={"Authorization":"Token ${ApiConst.WORKSPACETOKEN_LIVE}"};
     try {
       Response response = await _getDio().get(
         route,
         queryParameters: qp,
       );
-      print("$route | $qp : $response");
+      print("Response is : ${response.toString()}");
       if (response.statusCode == 200) {
         return ApiResponse(httpCode: int.parse(response.statusCode.toString()), data: response, message: '');
       } else {
@@ -70,18 +68,15 @@ class HttpService {
       }
     } on DioError catch (e) {
       if (e.type == DioErrorType.response) {
-        print(e.response!.data);
-        print(e.response!.statusCode);
         return ApiResponse(httpCode: int.parse(e.response!.statusCode.toString()), message: "${e.response!.statusMessage}", data: e.response!.data);
       } else {
-        print(e.message);
         return ApiResponse(httpCode: -1, message: "Connection error. ${e.message}", data:e.response!.data);
       }
     }
   }
 
   Future<ApiResponse<Response>> postRequest(String route, {Map<String, dynamic>? data, String? jsonData, bool isFormData = false, Function(int sent, int total)? onProgress,}) async {
-    _getDio().options.headers= {"Content-Type":"application/json","Authorization":"Token ${ApiConst.WORKSPACETOKEN_LIVE}"};
+    // _getDio().options.headers= {"Content-Type":"application/json","Authorization":"Token ${ApiConst.WORKSPACETOKEN_LIVE}"};
     try {
       Response response = await _getDio().post(
         route,
@@ -101,11 +96,8 @@ class HttpService {
       }
     } on DioError catch (e) {
       if (e.type == DioErrorType.response) {
-        print(e.response!.data);
-        print(e.response!.statusCode);
         return ApiResponse(httpCode: int.parse(e.response!.statusCode.toString()), message: "${e.response!.statusMessage}", data: e.response!.data);
       } else {
-        print(e.message);
         return ApiResponse(httpCode: -1, message: "Connection error. ${e.message}", data: e.response!.data);
       }
     }

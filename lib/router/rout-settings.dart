@@ -11,7 +11,7 @@ class Routerr {
       case '/':
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case '/chat':
-        return MaterialPageRoute(builder: (_) => NavigationScreen());
+        return MaterialPageRoute(builder: (_) => NavigationScreen(1));
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

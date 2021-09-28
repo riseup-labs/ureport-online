@@ -8,7 +8,6 @@ import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locale/locale_provider.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
-import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
@@ -23,9 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
+
     Provider.of<RemoteConfigController>(context,listen: false).getInitialData(context);
-
-
     super.initState();
   }
 
@@ -38,8 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
             var spset = locator<SPUtil>();
             String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
             if(isSigned!=null){
-             // MessageModel messageModel = MessageModel(message: "", sender: "", status: "", quicktypest: [],time: "");
-              NavUtils.pushAndRemoveUntil(context, NavigationScreen());
+              NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
             }else{
               NavUtils.pushAndRemoveUntil(context, LanguageChooser());
             }

@@ -1,36 +1,28 @@
-import 'dart:convert';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
-import 'all-screens/home/chat/Chat.dart';
 import 'all-screens/home/chat/chat-controller.dart';
-import 'all-screens/home/chat/model/golbakey.dart';
-import 'all-screens/home/chat/model/navigator-srvice.dart';
 import 'all-screens/home/navigation-screen.dart';
-import 'all-screens/home/opinions/opiion-controller.dart';
+import 'all-screens/home/opinion/opinion_controller.dart';
 import 'all-screens/home/stories/story-controller.dart';
 import 'all-screens/home/stories/story-details-controller.dart';
-import 'all-screens/login/login.dart';
 import 'all-screens/login/provider_login_controller.dart';
-import 'all-screens/settings/change-language.dart';
+import 'all-screens/settings/about_controller.dart';
 import 'all-screens/splash-screen/splash_screen.dart';
 import 'firebase-remote-config/remote-config-controller.dart';
 import 'l10n/l10n.dart';
 import 'locale/locale_provider.dart';
 import 'locator/locator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
-import 'network_operation/firebase/firebase_icoming_message_handling.dart';
+
+import 'network_operation/utils/connectivity_controller.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -49,9 +41,10 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 Future<void> _firebaseMessagingBackgroundhandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("a background messaged just swafed up ${message.messageId}");
 }
 
-final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 
 
@@ -59,7 +52,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-/*
+
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
@@ -69,7 +62,7 @@ void main() async {
     alert: true,
     badge: true,
     sound: true,
-  );*/
+  );
 
   await GetStorage.init();
   await setupLocator();
@@ -79,24 +72,12 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
-
-
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-
-
-
-
-
     create: (context) => LocaleProvider(),
     builder: (context, child) {
       final provider = Provider.of<LocaleProvider>(context);
       setLocal(provider);
-
-      var _nservice =locator<GlobalVariable>();
-
-
       return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => ProviderLoginController()),
@@ -105,6 +86,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => StoryDetailsController()),
           ChangeNotifierProvider(create: (context) => ChatController()),
           ChangeNotifierProvider(create: (context) => RemoteConfigController()),
+          ChangeNotifierProvider(create: (context) => ConnectivityController()),
+          ChangeNotifierProvider(create: (context) => AboutController()),
         ],
         child: KeyboardDismissOnTap(
           child: MaterialApp(
@@ -113,16 +96,8 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
               fontFamily: "Dosis"
-
             ),
-           home: SplashScreen(),
-
-           /* onGenerateRoute: (routeSettings){
-              switch(routeSettings.name){
-                case 'chat':return MaterialPageRoute(builder: (context) => NavigationScreen());
-                case 'default': return MaterialPageRoute(builder: (context) => SplashScreen());
-              }
-            },*/
+            home: SplashScreen(),
             supportedLocales: L10n.all,
             locale: provider.locale,
             localizationsDelegates: [
@@ -136,9 +111,6 @@ class MyApp extends StatelessWidget {
       );
     },
   );
-
-
-
 
   static void setLocal(LocaleProvider provider) {
     var sp = locator<SPUtil>();
@@ -157,7 +129,6 @@ class MyApp extends StatelessWidget {
     }else{
       provider.setLocale(new Locale('en'));
     }
-
   }
 }
 

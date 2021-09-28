@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 import 'arrow_clipper.dart';
 
@@ -42,7 +44,7 @@ class _SimpleAccountMenuState extends State<SimpleAccountMenu>
       vsync: this,
       duration: Duration(milliseconds: 250),
     );
-    _borderRadius = widget.borderRadius ?? BorderRadius.circular(4);
+    _borderRadius = BorderRadius.circular(4);
     _key = LabeledGlobalKey("button_icon");
     super.initState();
   }
@@ -84,6 +86,7 @@ class _SimpleAccountMenuState extends State<SimpleAccountMenu>
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: (){
         if (isMenuOpen) {
@@ -192,6 +195,7 @@ class _SimpleAccountMenuState extends State<SimpleAccountMenu>
                                             time: formattedDate
                                         );
                                         provider.addMessage(messageModel);
+                                        locator<SPUtil>().setValue(SPUtil.USER_ROLE, "regular");
                                         provider.sendmessage(messagekeyword);
                                         messageModel.status=provider.messagestatus;
                                         widget.onChange(index);

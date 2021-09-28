@@ -54,7 +54,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                    mainAxisAlignment: MainAxisAlignment.center,
                    children: [
 
-                     Text("Are you Sure ? Do you want to delete this message?",style: TextStyle(color: Colors.red,fontSize: 17),),
+                     Text("Are you sure you want to delete?",style: TextStyle(color: Colors.red,fontSize: 17),),
                      SizedBox(height: 8,),
                      Row(
                        crossAxisAlignment: CrossAxisAlignment.center,

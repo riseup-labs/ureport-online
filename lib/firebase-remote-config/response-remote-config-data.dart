@@ -2,6 +2,7 @@
 //
 //     final responseRemoteConfigData = responseRemoteConfigDataFromJson(jsonString);
 
+import 'package:meta/meta.dart';
 import 'dart:convert';
 
 ResponseRemoteConfigData responseRemoteConfigDataFromJson(String str) => ResponseRemoteConfigData.fromJson(json.decode(str));
@@ -28,43 +29,71 @@ class Program {
   Program({
     required this.status,
     required this.name,
-    required this.logo,
     required this.storyApi,
-    required this.storyDetailsApi,
     required this.opinionApi,
     required this.channelId,
+    required this.storyShareUrl,
+    required this.largeIcon,
+    required this.smallIcon,
+    required this.individualCaseManagement,
+    required this.primaryColor,
+    required this.secondaryColor,
+    required this.defaultTriggerActions,
+    required this.icmsTriggerActions,
     required this.triggerKeywords,
+    required this.logo,
   });
 
   bool status;
   String name;
-  String logo;
   String storyApi;
-  String storyDetailsApi;
   String opinionApi;
   String channelId;
+  String storyShareUrl;
+  String largeIcon;
+  String smallIcon;
+  bool individualCaseManagement;
+  String primaryColor;
+  List<String> secondaryColor;
+  List<String> defaultTriggerActions;
+  List<String> icmsTriggerActions;
   TriggerKeywords triggerKeywords;
+  String logo;
 
   factory Program.fromJson(Map<String, dynamic> json) => Program(
     status: json["status"],
     name: json["name"],
-    logo: json["logo"],
     storyApi: json["story_api"],
-    storyDetailsApi: json["story_details_api"],
     opinionApi: json["opinion_api"],
     channelId: json["channel_id"],
+    storyShareUrl: json["story_share_url"],
+    largeIcon: json["large_icon"],
+    smallIcon: json["small_icon"],
+    individualCaseManagement: json["individual_case_management"],
+    primaryColor: json["primary_color"],
+    secondaryColor: List<String>.from(json["secondary_color"].map((x) => x)),
+    defaultTriggerActions: List<String>.from(json["default_trigger_actions"].map((x) => x)),
+    icmsTriggerActions: List<String>.from(json["icms_trigger_actions"].map((x) => x)),
     triggerKeywords: TriggerKeywords.fromJson(json["trigger_keywords"]),
+    logo: json["logo"] == null ? null : json["logo"],
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "name": name,
-    "logo": logo,
     "story_api": storyApi,
-    "story_details_api": storyDetailsApi,
     "opinion_api": opinionApi,
     "channel_id": channelId,
+    "story_share_url": storyShareUrl,
+    "large_icon": largeIcon,
+    "small_icon": smallIcon,
+    "individual_case_management": individualCaseManagement,
+    "primary_color": primaryColor,
+    "secondary_color": List<dynamic>.from(secondaryColor.map((x) => x)),
+    "default_trigger_actions": List<dynamic>.from(defaultTriggerActions.map((x) => x)),
+    "icms_trigger_actions": List<dynamic>.from(icmsTriggerActions.map((x) => x)),
     "trigger_keywords": triggerKeywords.toJson(),
+    "logo": logo == null ? null : logo,
   };
 }
 
@@ -107,23 +136,19 @@ class TriggerKeywords {
 class Ar {
   Ar({
     required this.registrationFlow,
-    required this.welcomeFlow,
     required this.recentFlow,
   });
 
   String registrationFlow;
-  String welcomeFlow;
   String recentFlow;
 
   factory Ar.fromJson(Map<String, dynamic> json) => Ar(
     registrationFlow: json["registration_flow"],
-    welcomeFlow: json["welcome_flow"],
     recentFlow: json["recent_flow"],
   );
 
   Map<String, dynamic> toJson() => {
     "registration_flow": registrationFlow,
-    "welcome_flow": welcomeFlow,
     "recent_flow": recentFlow,
   };
 }

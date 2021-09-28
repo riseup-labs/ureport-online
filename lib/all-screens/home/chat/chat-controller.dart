@@ -147,6 +147,7 @@ class ChatController extends ChangeNotifier{
     notifyListeners();
 
   }
+
   addSelectionMessage(MessageModelLocal msg){
 
  /*   MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: msg.sender,
@@ -163,29 +164,6 @@ class ChatController extends ChangeNotifier{
     notifyListeners();
   }
 
-
-
- /* sellectAllItems(){
-
-   // localmessage = localmessage.removeWhere((element) => individualselect.elementAt(index))
-
-    for(int i =0;i<=localmessage.length;i++){
-     if(localmessage[i].message!="This Message was Deleted"){
-
-       MessageModelLocal local = MessageModelLocal(
-           message: "This Message was Deleted",
-           sender: localmessage[individualselect[i]].sender,
-           status: localmessage[individualselect[i]].status,
-           quicktypest: "",
-           time: localmessage[individualselect[i]].time);
-       selectedMessage.add(local);
-     }
-
-     print("total selected item length${selectedMessage}");
-
-    }
-    notifyListeners();
-  }*/
 
   replaceQuickReplaydata(int index,data)async{
 
@@ -209,6 +187,7 @@ class ChatController extends ChangeNotifier{
 
     notifyListeners();
   }
+
   removeIndex(int index,){
 
     individualselect.remove(index,);
@@ -239,8 +218,8 @@ class ChatController extends ChangeNotifier{
     messagearray.add(messageModel);
     filtermessage=messagearray.toSet().toList();
     revlist = filtermessage.reversed.toList();
-   await _databaseHelper.insertConversation(messagearray).then((value) async{
 
+   await _databaseHelper.insertConversation(messagearray).then((value) async{
      await _databaseHelper.getConversation().then((valuereal) {
        ordered.addAll(valuereal);
       localmessage=ordered.reversed.toList();
@@ -282,16 +261,21 @@ class ChatController extends ChangeNotifier{
 
 
   createContatct() async {
+
+    _spservice.setValue(SPUtil.USER_ROLE, "regular");
+
     await getToken();
     if(_token.isNotEmpty){
       //print("this is firebase fcm token ==  ${_token}");
       String _urn =_spservice.getValue(SPUtil.CONTACT_URN);
 
-      //print("l============================== normal chat contact ${_urn}");
+      print("Contact : Regular Flow - ${_urn}");
       if(_urn==null){
         String contact_urn = getRandomString(15);
-        //print("l============================== normal chat contact ${_urn}");
-        var apiResponse = await _rapidproservice.createContact(contact_urn, _token,"Unknown",onSuccess:(uuid){
+
+        print("Contact : Regular Flow - ${_urn}");
+
+        var apiResponse = await _rapidproservice.createContact(contact_urn, _token,"Regular Use",onSuccess:(uuid){
           contatct=uuid;
         } );
         // getfirebase();
@@ -303,30 +287,30 @@ class ChatController extends ChangeNotifier{
           notifyListeners();
         }
 
-      }/*else{
-
-        String registrationstaus = _spservice.getValue(SPUtil.REGISTRATION_COMPLETE);
-         if(registrationstaus==null|| registrationstaus==""){
-           //sendmessage("join");
-         }else{
-           sendmessage("covid");
-         }
-      }*/
+      }
+      else {
+        sendmessage("join");
+      }
 
     }
 
   }
 
-
   createIndividualCaseManagement(messagekeyword) async {
+
+    _spservice.setValue(SPUtil.USER_ROLE, "caseManagement");
+
     await getToken();
     if(_token.isNotEmpty){
 
       String _urn =_spservice.getValue(SPUtil.CONTACT_URN_INDIVIDUAL_CASE);
-      //print("l============================== casemanegement ${_urn}");
+
+      print("Contact : CaseManagement - ${_urn}");
       if(_urn==null){
         String contact_urn = getRandomString(15);
-       // print("the new Contact urn for the individual casemanegement ${contact_urn}");
+
+       print("Contact : CaseManagement - ${contact_urn}");
+
         var apiResponse = await _rapidproservice.createContact(contact_urn, _token,"Unknown",onSuccess:(uuid){
           contatct=uuid;
         } );
@@ -358,40 +342,66 @@ class ChatController extends ChangeNotifier{
 
   else if(_urn!=null){
 
+        DateTime now = DateTime.now();
+        String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
 
+        MessageModel messageModel = MessageModel(
+            message:messagekeyword,
+            sender: "user",
+            status: "Sending...",
+            quicktypest: [""],
+            time: formattedDate
+        );
+        print("the message keyword is ..............${messagekeyword}");
+        addMessage(messageModel);
+        sendmessage(messagekeyword);
+        messageModel.status=messagestatus;
 
-       // print("the new Contact urn for the individual casemanegement ${_urn}");
-        var apiResponse = await _rapidproservice.createContact(_urn, _token,"Unknown",onSuccess:(uuid){
-          contatct=uuid;
-        } );
-        // getfirebase();
-        if (apiResponse.httpCode == 200) {
-
-          responseContactCreation = apiResponse.data;
-          _spservice.setValue(SPUtil.CONTACT_URN_INDIVIDUAL_CASE, _urn);
-
-          DateTime now = DateTime.now();
-          String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
-
-          MessageModel messageModel = MessageModel(
-              message:messagekeyword,
-              sender: "user",
-              status: "Sending...",
-              quicktypest: [""],
-              time: formattedDate
-          );
-          print("the message keyword is ..............${messagekeyword}");
-          addMessage(messageModel);
-          sendmessage(messagekeyword);
-          messageModel.status=messagestatus;
-
-          notifyListeners();
-        }
-
+        notifyListeners();
         // hovered done
       }
 
     }
+
+  }
+
+  sendmessage(String message)async{
+
+    String urn = "";
+    String userRole = _spservice.getValue(SPUtil.USER_ROLE);
+
+    print("User role : $userRole");
+
+    if(userRole == "regular"){
+      urn = _spservice.getValue(SPUtil.CONTACT_URN);
+    }else{
+      urn = _spservice.getValue(SPUtil.CONTACT_URN_INDIVIDUAL_CASE);
+    }
+
+    await _rapidproservice.sendMessage(message: message, onSuccess: (value){
+
+      // print("this response message $value");
+      messagestatus="Sent";
+
+    }, onError:(error){
+      //  print("this is error message $error");
+      messagestatus="failed";
+    },urn: urn,fcmToken: _token);
+
+  }
+
+  sendmessageCaseManagement(String message)async{
+    String urn = _spservice.getValue(SPUtil.CONTACT_URN_INDIVIDUAL_CASE);
+
+    await _rapidproservice.sendMessage(message: message, onSuccess: (value){
+
+      // print("this response message $value");
+      messagestatus="Sent";
+
+    }, onError:(error){
+      //  print("this is error message $error");
+      messagestatus="failed";
+    },urn: urn,fcmToken: _token);
 
   }
 
@@ -401,16 +411,16 @@ class ChatController extends ChangeNotifier{
    // print("sp 5days value    -----${_spservice.getValue(SPUtil.DELETE5DAYS)}");
 
     if(_spservice.getValue(SPUtil.DELETE5DAYS)=="true"){
+
       await _databaseHelper.getConversation().then((valuereal) {
         //get curreent date
         DateTime now = DateTime.now();
         //compare c_date with valuereal.date
         valuereal.forEach((element) async{
-
           DateTime valuetime =  new DateFormat('dd-MM-yyyy hh:mm:ss a').parse(element.time);
           Duration sincetime = now.difference(valuetime);
           print("the difference time is ....${sincetime.inMinutes}");
-          if(sincetime.inDays >= 5){
+          if(sincetime.inSeconds >=30){
           await  deleteSingleMessage(element.time);
           notifyListeners();
           }
@@ -430,18 +440,10 @@ class ChatController extends ChangeNotifier{
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
       List<dynamic> quicktypest;
       if(remotemessage.data["quick_replies"]!=null){
-        //print("the incomeing quick tyupe data is........${remotemessage.data["quick_replies"]}");
          quicktypest = json.decode(remotemessage.data["quick_replies"]);
       }else{
         quicktypest=[""];
       }
-
-      remotemessage.data.forEach((key, value) {
-
-        //print("the key is ---------$key ---------and value is -----------$value");
-
-      });
-
       var serverMessage=MessageModel(sender: 'server',
           message: remotemessage.data["message"],
           status: "received",
@@ -461,26 +463,6 @@ class ChatController extends ChangeNotifier{
       }
       addMessage(serverMessage);
 
-
-
-     /* RemoteNotification? remoteNotification = remotemessage.notification;
-      AndroidNotification? androidNotification = remotemessage.notification?.android;
-
-      if(remoteNotification!=null && androidNotification!=null){
-        flutterLocalNotificationsPlugin.show(remoteNotification.hashCode, remoteNotification.title, remoteNotification.body, NotificationDetails(
-
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channel.description,
-              color: Colors.blue,
-              playSound: true,
-              icon: '@mipmap/ic_launcher',
-            )
-        ));
-      }*/
-
-
     });
   }
 
@@ -496,52 +478,35 @@ class ChatController extends ChangeNotifier{
     });
   }
 
-
-
-  sendmessage(String message)async{
-    String urn = _spservice.getValue(SPUtil.CONTACT_URN);
-
-    await _rapidproservice.sendMessage(message: message, onSuccess: (value){
-
-     // print("this response message $value");
-      messagestatus="Sent";
-
-    }, onError:(error){
-    //  print("this is error message $error");
-      messagestatus="failed";
-    },urn: urn,fcmToken: _token);
-
-  }
-
- getfirebaseInitialmessage(){
+  getfirebaseInitialmessage(){
     FirebaseMessaging.instance
         .getInitialMessage().then((RemoteMessage? remotemessage) {
 
       DateTime now = DateTime.now();
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
       List<dynamic> quicktypest;
-      if(remotemessage!.data["quick_replies"]!=null){
-        quicktypest = json.decode(remotemessage.data["quick_replies"]);
-      }else{
-        quicktypest=[""];
-      }
-      //print("the notification message is ${remotemessage.notification!.body}");
-      var notificationmessage_terminatestate = MessageModel(sender: 'server',
-          message: remotemessage.notification!.body,
-          status: "received",
-          quicktypest: quicktypest,time:formattedDate);
-      addMessage(notificationmessage_terminatestate);
-      //FirebaseNotificationService.display(remotemessage);
-
-
+      if(remotemessage != null){
+        if(remotemessage.data["quick_replies"]!=null){
+          quicktypest = json.decode(remotemessage.data["quick_replies"]);
+        }else{
+          quicktypest=[""];
+        }
+        var notificationmessage_terminatestate = MessageModel(sender: 'server',
+            message: remotemessage.notification!.body,
+            status: "received",
+            quicktypest: quicktypest,time:formattedDate);
+        addMessage(notificationmessage_terminatestate);
+      };
     });
   }
 
 
 // app background notification
- getfirebaseonApp(){
+  getfirebaseonApp(){
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage){
+
+      print("Chat Called");
 
       DateTime now = DateTime.now();
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);

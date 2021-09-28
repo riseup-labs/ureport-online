@@ -2,18 +2,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 
-class SeetingDetails extends StatefulWidget{
+class SettingDetails extends StatefulWidget{
   @override
-  _SeetingDetailsState createState() => _SeetingDetailsState();
+  _SettingDetailsState createState() => _SettingDetailsState();
 }
 
-class _SeetingDetailsState extends State<SeetingDetails> {
+class _SettingDetailsState extends State<SettingDetails> {
   DatabaseHelper _databaseHelper = DatabaseHelper();
   var spservice = locator<SPUtil>();
   late String switchstate;
@@ -43,7 +45,6 @@ class _SeetingDetailsState extends State<SeetingDetails> {
       ),
       body: Column(
         children: [
-
           SizedBox(height: 10,),
           Container(
             padding: EdgeInsets.only(left: 20,right: 20,top: 0,bottom: 0),
@@ -154,7 +155,7 @@ class _SeetingDetailsState extends State<SeetingDetails> {
                   children: [
                     Image.asset("assets/images/ic_chatt.png",height: 15,width: 15,),
                     SizedBox(width: 8,),
-                    Expanded(child: Text("Automatically remove message after 5 days",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w700),)),
+                    Expanded(child: Text("Automatically remove messages after 5 days",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w700),)),
                     SizedBox(width: 20,),
                     Switch(
                         value: statesf, onChanged: (value){
@@ -176,7 +177,7 @@ class _SeetingDetailsState extends State<SeetingDetails> {
                   children: [
                     Image.asset("assets/images/ic_chatt.png",height: 15,width: 15,),
                     SizedBox(width: 8,),
-                    Text("Remove all message",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w700),),
+                    Text("Remove all messages",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w700),),
                     Spacer(),
                     GestureDetector(
                       onTap: ()async{
@@ -206,7 +207,7 @@ class _SeetingDetailsState extends State<SeetingDetails> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text("Are You Sure?Do you want to delete this message? ",style:TextStyle(color:Colors.red,fontSize: 15)),
+                                      Text("Are you sure you want to delete? ",style:TextStyle(color:Colors.red,fontSize: 15)),
 
                                     ],
                                   ),
@@ -216,7 +217,9 @@ class _SeetingDetailsState extends State<SeetingDetails> {
                                       onTap:()async{
                                         await _databaseHelper.deleteConversation().then((value) {
 
-                                          NavUtils.push(context,NavigationScreen());
+                                          Navigator.pop(context);
+                                          Provider.of<ChatController>(context, listen: false).localmessage.clear();
+                                          Provider.of<ChatController>(context, listen: false).notifyListeners();
 
                                         });
                                       },
@@ -253,8 +256,6 @@ class _SeetingDetailsState extends State<SeetingDetails> {
               ],
             ),
           ),
-
-
 
         ],
       ),

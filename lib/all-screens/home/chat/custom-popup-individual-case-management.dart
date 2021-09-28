@@ -42,7 +42,7 @@ class _CustomDropdownForthState extends State<CustomDropdownForth>
       vsync: this,
       duration: Duration(milliseconds: 250),
     );
-    _borderRadius = widget.borderRadius ?? BorderRadius.circular(4);
+    _borderRadius = BorderRadius.circular(4);
     _key = LabeledGlobalKey("button_icon");
     super.initState();
   }
@@ -121,9 +121,9 @@ class _CustomDropdownForthState extends State<CustomDropdownForth>
     return OverlayEntry(
       builder: (context) {
         return Positioned(
-          top: buttonPosition.dy-20,
+          top: 37,
           right: 10,
-          width:150,
+          width:160,
           child: Container(
             padding: EdgeInsets.only(left: 10,right: 5,top: 10,bottom: 10),
             decoration: BoxDecoration(
@@ -149,13 +149,13 @@ class _CustomDropdownForthState extends State<CustomDropdownForth>
               color: Colors.white,
               child: Container(
                 color: Colors.white,
-                margin: EdgeInsets.only(left: 10,right: 0),
+                margin: EdgeInsets.only(left: 0,right: 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        Text("One to One Chat",style: TextStyle(color: Colors.black,
+                        Text("Case Management",style: TextStyle(color: Colors.black,
                             fontWeight: FontWeight.bold,fontSize: 12),),
 
                         IconButton(onPressed: (){
