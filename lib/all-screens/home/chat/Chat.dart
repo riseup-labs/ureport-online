@@ -1,23 +1,21 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
-import 'package:ureport_ecaro/utils/api_constant.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
+import 'package:ureport_ecaro/utils/top_bar_background.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'ChatAvatar.dart';
-import 'ChatBubble.dart';
 import 'chat-controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'custom-dropdwon.dart';
-import 'custom-popup-individual-case-management.dart';
-import 'custom-popup-menu.dart';
-import 'custom-popup-third.dart';
-
 
 
 class Chat extends StatefulWidget {
@@ -40,25 +38,47 @@ class _ChatState extends State<Chat> {
 
   var isLoaded = true;
 
+  var _spservice = locator<SPUtil>();
+  TapGestureRecognizer tapGestureRecognizer=TapGestureRecognizer();
+
+
+ bool isKeyboardOpen=false;
+
   @override
   void initState() {
 
-    if(isLoaded) {
-      Provider.of<ChatController>(context, listen: false).createContatct();
-      Provider.of<ChatController>(context, listen: false)
-          .getfirebaseInitialmessage();
-      Provider.of<ChatController>(context, listen: false).getfirebase();
-      Provider.of<ChatController>(context, listen: false).getfirebaseonApp();
-      Provider.of<ChatController>(context, listen: false).loaddefaultmessage();
-      Provider.of<ChatController>(context, listen: false).deletemsgAfterfiveDays();
-      isLoaded = false;
+
+    KeyboardVisibilityController().onChange.listen((event) {
+      setState(() {
+        isKeyboardOpen=event;
+      });
+      final message = event? "keyboardOpen":"keyboar close";
+      print("keyboard status is........${message}");
+
+    });
+
+    if(_spservice.getValue(SPUtil.FIRSTMESSAGE)=="SENT"){
+      Provider.of<ChatController>(context, listen: false).addQuickType();
     }
+    Provider.of<ChatController>(context, listen: false).createContatct();
+    Provider.of<ChatController>(context, listen: false)
+        .getfirebaseInitialmessage();
+    Provider.of<ChatController>(context, listen: false).getfirebase();
+    Provider.of<ChatController>(context, listen: false).getfirebaseonApp(context);
+    Provider.of<ChatController>(context, listen: false).loaddefaultmessage();
+    Provider.of<ChatController>(context, listen: false).deletemsgAfterfiveDays();
+
+
     super.initState();
   }
 
 
   @override
   Widget build(BuildContext context) {
+
+
+     print("the keyboard Status is...........${isKeyboardOpen}");
+
     return Consumer<ChatController>(
       builder: (context,provider,child){
         return  SafeArea(
@@ -67,66 +87,18 @@ class _ChatState extends State<Chat> {
               color: Colors.white,
               child: Column(
                 children: [
-                 Row(
-                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                   children: [
-
-                     Container(
-                         margin: EdgeInsets.only(top: 15,left: 20),
-                         child: CachedNetworkImage(
-                           imageUrl: RemoteConfigData.getLargeIcon(),
-                           height: 30,
-                           width: 150,
-                         )),
-                     Spacer(),
-                     Container(
-                       padding: EdgeInsets.only(left:20,right: 20),
-                       margin: EdgeInsets.only(top: 15),
-                       child: CustomDropdownForth(
-                         keyword: RemoteConfigData.getOneToOneAction(),
-                         iconColor: Colors.white,
-                         onChange: (index) {
-                           print(index);
-                         }, borderRadius: BorderRadius.all(Radius.circular(10)),
-                       ),
-                     ),
-
-                     provider.selectall==true? GestureDetector(
-
-                       onTap: (){
-                        // provider.sellectAllItems();
-                         if(provider.selectall==true){
-                           provider.selectAllMessage();
-                         }
-                       },
-                       child: Container(
-                         margin: EdgeInsets.only(right: 15),
-                         child:Text("Select All",style: TextStyle(color: RemoteConfigData.getPrimaryColor(),fontSize: 15),),
-                       ),
-                     )
-                         :GestureDetector(
-
-                       onTap: (){
-
-                       },
-                           child: Container(
-                       padding: EdgeInsets.only(left:20,right: 20),
-                       margin: EdgeInsets.only(top: 15),
-                       child: CustomDropdownThird(
-                        keyword: RemoteConfigData.getDefaultAction(),
-                         iconColor: Colors.white,
-                         onChange: (index) {
-                           print(index);
-                         }, borderRadius: BorderRadius.all(Radius.circular(10)),
-                       ),
-                     ),
-                         ),
-                   ],
-                 ),
+                  TopBar.getTopBar(AppLocalizations.of(context)!.chat),
+                  Container(
+                    child: Divider(
+                      height: 1.5,
+                      color: Colors.grey[600],
+                    ),
+                  ),
                   SizedBox(height: 20,),
                   Expanded(
                     child: Container(
-                      child:  provider.localmessage.length>0  ? ListView.builder(
+                      child:  provider.localmessage.length>0  ?
+                      ListView.builder(
                         controller: _scrollController,
                         itemCount: provider.localmessage.length>0 ? provider.localmessage.length:0,
                         reverse: true,
@@ -205,7 +177,32 @@ class _ChatState extends State<Chat> {
                                           borderRadius: BorderRadius.circular(10),
 
                                         ),
-                                        child:  Text(provider.localmessage[index].message!,style: TextStyle(color: Colors.black,fontSize: 15,fontWeight:FontWeight.w400),textAlign: TextAlign.left,),
+                                        child: provider.getLinkClickable(provider.localmessage[index].message!).length>0?
+                                        RichText(
+                                          text: TextSpan(
+                                            children: provider.getLinkClickable(provider.localmessage[index].message!)
+                                                .map(
+                                                  (data) => data.contains(provider.detectedlink.length>0?provider.detectedlink[0]:"nodata")
+                                                  ? TextSpan(
+                                                  text: " $data ",
+                                                  style: TextStyle(color: Colors.blue,decoration: TextDecoration.underline),
+                                                  recognizer: tapGestureRecognizer
+                                                    ..onTap=(){
+                                                      String url = provider.detectedlink[0];
+                                                      launch(url);
+                                                    }
+                                              )
+                                                  : TextSpan(
+                                                text: "${data} ",
+                                                style: TextStyle(color: Colors.black),
+                                              ),
+                                            )
+                                                .toList(),
+                                          ),
+
+                                        ):
+                                        Text(provider.localmessage[index].message!,style: TextStyle(color: Colors.black,fontSize: 15,fontWeight:FontWeight.w400),textAlign: TextAlign.left,)
+
                                       ):
                                       Container(
                                         padding: EdgeInsets.only(top: 5,bottom: 5,right: 10,left: 15),
@@ -267,7 +264,6 @@ class _ChatState extends State<Chat> {
                                   ),
                                 ),
                                 provider.localmessage[index].sender == "server" ? Container() : ChatAvatar("assets/images/ic_user_box.png"),
-
                               ],
                             ),
                           ):
@@ -282,147 +278,154 @@ class _ChatState extends State<Chat> {
 
 
                             },
-                            child: Row(
-                              mainAxisAlignment: provider.localmessage[index].sender == 'server'
-                                  ? MainAxisAlignment.start
-                                  : MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Column(
                               children: [
-                                SizedBox(width: 10,),
-                                provider.localmessage[index].sender == "server" ? ChatAvatar("assets/images/ic_ureport_box.png") : Container(),
-                                SizedBox(width: 5,),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: provider.localmessage[index].sender == 'server'?CrossAxisAlignment.start:CrossAxisAlignment.end,
-                                    children: [
-                                      provider.localmessage[index].sender == 'server' ?
+                                Row(
+                                  mainAxisAlignment: provider.localmessage[index].sender == 'server'
+                                      ? MainAxisAlignment.start
+                                      : MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(width: 10,),
 
-                                      Container(
-                                        padding: EdgeInsets.only(top: 5,bottom: 5,right: 15,left: 15),
-                                        margin: EdgeInsets.only(right: 10),
-                                        decoration: BoxDecoration(
-                                          color:provider.localmessage[index].message=="This Message was Deleted"?Color(0xffCCCCCC): Color(0xffF5FCFF),
-                                          borderRadius: BorderRadius.circular(10),
+                                    provider.localmessage[index].sender == "server" ? ChatAvatar("assets/images/ic_ureport_box.png") : SizedBox(),
+                                    SizedBox(width: 5,),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: provider.localmessage[index].sender == 'server'?CrossAxisAlignment.start:CrossAxisAlignment.end,
+                                        children: [
+                                          provider.localmessage[index].sender == 'server' ?
 
-                                        ),
-                                        child: provider.localmessage[index].message=="This Message was Deleted" ? Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(provider.localmessage[index].message!,
-                                              style: TextStyle(color: Colors.black,fontSize: 12,fontWeight:FontWeight.w400),
-                                              textAlign: TextAlign.left,),
-                                            SizedBox(width: 5,),
-                                            Icon(Icons.not_interested_rounded,size: 12,color: Colors.black,),
-                                          ],
-                                        ):
-                                        Text(provider.localmessage[index].message!,style: TextStyle(color: Colors.black,fontSize: 15,fontWeight:FontWeight.w400),
-                                          textAlign: TextAlign.left,),
+                                          Container(
+                                            padding: EdgeInsets.only(top: 5,bottom: 5,right: 15,left: 15),
+                                            margin: EdgeInsets.only(right: 10),
+                                            decoration: BoxDecoration(
+                                              color:provider.localmessage[index].message=="This Message was Deleted"?Color(0xffCCCCCC): Color(0xffF5FCFF),
+                                              borderRadius: BorderRadius.circular(10),
 
-
-                                      ):
-                                      Container(
-                                        padding: EdgeInsets.only(top: 5,bottom: 5,right: 10,left: 15),
-                                        decoration: BoxDecoration(
-                                          color:  provider.localmessage[index].message=="This Message was Deleted"?Color(0xffCCCCCC): RemoteConfigData.getPrimaryColor(),
-                                          borderRadius: BorderRadius.circular(10),
-
-                                        ),
-                                        child: provider.localmessage[index].message=="This Message was Deleted" ?
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-
-                                            Icon(Icons.not_interested_rounded,size: 12,color: Colors.black,),
-                                            SizedBox(width: 5,),
-
-                                            Text(provider.localmessage[index].message!,
-                                              style: TextStyle(color: Colors.black,fontSize: 12,fontWeight:FontWeight.w400),
-                                              textAlign: TextAlign.left,),
-
-                                          ],
-                                        ):
-                                        Text(provider.localmessage[index].message!,style: TextStyle(color: Colors.white,fontSize: 15,fontWeight:FontWeight.w400),
-                                          textAlign: TextAlign.left,),
-                                      ),
-
-
-
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      provider.localmessage[index].sender=="server" && provider.quicdata(provider.localmessage[index].quicktypest.toString()).length>1 && provider.localmessage[index].quicktypest.isNotEmpty?
-                                      ListView.builder(
-
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemBuilder:(context,j){
-                                          return Column(
-                                            children: [
-                                              GestureDetector(
-                                                onTap:(){
-                                                  DateTime now = DateTime.now();
-                                                  String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
-                                                  MessageModel messageModel = MessageModel(
-                                                      message: provider.quicdata(provider.localmessage[index].quicktypest.toString())[j],
-                                                      sender: "user",
-                                                      status: "Sending...",
-                                                      quicktypest: [""],
-                                                      time: formattedDate
-                                                  );
-                                                  provider.addMessage(messageModel);
-                                                  provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
-                                                  messageModel.status=provider.messagestatus;
-                                                  provider.replaceQuickReplaydata(index,provider.quicdata(provider.localmessage[index].quicktypest.toString())[j]);
-
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.all(8),
-                                                  margin: EdgeInsets.only(right: 10),
-                                                  decoration: BoxDecoration(
-                                                      color:Colors.white,
-                                                      border:Border.all(color: RemoteConfigData.getPrimaryColor()),
-                                                      borderRadius: BorderRadius.all(Radius.circular(20))
-                                                  ),
-
-                                                  child: Center(child: Text("${provider.quicdata(provider.localmessage[index].quicktypest.toString())[j]}",style: TextStyle(color: Colors.black,fontSize:15,fontWeight: FontWeight.w400),)),
+                                            ),
+                                            child: provider.localmessage[index].message=="This Message was Deleted" ? Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(provider.localmessage[index].message!,
+                                                  style: TextStyle(color: Colors.black,fontSize: 12,fontWeight:FontWeight.w400),
+                                                  textAlign: TextAlign.left,),
+                                                SizedBox(width: 5,),
+                                                Icon(Icons.not_interested_rounded,size: 12,color: Colors.black,),
+                                              ],
+                                            ):
+                                            provider.getLinkClickable(provider.localmessage[index].message!).length>0?
+                                            RichText(
+                                                text: TextSpan(
+                                                  children: provider.getLinkClickable(provider.localmessage[index].message!)
+                                                      .map(
+                                                        (data) => data.contains(provider.detectedlink.length>0?provider.detectedlink[0]:"nodata")
+                                                        ? TextSpan(
+                                                      text: " $data ",
+                                                      style: TextStyle(color: Colors.blue,decoration: TextDecoration.underline),
+                                                          recognizer: tapGestureRecognizer
+                                                            ..onTap=(){
+                                                        String url = provider.detectedlink[0];
+                                                        launch(url);
+                                                            }
+                                                    )
+                                                        : TextSpan(
+                                                      text: "${data} ",
+                                                      style: TextStyle(color: Colors.black),
+                                                    ),
+                                                  )
+                                                      .toList(),
                                                 ),
-                                              ),
-                                              SizedBox(height: 10,),
-                                            ],
-                                          );
-                                        } ,
-                                        itemCount: provider.quicdata(provider.localmessage[index].quicktypest.toString()).length,
-                                      ):
-                                      Container(),
+
+                                            ):
+                                            Text(provider.localmessage[index].message!,style: TextStyle(color: Colors.black,fontSize: 15,fontWeight:FontWeight.w400),textAlign: TextAlign.left,)
+
+                                          ):
 
 
-                                      /* Container(
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: message.sender == 'server'
-                            ? Color(0xffF5FCFF)
-                            : Color(0xff41B6E6),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: message.sender == 'server'?
-                      Text(message.message,style: TextStyle(color: Colors.black,fontSize: 15,fontWeight:FontWeight.bold),textAlign: TextAlign.left,):
-                      Text(message.message,style: TextStyle(color: Colors.white,fontSize: 15,fontWeight:FontWeight.bold),textAlign: TextAlign.right,),
-                    ),*/
+                                          provider.localmessage[index].message!=""?Container(
+                                            padding: EdgeInsets.only(top: 5,bottom: 5,right: 10,left: 15),
+                                            decoration: BoxDecoration(
+                                              color:  provider.localmessage[index].message=="This Message was Deleted"?Color(0xffCCCCCC): RemoteConfigData.getPrimaryColor(),
+                                              borderRadius: BorderRadius.circular(10),
 
-                                      SizedBox(height: 10,)
-                                    ],
-                                  ),
+                                            ),
+                                            child: provider.localmessage[index].message=="This Message was Deleted" ?
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+
+                                                Icon(Icons.not_interested_rounded,size: 12,color: Colors.black,),
+                                                SizedBox(width: 5,),
+
+                                                Text(provider.localmessage[index].message!,
+                                                  style: TextStyle(color: Colors.black,fontSize: 12,fontWeight:FontWeight.w400),
+                                                  textAlign: TextAlign.left,),
+
+                                              ],
+                                            ):
+                                            Text(provider.localmessage[index].message!,style: TextStyle(color: Colors.white,fontSize: 15,fontWeight:FontWeight.w400),
+                                              textAlign: TextAlign.left,),
+                                          ):SizedBox(),
+
+
+
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          provider.localmessage[index].sender=="self" ||  provider.localmessage[index].sender=="server" && provider.quicdata(provider.localmessage[index].quicktypest.toString()).length>1 && provider.localmessage[index].quicktypest.isNotEmpty?
+                                          ListView.builder(
+
+                                            shrinkWrap: true,
+                                            physics: NeverScrollableScrollPhysics(),
+                                            itemBuilder:(context,j){
+                                              return Column(
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap:(){
+                                                      DateTime now = DateTime.now();
+                                                      String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
+                                                      MessageModel messageModel = MessageModel(
+                                                          message: provider.quicdata(provider.localmessage[index].quicktypest.toString())[j],
+                                                          sender: "user",
+                                                          status: "Sending...",
+                                                          quicktypest: [""],
+                                                          time: formattedDate
+                                                      );
+                                                      provider.addMessage(messageModel);
+                                                      provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
+                                                      messageModel.status=provider.messagestatus;
+                                                      provider.replaceQuickReplaydata(index,provider.quicdata(provider.localmessage[index].quicktypest.toString())[j]);
+
+                                                    },
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(8),
+                                                      margin: EdgeInsets.only(right: 10),
+                                                      decoration: BoxDecoration(
+                                                          color:Colors.white,
+                                                          border:Border.all(color: RemoteConfigData.getPrimaryColor()),
+                                                          borderRadius: BorderRadius.all(Radius.circular(20))
+                                                      ),
+
+                                                      child: Center(child: Text("${provider.quicdata(provider.localmessage[index].quicktypest.toString())[j]}",style: TextStyle(color: Colors.black,fontSize:15,fontWeight: FontWeight.w400),)),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 10,),
+                                                ],
+                                              );
+                                            } ,
+                                            itemCount: provider.quicdata(provider.localmessage[index].quicktypest.toString()).length,
+                                          ):
+                                          Container(),
+                                          SizedBox(height: 10,)
+                                        ],
+                                      ),
+                                    ),
+                                    provider.localmessage[index].sender == "self" || provider.localmessage[index].sender == "server" ? SizedBox() : ChatAvatar("assets/images/ic_user_box.png"),
+                                    SizedBox(width: 10,),
+
+                                  ],
                                 ),
-                                provider.localmessage[index].sender == "server" ? Container() : ChatAvatar("assets/images/ic_user_box.png"),
-                                SizedBox(width: 10,),
 
                               ],
                             ),
@@ -460,6 +463,15 @@ class _ChatState extends State<Chat> {
                       ),
                     ),
                   ),
+                  provider.isMessageCome==true? Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ChatAvatar("assets/images/ic_ureport_box.png"),
+                      SizedBox(width: 15,),
+                      Lottie.asset('assets/local-json/chatloading.json',height: 20,width: 40),
+                    ],
+                  )
+                      : SizedBox(),
                   SizedBox(height: 10,),
                   Container(
 
@@ -479,9 +491,10 @@ class _ChatState extends State<Chat> {
                     //donee
 
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+
                       children: [
-                        SizedBox(width: 15,),
+                        SizedBox(width: 7,),
                         Expanded(
                           child: Container(
                             width: double.infinity,
@@ -496,7 +509,7 @@ class _ChatState extends State<Chat> {
                               width: double.infinity,
 
                               child: Row(
-
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                  GestureDetector(
 
@@ -584,9 +597,43 @@ class _ChatState extends State<Chat> {
     return Form(
       key: sendMessageKey,
       child: Row(
-
         children: [
-          SizedBox(width: 10,),
+          isKeyboardOpen==false? Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+           children: [
+
+             GestureDetector(
+               onTap: (){
+                 provider.addQuickType();
+               },
+               child: Container(
+                 padding: EdgeInsets.all(4),
+                 child: Image.asset("assets/images/ic_chat_menu.png",height: 25,width: 25,),
+               ),
+             ),
+
+             GestureDetector(
+               onTap: (){
+                 provider.addQuickTypeCaseManagement();
+               },
+               child: Container(
+                 padding: EdgeInsets.all(4),
+                 child: Image.asset("assets/images/ic_one_to_one_chat.png",height: 25,width: 25,),
+               ),
+             ),
+
+           ],
+         ):
+          GestureDetector(
+            onTap: (){
+              provider.addQuickType();
+            },
+            child: Container(
+              padding: EdgeInsets.all(4),
+              child: Image.asset("assets/images/ic_arrow_chat.png",height: 25,width: 25,),
+            ),
+          ),
+
           Expanded(
             child: Container(
 

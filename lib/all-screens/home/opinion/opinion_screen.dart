@@ -1,12 +1,10 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/opinion_search.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
-import 'package:ureport_ecaro/utils/load_data_handling.dart';
 import 'package:ureport_ecaro/utils/loading_bar.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
@@ -43,9 +41,9 @@ class _OpinionState extends State<Opinion> {
   Widget build(BuildContext context) {
     List<ResultOpinionLocal>? opinions = [];
 
-      // Provider.of<OpinionController>(context, listen: false).getLatestOpinions(
-      //     RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-      //     sp.getValue(SPUtil.PROGRAMKEY));
+      Provider.of<OpinionController>(context, listen: false).getLatestOpinions(
+          RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+          sp.getValue(SPUtil.PROGRAMKEY));
 
 
     return Consumer<OpinionController>(builder: (context, provider, child) {
@@ -62,7 +60,7 @@ class _OpinionState extends State<Opinion> {
           ),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TopBar.getTopBar(AppLocalizations.of(context)!.opinions),
             Container(
@@ -104,8 +102,9 @@ class _OpinionState extends State<Opinion> {
                             style: TextStyle(fontSize: 18, color: Colors.grey),
                           ),
                           Icon(
-                            Icons.search,
-                            size: 22,
+                            Icons.arrow_drop_down,
+                            color: Colors.grey,
+                            size: 38,
                           ),
                         ],
                       ),
@@ -176,30 +175,24 @@ class _OpinionState extends State<Opinion> {
                                   ),
                                 ),
                               )
-                            : provider.isLoading
-                                ? Container(
+                            : Container(
                                     height: 60,
                                     width: 60,
                                     child: LoadingBar.spinkit,
-                                  )
-                                : Container();
+                                  );
                       } else {
-                        return provider.isLoading
-                            ? Container(
+                        return Container(
                           height: 60,
                           width: 60,
                           child: LoadingBar.spinkit,
-                        )
-                            : Container();
+                        );
                       }
                     } else {
-                      return provider.isLoading
-                          ? Container(
+                      return Container(
                         height: 60,
                         width: 60,
                         child: LoadingBar.spinkit,
-                      )
-                          : Container();
+                      );
                     }
                   }),
             )

@@ -25,6 +25,8 @@ class StoryList extends StatefulWidget {
 class _StoryListState extends State<StoryList> {
   var sp = locator<SPUtil>();
 
+  int itemCount = 10;
+
   @override
   void initState() {
     super.initState();
@@ -39,9 +41,9 @@ class _StoryListState extends State<StoryList> {
     Provider.of<StoryController>(context, listen: false)
         .getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
 
-    // Provider.of<StoryController>(context, listen: false).getRecentStory(
-    //     RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-    //     sp.getValue(SPUtil.PROGRAMKEY));
+    Provider.of<StoryController>(context, listen: false).getRecentStory(
+        RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+        sp.getValue(SPUtil.PROGRAMKEY));
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       var _futureStory =
@@ -49,14 +51,8 @@ class _StoryListState extends State<StoryList> {
       return SafeArea(
           child: Scaffold(
               body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/bg_home.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TopBar.getTopBar(AppLocalizations.of(context)!.stories),
             Container(
@@ -98,8 +94,9 @@ class _StoryListState extends State<StoryList> {
                             style: TextStyle(fontSize: 18, color: Colors.grey),
                           ),
                           Icon(
-                            Icons.search,
-                            size: 22,
+                            Icons.arrow_drop_down,
+                            color: Colors.grey,
+                            size: 38,
                           ),
                         ],
                       ),
@@ -130,9 +127,10 @@ class _StoryListState extends State<StoryList> {
                                   physics: ScrollPhysics(),
                                   shrinkWrap: true,
                                   addAutomaticKeepAlives: true,
-                                  itemCount: stories!.length < 10
+                                  itemCount: stories!.length <= 10
                                       ? stories!.length
-                                      : 10,
+                                      : itemCount <= stories!.length ?
+                                  itemCount + 1 : stories!.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return GestureDetector(
@@ -152,29 +150,51 @@ class _StoryListState extends State<StoryList> {
                                                     .toString()));
                                       },
                                       child: Container(
-                                        child: getItem(
-                                            stories?[index].images != ''
-                                                ? stories![index].images
-                                                : "assets/images/default.jpg",
-                                            stories![index].featured,
-                                            stories![index].title,
-                                            stories![index].summary),
+                                        child: index <= itemCount - 1
+                                            ? getItem(
+                                                stories?[index].images != ''
+                                                    ? stories![index].images
+                                                    : "assets/images/default.jpg",
+                                                stories![index].featured,
+                                                stories![index].title,
+                                                stories![index].summary)
+                                            : Container(
+                                                margin: EdgeInsets.only(
+                                                    top: 5, bottom: 20),
+                                                height: 35,
+                                                child: GestureDetector(
+                                                  onTap: (){
+                                                    itemCount = itemCount+ 10;
+                                                    setState(() {
+
+                                                    });
+                                                  },
+                                                    child: Center(
+                                                        child:
+                                                            Text(
+                                                                "See More",
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: Colors.black
+                                                              ),
+                                                            )
+                                                    )
+                                                )
+                                        ),
                                       ),
                                     );
                                   }),
                             )
-                          : provider.isLoading
-                              ? Center(
-                                  child: Container(
-                                    height: 60,
-                                    width: 60,
-                                    child: LoadingBar.spinkit,
-                                  ),
-                                )
-                              : Container(),
+                          : Center(
+                              child: Container(
+                                height: 60,
+                                width: 60,
+                                child: LoadingBar.spinkit,
+                              ),
+                            ),
                     );
                   }),
-            ),
+            )
           ],
         ),
       )));
@@ -253,19 +273,18 @@ getItemFeatured(String featured) {
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       Container(
-        margin: EdgeInsets.only(left: 10, top: 15, bottom: 5,right: 10),
+        margin: EdgeInsets.only(left: 10, top: 15, bottom: 5, right: 10),
         height: 10,
         width: 10,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: RemoteConfigData.getBackgroundColor()
-        ),
+            shape: BoxShape.circle,
+            color: RemoteConfigData.getBackgroundColor()),
       ),
       Container(
         margin: EdgeInsets.only(top: 10),
         child: Text(
-          featured == "true"?"FEATURED STORY":"STORY",
-          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11),
+          featured == "true" ? "FEATURED STORY" : "STORY",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
         ),
       )
     ],
@@ -284,10 +303,18 @@ getItemTitle(String title) {
 
 getItemSummery(String summery) {
   return Container(
-    padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-    child: Text(
-      summery,
-      style: TextStyle(fontSize: 14),
-    ),
-  );
+      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      child: RichText(
+        text: TextSpan(
+          style:
+              TextStyle(fontSize: 14, color: Colors.black, fontFamily: "Dosis"),
+          children: <TextSpan>[
+            TextSpan(text: summery),
+            TextSpan(
+                text: "  READ MORE",
+                style: new TextStyle(
+                    fontSize: 13, color: RemoteConfigData.getPrimaryColor())),
+          ],
+        ),
+      ));
 }

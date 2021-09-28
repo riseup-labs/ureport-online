@@ -207,6 +207,9 @@ class _SettingDetailsState extends State<SettingDetails> {
                         fontSize: 21,
                         fontWeight: FontWeight.bold),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

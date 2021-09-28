@@ -111,15 +111,58 @@ class _AboutState extends State<About> {
     String final_content = '''
     <html> 
     <style>  
-    body{width: 80% !important;margin-left: auto;margin-right: auto;display: block;margin-top:10px;margin-bottom:10px; background-color:${RemoteConfigData.getWebBackgroundColor()};} 
+    body{
+    background-color:${RemoteConfigData.getWebBackgroundColor()};
+      margin: 0;
+      padding: 0;
+    }
+    .content_body{
+    width: 80% !important;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding: 20 20px;
+    position: relative;
+    z-index: 9999;
+    } 
+    .content_footer{
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      z-index: 999999;
+    }
     p{color:${RemoteConfigData.getWebTextColor()};}
     h2{color:${RemoteConfigData.getWebTextColor()};}
     b{color:${RemoteConfigData.getWebTextColor()};}
     div{color:${RemoteConfigData.getWebTextColor()};}
+    
+    .footer_wraper{
+      display: flex;
+      justify-content: center;
+      background: #fff;
+    }
+    .footer_logo{
+      margin-top:30px;
+      margin-bottom: 20px;
+      height: 45px;
+      weight: 100%;
+    }
+    .cotent_footer_img{
+      height: 50px;
+      weight: 100%;
+    }
     </style> 
-    <body> 
-    <div><h2>$title</h2></div>
-    <div>$content</div> 
+    <body>
+    <div class="content_body"> 
+      <div><h2>$title</h2></div>
+      <div>$content</div>
+      <div class="content_footer">
+        <img src = "${RemoteConfigData.getLargeIcon()}" class="cotent_footer_img"/>
+      </div>
+     </div>
+    <div class="footer_wraper">
+      <img src = "${RemoteConfigData.getLargeIcon()}" class="footer_logo"/>
+    </div> 
     </body> 
     </html>''';
 

@@ -26,15 +26,15 @@ class Settings extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  left: 30,
+                  left: 40,
                 ),
                 child: Text(
                   "${AppLocalizations.of(context)!.more}",
-                  style: TextStyle(color: Colors.black, fontSize: 28,fontWeight: FontWeight.w700),
+                  style: TextStyle(color: Colors.black, fontSize: 42,fontWeight: FontWeight.w700),
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               GestureDetector(
                 onTap: () {

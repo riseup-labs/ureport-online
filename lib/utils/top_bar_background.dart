@@ -26,13 +26,16 @@ class TopBar{
                   painter: CustomBackground(),
                   child: Container(
                     height: 80,
-                    child: Center(
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                            fontSize: 28.0,
-                            color: RemoteConfigData.getTextColor(),
-                            fontWeight: FontWeight.bold),
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Center(
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                              fontSize: 26.0,
+                              color: RemoteConfigData.getTextColor(),
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ),
@@ -61,11 +64,11 @@ class CustomBackground extends CustomPainter {
       ..shader = gradient.createShader(colorBounds);
 
     Path path = Path();
-    path.moveTo(size.width/4, 0);
+    path.moveTo(size.width/5, 0);
     path.lineTo(size.width, 0);
     path.lineTo(size.width, size.height);
     path.lineTo(0,size.height);
-    path.lineTo(size.width/4, 0);
+    path.lineTo(size.width/5, 0);
     path.close();
 
     canvas.drawPath(path, paint);

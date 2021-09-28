@@ -131,7 +131,7 @@ class StatisticsHeader{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 50,
+                    height: 55,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -155,7 +155,7 @@ class StatisticsHeader{
                     width: 5,
                   ),
                   Container(
-                    height: 50,
+                    height: 55,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -184,7 +184,7 @@ class StatisticsHeader{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 50,
+                    height: 55,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -208,7 +208,7 @@ class StatisticsHeader{
                     width: 5,
                   ),
                   Container(
-                    height: 50,
+                    height: 55,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -237,7 +237,7 @@ class StatisticsHeader{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 50,
+                    height: 55,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -261,7 +261,7 @@ class StatisticsHeader{
                     width: 5,
                   ),
                   Container(
-                    height: 50,
+                    height: 55,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

@@ -46,12 +46,6 @@ class _ProgramChooserState extends State<ProgramChooser> {
         return SafeArea(
           child: Scaffold(
             body: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/bg_select_program.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
               child: Stack(
                 children: [
                   from == "more"
@@ -100,11 +94,14 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "${AppLocalizations.of(context)!.choose_program}",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 7),
+                                      child: Text(
+                                        "${AppLocalizations.of(context)!.choose_program}",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500),
+                                      ),
                                     ),
                                     SizedBox(height: 10),
                                     Container(

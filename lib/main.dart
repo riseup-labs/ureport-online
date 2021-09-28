@@ -95,7 +95,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.blue,
-              fontFamily: "Dosis"
+              fontFamily: "Poppins"
             ),
             home: SplashScreen(),
             supportedLocales: L10n.all,
