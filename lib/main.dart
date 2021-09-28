@@ -14,7 +14,7 @@ import 'all-screens/home/opinion/opinion_controller.dart';
 import 'all-screens/home/stories/story-controller.dart';
 import 'all-screens/home/stories/story-details-controller.dart';
 import 'all-screens/login/provider_login_controller.dart';
-import 'all-screens/settings/about_controller.dart';
+import 'all-screens/settings/about/about_controller.dart';
 import 'all-screens/splash-screen/splash_screen.dart';
 import 'firebase-remote-config/remote-config-controller.dart';
 import 'l10n/l10n.dart';
@@ -95,7 +95,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.blue,
-              fontFamily: "Dosis"
+              fontFamily: "Poppins"
             ),
             home: SplashScreen(),
             supportedLocales: L10n.all,

@@ -111,6 +111,17 @@ class RemoteConfigData{
     return url;
   }
 
+  static getAboutUrl(String program){
+    String url = "";
+    ResponseRemoteConfigData data = getAllData();
+    data.programs.forEach((element) {
+      if(element.name == program){
+        url = element.aboutUrl;
+      }
+    });
+    return url;
+  }
+
   static getSecondaryColorList(){
 
     var sp = locator<SPUtil>();
@@ -137,6 +148,64 @@ class RemoteConfigData{
     data.programs.forEach((element) {
       if(element.name == program){
         color = HexColor(element.primaryColor);
+      }
+    });
+
+    return color;
+  }
+
+  static getBackgroundColor(){
+
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+    Color color = Color(0);
+    ResponseRemoteConfigData data = getAllData();
+    data.programs.forEach((element) {
+      if(element.name == program){
+        color = HexColor(element.programBackgroundColor);
+      }
+    });
+
+    return color;
+  }
+
+  static getWebBackgroundColor(){
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+    String color = "";
+    ResponseRemoteConfigData data = getAllData();
+    data.programs.forEach((element) {
+      if(element.name == program){
+        color = element.programBackgroundColor;
+      }
+    });
+
+    return color;
+  }
+
+  static getWebTextColor(){
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+    String color = "";
+    ResponseRemoteConfigData data = getAllData();
+    data.programs.forEach((element) {
+      if(element.name == program){
+        color = element.programTextColor;
+      }
+    });
+
+    return color;
+  }
+
+  static getTextColor(){
+
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+    Color color = Color(0);
+    ResponseRemoteConfigData data = getAllData();
+    data.programs.forEach((element) {
+      if(element.name == program){
+        color = HexColor(element.programTextColor);
       }
     });
 

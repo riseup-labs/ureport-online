@@ -28,7 +28,6 @@ class AboutController extends ConnectivityController{
     }
   }
 
-  //Done
 
 
 }

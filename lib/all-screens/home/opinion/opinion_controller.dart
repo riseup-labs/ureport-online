@@ -22,16 +22,26 @@ class OpinionController extends ConnectivityController{
   }
 
   var isLoading = false;
+  var isSyncing = false;
+
   setLoading(){
     isLoading = true;
+    notifyListeners();
+  }
+  setSyncing(){
+    isSyncing = true;
     notifyListeners();
   }
 
   var _opinionrepository = locator<OpinionRepository>();
   List<opinionsarray.Result> items = List.empty(growable: true);
 
-  getOpinionsFromRemote(String url,String program) async {
+  getLatestOpinions(String url,String program){
     setLoading();
+    getOpinionsFromRemote(url+"?limit=40", program);
+  }
+
+  getOpinionsFromRemote(String url,String program) async {
     var apiresponsedata = await _opinionrepository.getOpinions(url);
     if(apiresponsedata.httpCode==200){
       items.addAll(apiresponsedata.data.results);
@@ -41,6 +51,7 @@ class OpinionController extends ConnectivityController{
         await _databaseHelper.insertOpinion(items,program);
         LoadDataHandling.storeOpinionLastUpdate();
         isLoading = false;
+        isSyncing = false;
         notifyListeners();
       }
     }

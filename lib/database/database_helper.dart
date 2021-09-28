@@ -118,10 +118,7 @@ class DatabaseHelper {
         DatabaseConstant.columnProgramOpinion : program,
         DatabaseConstant.columnQuestionOpinion : jsonEncode(element.questions),
       }, conflictAlgorithm: ConflictAlgorithm.replace);
-      print("$result");
     });
-
-    print("done");
 
     return true;
 
@@ -130,8 +127,18 @@ class DatabaseHelper {
   Future<List<ResultLocal>> getStories(String program) async {
     List<ResultLocal> _stories = [];
     var db = await this.database;
-    // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
     var result = await db.rawQuery("SELECT * FROM ${DatabaseConstant.tableName} WHERE featured = 'true' AND program = '$program'");
+    result.forEach((element) {
+      var list = ResultLocal.fromJson(element);
+      _stories.add(list);
+    });
+    return _stories;
+  }
+
+  Future<List<ResultLocal>> getRecentStory(String program) async {
+    List<ResultLocal> _stories = [];
+    var db = await this.database;
+    var result = await db.rawQuery("SELECT id FROM ${DatabaseConstant.tableName} WHERE featured = 'true' AND program = '$program' ORDER BY id DESC LIMIT 1 ");
     result.forEach((element) {
       var list = ResultLocal.fromJson(element);
       _stories.add(list);
@@ -208,7 +215,6 @@ class DatabaseHelper {
   Future<bool> insertConversation(List<MessageModel> list) async {
     var db = await this.database;
     list.forEach((element) async {
-      print("the inserted quicktype data is ..... ${element.quicktypest}");
       // var result = await db.insert(DatabaseConstant.tableName, element.toJson());
       var result = await db.insert(DatabaseConstant.tableNameMessage, {
         DatabaseConstant.message : element.message,
@@ -217,11 +223,8 @@ class DatabaseHelper {
         DatabaseConstant.quicktypest : jsonEncode(element.quicktypest),
         DatabaseConstant.time : element.time,
       }, conflictAlgorithm: ConflictAlgorithm.ignore);
-      print("$result");
 
     });
-
-    print("done");
 
     return true;
 

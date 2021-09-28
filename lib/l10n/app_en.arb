@@ -33,9 +33,9 @@
     "@intro_text3": {
           "description": "View current and previous poll results and share result on social media channels"
     },
-    "welcome": "Welcome to",
+    "welcome": "Welcome",
     "@welcome": {
-          "description": "Welcome to"
+          "description": "Welcome"
     },
     "continu": "Continue",
     "@continu": {
@@ -65,9 +65,9 @@
     "@about_us": {
           "description": "About Us"
     },
-    "change_ureport_program": "Change U-report Program",
+    "change_ureport_program": "Change Program",
     "@change_ureport_program": {
-          "description": "Change U-report Program"
+          "description": "Change Program"
     },
     "change_language": "Change Language",
     "@change_language": {

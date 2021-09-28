@@ -8,14 +8,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'intro_content.dart';
 
-class Body extends StatefulWidget {
+class IntroScreen extends StatefulWidget {
   @override
-  _BodyState createState() => _BodyState();
+  _IntroScreenState createState() => _IntroScreenState();
 }
 
-class _BodyState extends State<Body> {
+class _IntroScreenState extends State<IntroScreen> {
   int currentPage = 0;
   PageController? _pageController;
+  
 
   @override
   void initState() {
@@ -25,83 +26,88 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    
+    SizeConfig().init(context);
 
     List<Map<String, String>> splashData = [
       {
         "text": "${AppLocalizations.of(context)!.stories}",
         "text2": "${AppLocalizations.of(context)!.intro_text1}",
-        "image": "assets/images/drawable-xxhdpi/intro_1.png"
+        "image": "assets/images/drawable-xxhdpi/v2_about_1.png"
       },
       {
         "text": "${AppLocalizations.of(context)!.chat}",
         "text2": "${AppLocalizations.of(context)!.intro_text2}",
-        "image": "assets/images/drawable-xxhdpi/intro_2.png"
+        "image": "assets/images/drawable-xxhdpi/v2_about_2.png"
       },
       {
         "text": "${AppLocalizations.of(context)!.opinions}",
         "text2": "${AppLocalizations.of(context)!.intro_text3}",
-        "image": "assets/images/drawable-xxhdpi/intro_3.png"
+        "image": "assets/images/drawable-xxhdpi/v2_about_3.png"
       },
     ];
 
-    return SafeArea(
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 7,
-              child: Container(
-                child: getPageBuilder(0,splashData),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenWidth(20)),
+    return Scaffold(
+      backgroundColor: currentPage == 0 ? AppColors.mainBgColor : currentPage == 1 ? AppColors.mainBgColor2 : AppColors.mainBgColor3,
+      body: SafeArea(
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 7,
                 child: Container(
-                  margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: (){
-                          NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
-                        },
-                        child: Text("${AppLocalizations.of(context)!.skip}",
-                            style:
-                                TextStyle(fontSize: 16, color: Colors.grey[600])),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: getBuildDot(splashData),
-                      ),
-                      GestureDetector(
-                          onTap: () {
-                            currentPage++;
-                            if (currentPage >= 3) {
-                              NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
-                            }else{
-                              _pageController!.nextPage(
-                                  duration: Duration(milliseconds: 500),
-                                  curve: Curves.easeIn
-                              );
-                              setState(() {});
-                            }
+                  child: getPageBuilder(0,splashData),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: getProportionateScreenWidth(20)),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: (){
+                            NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
                           },
-                          child: Text(
-                            "${AppLocalizations.of(context)!.next}",
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.blue[300]),
-                          )),
-                    ],
+                          child: Text("${AppLocalizations.of(context)!.skip}",
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold)),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: getBuildDot(splashData),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              currentPage++;
+                              if (currentPage >= 3) {
+                                NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
+                              }else{
+                                _pageController!.nextPage(
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeIn
+                                );
+                                setState(() {});
+                              }
+                            },
+                            child: Text(
+                              "${AppLocalizations.of(context)!.next}",
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+                            )),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -126,7 +132,6 @@ class _BodyState extends State<Body> {
         image: splashData[index]["image"]!,
         text: splashData[index]['text']!,
         text2: splashData[index]['text2']!,
-        // ignore: null_check_always_fails
         key: null,
       ),
       controller: _pageController
@@ -140,7 +145,7 @@ class _BodyState extends State<Body> {
       height: 6,
       width: currentPage == index ? 20 : 6,
       decoration: BoxDecoration(
-        color: currentPage == index ? AppColors.primary : Color(0xFFD8D8D8),
+        color: currentPage == index ? Colors.black : Colors.white,
         borderRadius: BorderRadius.circular(3),
       ),
     );

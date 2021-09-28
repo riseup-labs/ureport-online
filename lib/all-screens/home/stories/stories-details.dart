@@ -1,11 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/save_story.dart';
@@ -15,9 +10,7 @@ import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:flutter/foundation.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
-import 'package:path_provider/path_provider.dart';
 
 class StoryDetails extends StatefulWidget {
   String id = "";
@@ -54,12 +47,8 @@ class _StoryDetailsState extends State<StoryDetails> {
   @override
   Widget build(BuildContext context) {
 
-    String story_content = "";
     return Consumer<StoryDetailsController>(
         builder: (context, provider, snapshot) {
-          story_content = provider.responseStoryDetails == null
-              ? ""
-              : provider.responseStoryDetails!.content;
           return WillPopScope(
             onWillPop: () async {
               webViewController.webViewController
@@ -130,6 +119,10 @@ class _StoryDetailsState extends State<StoryDetails> {
                 )),
           );
         });
+  }
+
+  doShare() async{
+    await Share.share("${RemoteConfigData.getStoryShareUrl()}" + "1024");
   }
 
   getShareButton(String id) {
@@ -277,13 +270,32 @@ class _StoryDetailsState extends State<StoryDetails> {
     iframe{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
     body{width: 90% !important;margin-left: auto;margin-right: auto;display: block;margin-top:10px;margin-bottom:10px;} 
     p{font-size: 24px;}
+    
+    .header_time{
+       float: left;
+       font-size: 20px;
+    }
+    .header_share{
+      float: right;
+    }
     </style> 
     <body> 
-    <div><h5>$clockString</h5></div>
-    <div><h2>$title</h2></div>
     <div class="image_box"><img class = "title_image" src="$image"></div>
+    <div class="header_group">
+      <div class="header_time">$clockString</div>
+      <div class="header_share"><button onclick="getFunction()">Clock</button></div> 
+    </div>
+    
+    
+    <div style="float: left;"><h2>$title</h2></div>
     <div>$content</div> 
     </body> 
+    <script>
+      function getFunction(){
+        console.log("ok working");
+        window.doShare();
+      }
+    </script>
     </html>''';
 
     webViewController.loadUrl(Uri.dataFromString(final_content,

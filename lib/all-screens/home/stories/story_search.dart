@@ -51,14 +51,8 @@ class _StorySearchState extends State<StorySearch> {
           child: Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/bg_home.png"),
-                fit: BoxFit.cover,
-              ),
-            ),
             child: Container(
-              color: AppColors.bluelight,
+              color: AppColors.white,
               height: 86,
               child: Stack(
                 fit: StackFit.expand,
