@@ -17,7 +17,7 @@ class StatisticsHeader{
     int maleRespondent = 0;
     int femaleRespondent = 0;
 
-    String title = opinions.title.replaceAll("\n", " ");
+    String title = opinions.title!.replaceAll("\n", " ");
     title = title.replaceAll("\r", " ");
 
     String category = opinions.category.toUpperCase();
@@ -295,7 +295,7 @@ class StatisticsHeader{
 
   static Widget getHeadingStatisticsEmpty(ResultOpinionLocal opinions) {
 
-    String title = opinions.title.replaceAll("\n", " ");
+    String title = opinions.title!.replaceAll("\n", " ");
     title = title.replaceAll("\r", " ");
 
     String category = opinions.category.toUpperCase();

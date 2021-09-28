@@ -175,7 +175,7 @@ class DatabaseHelper {
       resultTitle.forEach((element) {
         var itemTitle = ResultOpinionLocal.fromJson(element);
         if(itemTitle.category == item.category){
-          titles.add(new OpinionSearchItem(itemTitle.id,itemTitle.title, itemTitle.polldate));
+          titles.add(new OpinionSearchItem(itemTitle.id!,itemTitle.title!, itemTitle.polldate));
         }
       });
       opinionCategory.add(new OpinionSearchList(item.category,titles));
