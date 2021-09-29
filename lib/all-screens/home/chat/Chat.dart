@@ -51,6 +51,9 @@ class _ChatState extends State<Chat> {
     KeyboardVisibilityController().onChange.listen((event) {
       setState(() {
         isKeyboardOpen=event;
+        if(isKeyboardOpen==true){
+          Provider.of<ChatController>(context, listen: false).isExpanded=false;
+        }
       });
       final message = event? "keyboardOpen":"keyboar close";
       print("keyboard status is........${message}");
@@ -124,7 +127,7 @@ class _ChatState extends State<Chat> {
                                   : MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(width: 10,),
+
                                 Column(
                                   children: [
                                     SizedBox(height: 5,),
@@ -141,27 +144,33 @@ class _ChatState extends State<Chat> {
 
                                         }
                                       },
-                                      child: provider.individualselect.contains(index) ?Container(
-                                        height: 20,
-                                        width: 20,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(100)),
-                                          border: Border.all(color: RemoteConfigData.getPrimaryColor()),
-                                          color: RemoteConfigData.getPrimaryColor(),
-                                        ),
-                                      ):Container(
-                                        height: 20,
-                                        width: 20,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(100)),
-                                          border: Border.all(color: RemoteConfigData.getPrimaryColor()),
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 10,right: 5),
+                                        child: provider.individualselect.contains(index) ?
+                                        Container(
+                                          height: 22,
+                                          width: 22,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                                            border: Border.all(color: RemoteConfigData.getPrimaryColor()),
+                                            color: RemoteConfigData.getPrimaryColor(),
+                                          ),
+                                        ):
+                                        Container(
+                                          height: 22,
+                                          width: 22,
 
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                                            border: Border.all(color: RemoteConfigData.getPrimaryColor()),
+
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(width: 5,),
+
                                 provider.localmessage[index].sender == "server" ? ChatAvatar("assets/images/ic_ureport_box.png") : Container(),
                                 SizedBox(width: 5,),
                                 Expanded(
@@ -466,8 +475,9 @@ class _ChatState extends State<Chat> {
                   provider.isMessageCome==true? Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      SizedBox(width: 10,),
                       ChatAvatar("assets/images/ic_ureport_box.png"),
-                      SizedBox(width: 15,),
+                      SizedBox(width: 10,),
                       Lottie.asset('assets/local-json/chatloading.json',height: 20,width: 40),
                     ],
                   )
@@ -511,59 +521,61 @@ class _ChatState extends State<Chat> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                 GestureDetector(
+                                  SizedBox(width: 3,),
+                                  GestureDetector(
+                                    onTap: (){
+                                      showDialog(context: context, builder: (_){
 
-                                     onTap: (){
-                                       showDialog(context: context, builder: (_){
+                                        return Dialog(
 
-                                  return Dialog(
+                                          child: Container(
+                                            padding: EdgeInsets.only(left: 5,right: 5,bottom: 10),
 
-                                    child: Container(
-                                      margin: EdgeInsets.only(left: 10,right: 10),
+                                            width: double.infinity,
+                                            height: 150,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                color: Colors.white
 
-                                      width: double.infinity,
-                                      height: 120,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                                          color: Colors.white
+                                            ),
+                                            child: Column(
 
-                                      ),
-                                      child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(height: 5,),
 
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          SizedBox(height: 5,),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Expanded(child: Text("Are You Sure?Do you want to delete this message? ",style:TextStyle(color:Colors.red,fontSize: 15),textAlign: TextAlign.center,)),
 
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Text("Are You Sure?Do you want to delete this message? ",style:TextStyle(color:Colors.red,fontSize: 15)),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 10,),
+                                                GestureDetector(
+                                                    onTap:(){
+                                                      provider.deleteMessage();
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text("Delete",style: TextStyle(color: Colors.red,fontSize: 18),)),
+                                                SizedBox(height: 10,),
+                                                Divider(height: 1,color: Colors.grey,),
+                                                SizedBox(height: 10,),
+                                                GestureDetector(
+                                                    onTap:(){
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text("Cancel",style: TextStyle(color: RemoteConfigData.getPrimaryColor(),fontSize: 18),)),
 
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                          SizedBox(height: 5,),
-                                          GestureDetector(
-                                              onTap:(){
-                                                provider.deleteMessage();
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("Delete",style: TextStyle(color: Colors.red,fontSize: 18),)),
-                                          SizedBox(height: 10,),
-                                          Divider(height: 1,color: Colors.grey,),
-                                          SizedBox(height: 10,),
-                                          GestureDetector(
-                                              onTap:(){
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("Cancel",style: TextStyle(color: RemoteConfigData.getPrimaryColor(),fontSize: 18),)),
+                                        );
+                                      });
+                                    },
+                                    child: Image.asset("assets/images/ic_delete.png",height: 35,width: 35,),
+                                  ),
 
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                });
-                                     },
-                                     child: Image.asset("assets/images/ic_delete.png")),
                                   Spacer(),
                                   Text("${provider.individualselect.length} Selected",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold),),
                                   Spacer(),
@@ -574,7 +586,7 @@ class _ChatState extends State<Chat> {
                                         provider.individualselect.clear();
                                       },
                                       child: Text("Cancel",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold),)),
-
+                                  SizedBox(width: 10,),
                                 ],
                               ),
                             ):sendMessage(context,provider),
@@ -598,27 +610,33 @@ class _ChatState extends State<Chat> {
       key: sendMessageKey,
       child: Row(
         children: [
-          isKeyboardOpen==false? Row(
+         provider.isExpanded==true || isKeyboardOpen==false? Row(
             mainAxisAlignment: MainAxisAlignment.start,
            children: [
 
              GestureDetector(
                onTap: (){
                  provider.addQuickType();
+                 provider.isExpanded=false;
                },
                child: Container(
+                 height: 30,
+                 width: 30,
                  padding: EdgeInsets.all(4),
-                 child: Image.asset("assets/images/ic_chat_menu.png",height: 25,width: 25,),
+                 child: Image.asset("assets/images/ic_chat_menu.png",),
                ),
              ),
-
+             SizedBox(width: 10,),
              GestureDetector(
                onTap: (){
                  provider.addQuickTypeCaseManagement();
+                 provider.isExpanded=false;
                },
                child: Container(
+                 height: 30,
+                 width: 30,
                  padding: EdgeInsets.all(4),
-                 child: Image.asset("assets/images/ic_one_to_one_chat.png",height: 25,width: 25,),
+                 child: Image.asset("assets/images/ic_one_to_one_chat.png",),
                ),
              ),
 
@@ -626,11 +644,14 @@ class _ChatState extends State<Chat> {
          ):
           GestureDetector(
             onTap: (){
-              provider.addQuickType();
+              provider.isExpanded=true;
+             // provider.addQuickType();
             },
             child: Container(
+              height: 30,
+              width: 30,
               padding: EdgeInsets.all(4),
-              child: Image.asset("assets/images/ic_arrow_chat.png",height: 25,width: 25,),
+              child: Image.asset("assets/images/ic_arrow_chat.png",),
             ),
           ),
 
@@ -644,13 +665,14 @@ class _ChatState extends State<Chat> {
               ),
 
               child: TextFormField(
-
+                autofocus: true,
                 onChanged: (String value) {
                   message = value;
                 },
 
                 decoration: InputDecoration.collapsed(
                   hintText: "${AppLocalizations.of(context)!.enter_message}",
+
                 ),
               ),
             ),

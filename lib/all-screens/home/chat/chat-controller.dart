@@ -295,8 +295,7 @@ class ChatController extends ChangeNotifier {
     messagearray.clear();
     ordered.clear();
     messagearray.add(messageModel);
-    filtermessage = messagearray.toSet().toList();
-    revlist = filtermessage.reversed.toList();
+
     await _databaseHelper.insertConversation(messagearray).then((value) async {
       await _databaseHelper.getConversation().then((valuereal) {
         ordered.addAll(valuereal);
@@ -458,7 +457,7 @@ class ChatController extends ChangeNotifier {
           DateTime valuetime =
               new DateFormat('dd-MM-yyyy hh:mm:ss a').parse(element.time);
           Duration sincetime = now.difference(valuetime);
-          print("the difference time is ....${sincetime.inMinutes}");
+
           if (sincetime.inDays >= 5) {
             await deleteSingleMessage(element.time);
             notifyListeners();
@@ -469,8 +468,6 @@ class ChatController extends ChangeNotifier {
   }
 
   List<String> getLinkClickable(String singleMessage) {
-
-
     List<String> stringlist = singleMessage.split(" ");
     print("the converted String is .......${stringlist}");
 
@@ -494,6 +491,9 @@ class ChatController extends ChangeNotifier {
     FirebaseMessaging.onMessage.listen((RemoteMessage remotemessage) {
       DateTime now = DateTime.now();
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
+
+      print("remoteMessage:  ${remotemessage.data}");
+
       List<dynamic> quicktypest;
       if (remotemessage.data["quick_replies"] != null) {
         //print("the incomeing quick tyupe data is........${remotemessage.data["quick_replies"]}");
