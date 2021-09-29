@@ -425,37 +425,29 @@ class ChatController extends ChangeNotifier {
           notifyListeners();
         }
       } else if (_urn != null) {
-        // print("the new Contact urn for the individual casemanegement ${_urn}");
-        var apiResponse = await _rapidproservice
-            .createContact(_urn, _token, "Unknown", onSuccess: (uuid) {
-          contatct = uuid;
-        });
-        // getfirebase();
-        if (apiResponse.httpCode == 200) {
-          responseContactCreation = apiResponse.data;
-          _spservice.setValue(SPUtil.CONTACT_URN_INDIVIDUAL_CASE, _urn);
 
-          DateTime now = DateTime.now();
-          String formattedDate =
-              DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
+        DateTime now = DateTime.now();
+        String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
 
-          MessageModel messageModel = MessageModel(
-              message: messagekeyword,
-              sender: "user",
-              status: "Sending...",
-              quicktypest: [""],
-              time: formattedDate);
-          print("the message keyword is ..............${messagekeyword}");
-          addMessage(messageModel);
-          sendmessage(messagekeyword);
-          messageModel.status = messagestatus;
+        MessageModel messageModel = MessageModel(
+            message:messagekeyword,
+            sender: "user",
+            status: "Sending...",
+            quicktypest: [""],
+            time: formattedDate
+        );
+        print("the message keyword is ..............${messagekeyword}");
+        addMessage(messageModel);
+        sendmessage(messagekeyword);
+        messageModel.status=messagestatus;
 
-          notifyListeners();
-        }
 
-        // hovered done
+
+        notifyListeners();
+
       }
     }
+
   }
 
   List<String> detectedlink = [];
@@ -558,7 +550,16 @@ class ChatController extends ChangeNotifier {
 
   sendmessage(String message) async {
     isMessageCome = true;
-    String urn = _spservice.getValue(SPUtil.CONTACT_URN);
+    String urn = "";
+    String userRole = _spservice.getValue(SPUtil.USER_ROLE);
+
+    print("User role : $userRole");
+
+    if(userRole == "regular"){
+      urn = _spservice.getValue(SPUtil.CONTACT_URN);
+    }else{
+      urn = _spservice.getValue(SPUtil.CONTACT_URN_INDIVIDUAL_CASE);
+    }
 
     await _rapidproservice.sendMessage(
         message: message,

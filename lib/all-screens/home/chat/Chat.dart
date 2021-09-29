@@ -414,6 +414,7 @@ class _ChatState extends State<Chat> {
 
 
                                                       }else{
+                                                        locator<SPUtil>().setValue(SPUtil.USER_ROLE, "regular");
                                                         provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
 
                                                       }
