@@ -35,16 +35,17 @@ class _StoryListState extends State<StoryList> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<StoryController>(context, listen: false).initializeDatabase();
+
+   // Provider.of<StoryController>(context, listen: false).initializeDatabase();
     List<ResultLocal>? stories = [];
 
-    Provider.of<StoryController>(context, listen: false)
+   /* Provider.of<StoryController>(context, listen: false)
         .getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
 
     Provider.of<StoryController>(context, listen: false).getRecentStory(
         RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
         sp.getValue(SPUtil.PROGRAMKEY));
-
+*/
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       var _futureStory =
           provider.getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));

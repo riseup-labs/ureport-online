@@ -209,9 +209,16 @@ class ChatController extends ChangeNotifier {
         time: formattedDate);
 
     if (localmessage.length > 0) {
-      List<MessageModelLocal> rvm = localmessage.reversed.toList();
+      /*List<MessageModelLocal> rvm = localmessage.reversed.toList();
+      localmessage.removeAt(0);
       rvm[0] = messageModelLocal;
-      localmessage = rvm;
+      print("the message is..............${localmessage[0].quicktypest}");
+      print("the first message is..............${localmessage[localmessage.length-1].quicktypest}");
+
+      localmessage = rvm;*/
+
+      localmessage[0]=messageModelLocal;
+
     } else {
       localmessage.add(messageModelLocal);
     }
@@ -242,9 +249,15 @@ class ChatController extends ChangeNotifier {
         time: formattedDate);
 
     if (localmessage.length > 0) {
-      List<MessageModelLocal> rvm = localmessage.reversed.toList();
-      rvm[0] = messageModelLocal;
-      localmessage = rvm;
+      /*List<MessageModelLocal> rvm = localmessage.reversed.toList();
+      rvm.removeAt(0);
+      rvm[localmessage.length-1] = messageModelLocal;
+      print("the last message is:${localmessage[0].quicktypest}");
+      print("the first message is..............${localmessage[localmessage.length-1].quicktypest}");
+      localmessage = rvm;*/
+
+      localmessage[0]=messageModelLocal;
+
     } else {
       localmessage.add(messageModelLocal);
     }

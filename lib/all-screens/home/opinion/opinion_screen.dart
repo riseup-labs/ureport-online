@@ -34,16 +34,18 @@ class _OpinionState extends State<Opinion> {
   @override
   void initState() {
     super.initState();
-    Provider.of<OpinionController>(context, listen: false).startMonitoring();
+   // Provider.of<OpinionController>(context, listen: false).startMonitoring();
   }
 
   @override
   Widget build(BuildContext context) {
     List<ResultOpinionLocal>? opinions = [];
+/*
 
       Provider.of<OpinionController>(context, listen: false).getLatestOpinions(
           RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
           sp.getValue(SPUtil.PROGRAMKEY));
+*/
 
 
     return Consumer<OpinionController>(builder: (context, provider, child) {
