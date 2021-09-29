@@ -401,9 +401,24 @@ class _ChatState extends State<Chat> {
                                                           quicktypest: [""],
                                                           time: formattedDate
                                                       );
+
+                                                      List<String> listDefault = RemoteConfigData.getDefaultAction();
+                                                      List<String> listCaseManagement = RemoteConfigData.getOneToOneAction();
+                                                      if(listDefault.contains(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString())){
+                                                        locator<SPUtil>().setValue(SPUtil.USER_ROLE, "regular");
+                                                        provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
+
+                                                      }else if(listCaseManagement.contains(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString())){
+                                                        locator<SPUtil>().setValue(SPUtil.USER_ROLE, "caseManagement");
+                                                        provider.createIndividualCaseManagement(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
+
+
+                                                      }else{
+                                                        provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
+
+                                                      }
                                                       provider.addMessage(messageModel);
-                                                      provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
-                                                      messageModel.status=provider.messagestatus;
+                                                       messageModel.status=provider.messagestatus;
                                                       provider.replaceQuickReplaydata(index,provider.quicdata(provider.localmessage[index].quicktypest.toString())[j]);
 
                                                     },

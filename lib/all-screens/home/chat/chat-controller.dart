@@ -365,7 +365,7 @@ class ChatController extends ChangeNotifier {
         String contact_urn = getRandomString(15);
         //print("l============================== normal chat contact ${_urn}");
         var apiResponse = await _rapidproservice
-            .createContact(contact_urn, _token, "Unknown", onSuccess: (uuid) {
+            .createContact(contact_urn, _token, "regular", onSuccess: (uuid) {
           contatct = uuid;
         });
         // getfirebase();
