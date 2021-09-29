@@ -58,7 +58,6 @@ class HttpService {
         route,
         queryParameters: qp,
       );
-      print("Response is : ${response.toString()}");
       if (response.statusCode == 200) {
         return ApiResponse(httpCode: int.parse(response.statusCode.toString()), data: response, message: '');
       } else {

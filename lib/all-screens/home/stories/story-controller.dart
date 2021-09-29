@@ -66,7 +66,6 @@ class StoryController extends ConnectivityController {
     _databaseHelper.getRecentStory(program).then((value) => {
           if (value.length != 0)
             {
-              setSyncing(),
               fetchFirstStoryFromRemote(url, program, value[0].id)
             }
           else

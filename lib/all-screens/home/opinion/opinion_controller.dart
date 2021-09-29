@@ -9,26 +9,27 @@ import 'model/response_opinions.dart' as opinionsarray;
 import 'opinion_repository.dart';
 import 'model/response_opinions.dart' as questionArray;
 
-class OpinionController extends ConnectivityController{
-
+class OpinionController extends ConnectivityController {
   DatabaseHelper _databaseHelper = DatabaseHelper();
   var sp = locator<SPUtil>();
 
   int opinionID = 0;
 
   var isExpanded = false;
-  void setExpanded(bool state){
+
+  void setExpanded(bool state) {
     isExpanded = state;
   }
 
   var isLoading = false;
   var isSyncing = false;
 
-  setLoading(){
+  setLoading() {
     isLoading = true;
     notifyListeners();
   }
-  setSyncing(){
+
+  setSyncing() {
     isSyncing = true;
     notifyListeners();
   }
@@ -36,19 +37,29 @@ class OpinionController extends ConnectivityController{
   var _opinionrepository = locator<OpinionRepository>();
   List<opinionsarray.Result> items = List.empty(growable: true);
 
-  getLatestOpinions(String url,String program){
-    setLoading();
-    getOpinionsFromRemote(url+"?limit=40", program);
+  checkOpinion(String url, String program) async {
+    _databaseHelper.getOpinionCount(program).then((value) => {
+          if (value <= 0)
+            {getLatestOpinions(url, program)}
+          else
+            {refreshOpinion(url, program)}
+        });
   }
 
-  getOpinionsFromRemote(String url,String program) async {
+  getLatestOpinions(String url, String program) {
+    setLoading();
+    getOpinionsFromRemote(url + "?limit=40", program);
+  }
+
+  getOpinionsFromRemote(String url, String program) async {
     var apiresponsedata = await _opinionrepository.getOpinions(url);
-    if(apiresponsedata.httpCode==200){
+    if (apiresponsedata.httpCode == 200) {
       items.addAll(apiresponsedata.data.results);
-      if(apiresponsedata.data.next != null ){
-        getOpinionsFromRemote(apiresponsedata.data.next,program);
-      }else{
-        await _databaseHelper.insertOpinion(items,program);
+      if (apiresponsedata.data.next != null) {
+        getOpinionsFromRemote(apiresponsedata.data.next, program);
+      } else {
+        sp.setValue("${SPUtil.PROGRAMKEY}_latest_opinion", items[0].id.toString());
+        await _databaseHelper.insertOpinion(items, program);
         LoadDataHandling.storeOpinionLastUpdate();
         isLoading = false;
         isSyncing = false;
@@ -57,16 +68,32 @@ class OpinionController extends ConnectivityController{
     }
   }
 
+  refreshOpinion(String url, String program) async {
+    var apiresponsedata =
+        await _opinionrepository.getOpinions(url + "?limit=1");
+    if (apiresponsedata.httpCode == 200) {
+      await _databaseHelper.insertOpinion(
+          apiresponsedata.data.results, program);
+      LoadDataHandling.storeOpinionLastUpdate();
+      isLoading = false;
+      isSyncing = false;
+      notifyListeners();
+    }
+  }
+
   getOpinionsFromLocal(String program, int id) {
     return _databaseHelper.getOpinions(program, id);
   }
 
-  getCategories(String program){
+  getLatestOpinionFromLocal(String program) {
+    return _databaseHelper.getLatestOpinion(program);
+  }
+
+  getCategories(String program) {
     return _databaseHelper.getOpinionCategories(program);
   }
 
-  notify(){
+  notify() {
     notifyListeners();
   }
-
 }

@@ -75,12 +75,8 @@ class _AboutState extends State<About> {
                       },
                       javascriptMode: JavascriptMode.unrestricted,
                     ),
-                  ):Center(
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      child: LoadingBar.spinkit,
-                    ),
+                  ):Container(
+                    child: Center(child: LoadingBar.spinkit),
                   ),
                 ),
               ],
@@ -148,16 +144,20 @@ class _AboutState extends State<About> {
       weight: 100%;
     }
     .cotent_footer_img{
-      height: 50px;
+      height: 120px;
       weight: 100%;
     }
+    .content_text{
+      margin-bottom:150px;
+    }
+    
     </style> 
     <body>
     <div class="content_body"> 
       <div><h2>$title</h2></div>
-      <div>$content</div>
+      <div class= "content_text">$content</div>
       <div class="content_footer">
-        <img src = "${RemoteConfigData.getLargeIcon()}" class="cotent_footer_img"/>
+        <img src = "https://storage.googleapis.com/u-report-7f1f3.appspot.com/icon/globe.png"  class="cotent_footer_img"/>
       </div>
      </div>
     <div class="footer_wraper">

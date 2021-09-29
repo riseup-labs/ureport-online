@@ -70,7 +70,6 @@ class _OpinionItemState extends State<OpinionItem> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
                     child: Container(
-                      width: 270,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -88,7 +87,7 @@ class _OpinionItemState extends State<OpinionItem> {
                                   borderRadius: BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
                                 ),
                                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                                child: Center(child: Text("ALL",style: TextStyle(color: selectedTab == 0?Colors.white:Colors.black,fontSize: 13),)),
+                                child: Center(child: Text("ALL",style: TextStyle(color: selectedTab == 0?Colors.white:Colors.black,fontSize: 11),)),
                               ) ,
                             ),
                           ),
@@ -111,7 +110,7 @@ class _OpinionItemState extends State<OpinionItem> {
                               child: Container(
                                 color: selectedTab == 1?Colors.grey[700]:Colors.white,
                                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                                child: Center(child: Text("AGE",style: TextStyle(color: selectedTab == 1?Colors.white:Colors.black,fontSize: 13),)),
+                                child: Center(child: Text("AGE",style: TextStyle(color: selectedTab == 1?Colors.white:Colors.black,fontSize: 11),)),
                               ),
                             ),
                           ),
@@ -134,7 +133,7 @@ class _OpinionItemState extends State<OpinionItem> {
                               child: Container(
                                 color: selectedTab == 2?Colors.grey[700]:Colors.white,
                                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                                child: Center(child: Text("GENDER",style: TextStyle(color: selectedTab == 2?Colors.white:Colors.black,fontSize: 13),)),
+                                child: Center(child: Text("GENDER",style: TextStyle(color: selectedTab == 2?Colors.white:Colors.black,fontSize: 11),)),
                               ),
                             ),
                           ),
@@ -160,8 +159,7 @@ class _OpinionItemState extends State<OpinionItem> {
                                   borderRadius: BorderRadius.only(topRight: Radius.circular(30), bottomRight: Radius.circular(30)),
                                 ),
                                 padding: EdgeInsets.only(top: 5, bottom: 5, right: 7),
-                                width: 70,
-                                child: Center(child: Text("LOCATION",style: TextStyle(color: selectedTab == 3?Colors.white:Colors.black,fontSize: 13),)),
+                                child: Center(child: Text("LOCATION",style: TextStyle(color: selectedTab == 3?Colors.white:Colors.black,fontSize: 11),)),
                               ),
                             ),
                           ),

@@ -73,11 +73,14 @@ class _ProgramChooserState extends State<ProgramChooser> {
                           flex: 2,
                           child: Column(
                             children: [
-                              Container(
-                                  child: Image(
-                                fit: BoxFit.cover,
-                                image: AssetImage("assets/images/v2_map.png"),
-                              )),
+                              Expanded(
+                                child: Container(
+                                  width: double.infinity,
+                                    child: Image(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage("assets/images/v2_map.png"),
+                                )),
+                              ),
                             ],
                           ),
                         ),
@@ -167,8 +170,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                             child: Text(
                                               AppLocalizations.of(context)!.continu,
                                               style: TextStyle(
-                                                  fontSize: 21,
-                                                  fontWeight: FontWeight.bold
+                                                  fontSize: 20,
                                               ),
                                             ),
                                           )

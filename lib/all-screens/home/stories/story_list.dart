@@ -38,8 +38,8 @@ class _StoryListState extends State<StoryList> {
     Provider.of<StoryController>(context, listen: false).initializeDatabase();
     List<ResultLocal>? stories = [];
 
-    Provider.of<StoryController>(context, listen: false)
-        .getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
+
+    Provider.of<StoryController>(context, listen: false).getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
 
     Provider.of<StoryController>(context, listen: false).getRecentStory(
         RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
@@ -201,9 +201,10 @@ class _StoryListState extends State<StoryList> {
     });
   }
 
-  Future<String?> getDataFromApi(
+  Future<dynamic> getDataFromApi(
       BuildContext context, StoryController provider) async {
     if (provider.isOnline) {
+      Provider.of<StoryController>(context, listen: false).setSyncing();
       return Provider.of<StoryController>(context, listen: false)
           .getRecentStory(
               RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
@@ -249,7 +250,13 @@ getItemTitleImage(String image_url) {
       progressIndicatorBuilder: (context, url, downloadProgress) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(height: 40, width: 40, child: CircularProgressIndicator()),
+          Center(
+            child: Container(
+              height: 60,
+              width: 60,
+              child: LoadingBar.spinkit,
+            ),
+          ),
           SizedBox(
             height: 10,
           ),
@@ -259,11 +266,13 @@ getItemTitleImage(String image_url) {
       errorWidget: (context, url, error) => Container(
           color: AppColors.errorWidgetBack,
           child: Center(
-              child: Image(
-            image: AssetImage("assets/images/ic_no_image.png"),
-            height: 50,
-            width: 50,
-          ))),
+            child: Container(
+              height: 50,
+              width: 50,
+              child: LoadingBar.spinkit,
+            ),
+          )
+      ),
     ),
   );
 }

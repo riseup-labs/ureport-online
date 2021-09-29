@@ -12,7 +12,7 @@ class TopBar{
             Expanded(
               flex: 1,
               child: Container(
-                  margin: EdgeInsets.only(top: 15),
+                  margin: EdgeInsets.only(top: 4),
                   child: CachedNetworkImage(
                     imageUrl: RemoteConfigData.getLargeIcon(),
                     height: 30,

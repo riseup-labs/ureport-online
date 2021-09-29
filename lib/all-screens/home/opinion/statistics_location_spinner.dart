@@ -65,7 +65,7 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
               iconSize: 24,
               elevation: 16,
               style:
-              TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
               onChanged: (String? newValue) {
                   dropdownValue = newValue!;
                   // print("the value is : $dropdownValue");
@@ -90,9 +90,10 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
                     Expanded(
                       flex: 6,
                       child: Container(
+                        margin: EdgeInsets.only(bottom: 5),
                         child: LinearPercentIndicator(
                           animation: false,
-                          lineHeight: 20.0,
+                          lineHeight: 28.0,
                           backgroundColor: Colors.white,
                           percent: set != 0 ? count / set : 0.0,
                           center: Row(
@@ -102,7 +103,7 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
                                   child: Text(
                                       "${location.categories[index].label}",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w700))),
+                                          fontWeight: FontWeight.w600))),
                             ],
                           ),
                           linearStrokeCap: LinearStrokeCap.roundAll,

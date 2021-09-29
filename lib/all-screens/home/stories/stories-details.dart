@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -66,12 +67,7 @@ class _StoryDetailsState extends State<StoryDetails> {
             child: Scaffold(
                 body: SafeArea(
                   child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/bg_select_language.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    color: Colors.white,
                     child: SafeArea(
                       child: Stack(
                         children: [
@@ -96,8 +92,12 @@ class _StoryDetailsState extends State<StoryDetails> {
                                         );
                                       },
                                       child: Container(
-                                          width: 50,
-                                          child: Icon(Icons.arrow_back))),
+                                        margin: EdgeInsets.only(top: 10),
+                                          width: 60,
+                                          child: Image(
+                                            image: AssetImage("assets/images/v2_ic_back.png"),
+                                          )
+                                      )),
                                   color: Colors.black,
                                   onPressed: () {},
                                 ),
@@ -122,7 +122,7 @@ class _StoryDetailsState extends State<StoryDetails> {
   }
 
   doShare() async{
-    await Share.share("${RemoteConfigData.getStoryShareUrl()}" + "1024");
+    await Share.share("${RemoteConfigData.getStoryShareUrl()}" + "${widget.id}");
   }
 
   getShareButton(String id) {
@@ -134,15 +134,6 @@ class _StoryDetailsState extends State<StoryDetails> {
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
-        ),
-        child: Container(
-          height: 30,
-          width: 30,
-          child: Icon(
-            Icons.share,
-            color: Colors.lightBlueAccent,
-            size: 18,
-          ),
         ),
       ),
     );
@@ -174,6 +165,13 @@ class _StoryDetailsState extends State<StoryDetails> {
         // loadData();
         loadDataRaw(content, title, image, date);
       },
+      javascriptChannels: Set.from([
+        JavascriptChannel(
+            name: 'Print',
+            onMessageReceived: (JavascriptMessage message) {
+              doShare();
+            })
+      ]),
       onPageFinished: (url) {
         webViewController.getHeight().then((double height) {
           setState(() {
@@ -244,25 +242,6 @@ class _StoryDetailsState extends State<StoryDetails> {
     content = content.replaceAll("<br><br><br>", "<br><br>");
 
 
-    content = content.replaceAll("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "\n\n");
-    content = content.replaceAll("\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "\n\n");
-    content = content.replaceAll("\n\n\n\n\n\n\n\n\n\n\n\n\n", "\n\n");
-    content = content.replaceAll("\n\n\n\n\n\n\n\n\n\n\n\n", "\n\n");
-    content = content.replaceAll("\n\n\n\n\n\n\n\n\n\n\n", "\n\n");
-    content = content.replaceAll("\n\n\n\n\n\n\n\n\n\n", "\n\n");
-    content = content.replaceAll("\n\n\n\n\n\n\n\n\n", "\n\n");
-    content = content.replaceAll("\n\n\n\n\n\n\n\n", "\n\n");
-    content = content.replaceAll("\n\n\n\n\n\n\n", "\n\n");
-    content = content.replaceAll("\n\n\n\n\n\n", "\n\n");
-    content = content.replaceAll("\n\n\n\n\n", "\n\n");
-    content = content.replaceAll("\n\n\n\n", "\n\n");
-    content = content.replaceAll("\n\n\n", "\n\n");
-
-
-
-
-
-
     String final_content = '''
     <html> 
     <style> 
@@ -270,30 +249,41 @@ class _StoryDetailsState extends State<StoryDetails> {
     iframe{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
     body{width: 90% !important;margin-left: auto;margin-right: auto;display: block;margin-top:10px;margin-bottom:10px;} 
     p{font-size: 24px;}
-    
+    .header_group{
+      display: inline-flex;
+    }
+    .header_group img {
+      height: 20px;
+      margin: 0 0 0 5px !important;
+    }
     .header_time{
        float: left;
-       font-size: 20px;
+       margin-top: 3px;
+       font-size: 14px;
+       font-weight: bold;
     }
     .header_share{
       float: right;
+      margin-right: 20px;
     }
     </style> 
     <body> 
     <div class="image_box"><img class = "title_image" src="$image"></div>
-    <div class="header_group">
       <div class="header_time">$clockString</div>
-      <div class="header_share"><button onclick="getFunction()">Clock</button></div> 
-    </div>
+      <div class="header_share" onclick="getFunction()">
+          <div class="header_group">
+            <div style="color : #F6CA02;">Share</div>
+            <img src="https://storage.googleapis.com/u-report-7f1f3.appspot.com/icon/share.png">
+           </div>
+       </div> 
     
-    
+   
     <div style="float: left;"><h2>$title</h2></div>
-    <div>$content</div> 
+    <div  style="float: left;">$content</div> 
     </body> 
     <script>
       function getFunction(){
-        console.log("ok working");
-        window.doShare();
+         Print.postMessage('code');
       }
     </script>
     </html>''';

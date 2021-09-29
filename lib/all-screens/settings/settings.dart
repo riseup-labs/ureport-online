@@ -26,11 +26,11 @@ class Settings extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  left: 40,
+                  left: 50,
                 ),
                 child: Text(
                   "${AppLocalizations.of(context)!.more}",
-                  style: TextStyle(color: Colors.black, fontSize: 42,fontWeight: FontWeight.w700),
+                  style: TextStyle(color: Colors.black, fontSize: 35,fontWeight: FontWeight.w800),
                 ),
               ),
               SizedBox(

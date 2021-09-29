@@ -34,15 +34,16 @@ class StatisticsAge {
                         Expanded(
                           flex: 6,
                           child: Container(
+                            margin: EdgeInsets.only(bottom: 5),
                             child: LinearPercentIndicator(
                               animation: false,
-                              lineHeight: 20.0,
+                              lineHeight: 28.0,
                               backgroundColor: Colors.white,
                               percent: set !=0?count/set:0.0,
                               center: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Expanded(child: Text("${question.resultsByAge[index1].categories[index].label}",style: TextStyle(fontWeight: FontWeight.w700))),
+                                  Expanded(child: Text("${question.resultsByAge[index1].categories[index].label}",style: TextStyle(fontWeight: FontWeight.w600))),
                                 ],
                               ),
                               linearStrokeCap: LinearStrokeCap.roundAll,

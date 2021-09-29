@@ -181,8 +181,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                       child: Text(
                                           AppLocalizations.of(context)!.continu,
                                         style: TextStyle(
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.bold
+                                          fontSize: 20,
                                         ),
                                       ),
                                     ),

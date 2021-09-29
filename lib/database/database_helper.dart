@@ -207,6 +207,24 @@ class DatabaseHelper {
     return opinion;
   }
 
+  Future<List<ResultOpinionLocal>> getLatestOpinion(String program) async {
+    List<ResultOpinionLocal> _opinions = [];
+    var db = await this.database;
+    var result = await db.rawQuery("SELECT id FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program' ORDER BY id DESC LIMIT 1 ");
+    result.forEach((element) {
+      var list = ResultOpinionLocal.fromJson(element);
+      _opinions.add(list);
+    });
+    return _opinions;
+  }
+
+  Future<int> getOpinionCount(String program) async {
+    Database db = await this.database;
+    var result = await db.query(DatabaseConstant.tableNameOpinion,where: "${DatabaseConstant.columnProgramOpinion} = '$program'");
+    int count = result.length;
+    return count;
+  }
+
   Future<int> deleteStoryTable() async {
     var db = await this.database;
     return await db.delete(DatabaseConstant.tableName);

@@ -42,7 +42,7 @@ class SplashContent extends StatelessWidget {
                     child: Image.asset(
                       image,
                       fit: BoxFit.fill,
-                      height: getProportionateScreenHeight(420),
+                      height: getProportionateScreenHeight(390),
                       width: double.infinity,
                     ),
                   ),
@@ -72,7 +72,7 @@ class SplashContent extends StatelessWidget {
                     text2,
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: getProportionateScreenWidth(13),
                         color: text != AppLocalizations.of(context)!.stories?Colors.white:Colors.black
                     ),
                   ),

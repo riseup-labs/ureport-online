@@ -25,13 +25,13 @@ class StatisticsAll {
                     child:
                     LinearPercentIndicator(
                       animation: false,
-                      lineHeight: 22.0,
+                      lineHeight: 28.0,
                       backgroundColor: Colors.white,
                       percent: question.results.categories[index].count/set,
                       center: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Expanded(child: Text("${question.results.categories[index].label}",style: TextStyle(fontWeight: FontWeight.w700),)),
+                          Expanded(child: Text("${question.results.categories[index].label}",style: TextStyle(fontWeight: FontWeight.w600),maxLines: 1,)),
                         ],
                       ),
                       linearStrokeCap: LinearStrokeCap.round,

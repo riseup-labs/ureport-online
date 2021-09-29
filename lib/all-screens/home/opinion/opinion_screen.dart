@@ -30,6 +30,7 @@ class _OpinionState extends State<Opinion> {
   var sp = locator<SPUtil>();
   List<Color> colors = RemoteConfigData.getSecondaryColorList();
   int colorNumber = 0;
+  bool isLoaded = true;
 
   @override
   void initState() {
@@ -41,24 +42,19 @@ class _OpinionState extends State<Opinion> {
   Widget build(BuildContext context) {
     List<ResultOpinionLocal>? opinions = [];
 
-      Provider.of<OpinionController>(context, listen: false).getLatestOpinions(
+    if (isLoaded) {
+      Provider.of<OpinionController>(context, listen: false).checkOpinion(
           RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
           sp.getValue(SPUtil.PROGRAMKEY));
-
+      isLoaded = false;
+    }
 
     return Consumer<OpinionController>(builder: (context, provider, child) {
-      var _futureOpinion = provider.getOpinionsFromLocal(
-          sp.getValue(SPUtil.PROGRAMKEY), provider.opinionID);
-
+      var _futureOpinion = provider.getOpinionsFromLocal(sp.getValue(SPUtil.PROGRAMKEY), provider.opinionID);
       return SafeArea(
           child: Scaffold(
               body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/bg_home.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
+        color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -74,12 +70,12 @@ class _OpinionState extends State<Opinion> {
             ),
             provider.isSyncing
                 ? Container(
-              height: 5,
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: LinearProgressIndicator(
-                color: RemoteConfigData.getPrimaryColor(),
-              ),
-            )
+                    height: 5,
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    child: LinearProgressIndicator(
+                      color: RemoteConfigData.getPrimaryColor(),
+                    ),
+                  )
                 : Container(),
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
@@ -125,20 +121,20 @@ class _OpinionState extends State<Opinion> {
                       if (opinions!.length > 0) {
                         var mapdata = jsonDecode(opinions![0].questions);
                         // questionList.clear();
-                        List<questionArray.Question> questionList = (mapdata
-                                as List)
-                            .map((e) => questionArray.Question.fromJson(e))
-                            .toList();
+                        List<questionArray.Question> questionList =
+                            (mapdata as List)
+                                .map((e) => questionArray.Question.fromJson(e))
+                                .toList();
                         return snapshot.hasData
                             ? RefreshIndicator(
                                 onRefresh: () {
-                                  return _futureOpinion =
-                                      getDataFromApi(context, provider);
+                                  return _futureOpinion = getDataFromApi(context, provider);
                                 },
                                 child: SingleChildScrollView(
                                   physics: AlwaysScrollableScrollPhysics(),
                                   child: Container(
-                                    padding: EdgeInsets.only(left: 20,right: 20),
+                                    padding:
+                                        EdgeInsets.only(left: 20, right: 20),
                                     margin: EdgeInsets.only(top: 10),
                                     child: Column(
                                       children: [
@@ -147,7 +143,8 @@ class _OpinionState extends State<Opinion> {
                                                 .getHeadingStatistics(
                                                     questionList[0],
                                                     opinions![0],
-                                                    provider)
+                                                    provider,
+                                        sp.getValue(SPUtil.PROGRAMKEY))
                                             : StatisticsHeader
                                                 .getHeadingStatisticsEmpty(
                                                     opinions![0]),
@@ -155,8 +152,7 @@ class _OpinionState extends State<Opinion> {
                                             shrinkWrap: true,
                                             physics: BouncingScrollPhysics(),
                                             itemCount: questionList.length,
-                                            itemBuilder:
-                                                (context, int index) {
+                                            itemBuilder: (context, int index) {
                                               if (colorNumber >
                                                   colors.length - 1) {
                                                 colorNumber = 0;
@@ -176,10 +172,10 @@ class _OpinionState extends State<Opinion> {
                                 ),
                               )
                             : Container(
-                                    height: 60,
-                                    width: 60,
-                                    child: LoadingBar.spinkit,
-                                  );
+                                height: 60,
+                                width: 60,
+                                child: LoadingBar.spinkit,
+                              );
                       } else {
                         return Container(
                           height: 60,
@@ -202,13 +198,12 @@ class _OpinionState extends State<Opinion> {
     });
   }
 
-  Future<String?> getDataFromApi(
+  Future<dynamic> getDataFromApi(
       BuildContext context, OpinionController provider) async {
     if (provider.isOnline) {
       Provider.of<OpinionController>(context, listen: false).setSyncing();
       Provider.of<OpinionController>(context, listen: false).isLoading = false;
-      return Provider.of<OpinionController>(context, listen: false)
-          .getLatestOpinions(
+      return Provider.of<OpinionController>(context, listen: false).checkOpinion(
               RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
               sp.getValue(SPUtil.PROGRAMKEY));
     } else {
