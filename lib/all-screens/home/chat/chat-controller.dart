@@ -249,12 +249,6 @@ class ChatController extends ChangeNotifier {
         time: formattedDate);
 
     if (localmessage.length > 0) {
-      /*List<MessageModelLocal> rvm = localmessage.reversed.toList();
-      rvm.removeAt(0);
-      rvm[localmessage.length-1] = messageModelLocal;
-      print("the last message is:${localmessage[0].quicktypest}");
-      print("the first message is..............${localmessage[localmessage.length-1].quicktypest}");
-      localmessage = rvm;*/
 
       localmessage[0]=messageModelLocal;
 
@@ -264,7 +258,7 @@ class ChatController extends ChangeNotifier {
 
     // addMessage(messageModel);
     // print("the data is ..======================================================================.........${data}")
-    notifyListeners();
+
   }
 
   addselectionitems(
