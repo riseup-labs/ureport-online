@@ -355,19 +355,23 @@ class ChatController extends ChangeNotifier {
   }
 
   createContatct() async {
-    await getToken();
-    if (_token.isNotEmpty) {
-      //print("this is firebase fcm token ==  ${_token}");
-      String _urn = _spservice.getValue(SPUtil.CONTACT_URN);
 
-      //print("l============================== normal chat contact ${_urn}");
-      if (_urn == null) {
+    _spservice.setValue(SPUtil.USER_ROLE, "regular");
+
+    await getToken();
+    if(_token.isNotEmpty){
+      //print("this is firebase fcm token ==  ${_token}");
+      String _urn =_spservice.getValue(SPUtil.CONTACT_URN);
+
+      print("Contact : Regular Flow - ${_urn}");
+      if(_urn==null){
         String contact_urn = getRandomString(15);
-        //print("l============================== normal chat contact ${_urn}");
-        var apiResponse = await _rapidproservice
-            .createContact(contact_urn, _token, "regular", onSuccess: (uuid) {
-          contatct = uuid;
-        });
+
+        print("Contact : Regular Flow - ${_urn}");
+
+        var apiResponse = await _rapidproservice.createContact(contact_urn, _token,"Regular Use",onSuccess:(uuid){
+          contatct=uuid;
+        } );
         // getfirebase();
         if (apiResponse.httpCode == 200) {
           responseContactCreation = apiResponse.data;
@@ -376,18 +380,14 @@ class ChatController extends ChangeNotifier {
 
           notifyListeners();
         }
-      }
-      /*else{
 
-        String registrationstaus = _spservice.getValue(SPUtil.REGISTRATION_COMPLETE);
-         if(registrationstaus==null|| registrationstaus==""){
-           //sendmessage("join");
-         }else{
-           sendmessage("covid");
-         }
-      }*/
+      }
+      else {
+        sendmessage("join");
+      }
 
     }
+
   }
 
   createIndividualCaseManagement(messagekeyword) async {
