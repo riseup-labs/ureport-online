@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/chooser/program_chooser.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
@@ -73,6 +74,7 @@ class _IntroScreenState extends State<IntroScreen> {
                       children: <Widget>[
                         GestureDetector(
                           onTap: (){
+                            ClickSound.buttonClickYes();
                             NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
                           },
                           child: Text("${AppLocalizations.of(context)!.skip}",
@@ -85,6 +87,7 @@ class _IntroScreenState extends State<IntroScreen> {
                         ),
                         GestureDetector(
                             onTap: () {
+                              ClickSound.buttonClickYes();
                               currentPage++;
                               if (currentPage >= 3) {
                                 NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));

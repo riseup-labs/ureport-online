@@ -13,7 +13,6 @@ import 'all-screens/home/navigation-screen.dart';
 import 'all-screens/home/opinion/opinion_controller.dart';
 import 'all-screens/home/stories/story-controller.dart';
 import 'all-screens/home/stories/story-details-controller.dart';
-import 'all-screens/login/provider_login_controller.dart';
 import 'all-screens/settings/about/about_controller.dart';
 import 'all-screens/splash-screen/splash_screen.dart';
 import 'firebase-remote-config/remote-config-controller.dart';
@@ -77,10 +76,9 @@ class MyApp extends StatelessWidget {
     create: (context) => LocaleProvider(),
     builder: (context, child) {
       final provider = Provider.of<LocaleProvider>(context);
-      setLocal(provider);
+      setInitialLocal(provider);
       return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => ProviderLoginController()),
           ChangeNotifierProvider(create: (context) => OpinionController()),
           ChangeNotifierProvider(create: (context) => StoryController()),
           ChangeNotifierProvider(create: (context) => StoryDetailsController()),
@@ -130,5 +128,26 @@ class MyApp extends StatelessWidget {
       provider.setLocale(new Locale('en'));
     }
   }
+
+  static void setInitialLocal(LocaleProvider provider) {
+    var sp = locator<SPUtil>();
+    if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "en"){
+      provider.setInitialLocale(new Locale('en'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ar"){
+      provider.setInitialLocale(new Locale('ar'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "zh"){
+      provider.setInitialLocale(new Locale('zh'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "fr"){
+      provider.setInitialLocale(new Locale('fr'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ru"){
+      provider.setInitialLocale(new Locale('ru'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "es"){
+      provider.setInitialLocale(new Locale('es'));
+    }else{
+      provider.setInitialLocale(new Locale('en'));
+    }
+  }
+
+
 }
 

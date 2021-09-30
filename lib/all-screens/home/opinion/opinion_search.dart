@@ -6,9 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/model/searchbar.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
+import 'package:ureport_ecaro/utils/loading_bar.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'opinion_controller.dart';
 
@@ -94,7 +97,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
                             ),
                           ):Container(
                               margin: EdgeInsets.only(top: 66),
-                              child: Center(child: CircularProgressIndicator()));
+                              child: Center(child: LoadingBar.spinkit));
                         }),
                   )
                 ],
@@ -111,7 +114,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
         future: provider.getCategories(program),
         builder: (context, snapshot) {
           return FloatingSearchBar(
-            hint: 'Search',
+            hint: AppLocalizations.of(context)!.search,
             leadingActions: [Icon(Icons.search)],
             openAxisAlignment: 0.0,
             backdropColor: Colors.transparent,
@@ -183,6 +186,7 @@ Widget buildItem(OpinionController provider, OpinionSearchItem item, BuildContex
   return Container(
       child: GestureDetector(
           onTap: () {
+            ClickSound.buttonClickYes();
             _floatingSearchBarController.clear();
             _floatingSearchBarController.close();
             provider.opinionID = item.id;

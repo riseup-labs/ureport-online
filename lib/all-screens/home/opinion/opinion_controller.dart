@@ -15,6 +15,11 @@ class OpinionController extends ConnectivityController {
 
   int opinionID = 0;
 
+  setOpinionId(int id){
+    opinionID = id;
+    notifyListeners();
+  }
+
   var isExpanded = false;
 
   void setExpanded(bool state) {

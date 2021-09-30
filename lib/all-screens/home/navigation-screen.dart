@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_list.dart';
 import 'package:ureport_ecaro/all-screens/settings/settings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,9 +8,11 @@ import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 
 import 'chat/Chat.dart';
+import 'chat/chat-controller.dart';
 import 'opinion/opinion_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
+
   int changedIndex;
   NavigationScreen(this.changedIndex);
 
@@ -18,8 +21,8 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
-
   int changedIndex;
+
   _NavigationScreenState(this.changedIndex);
 
   final tabs = [StoryList(), Chat(), Opinion(), Settings()];
@@ -28,6 +31,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
   }
 
   @override

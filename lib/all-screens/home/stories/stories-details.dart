@@ -80,6 +80,7 @@ class _StoryDetailsState extends State<StoryDetails> {
                                 IconButton(
                                   icon: GestureDetector(
                                       onTap: () {
+
                                         webViewController.webViewController
                                             .canGoBack().then((value) => {
                                         if(value){

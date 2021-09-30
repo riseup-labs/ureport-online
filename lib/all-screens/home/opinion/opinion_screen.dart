@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/opinion_search.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
+import 'package:ureport_ecaro/utils/load_data_handling.dart';
 import 'package:ureport_ecaro/utils/loading_bar.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
@@ -40,9 +42,10 @@ class _OpinionState extends State<Opinion> {
 
   @override
   Widget build(BuildContext context) {
+
     List<ResultOpinionLocal>? opinions = [];
 
-    if (isLoaded) {
+    if (isLoaded && LoadDataHandling.checkOpinionLoadAvailability()) {
       Provider.of<OpinionController>(context, listen: false).checkOpinion(
           RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
           sp.getValue(SPUtil.PROGRAMKEY));
@@ -81,6 +84,7 @@ class _OpinionState extends State<Opinion> {
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: GestureDetector(
                 onTap: () {
+                  ClickSound.buttonClickYes();
                   NavUtils.push(context, OpinionSearch());
                 },
                 child: Card(
@@ -94,7 +98,7 @@ class _OpinionState extends State<Opinion> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Search",
+                            AppLocalizations.of(context)!.search,
                             style: TextStyle(fontSize: 18, color: Colors.grey),
                           ),
                           Icon(
@@ -144,10 +148,10 @@ class _OpinionState extends State<Opinion> {
                                                     questionList[0],
                                                     opinions![0],
                                                     provider,
-                                        sp.getValue(SPUtil.PROGRAMKEY))
+                                        sp.getValue(SPUtil.PROGRAMKEY),context)
                                             : StatisticsHeader
                                                 .getHeadingStatisticsEmpty(
-                                                    opinions![0]),
+                                                    opinions![0],context),
                                         ListView.builder(
                                             shrinkWrap: true,
                                             physics: BouncingScrollPhysics(),

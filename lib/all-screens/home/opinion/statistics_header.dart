@@ -8,10 +8,11 @@ import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'model/response-opinion-localdb.dart';
 import 'model/response_opinions.dart' as questionArray;
 import 'opinion_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatisticsHeader {
   static Widget getHeadingStatistics(questionArray.Question question,
-      ResultOpinionLocal opinions, OpinionController provider, String program) {
+      ResultOpinionLocal opinions, OpinionController provider, String program, BuildContext context) {
 
     var sp = locator<SPUtil>();
 
@@ -67,7 +68,7 @@ class StatisticsHeader {
         latest_opinion_id == opinions.id.toString()?Container(
           margin: EdgeInsets.only(bottom: 15),
           child: Text(
-            "LATEST OPINION",
+            AppLocalizations.of(context)!.latest_opinion,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
         ):Container(),
@@ -127,7 +128,7 @@ class StatisticsHeader {
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "RESPONDENTS",
+                    AppLocalizations.of(context)!.respondents,
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
                   ),
                 ],
@@ -142,7 +143,7 @@ class StatisticsHeader {
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "RESPONSE RATE",
+                    AppLocalizations.of(context)!.response_rate,
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
                   ),
                 ],
@@ -325,7 +326,7 @@ class StatisticsHeader {
     );
   }
 
-  static Widget getHeadingStatisticsEmpty(ResultOpinionLocal opinions) {
+  static Widget getHeadingStatisticsEmpty(ResultOpinionLocal opinions, BuildContext context) {
     String title = opinions.title.replaceAll("\n", " ");
     title = title.replaceAll("\r", " ");
 
@@ -393,7 +394,7 @@ class StatisticsHeader {
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "RESPONDENTS",
+                    AppLocalizations.of(context)!.respondents,
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
                   ),
                 ],
@@ -427,7 +428,7 @@ class StatisticsHeader {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 50,
+                    height: 55,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -451,7 +452,7 @@ class StatisticsHeader {
                     width: 5,
                   ),
                   Container(
-                    height: 50,
+                    height: 55,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -480,7 +481,7 @@ class StatisticsHeader {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 50,
+                    height: 55,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -533,7 +534,7 @@ class StatisticsHeader {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 50,
+                    height: 55,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -557,7 +558,7 @@ class StatisticsHeader {
                     width: 5,
                   ),
                   Container(
-                    height: 50,
+                    height: 55,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

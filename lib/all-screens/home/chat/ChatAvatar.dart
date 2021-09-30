@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:ureport_ecaro/utils/remote-config-data.dart';
 
 class ChatAvatar extends StatelessWidget {
   final String image;
+  final bool user;
 
-  ChatAvatar(this.image);
+  ChatAvatar(this.image, this.user);
 
   @override
   Widget build(BuildContext context) {
-    Size screen = MediaQuery.of(context).size;
-
     return Container(
       child: Stack(
         alignment: AlignmentDirectional.center,
@@ -16,24 +16,9 @@ class ChatAvatar extends StatelessWidget {
           Container(
             height: 30,
             width: 30,
-            child: Image.asset(image,height: 25,width: 25,),
+            child: user?Image.asset(image,height: 25,width: 25) :
+            Image.asset(image,height: 25,width: 25,color: RemoteConfigData.getBackgroundColor()),
           ),
-          /*Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Color(0xff41B6E6),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            child: Center(
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),*/
         ],
       ),
     );

@@ -1,109 +1,190 @@
-
 {
-
-    "stories": "Stories",
-    "@stories": {
-          "description": "Stories"
-    },
-    "skip": "Skip",
-    "@skip": {
-          "description": "Skip"
-    },
-    "next": "Next",
-    "@next": {
-          "description": "Next"
-    },
-    "intro_text1": "Read U-Report stories and give feedback online",
-    "@intro_text1": {
-          "description": "Read U-Report stories and give feedback online"
-    },
-    "chat": "Chat",
-    "@chat": {
-          "description": "Chat"
-    },
-    "intro_text2": "Use chat feature to participate in the polls to share your voice and ask questions",
-    "@intro_text2": {
-          "description": "Use chat feature to participate in the polls to share your voice and ask questions"
-    },
-    "opinions": "Opinions",
-    "@opinions": {
-          "description": "Opinions"
-    },
-    "intro_text3": "View current and previous poll results and share result on social media channels",
-    "@intro_text3": {
-          "description": "View current and previous poll results and share result on social media channels"
-    },
-    "welcome": "Welcome",
-    "@welcome": {
-          "description": "Welcome"
-    },
-    "continu": "Continue",
-    "@continu": {
-          "description": "Continue"
-    },
-    "more": "More",
-    "@more": {
-          "description": "More"
-    },
-    "choose_program": "Select U-Report Program",
-    "@choose_program": {
-          "description": "Select U-Report Program"
-    },
-
-
-    "enter_message": "Enter message",
-    "@enter_message": {
-          "description": "Enter message"
-    },
-
-
-    "settings": "Settings",
-    "@settings": {
-          "description": "Settings"
-    },
-    "about_us": "About Us",
-    "@about_us": {
-          "description": "About Us"
-    },
-    "change_ureport_program": "Change Program",
-    "@change_ureport_program": {
-          "description": "Change Program"
-    },
-    "change_language": "Change Language",
-    "@change_language": {
-          "description": "Change Language"
-    },
-    "feedback": "Feedback",
-    "@feedback": {
-          "description": "Feedback"
-    },
-    "privacy_policy": "Privacy Policy",
-    "@privacy_policy": {
-          "description": "Privacy Policy"
-    },
-    "terms": "Terms and Conditions",
-    "@terms": {
-          "description": "Terms and Conditions"
-    },
-    "sound": "Sound",
-    "@sound": {
-          "description": "Sound"
-    },
-    "on": "On",
-    "@on": {
-          "description": "On"
-    },
-    "off": "Off",
-    "@off": {
-          "description": "Off"
-    },
-    "select_language": "Select Language",
-    "@select_language": {
-          "description": "Select Language"
-    },
-    "language": "Language",
-    "@language": {
-          "description": "Language"
-    }
-
+  "stories": "Stories",
+  "@stories": {
+    "description": "Stories"
+  },
+  "skip": "Skip",
+  "@skip": {
+    "description": "Skip"
+  },
+  "next": "Next",
+  "@next": {
+    "description": "Next"
+  },
+  "intro_text1": "Read U-Report stories and give feedback online",
+  "@intro_text1": {
+    "description": "Read U-Report stories and give feedback online"
+  },
+  "chat": "Chat",
+  "@chat": {
+    "description": "Chat"
+  },
+  "intro_text2": "Use chat feature to participate in the polls to share your voice and ask questions",
+  "@intro_text2": {
+    "description": "Use chat feature to participate in the polls to share your voice and ask questions"
+  },
+  "opinions": "Opinions",
+  "@opinions": {
+    "description": "Opinions"
+  },
+  "intro_text3": "View current and previous poll results and share result on social media channels",
+  "@intro_text3": {
+    "description": "View current and previous poll results and share result on social media channels"
+  },
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome"
+  },
+  "continu": "Continue",
+  "@continu": {
+    "description": "Continue"
+  },
+  "more": "More",
+  "@more": {
+    "description": "More"
+  },
+  "choose_program": "Select U-Report Program",
+  "@choose_program": {
+    "description": "Select U-Report Program"
+  },
+  "enter_message": "Enter message",
+  "@enter_message": {
+    "description": "Enter message"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings"
+  },
+  "about_us": "About Us",
+  "@about_us": {
+    "description": "About Us"
+  },
+  "change_ureport_program": "Change Program",
+  "@change_ureport_program": {
+    "description": "Change Program"
+  },
+  "change_language": "Change Language",
+  "@change_language": {
+    "description": "Change Language"
+  },
+  "feedback": "Feedback",
+  "@feedback": {
+    "description": "Feedback"
+  },
+  "privacy_policy": "Privacy Policy",
+  "@privacy_policy": {
+    "description": "Privacy Policy"
+  },
+  "terms": "Terms and Conditions",
+  "@terms": {
+    "description": "Terms and Conditions"
+  },
+  "sound": "Sound",
+  "@sound": {
+    "description": "Sound"
+  },
+  "on": "On",
+  "@on": {
+    "description": "On"
+  },
+  "off": "Off",
+  "@off": {
+    "description": "Off"
+  },
+  "select_language": "Select Language",
+  "@select_language": {
+    "description": "Select Language"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language"
+  },
+  "see_more": "See More",
+  "@see_more": {
+    "description": "See More"
+  },
+  "featured_story": "FEATURED STORY",
+  "@featured_story": {
+    "description": "FEATURED STORY"
+  },
+  "read_more": "READ MORE",
+  "@read_more": {
+    "description": "READ MORE"
+  },
+  "all": "ALL",
+  "@all": {
+    "description": "ALL"
+  },
+  "age": "AGE",
+  "@age": {
+    "description": "AGE"
+  },
+  "gender": "GENDER",
+  "@gender": {
+    "description": "GENDER"
+  },
+  "location": "LOCATION",
+  "@location": {
+    "description": "LOCATION"
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Search"
+  },
+  "response_rate": "RESPONSE RATE",
+  "@response_rate": {
+    "description": "RESPONSE RATE"
+  },
+  "respondents": "RESPONDENTS",
+  "@respondents": {
+    "description": "RESPONDENTS"
+  },
+  "responded_out_of": "responded out of",
+  "@responded_out_of": {
+    "description": "responded out of"
+  },
+  "polled": "polled",
+  "@polled": {
+    "description": "polled"
+  },
+  "latest_opinion": "LATEST OPINION",
+  "@latest_opinion": {
+    "description": "LATEST OPINION"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel"
+  },
+  "selected": "Selected",
+  "@selected": {
+    "description": "Selected"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete"
+  },
+  "delete_message": "Are you sure you want to delete?",
+  "@delete_message": {
+    "description": "Are you sure you want to delete?"
+  },
+  "previous_message_deleted": "All Previous Message was deleted",
+  "@previous_message_deleted": {
+    "description": "All Previous Message was deleted"
+  },
+  "notification": "Notification",
+  "@notification": {
+    "description": "Notification"
+  },
+  "five_days_delete_text": "Automatically remove messages after 5 days",
+  "@five_days_delete_text": {
+    "description": "Automatically remove messages after 5 days"
+  },
+  "remove_all_message_text": "Remove all messages",
+  "@remove_all_message_text": {
+    "description": "Remove all messages"
+  },
+  "remove": "Remove",
+  "@remove": {
+    "description": "Remove"
+  }
 }

@@ -5,6 +5,7 @@ import 'package:ureport_ecaro/all-screens/settings/privacy_policy.dart';
 import 'package:ureport_ecaro/all-screens/settings/settings_details.dart';
 import 'package:ureport_ecaro/all-screens/settings/terms_and_conditions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
@@ -38,6 +39,7 @@ class Settings extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
+                  ClickSound.buttonClickYes();
                   NavUtils.push(context, SettingDetails());
                 },
                 child: getItem(
@@ -45,6 +47,7 @@ class Settings extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
+                  ClickSound.buttonClickYes();
                   NavUtils.push(context, About());
                 },
                 child: getItem(
@@ -52,6 +55,7 @@ class Settings extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
+                  ClickSound.buttonClickYes();
                   NavUtils.push(context, ProgramChooser("more"));
                 },
                 child: getItem("${AppLocalizations.of(context)!.change_ureport_program}",
@@ -59,7 +63,7 @@ class Settings extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-
+                  ClickSound.buttonClickYes();
                   NavUtils.push(context, ChangeLanguage());
                 },
                 child: getItem("${AppLocalizations.of(context)!.change_language}",
@@ -85,9 +89,11 @@ class Settings extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: TextStyle(fontSize: 20, color: RemoteConfigData.getTextColor()),
+          Expanded(
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 20, color: RemoteConfigData.getTextColor()),
+            ),
           ),
           Container(
             height: 35,

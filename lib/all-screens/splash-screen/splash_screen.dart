@@ -19,87 +19,110 @@ import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 class SplashScreen extends StatefulWidget {
-
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
-
-    Provider.of<RemoteConfigController>(context,listen: false).getInitialData(context);
+    Provider.of<RemoteConfigController>(context, listen: false)
+        .getInitialData(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    // getfirebaseInitialmessage(context).then((value) =>{
+    //   if(value==true){
+    //     Timer(
+    //       Duration(seconds: 2),
+    //           () {
+    //         var spset = locator<SPUtil>();
+    //         String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+    //         if (isSigned != null) {
+    //           Navigator.pushReplacement(
+    //               context,
+    //               MaterialPageRoute(
+    //                   builder: (context) => NavigationScreen(1)));
+    //         } else {
+    //           NavUtils.pushAndRemoveUntil(context, BannerScreen());
+    //         }
+    //       },
+    //     )
+    //   }else{
+    //     Timer(
+    //       Duration(seconds: 2),
+    //           () {
+    //         var spset = locator<SPUtil>();
+    //         String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+    //         if (isSigned != null) {
+    //           Navigator.pushReplacement(
+    //               context,
+    //               MaterialPageRoute(
+    //                   builder: (context) => NavigationScreen(1)));
+    //         } else {
+    //           NavUtils.pushAndRemoveUntil(context, BannerScreen());
+    //         }
+    //       },
+    //     )
+    //
+    //   }
+    // });
+    //
+    // getfirebaseonApp(context).then((value) => {
+    //   if(value==true){
+    //     Timer(
+    //       Duration(seconds: 2),
+    //           () {
+    //         var spset = locator<SPUtil>();
+    //         String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+    //         if (isSigned != null) {
+    //           Navigator.pushReplacement(
+    //               context,
+    //               MaterialPageRoute(
+    //                   builder: (context) => NavigationScreen(1)));
+    //         } else {
+    //           NavUtils.pushAndRemoveUntil(context, BannerScreen());
+    //         }
+    //       },
+    //     )
+    //   }else{
+    //     Timer(
+    //       Duration(seconds: 2),
+    //           () {
+    //         var spset = locator<SPUtil>();
+    //         String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+    //         if (isSigned != null) {
+    //           Navigator.pushReplacement(
+    //               context,
+    //               MaterialPageRoute(
+    //                   builder: (context) => NavigationScreen(0)));
+    //         } else {
+    //           NavUtils.pushAndRemoveUntil(context, BannerScreen());
+    //         }
+    //       },
+    //     )
+    //   }
+    // });
 
-    getfirebaseInitialmessage(context).then((value) =>{
-      if(value==true){
-        Timer(
-          Duration(seconds: 2),
-              () {
-            var spset = locator<SPUtil>();
-            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-            if(isSigned!=null){
-              NavUtils.pushAndRemoveUntil(context, NavigationScreen(1));
-            }else{
-              NavUtils.pushAndRemoveUntil(context, BannerScreen());
-            }
-          },
-        )
-      }else{
-
-        Timer(
-          Duration(seconds: 2),
-              () {
-            var spset = locator<SPUtil>();
-            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-            if(isSigned!=null){
-              NavUtils.pushAndRemoveUntil(context, NavigationScreen(1));
-            }else{
-              NavUtils.pushAndRemoveUntil(context, BannerScreen());
-            }
-          },
-        )
-
-      }
-    });
-
-    getfirebaseonApp(context).then((value) => {
-      if(value==true){
-        Timer(
-          Duration(seconds: 2),
-              () {
-            var spset = locator<SPUtil>();
-            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-            if(isSigned!=null){
-              NavUtils.pushAndRemoveUntil(context, NavigationScreen(1));
-            }else{
-              NavUtils.pushAndRemoveUntil(context, BannerScreen());
-            }
-          },
-        )
-      }else{
-        Timer(
-          Duration(seconds: 2),
-              () {
-            var spset = locator<SPUtil>();
-            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-            if(isSigned!=null){
-              NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
-            }else{
-              NavUtils.pushAndRemoveUntil(context, BannerScreen());
-            }
-          },
-        )
-      }
-    });
+    Timer(
+      Duration(seconds: 2),
+      () {
+        var spset = locator<SPUtil>();
+        String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+        if (isSigned != null) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => NavigationScreen(0)));
+        } else {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => BannerScreen()));
+        }
+      },
+    );
 
     return Consumer<RemoteConfigController>(
-      builder: (context,provider,child){
+      builder: (context, provider, child) {
         return Scaffold(
           backgroundColor: AppColors.mainBgColor,
           body: Container(
@@ -107,63 +130,59 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Container(
                   height: 65,
                   width: 210,
-                  child:
-                  Image(
+                  child: Image(
                     fit: BoxFit.fill,
                     image: AssetImage("assets/images/v2_logo_1.png"),
-                  )
-              ),
+                  )),
             ) /* add child content here */,
           ),
         );
       },
-
     );
-    }
+  }
 
-
-  Future<bool> getfirebaseInitialmessage(BuildContext context)async{
-    bool isDataExist=false;
+  Future<bool> getfirebaseInitialmessage(BuildContext context) async {
+    bool isDataExist = false;
     FirebaseMessaging.instance
-        .getInitialMessage().then((RemoteMessage? remotemessage) {
-
+        .getInitialMessage()
+        .then((RemoteMessage? remotemessage) {
       DateTime now = DateTime.now();
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
       List<dynamic> quicktypest;
-      if(remotemessage!.data["quick_replies"]!=null){
+      if (remotemessage!.data["quick_replies"] != null) {
         quicktypest = json.decode(remotemessage.data["quick_replies"]);
-      }else{
-        quicktypest=[""];
+      } else {
+        quicktypest = [""];
       }
       //print("the notification message is ${remotemessage.notification!.body}");
-      var notificationmessage_terminatestate = MessageModel(sender: 'server',
+      var notificationmessage_terminatestate = MessageModel(
+          sender: 'server',
           message: remotemessage.notification!.body,
           status: "received",
-          quicktypest: quicktypest,time:formattedDate);
+          quicktypest: quicktypest,
+          time: formattedDate);
 
-      Provider.of<ChatController>(context, listen: false). addMessage(notificationmessage_terminatestate);
-      if(remotemessage.notification!.body!=null){
-        isDataExist=true;
-
-      }else  {
-        isDataExist=false;
+      Provider.of<ChatController>(context, listen: false)
+          .addMessage(notificationmessage_terminatestate);
+      if (remotemessage.notification!.body != null) {
+        isDataExist = true;
+      } else {
+        isDataExist = false;
       }
-
     });
     return isDataExist;
   }
 
-  Future<bool> getfirebaseonApp(context)async{
-    bool isDataExist=false;
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage){
-
+  Future<bool> getfirebaseonApp(context) async {
+    bool isDataExist = false;
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage) {
       DateTime now = DateTime.now();
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
       List<dynamic> quicktypest;
-      if(remotemessage.data["quick_replies"]!=null){
+      if (remotemessage.data["quick_replies"] != null) {
         quicktypest = json.decode(remotemessage.data["quick_replies"]);
-      }else{
-        quicktypest=[""];
+      } else {
+        quicktypest = [""];
       }
       //print("the notification message is ${remotemessage.notification!.body}");
       var notificationmessage = MessageModel(
@@ -171,19 +190,19 @@ class _SplashScreenState extends State<SplashScreen> {
           message: remotemessage.notification!.body,
           status: "received",
           quicktypest: quicktypest,
-          time:formattedDate);
+          time: formattedDate);
 
-      Provider.of<ChatController>(context, listen: false). addMessage(notificationmessage);
-      if(remotemessage.notification!.body!=null){
+      Provider.of<ChatController>(context, listen: false)
+          .addMessage(notificationmessage);
+      if (remotemessage.notification!.body != null) {
+        print(
+            "the notification value is .......${remotemessage.notification!.body}");
 
-        print("the notification value is .......${remotemessage.notification!.body}");
-
-        isDataExist=true;
-      }else{
-        isDataExist=false;
+        isDataExist = true;
+      } else {
+        isDataExist = false;
       }
     });
     return isDataExist;
   }
-
 }

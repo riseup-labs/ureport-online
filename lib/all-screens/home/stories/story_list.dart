@@ -6,6 +6,7 @@ import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_search.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/load_data_handling.dart';
 import 'package:ureport_ecaro/utils/loading_bar.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
@@ -22,7 +23,7 @@ class StoryList extends StatefulWidget {
   _StoryListState createState() => _StoryListState();
 }
 
-class _StoryListState extends State<StoryList> {
+class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixin{
   var sp = locator<SPUtil>();
 
   int itemCount = 10;
@@ -35,9 +36,9 @@ class _StoryListState extends State<StoryList> {
 
   @override
   Widget build(BuildContext context) {
+
     Provider.of<StoryController>(context, listen: false).initializeDatabase();
     List<ResultLocal>? stories = [];
-
 
     Provider.of<StoryController>(context, listen: false).getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
 
@@ -77,6 +78,7 @@ class _StoryListState extends State<StoryList> {
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: GestureDetector(
                 onTap: () {
+                  ClickSound.buttonClickYes();
                   NavUtils.push(context, StorySearch());
                 },
                 child: Card(
@@ -90,7 +92,7 @@ class _StoryListState extends State<StoryList> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Search",
+                            AppLocalizations.of(context)!.search,
                             style: TextStyle(fontSize: 18, color: Colors.grey),
                           ),
                           Icon(
@@ -135,6 +137,7 @@ class _StoryListState extends State<StoryList> {
                                       (BuildContext context, int index) {
                                     return GestureDetector(
                                       onTap: () {
+                                        ClickSound.buttonClickYes();
                                         NavUtils.push(
                                             context,
                                             StoryDetails(
@@ -157,13 +160,15 @@ class _StoryListState extends State<StoryList> {
                                                     : "assets/images/default.jpg",
                                                 stories![index].featured,
                                                 stories![index].title,
-                                                stories![index].summary)
+                                                stories![index].summary,
+                                                context)
                                             : Container(
                                                 margin: EdgeInsets.only(
                                                     top: 5, bottom: 20),
                                                 height: 35,
                                                 child: GestureDetector(
                                                   onTap: (){
+                                                    ClickSound.buttonClickYes();
                                                     itemCount = itemCount+ 10;
                                                     setState(() {
 
@@ -172,7 +177,7 @@ class _StoryListState extends State<StoryList> {
                                                     child: Center(
                                                         child:
                                                             Text(
-                                                                "See More",
+                                                              AppLocalizations.of(context)!.see_more,
                                                               style: TextStyle(
                                                                 fontSize: 18,
                                                                 color: Colors.black
@@ -213,13 +218,17 @@ class _StoryListState extends State<StoryList> {
       return ShowSnackBar.showNoInternetMessage(context);
     }
   }
+
+  @override
+
+  bool get wantKeepAlive => true;
 }
 
 getBackground() {
   return Image(image: AssetImage("assets/images/bg_home.png"));
 }
 
-getItem(String image_url, String featured, String title, String summery) {
+getItem(String image_url, String featured, String title, String summery, BuildContext context) {
   return Card(
     elevation: 2,
     shape: RoundedRectangleBorder(
@@ -230,9 +239,9 @@ getItem(String image_url, String featured, String title, String summery) {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         getItemTitleImage(image_url),
-        getItemFeatured(featured),
+        getItemFeatured(featured,context),
         getItemTitle(title),
-        getItemSummery(summery),
+        getItemSummery(summery, context),
       ],
     ),
   );
@@ -277,7 +286,7 @@ getItemTitleImage(String image_url) {
   );
 }
 
-getItemFeatured(String featured) {
+getItemFeatured(String featured, BuildContext context) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
@@ -292,7 +301,7 @@ getItemFeatured(String featured) {
       Container(
         margin: EdgeInsets.only(top: 10),
         child: Text(
-          featured == "true" ? "FEATURED STORY" : "STORY",
+          featured == "true" ? AppLocalizations.of(context)!.featured_story : "STORY",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
         ),
       )
@@ -310,7 +319,7 @@ getItemTitle(String title) {
   );
 }
 
-getItemSummery(String summery) {
+getItemSummery(String summery, BuildContext context) {
   return Container(
       padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: RichText(
@@ -320,7 +329,7 @@ getItemSummery(String summery) {
           children: <TextSpan>[
             TextSpan(text: summery),
             TextSpan(
-                text: "  READ MORE",
+                text: AppLocalizations.of(context)!.read_more,
                 style: new TextStyle(
                     fontSize: 13, color: RemoteConfigData.getPrimaryColor())),
           ],

@@ -103,6 +103,7 @@ class AppColors {
   static var darkBlueBD = Color(0xff0776BD);
   static var blueEE = Color(0xff56A5EE);
   static var blueEA = Color(0xffB9DCEA);
+  static var chatBack = Color(0xff41B6E7);
 
   //static var primaryLightFF = Color(0xffCFEDFF);
   static var lightGreen = Color(0xffDAEBE6);

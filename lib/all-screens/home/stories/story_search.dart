@@ -7,9 +7,12 @@ import 'package:ureport_ecaro/all-screens/home/stories/save_story.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/stories-details.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
+import 'package:ureport_ecaro/utils/loading_bar.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'model/searchbar.dart';
 
@@ -94,7 +97,7 @@ class _StorySearchState extends State<StorySearch> {
                             ),
                           ):Container(
                               margin: EdgeInsets.only(top: 66),
-                              child: Center(child: CircularProgressIndicator()));
+                              child: Center(child: LoadingBar.spinkit));
                         }),
                   )
                 ],
@@ -111,7 +114,7 @@ class _StorySearchState extends State<StorySearch> {
         future: provider.getCategories(program),
         builder: (context, snapshot) {
           return FloatingSearchBar(
-            hint: 'Search',
+            hint: AppLocalizations.of(context)!.search,
             leadingActions: [Icon(Icons.search)],
             openAxisAlignment: 0.0,
             backdropColor: Colors.transparent,
@@ -184,6 +187,7 @@ Widget buildItem(StorySearchItem item, BuildContext context) {
   return Container(
       child: GestureDetector(
           onTap: () {
+            ClickSound.buttonClickYes();
             _floatingSearchBarController.clear();
             _floatingSearchBarController.close();
             NavUtils.pushReplacement(

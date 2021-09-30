@@ -5,6 +5,7 @@ import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/opinion_controller.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
@@ -51,6 +52,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                   from == "more"
                       ? GestureDetector(
                           onTap: () {
+                            ClickSound.buttonClickYes();
                             Navigator.pop(context);
                           },
                           child: Container(
@@ -153,6 +155,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                     child: Container(
                                       child: GestureDetector(
                                           onTap: () {
+                                            ClickSound.settingsChanged();
                                             spset.setValue(SPUtil.PROGRAMKEY,
                                                 dropdownValue);
                                             Provider.of<OpinionController>(

@@ -5,6 +5,7 @@ import 'package:ureport_ecaro/all-screens/intro/body.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locale/locale_provider.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -54,7 +55,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                         Container(
                           child: Text(
                             AppLocalizations.of(context)!.welcome,
-                            style: TextStyle(fontSize: 58),
+                            style: TextStyle(fontSize: 40),
                           ),
                         ),
                       ],
@@ -156,6 +157,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                             child: Container(
                                 child: GestureDetector(
                                   onTap: (){
+                                    ClickSound.settingsChanged();
                                     final provider_l = Provider.of<
                                         LocaleProvider>(context, listen: false);
                                     if (selected_language == 'en') {

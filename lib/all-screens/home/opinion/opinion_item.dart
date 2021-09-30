@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/number_format.dart';
 import 'model/response_opinions.dart' as questionArray;
 import 'statistics_age.dart';
 import 'statistics_all.dart';
 import 'statistics_gender.dart';
 import 'statistics_location_spinner.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'word_cloud.dart';
 
 class OpinionItem extends StatefulWidget {
@@ -52,7 +54,7 @@ class _OpinionItemState extends State<OpinionItem> {
             Container(
               margin: EdgeInsets.only(bottom: 5),
               child: Text(
-                "${FormattedNumber.formatNumber(set)} responded out of ${FormattedNumber.formatNumber(total)} polled",
+                "${FormattedNumber.formatNumber(set)} ${AppLocalizations.of(context)!.responded_out_of} ${FormattedNumber.formatNumber(total)} ${AppLocalizations.of(context)!.polled}",
                 style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[500], fontSize: 13),
               ),
             ),
@@ -77,6 +79,7 @@ class _OpinionItemState extends State<OpinionItem> {
                             flex: 4,
                             child: GestureDetector(
                               onTap: (){
+                                ClickSound.buttonClickYes();
                                 setState(() {
                                   selectedTab = 0;
                                 });
@@ -87,7 +90,7 @@ class _OpinionItemState extends State<OpinionItem> {
                                   borderRadius: BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
                                 ),
                                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                                child: Center(child: Text("ALL",style: TextStyle(color: selectedTab == 0?Colors.white:Colors.black,fontSize: 11),)),
+                                child: Center(child: Text(AppLocalizations.of(context)!.all,style: TextStyle(color: selectedTab == 0?Colors.white:Colors.black,fontSize: 11),)),
                               ) ,
                             ),
                           ),
@@ -103,6 +106,7 @@ class _OpinionItemState extends State<OpinionItem> {
                             flex: 4,
                             child: GestureDetector(
                               onTap: (){
+                                ClickSound.buttonClickYes();
                                 setState(() {
                                   selectedTab = 1;
                                 });
@@ -110,7 +114,7 @@ class _OpinionItemState extends State<OpinionItem> {
                               child: Container(
                                 color: selectedTab == 1?Colors.grey[700]:Colors.white,
                                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                                child: Center(child: Text("AGE",style: TextStyle(color: selectedTab == 1?Colors.white:Colors.black,fontSize: 11),)),
+                                child: Center(child: Text(AppLocalizations.of(context)!.age,style: TextStyle(color: selectedTab == 1?Colors.white:Colors.black,fontSize: 11),)),
                               ),
                             ),
                           ),
@@ -126,6 +130,7 @@ class _OpinionItemState extends State<OpinionItem> {
                             flex: 5,
                             child: GestureDetector(
                               onTap: (){
+                                ClickSound.buttonClickYes();
                                 setState(() {
                                   selectedTab = 2;
                                 });
@@ -133,7 +138,7 @@ class _OpinionItemState extends State<OpinionItem> {
                               child: Container(
                                 color: selectedTab == 2?Colors.grey[700]:Colors.white,
                                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                                child: Center(child: Text("GENDER",style: TextStyle(color: selectedTab == 2?Colors.white:Colors.black,fontSize: 11),)),
+                                child: Center(child: Text(AppLocalizations.of(context)!.gender,style: TextStyle(color: selectedTab == 2?Colors.white:Colors.black,fontSize: 11),)),
                               ),
                             ),
                           ),
@@ -149,6 +154,7 @@ class _OpinionItemState extends State<OpinionItem> {
                             flex: 5,
                             child: GestureDetector(
                               onTap: (){
+                                ClickSound.buttonClickYes();
                                 setState(() {
                                   selectedTab = 3;
                                 });
@@ -159,7 +165,7 @@ class _OpinionItemState extends State<OpinionItem> {
                                   borderRadius: BorderRadius.only(topRight: Radius.circular(30), bottomRight: Radius.circular(30)),
                                 ),
                                 padding: EdgeInsets.only(top: 5, bottom: 5, right: 7),
-                                child: Center(child: Text("LOCATION",style: TextStyle(color: selectedTab == 3?Colors.white:Colors.black,fontSize: 11),)),
+                                child: Center(child: Text(AppLocalizations.of(context)!.location,style: TextStyle(color: selectedTab == 3?Colors.white:Colors.black,fontSize: 11),)),
                               ),
                             ),
                           ),
