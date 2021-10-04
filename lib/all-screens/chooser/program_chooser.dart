@@ -52,22 +52,23 @@ class _ProgramChooserState extends State<ProgramChooser> {
                   from == "more"
                       ? GestureDetector(
                           onTap: () {
-                            ClickSound.buttonClickYes();
                             Navigator.pop(context);
+                            ClickSound.buttonClickYes();
                           },
                           child: Container(
-                            margin: EdgeInsets.only(left: 15, top: 20),
-                            width: 50,
-                            child: Icon(
-                              Icons.arrow_back,
+                            margin: EdgeInsets.only(left: 20),
+                            height: 80,
+                            child: Image(
+                              height: 35,
+                              width: 35,
                               color: Colors.black,
-                              size: 40,
+                              image: AssetImage("assets/images/v2_ic_back.png",),
                             ),
                           ),
                         )
                       : Container(),
                   Container(
-                    margin: EdgeInsets.only(top: 45),
+                    margin: EdgeInsets.only(top: 80),
                     width: double.infinity,
                     child: Column(
                       children: [
@@ -77,11 +78,12 @@ class _ProgramChooserState extends State<ProgramChooser> {
                             children: [
                               Expanded(
                                 child: Container(
-                                  width: double.infinity,
+                                    width: double.infinity,
                                     child: Image(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage("assets/images/v2_map.png"),
-                                )),
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                          "assets/images/v2_map.png"),
+                                    )),
                               ),
                             ],
                           ),
@@ -171,13 +173,13 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                           },
                                           child: Center(
                                             child: Text(
-                                              AppLocalizations.of(context)!.continu,
+                                              AppLocalizations.of(context)!
+                                                  .continu,
                                               style: TextStyle(
-                                                  fontSize: 20,
+                                                fontSize: 20,
                                               ),
                                             ),
-                                          )
-                                      ),
+                                          )),
                                     ),
                                   ),
                                 )

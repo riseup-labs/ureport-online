@@ -75,8 +75,10 @@ class _AboutState extends State<About> {
                       },
                       javascriptMode: JavascriptMode.unrestricted,
                     ),
-                  ):Container(
-                    child: Center(child: LoadingBar.spinkit),
+                  ): Expanded(
+                    child: Container(
+                      child: Center(child: LoadingBar.spinkit),
+                    ),
                   ),
                 ),
               ],

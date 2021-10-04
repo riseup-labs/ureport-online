@@ -35,7 +35,8 @@ class Program {
     required this.storyShareUrl,
     required this.largeIcon,
     required this.smallIcon,
-    required this.individualCaseManagement,
+    required this.individualCaseManagementVisibility,
+    required this.defaultActionVisibility,
     required this.aboutUrl,
     required this.programBackgroundColor,
     required this.programTextColor,
@@ -55,7 +56,8 @@ class Program {
   String storyShareUrl;
   String largeIcon;
   String smallIcon;
-  bool individualCaseManagement;
+  bool individualCaseManagementVisibility;
+  bool defaultActionVisibility;
   String aboutUrl;
   String programBackgroundColor;
   String programTextColor;
@@ -75,7 +77,8 @@ class Program {
     storyShareUrl: json["story_share_url"],
     largeIcon: json["large_icon"],
     smallIcon: json["small_icon"],
-    individualCaseManagement: json["individual_case_management"],
+    individualCaseManagementVisibility: json["individual_case_management_visibility"],
+    defaultActionVisibility: json["default_action_visibility"],
     aboutUrl: json["about_url"],
     programBackgroundColor: json["program_background_color"],
     programTextColor: json["program_text_color"],
@@ -96,7 +99,8 @@ class Program {
     "story_share_url": storyShareUrl,
     "large_icon": largeIcon,
     "small_icon": smallIcon,
-    "individual_case_management": individualCaseManagement,
+    "individual_case_management_visibility": individualCaseManagementVisibility,
+    "default_action_visibility": defaultActionVisibility,
     "about_url": aboutUrl,
     "program_background_color": programBackgroundColor,
     "program_text_color": programTextColor,

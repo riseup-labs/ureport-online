@@ -5,6 +5,7 @@ import 'package:ureport_ecaro/all-screens/home/stories/story_list.dart';
 import 'package:ureport_ecaro/all-screens/settings/settings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
+import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 
 import 'chat/Chat.dart';
@@ -25,7 +26,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   _NavigationScreenState(this.changedIndex);
 
-  final tabs = [StoryList(), Chat(), Opinion(), Settings()];
+  final tabs = [StoryList(), SizedBox(), Opinion(), Settings()];
 
   @override
   void initState() {
@@ -102,6 +103,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
             setState(() {
               changedIndex = i;
               i++;
+              if(changedIndex == 1){
+                NavUtils.push(context, Chat());
+              }
             });
           },
         ));

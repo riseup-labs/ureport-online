@@ -6,6 +6,7 @@ import 'package:ureport_ecaro/locale/locale_provider.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/main.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
@@ -57,40 +58,27 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
 
     return Scaffold(
       backgroundColor: Color(0xffF5FCFF),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "${AppLocalizations.of(context)!.language}",
-          style: TextStyle(color: Colors.black, fontSize: 22),
-        ),
-        leading: GestureDetector(
-          onTap: (){
-            Navigator.pop(context);
-          },
-          child: Container(
-            width: 50,
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        actions: [
-          Card(
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
-          )
-        ],
-      ),
       body: SafeArea(
           child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            GestureDetector(
+              onTap: (){
+                Navigator.pop(context);
+                ClickSound.buttonClickYes();
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 20),
+                height: 70,
+                child: Image(
+                  height: 35,
+                  width: 35,
+                  image: AssetImage("assets/images/v2_ic_back.png"),
+                ),
+              ),
+            ),
             Container(
-                margin: EdgeInsets.only(top: 30),
                 padding: EdgeInsets.only(left: 30),
                 child: Text(
                   "${AppLocalizations.of(context)!.select_language}",
@@ -197,8 +185,9 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 30, right: 30),
+                      padding: const EdgeInsets.only(left: 20, right: 22),
                       child: DottedLine(
+
                         direction: Axis.horizontal,
                         lineLength: double.infinity,
                         lineThickness: .5,

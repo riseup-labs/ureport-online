@@ -5,25 +5,23 @@ import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/utils/resources.dart';
 
 class BannerScreen extends StatefulWidget {
-
   @override
   _BannerScreenState createState() => _BannerScreenState();
 }
 
 class _BannerScreenState extends State<BannerScreen> {
-
   @override
   void initState() {
-
-    Provider.of<RemoteConfigController>(context,listen: false).getInitialData(context);
+    Provider.of<RemoteConfigController>(context, listen: false)
+        .getInitialData(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     Timer(
       Duration(seconds: 2),
           () {
@@ -32,24 +30,22 @@ class _BannerScreenState extends State<BannerScreen> {
     );
 
     return Consumer<RemoteConfigController>(
-      builder: (context,provider,child){
+      builder: (context, provider, child) {
         return Scaffold(
-          body: SafeArea(
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image:
-                  AssetImage("assets/images/v2_splash_screen_3.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Container(),
-            ),
+          backgroundColor: AppColors.mainBgColor,
+          body: Container(
+            child: Center(
+              child: Container(
+                  height: 65,
+                  width: 210,
+                  child: Image(
+                    fit: BoxFit.fill,
+                    image: AssetImage("assets/images/v2_logo_1.png"),
+                  )),
+            ) /* add child content here */,
           ),
         );
       },
-
     );
-    }
-
+  }
 }

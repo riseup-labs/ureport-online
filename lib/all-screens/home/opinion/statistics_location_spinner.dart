@@ -65,7 +65,7 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
               iconSize: 24,
               elevation: 16,
               style:
-              TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16,),
               onChanged: (String? newValue) {
                   dropdownValue = newValue!;
                   // print("the value is : $dropdownValue");

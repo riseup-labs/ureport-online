@@ -320,6 +320,15 @@ class StatisticsHeader {
           ],
         ),
         SizedBox(
+          height: 15,
+        ),
+        Container(
+          child: Divider(
+            height: 1.5,
+            color: Colors.grey[600],
+          ),
+        ),
+        SizedBox(
           height: 8,
         ),
       ],

@@ -54,7 +54,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
             width: double.infinity,
             height: double.infinity,
             child: Container(
-              color: AppColors.white,
+              color: Colors.white,
               height: 86,
               child: Stack(
                 fit: StackFit.expand,
@@ -64,20 +64,28 @@ class _OpinionSearchState extends State<OpinionSearch> {
                     left: 10,
                     child: Container(
                       width: 40,
-                      child: IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        color: Colors.black,
-                        onPressed: () {
+                      child: GestureDetector(
+                        onTap: (){
                           Navigator.pop(context);
+                          ClickSound.buttonClickYes();
                         },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 10),
+                          height: 70,
+                          child: Image(
+                            height: 35,
+                            width: 35,
+                            image: AssetImage("assets/images/v2_ic_back.png"),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                   Container(
-                      margin: EdgeInsets.only(left: 40,right: 12,top: 10),
+                      margin: EdgeInsets.only(left: 11,right: 12,top: 80),
                       child: searchBarUI(provider, sp.getValue(SPUtil.PROGRAMKEY))),
                   Container(
-                    margin: EdgeInsets.only(top: 66),
+                    margin: EdgeInsets.only(top: 136),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: FutureBuilder<List<OpinionSearchList>>(
                         future: provider
@@ -110,70 +118,82 @@ class _OpinionSearchState extends State<OpinionSearch> {
   }
 
   Widget searchBarUI(OpinionController provider, String program) {
-    return FutureBuilder<List<OpinionSearchList>>(
-        future: provider.getCategories(program),
-        builder: (context, snapshot) {
-          return FloatingSearchBar(
-            hint: AppLocalizations.of(context)!.search,
-            leadingActions: [Icon(Icons.search)],
-            openAxisAlignment: 0.0,
-            backdropColor: Colors.transparent,
-            backgroundColor: AppColors.white,
-            controller: _floatingSearchBarController,
-            height: 40.0,
-            elevation: 0.0,
-            axisAlignment: 0.0,
-            automaticallyImplyBackButton: false,
-            scrollPadding: EdgeInsets.only(bottom: 10, top: 5),
-            physics: BouncingScrollPhysics(),
-            onQueryChanged: (value) {
-              if(value == ""){
-                provider.setExpanded(false);
-              }else{
-                provider.setExpanded(true);
-              }
-              setState(() {
-                filteredCategoryList.clear();
-                for (var item in categoryListFull) {
-                  for (var child in item.children) {
-                    if (child.title
-                        .toLowerCase()
-                        .contains(value.toLowerCase())) {
-                      filteredCategoryList.add(item);
-                      break;
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      child: FutureBuilder<List<OpinionSearchList>>(
+          future: provider.getCategories(program),
+          builder: (context, snapshot) {
+            return FloatingSearchBar(
+              hint: AppLocalizations.of(context)!.search,
+              leadingActions: [Icon(Icons.search)],
+              openAxisAlignment: 0.0,
+              backdropColor: Colors.transparent,
+              backgroundColor: AppColors.white,
+              controller: _floatingSearchBarController,
+              height: 40.0,
+              elevation: 0.0,
+              axisAlignment: 0.0,
+              automaticallyImplyBackButton: false,
+              scrollPadding: EdgeInsets.only(bottom: 10, top: 5),
+              physics: BouncingScrollPhysics(),
+              onQueryChanged: (value) {
+                if(value == ""){
+                  provider.setExpanded(false);
+                }else{
+                  provider.setExpanded(true);
+                }
+                setState(() {
+                  filteredCategoryList.clear();
+                  for (var item in categoryListFull) {
+                    for (var child in item.children) {
+                      if (child.title
+                          .toLowerCase()
+                          .contains(value.toLowerCase())) {
+                        filteredCategoryList.add(item);
+                        break;
+                      }
                     }
                   }
-                }
-              });
-            },
-            automaticallyImplyDrawerHamburger: false,
-            transitionCurve: Curves.easeInOut,
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(4),
-                bottomRight: Radius.circular(4)),
-            transitionDuration: Duration(milliseconds: 100),
-            transition: CircularFloatingSearchBarTransition(),
-            debounceDelay: Duration(milliseconds: 100),
-            actions: [],
-            builder: (context, transition) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Material(
-                  color: Colors.white,
-                  child: Container(
-                    height: 1.0,
-                    color: Colors.transparent,
-                    child: ListView.builder(
-                      itemBuilder: (BuildContext context, int index) =>
-                          DataPopUp(filteredCategoryList[index], provider),
-                      itemCount: filteredCategoryList.length,
+                });
+              },
+              automaticallyImplyDrawerHamburger: false,
+              transitionCurve: Curves.easeInOut,
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(4),
+                  bottomRight: Radius.circular(4)),
+              transitionDuration: Duration(milliseconds: 100),
+              transition: CircularFloatingSearchBarTransition(),
+              debounceDelay: Duration(milliseconds: 100),
+              actions: [],
+              builder: (context, transition) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Material(
+                    color: Colors.white,
+                    child: Container(
+                      height: 1.0,
+                      color: Colors.transparent,
+                      child: ListView.builder(
+                        itemBuilder: (BuildContext context, int index) =>
+                            DataPopUp(filteredCategoryList[index], provider),
+                        itemCount: filteredCategoryList.length,
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          );
-        });
+                );
+              },
+            );
+          }),
+    );
   }
 }
 
@@ -204,9 +224,8 @@ Widget buildItem(OpinionController provider, OpinionSearchItem item, BuildContex
                   child: RichText(
                     text: TextSpan(
                       style: TextStyle(
-                          fontSize: 14.0,
+                          fontSize: 16.0,
                           color: Colors.black,
-                          fontFamily: "Dosis"
                       ),
                       children: <TextSpan>[
                         TextSpan(text: item.title),

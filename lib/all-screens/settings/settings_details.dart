@@ -140,8 +140,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                                 "${AppLocalizations.of(context)!.on}/${AppLocalizations.of(context)!.off}",
                               style: TextStyle(
                                   color: RemoteConfigData.getTextColor(),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700),
+                                  fontSize: 15),
                             ),
                           ],
                         ),
@@ -201,8 +200,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                                 "${AppLocalizations.of(context)!.on}/${AppLocalizations.of(context)!.off}",
                               style: TextStyle(
                                   color: RemoteConfigData.getTextColor(),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700),
+                                  fontSize: 15),
                             ),
                           ],
                         ),
@@ -247,26 +245,30 @@ class _SettingDetailsState extends State<SettingDetails> {
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Image.asset(
-                          "assets/images/v2_ic_setting_chat.png",
-                          height: 15,
-                          width: 15,
-                          color: RemoteConfigData.getTextColor(),
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
                         Expanded(
-                            child: Text(
-                          AppLocalizations.of(context)!.five_days_delete_text,
-                          style: TextStyle(
-                              color: RemoteConfigData.getTextColor(),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700),
-                        )),
-                        SizedBox(
-                          width: 20,
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/images/v2_ic_sound.png",
+                                height: 15,
+                                width: 15,
+                                color: RemoteConfigData.getTextColor(),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "${AppLocalizations.of(context)!.five_days_delete_text}",
+                                  style: TextStyle(
+                                      color: RemoteConfigData.getTextColor(),
+                                      fontSize: 15),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         Switch(
                             activeColor: Colors.white,
@@ -279,9 +281,6 @@ class _SettingDetailsState extends State<SettingDetails> {
                                     SPUtil.DELETE5DAYS, value.toString());
                               });
                             }),
-                        SizedBox(
-                          width: 18,
-                        )
                       ],
                     ),
                     SizedBox(
@@ -289,24 +288,31 @@ class _SettingDetailsState extends State<SettingDetails> {
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Image.asset(
-                          "assets/images/v2_ic_setting_chat.png",
-                          height: 15,
-                          width: 15,
-                          color: RemoteConfigData.getTextColor(),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/images/v2_ic_setting_chat.png",
+                                height: 15,
+                                width: 15,
+                                color: RemoteConfigData.getTextColor(),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  AppLocalizations.of(context)!.remove_all_message_text,
+                                  style: TextStyle(
+                                      color: RemoteConfigData.getTextColor(),
+                                      fontSize: 15),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.remove_all_message_text,
-                          style: TextStyle(
-                              color: RemoteConfigData.getTextColor(),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        Spacer(),
                         GestureDetector(
                           onTap: () async {
                             ClickSound.buttonClickYes();
@@ -418,9 +424,6 @@ class _SettingDetailsState extends State<SettingDetails> {
                                   fontWeight: FontWeight.bold),
                             )),
                           ),
-                        ),
-                        SizedBox(
-                          width: 15,
                         ),
                       ],
                     ),

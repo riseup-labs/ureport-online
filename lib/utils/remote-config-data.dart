@@ -212,6 +212,35 @@ class RemoteConfigData{
     return color;
   }
 
+  static getDefaultActionVisibility(){
+
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+    bool value = true;
+    ResponseRemoteConfigData data = getAllData();
+    data.programs.forEach((element) {
+      if(element.name == program){
+        value = element.defaultActionVisibility;
+      }
+    });
+
+    return value;
+  }
+  static getIndividualCaseManagementVisibility(){
+
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+    bool value = true;
+    ResponseRemoteConfigData data = getAllData();
+    data.programs.forEach((element) {
+      if(element.name == program){
+        value = element.individualCaseManagementVisibility;
+      }
+    });
+
+    return value;
+  }
+
   static getDefaultAction(){
     List<String> list = [];
     var sp = locator<SPUtil>();

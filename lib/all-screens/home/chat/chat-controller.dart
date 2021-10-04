@@ -28,6 +28,8 @@ import 'model/response-local-chat-parsing.dart';
 import 'notification-service.dart';
 
 class ChatController extends ChangeNotifier {
+
+
   List<String> quicktype = [];
   final _chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
@@ -50,7 +52,8 @@ class ChatController extends ChangeNotifier {
   late ResponseContactCreation responseContactCreation;
   var _urn = "";
   String _token = "";
-  bool isLoaded = false;
+
+  bool isLoaded = true;
 
   bool _selectall = false;
   bool _allitemselected = false;
@@ -405,7 +408,7 @@ class ChatController extends ChangeNotifier {
               new DateFormat('dd-MM-yyyy hh:mm:ss a').parse(element.time);
           Duration sincetime = now.difference(valuetime);
 
-          if (sincetime.inDays >= 5) {
+          if (sincetime.inSeconds >= 60) {
             await deleteSingleMessage(element.time);
             notifyListeners();
           }

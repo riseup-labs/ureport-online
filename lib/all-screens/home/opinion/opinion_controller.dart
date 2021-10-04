@@ -14,6 +14,7 @@ class OpinionController extends ConnectivityController {
   var sp = locator<SPUtil>();
 
   int opinionID = 0;
+  bool isLoaded = true;
 
   setOpinionId(int id){
     opinionID = id;

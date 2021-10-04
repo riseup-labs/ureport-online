@@ -112,11 +112,9 @@ class _SplashScreenState extends State<SplashScreen> {
         var spset = locator<SPUtil>();
         String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
         if (isSigned != null) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => NavigationScreen(0)));
+          NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
         } else {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => BannerScreen()));
+          NavUtils.pushAndRemoveUntil(context, LanguageChooser());
         }
       },
     );
@@ -124,17 +122,47 @@ class _SplashScreenState extends State<SplashScreen> {
     return Consumer<RemoteConfigController>(
       builder: (context, provider, child) {
         return Scaffold(
-          backgroundColor: AppColors.mainBgColor,
-          body: Container(
-            child: Center(
-              child: Container(
-                  height: 65,
-                  width: 210,
-                  child: Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage("assets/images/v2_logo_1.png"),
-                  )),
-            ) /* add child content here */,
+          body: SafeArea(
+            child: Stack(
+              children: [
+                Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: Image(
+                        fit: BoxFit.fill,
+                        image:
+                        AssetImage("assets/images/v2_splash_screen2.png"),
+                      ),
+                    )),
+                Positioned(
+                  bottom: 60,
+                  right: 40,
+                  child: Container(
+                    height: 65,
+                    width: 200,
+                    child: Image(
+                      fit: BoxFit.fill,
+                      image:
+                      AssetImage("assets/images/v2_logo_2.png"),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                            margin: EdgeInsets.only(top: 30,left: 20),
+                            child: Text("Together \nwe create \nchanges", style: TextStyle(fontSize: 48, color: Colors.white, fontWeight: FontWeight.w800,),)
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },

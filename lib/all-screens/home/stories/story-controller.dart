@@ -13,6 +13,7 @@ class StoryController extends ConnectivityController {
   var _storyservice = locator<StroyRipository>();
 
   var isExpanded = false;
+  bool isLoaded = true;
 
   void setExpanded(bool state) {
     isExpanded = state;

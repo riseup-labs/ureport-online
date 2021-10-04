@@ -42,9 +42,13 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
 
     Provider.of<StoryController>(context, listen: false).getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
 
-    Provider.of<StoryController>(context, listen: false).getRecentStory(
-        RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-        sp.getValue(SPUtil.PROGRAMKEY));
+    if(Provider.of<StoryController>(context, listen: false).isLoaded){
+      Provider.of<StoryController>(context, listen: false).getRecentStory(
+          RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+          sp.getValue(SPUtil.PROGRAMKEY));
+      Provider.of<StoryController>(context, listen: false).isLoaded = false;
+    }
+
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       var _futureStory =
@@ -325,11 +329,11 @@ getItemSummery(String summery, BuildContext context) {
       child: RichText(
         text: TextSpan(
           style:
-              TextStyle(fontSize: 14, color: Colors.black, fontFamily: "Dosis"),
+              TextStyle(fontSize: 14, color: Colors.black),
           children: <TextSpan>[
             TextSpan(text: summery),
             TextSpan(
-                text: AppLocalizations.of(context)!.read_more,
+                text: summery.length != 0?" ${AppLocalizations.of(context)!.read_more}":"${AppLocalizations.of(context)!.read_more}",
                 style: new TextStyle(
                     fontSize: 13, color: RemoteConfigData.getPrimaryColor())),
           ],

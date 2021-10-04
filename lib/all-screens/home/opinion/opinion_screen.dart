@@ -32,7 +32,6 @@ class _OpinionState extends State<Opinion> {
   var sp = locator<SPUtil>();
   List<Color> colors = RemoteConfigData.getSecondaryColorList();
   int colorNumber = 0;
-  bool isLoaded = true;
 
   @override
   void initState() {
@@ -45,11 +44,11 @@ class _OpinionState extends State<Opinion> {
 
     List<ResultOpinionLocal>? opinions = [];
 
-    if (isLoaded && LoadDataHandling.checkOpinionLoadAvailability()) {
+    if (Provider.of<OpinionController>(context, listen: false).isLoaded) {
       Provider.of<OpinionController>(context, listen: false).checkOpinion(
           RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
           sp.getValue(SPUtil.PROGRAMKEY));
-      isLoaded = false;
+      Provider.of<OpinionController>(context, listen: false).isLoaded = false;
     }
 
     return Consumer<OpinionController>(builder: (context, provider, child) {
