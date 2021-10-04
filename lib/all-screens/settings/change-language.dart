@@ -20,7 +20,6 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
 
   static const values = <String>[
     'English',
-    'عربي',
     '中國人',
     'français',
     'русский',
@@ -38,16 +37,14 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
       selectedValue = values.first;
     } else if (already_selected == "en") {
       selectedValue = values[0];
-    } else if (already_selected == "ar") {
-      selectedValue = values[1];
     } else if (already_selected == "zh") {
-      selectedValue = values[2];
+      selectedValue = values[1];
     } else if (already_selected == "fr") {
-      selectedValue = values[3];
+      selectedValue = values[2];
     } else if (already_selected == "ru") {
-      selectedValue = values[4];
+      selectedValue = values[3];
     } else if (already_selected == "es") {
-      selectedValue = values[5];
+      selectedValue = values[4];
     } else {
       selectedValue = values.first;
     }
@@ -140,7 +137,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                             {
                                               sp.setValue(
                                                   SPConstant.SELECTED_LANGUAGE,
-                                                  "ar"),
+                                                  "zh"),
                                               setLocal(provider)
                                             }
                                           else if (this.selectedValue ==
@@ -148,7 +145,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                             {
                                               sp.setValue(
                                                   SPConstant.SELECTED_LANGUAGE,
-                                                  "zh"),
+                                                  "fr"),
                                               setLocal(provider)
                                             }
                                           else if (this.selectedValue ==
@@ -156,19 +153,11 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                             {
                                               sp.setValue(
                                                   SPConstant.SELECTED_LANGUAGE,
-                                                  "fr"),
-                                              setLocal(provider)
-                                            }
-                                          else if (this.selectedValue ==
-                                              values[4])
-                                            {
-                                              sp.setValue(
-                                                  SPConstant.SELECTED_LANGUAGE,
                                                   "ru"),
                                               setLocal(provider)
                                             }
                                           else if (this.selectedValue ==
-                                              values[5])
+                                              values[4])
                                             {
                                               sp.setValue(
                                                   SPConstant.SELECTED_LANGUAGE,
@@ -205,8 +194,6 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
     var sp = locator<SPUtil>();
     if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "en"){
       provider.setLocale(new Locale('en'));
-    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ar"){
-      provider.setLocale(new Locale('ar'));
     }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "zh"){
       provider.setLocale(new Locale('zh'));
     }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "fr"){

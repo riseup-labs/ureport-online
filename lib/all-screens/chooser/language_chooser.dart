@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/intro/body.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locale/locale_provider.dart';
@@ -122,9 +121,6 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                             dropdownValue = newValue!;
                                             if (dropdownValue == "English") {
                                               selected_language = "en";
-                                            } else if (dropdownValue ==
-                                                "عربي") {
-                                              selected_language = "ar";
                                             } else if (dropdownValue == "中國人") {
                                               selected_language = "zh";
                                             } else if (dropdownValue ==
@@ -143,7 +139,6 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                         },
                                         items: <String>[
                                           'English',
-                                          'عربي',
                                           '中國人',
                                           'français',
                                           'русский',
@@ -175,8 +170,6 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                         LocaleProvider>(context, listen: false);
                                     if (selected_language == 'en') {
                                       provider_l.setLocale(new Locale('en'));
-                                    } else if (selected_language == 'ar') {
-                                      provider_l.setLocale(new Locale('ar'));
                                     } else if (selected_language == 'zh') {
                                       provider_l.setLocale(new Locale('zh'));
                                     } else if (selected_language == 'fr') {

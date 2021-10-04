@@ -56,18 +56,18 @@ class Settings extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   ClickSound.buttonClickYes();
-                  NavUtils.push(context, ProgramChooser("more"));
-                },
-                child: getItem("${AppLocalizations.of(context)!.change_ureport_program}",
-                    "assets/images/v2_ic_program.png"),
-              ),
-              GestureDetector(
-                onTap: () {
-                  ClickSound.buttonClickYes();
                   NavUtils.push(context, ChangeLanguage());
                 },
                 child: getItem("${AppLocalizations.of(context)!.change_language}",
                     "assets/images/v2_ic_language.png"),
+              ),
+              GestureDetector(
+                onTap: () {
+                  ClickSound.buttonClickYes();
+                  NavUtils.push(context, ProgramChooser("more"));
+                },
+                child: getItem("${AppLocalizations.of(context)!.change_ureport_program}",
+                    "assets/images/v2_ic_program.png"),
               ),
             ],
           ),

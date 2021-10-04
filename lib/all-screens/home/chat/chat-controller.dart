@@ -329,15 +329,19 @@ class ChatController extends ChangeNotifier {
             contact_urn, _token, "Regular Use", onSuccess: (uuid) {
           contatct = uuid;
         });
-        // getfirebase();
         if (apiResponse.httpCode == 200) {
           responseContactCreation = apiResponse.data;
           _spservice.setValue(SPUtil.CONTACT_URN, contact_urn);
-          sendmessage("join","createContatct if");
-          // notifyListeners();
+          if(_spservice.getValue(SPUtil.REG_CALLED) == null){
+            sendmessage("join","createContatct if");
+            _spservice.setValue(SPUtil.REG_CALLED, "true");
+          }
         }
       } else if(_urn != null) {
-        sendmessage("join","createContatct else");
+        if(_spservice.getValue(SPUtil.REG_CALLED) == null){
+          sendmessage("join","createContatct if");
+          _spservice.setValue(SPUtil.REG_CALLED, "true");
+        }
       }
     }
   }
@@ -370,7 +374,10 @@ class ChatController extends ChangeNotifier {
               quicktypest: [""],
               time: formattedDate);
           // print("the message keyword is ..............${messagekeyword}");
-          addMessage(messageModel);
+          // addMessage(messageModel);
+          List<MessageModel> list = [];
+          list.add(messageModel);
+          _databaseHelper.insertConversation(list);
           sendmessage(messagekeyword,"createIndividualCaseManagement");
           messageModel.status = messagestatus;
 
@@ -386,7 +393,10 @@ class ChatController extends ChangeNotifier {
             status: "Sending...",
             quicktypest: [""],
             time: formattedDate);
-        addMessage(messageModel);
+        // addMessage(messageModel);
+        List<MessageModel> list = [];
+        list.add(messageModel);
+        _databaseHelper.insertConversation(list);
         sendmessage(messagekeyword,"createIndividualCaseManagement");
         messageModel.status = messagestatus;
 

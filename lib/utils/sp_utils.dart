@@ -22,6 +22,7 @@ class SPUtil {
   static String LAST_MESSAGE = "last_message";
   static String USER_ROLE = "user_role";
   static String SOUND = "sound";
+  static String REG_CALLED = "reg_called";
 
 
   setValue(String key, String value) async {

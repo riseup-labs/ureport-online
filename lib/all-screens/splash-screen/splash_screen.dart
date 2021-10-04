@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
+import 'package:ureport_ecaro/all-screens/home/chat/Chat.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
@@ -30,91 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getfirebaseInitialmessage(context).then((value) =>{
-      if(value==true){
-        Timer(
-          Duration(seconds: 2),
-              () {
-            var spset = locator<SPUtil>();
-            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-            if (isSigned != null) {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => NavigationScreen(1)));
-            } else {
-              NavUtils.pushAndRemoveUntil(context, LanguageChooser());
-            }
-          },
-        )
-      }else{
-        Timer(
-          Duration(seconds: 2),
-              () {
-            var spset = locator<SPUtil>();
-            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-            if (isSigned != null) {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => NavigationScreen(1)));
-            } else {
-              NavUtils.pushAndRemoveUntil(context, LanguageChooser());
-            }
-          },
-        )
-
-      }
-    });
-
-    getfirebaseonApp(context).then((value) => {
-      if(value==true){
-        Timer(
-          Duration(seconds: 2),
-              () {
-            var spset = locator<SPUtil>();
-            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-            if (isSigned != null) {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => NavigationScreen(1)));
-            } else {
-              NavUtils.pushAndRemoveUntil(context, LanguageChooser());
-            }
-          },
-        )
-      }else{
-        Timer(
-          Duration(seconds: 2),
-              () {
-            var spset = locator<SPUtil>();
-            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-            if (isSigned != null) {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => NavigationScreen(0)));
-            } else {
-              NavUtils.pushAndRemoveUntil(context, LanguageChooser());
-            }
-          },
-        )
-      }
-    });
-
-    // Timer(
-    //   Duration(seconds: 2),
-    //   () {
-    //     var spset = locator<SPUtil>();
-    //     String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-    //     if (isSigned != null) {
-    //       NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
-    //     } else {
-    //       NavUtils.pushAndRemoveUntil(context, LanguageChooser());
-    //     }
-    //   },
-    // );
+    getFirebaseInitialMessage(context);
 
     return Consumer<RemoteConfigController>(
       builder: (context, provider, child) {
@@ -124,14 +41,13 @@ class _SplashScreenState extends State<SplashScreen> {
               children: [
                 Expanded(
                     child: Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: Image(
-                        fit: BoxFit.fill,
-                        image:
-                        AssetImage("assets/images/v2_splash_screen2.png"),
-                      ),
-                    )),
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Image(
+                    fit: BoxFit.fill,
+                    image: AssetImage("assets/images/v2_splash_screen2.png"),
+                  ),
+                )),
                 Positioned(
                   bottom: 60,
                   right: 40,
@@ -140,8 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     width: 200,
                     child: Image(
                       fit: BoxFit.fill,
-                      image:
-                      AssetImage("assets/images/v2_logo_2.png"),
+                      image: AssetImage("assets/images/v2_logo_2.png"),
                     ),
                   ),
                 ),
@@ -151,9 +66,16 @@ class _SplashScreenState extends State<SplashScreen> {
                     children: [
                       Expanded(
                         child: Container(
-                            margin: EdgeInsets.only(top: 40,left: 30, right: 30),
-                            child: Text(AppLocalizations.of(context)!.splashText, style: TextStyle(fontSize: 48, color: Colors.white, fontWeight: FontWeight.w800,),)
-                        ),
+                            margin:
+                                EdgeInsets.only(top: 40, left: 30, right: 30),
+                            child: Text(
+                              AppLocalizations.of(context)!.splashText,
+                              style: TextStyle(
+                                fontSize: 48,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            )),
                       ),
                     ],
                   ),
@@ -166,65 +88,65 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Future<bool> getfirebaseInitialmessage(BuildContext context) async {
-    bool isDataExist = false;
+  getFirebaseInitialMessage(BuildContext context) async {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? remotemessage) {
-      DateTime now = DateTime.now();
-      String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
-      List<dynamic> quicktypest;
-      if (remotemessage!.data["quick_replies"] != null) {
-        quicktypest = json.decode(remotemessage.data["quick_replies"]);
-      } else {
-        quicktypest = [""];
-      }
-      //print("the notification message is ${remotemessage.notification!.body}");
-      var notificationmessage_terminatestate = MessageModel(
-          sender: 'server',
-          message: remotemessage.notification!.body,
-          status: "received",
-          quicktypest: quicktypest,
-          time: formattedDate);
+      print("Firebase value :  init called $remotemessage");
+      if (remotemessage != null) {
+        DateTime now = DateTime.now();
+        String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
+        List<dynamic> quicktypest;
+        if (remotemessage.data["quick_replies"] != null) {
+          quicktypest = json.decode(remotemessage.data["quick_replies"]);
+        } else {
+          quicktypest = [""];
+        }
+        var notificationmessage_terminatestate = MessageModel(
+            sender: 'server',
+            message: remotemessage.notification!.body,
+            status: "received",
+            quicktypest: quicktypest,
+            time: formattedDate);
 
-      Provider.of<ChatController>(context, listen: false)
-          .addMessage(notificationmessage_terminatestate);
-      if (remotemessage.notification!.body != null) {
-        isDataExist = true;
+        Provider.of<ChatController>(context, listen: false)
+            .addMessage(notificationmessage_terminatestate);
+        Provider.of<ChatController>(context, listen: false).isMessageCome =
+            false;
+        senDToChat();
       } else {
-        isDataExist = false;
+        senDToHome();
       }
     });
-    return isDataExist;
   }
 
-  Future<bool> getfirebaseonApp(context) async {
-    bool isDataExist = false;
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage) {
-      DateTime now = DateTime.now();
-      String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
-      List<dynamic> quicktypest;
-      if (remotemessage.data["quick_replies"] != null) {
-        quicktypest = json.decode(remotemessage.data["quick_replies"]);
-      } else {
-        quicktypest = [""];
-      }
-      //print("the notification message is ${remotemessage.notification!.body}");
-      var notificationmessage = MessageModel(
-          sender: 'server',
-          message: remotemessage.notification!.body,
-          status: "received",
-          quicktypest: quicktypest,
-          time: formattedDate);
+  senDToChat() {
+    Timer(
+      Duration(seconds: 2),
+      () {
+        var spset = locator<SPUtil>();
+        String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+        if (isSigned != null) {
+          NavUtils.pushReplacement(context, Chat());
+        } else {
+          NavUtils.pushReplacement(context, LanguageChooser());
+        }
+      },
+    );
+  }
 
-      Provider.of<ChatController>(context, listen: false)
-          .addMessage(notificationmessage);
-      if (remotemessage.notification!.body != null) {
-        isDataExist = true;
-      } else {
-        isDataExist = false;
-      }
-    });
-    return isDataExist;
+  senDToHome() {
+    Timer(
+      Duration(seconds: 2),
+      () {
+        var spset = locator<SPUtil>();
+        String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+        if (isSigned != null) {
+          NavUtils.pushReplacement(context, NavigationScreen(0));
+        } else {
+          NavUtils.pushReplacement(context, LanguageChooser());
+        }
+      },
+    );
   }
 }

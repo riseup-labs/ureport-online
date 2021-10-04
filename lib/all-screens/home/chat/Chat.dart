@@ -381,7 +381,7 @@ class _ChatState extends State<Chat> {
                                                   provider.localmessage[index].message!=""?Container(
                                                     padding: EdgeInsets.only(top: 5,bottom: 5,right: 10,left: 15),
                                                     decoration: BoxDecoration(
-                                                      color:  provider.localmessage[index].message=="This Message was Deleted"?Color(0xffCCCCCC): AppColors.chatBack,
+                                                      color:  provider.localmessage[index].message=="This Message was Deleted"?Colors.grey[300]: AppColors.chatBack,
                                                       borderRadius: BorderRadius.circular(10),
 
                                                     ),
@@ -442,7 +442,9 @@ class _ChatState extends State<Chat> {
                                                                 provider.createIndividualCaseManagement(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
                                                               }else{
                                                                 provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString(),"Quicktype");
-                                                                provider.addMessage(messageModel);
+                                                                List<MessageModel>datalist=[];
+                                                                datalist.add(messageModel);
+                                                                await _databaseHelper.insertConversation(datalist);
                                                               }
 
                                                               messageModel.status=provider.messagestatus;
