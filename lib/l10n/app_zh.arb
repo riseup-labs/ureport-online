@@ -12,7 +12,7 @@
     "continu": "继续",
     "more": "更多的",
     "choose_program": "選擇 U-Report 國家/計劃",
-    "enter_message": "在此輸入文字",
+    "enter_message": "在此輸入文字...",
 
     "settings": "设置",
     "about_us": "關於",
@@ -49,6 +49,7 @@
     "five_days_delete_text": "5 天后自動刪除消息",
     "remove_all_message_text": "刪除所有消息",
     "remove": "消除",
-    "share": "Share",
+    "share": "分享",
+    "this_message_deleted": "此消息已被刪除",
     "splashText": "讓我們一起推動改變"
 }

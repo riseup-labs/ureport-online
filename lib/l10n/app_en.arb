@@ -47,7 +47,7 @@
   "@choose_program": {
     "description": "Select U-Report Program"
   },
-  "enter_message": "Enter text here",
+  "enter_message": "Enter text here...",
   "@enter_message": {
     "description": "Enter message"
   },
@@ -190,6 +190,10 @@
   "share": "Share",
   "@share": {
     "description": "Share"
+  },
+  "this_message_deleted": "This Message was Deleted",
+  "@this_message_deleted": {
+    "description": "This Message was Deleted"
   },
   "splashText": "Let’s drive change together",
   "@splashText": {

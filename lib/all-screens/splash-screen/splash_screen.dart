@@ -30,91 +30,91 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // getfirebaseInitialmessage(context).then((value) =>{
-    //   if(value==true){
-    //     Timer(
-    //       Duration(seconds: 2),
-    //           () {
-    //         var spset = locator<SPUtil>();
-    //         String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-    //         if (isSigned != null) {
-    //           Navigator.pushReplacement(
-    //               context,
-    //               MaterialPageRoute(
-    //                   builder: (context) => NavigationScreen(1)));
-    //         } else {
-    //           NavUtils.pushAndRemoveUntil(context, BannerScreen());
-    //         }
-    //       },
-    //     )
-    //   }else{
-    //     Timer(
-    //       Duration(seconds: 2),
-    //           () {
-    //         var spset = locator<SPUtil>();
-    //         String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-    //         if (isSigned != null) {
-    //           Navigator.pushReplacement(
-    //               context,
-    //               MaterialPageRoute(
-    //                   builder: (context) => NavigationScreen(1)));
-    //         } else {
-    //           NavUtils.pushAndRemoveUntil(context, BannerScreen());
-    //         }
-    //       },
-    //     )
-    //
-    //   }
-    // });
-    //
-    // getfirebaseonApp(context).then((value) => {
-    //   if(value==true){
-    //     Timer(
-    //       Duration(seconds: 2),
-    //           () {
-    //         var spset = locator<SPUtil>();
-    //         String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-    //         if (isSigned != null) {
-    //           Navigator.pushReplacement(
-    //               context,
-    //               MaterialPageRoute(
-    //                   builder: (context) => NavigationScreen(1)));
-    //         } else {
-    //           NavUtils.pushAndRemoveUntil(context, BannerScreen());
-    //         }
-    //       },
-    //     )
-    //   }else{
-    //     Timer(
-    //       Duration(seconds: 2),
-    //           () {
-    //         var spset = locator<SPUtil>();
-    //         String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-    //         if (isSigned != null) {
-    //           Navigator.pushReplacement(
-    //               context,
-    //               MaterialPageRoute(
-    //                   builder: (context) => NavigationScreen(0)));
-    //         } else {
-    //           NavUtils.pushAndRemoveUntil(context, BannerScreen());
-    //         }
-    //       },
-    //     )
-    //   }
-    // });
+    getfirebaseInitialmessage(context).then((value) =>{
+      if(value==true){
+        Timer(
+          Duration(seconds: 2),
+              () {
+            var spset = locator<SPUtil>();
+            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+            if (isSigned != null) {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => NavigationScreen(1)));
+            } else {
+              NavUtils.pushAndRemoveUntil(context, LanguageChooser());
+            }
+          },
+        )
+      }else{
+        Timer(
+          Duration(seconds: 2),
+              () {
+            var spset = locator<SPUtil>();
+            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+            if (isSigned != null) {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => NavigationScreen(1)));
+            } else {
+              NavUtils.pushAndRemoveUntil(context, LanguageChooser());
+            }
+          },
+        )
 
-    Timer(
-      Duration(seconds: 2),
-      () {
-        var spset = locator<SPUtil>();
-        String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
-        if (isSigned != null) {
-          NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
-        } else {
-          NavUtils.pushAndRemoveUntil(context, LanguageChooser());
-        }
-      },
-    );
+      }
+    });
+
+    getfirebaseonApp(context).then((value) => {
+      if(value==true){
+        Timer(
+          Duration(seconds: 2),
+              () {
+            var spset = locator<SPUtil>();
+            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+            if (isSigned != null) {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => NavigationScreen(1)));
+            } else {
+              NavUtils.pushAndRemoveUntil(context, LanguageChooser());
+            }
+          },
+        )
+      }else{
+        Timer(
+          Duration(seconds: 2),
+              () {
+            var spset = locator<SPUtil>();
+            String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+            if (isSigned != null) {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => NavigationScreen(0)));
+            } else {
+              NavUtils.pushAndRemoveUntil(context, LanguageChooser());
+            }
+          },
+        )
+      }
+    });
+
+    // Timer(
+    //   Duration(seconds: 2),
+    //   () {
+    //     var spset = locator<SPUtil>();
+    //     String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+    //     if (isSigned != null) {
+    //       NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
+    //     } else {
+    //       NavUtils.pushAndRemoveUntil(context, LanguageChooser());
+    //     }
+    //   },
+    // );
 
     return Consumer<RemoteConfigController>(
       builder: (context, provider, child) {

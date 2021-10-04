@@ -19,6 +19,14 @@ class ChatAvatar extends StatelessWidget {
             child: user?Image.asset(image,height: 25,width: 25) :
             Image.asset(image,height: 25,width: 25,color: RemoteConfigData.getBackgroundColor()),
           ),
+          !user?Center(
+            child: Container(
+              margin: EdgeInsets.only(right: 3),
+              height: 12,
+              width: 12,
+              child:Image.asset("assets/images/ic_u.png",color: RemoteConfigData.getTextColor()),
+            ),
+          ):Container(),
         ],
       ),
     );

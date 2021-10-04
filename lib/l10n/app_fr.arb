@@ -12,7 +12,7 @@
     "continu": "Continuer",
     "more": "Suite",
     "choose_program": "Sélectionnez le pays/programme U-Report",
-    "enter_message": "Entrez le texte ici",
+    "enter_message": "Entrez le texte ici...",
 
     "settings": "Paramètres",
     "about_us": "Sur",
@@ -49,6 +49,7 @@
     "five_days_delete_text": "Supprimer automatiquement les messages après 5 jours",
     "remove_all_message_text": "Supprimer tous les messages",
     "remove": "Supprimer",
-    "share": "Share",
+    "share": "Partager",
+    "this_message_deleted": "Ce message a été supprimé",
     "splashText": "Conduisons le changement ensemble"
 }

@@ -13,7 +13,7 @@
     "continu": "يكمل",
     "more": "أكثر",
     "choose_program": "حدد U-Report الدولة / البرنامج",
-    "enter_message": "أدخل النص هنا",
+    "enter_message": "أدخل النص هنا...",
 
     "settings": "إعدادات",
     "about_us": "عن",
@@ -50,6 +50,7 @@
     "five_days_delete_text": "إزالة الرسائل تلقائيًا بعد 5 أيام",
     "remove_all_message_text": "قم بإزالة كافة الرسائل",
     "remove": "يزيل",
-    "share": "Share",
+    "share": "يشارك",
+    "this_message_deleted": "تم حذف هذه الرسالة",
     "splashText": "دعونا نقود التغيير معًا"
 }

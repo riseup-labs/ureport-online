@@ -12,7 +12,7 @@
     "continu": "Продолжать",
     "more": "Более",
     "choose_program": "Выберите страну / программу U-Report",
-    "enter_message": "Введите текст здесь",
+    "enter_message": "Введите текст здесь...",
 
     "settings": "Настройки",
     "about_us": "О",
@@ -49,6 +49,7 @@
     "five_days_delete_text": "Автоматически удалять сообщения через 5 дней",
     "remove_all_message_text": "Удалить все сообщения",
     "remove": "Удалять",
-    "share": "Share",
+    "share": "Делиться",
+    "this_message_deleted": "Это сообщение было удалено",
     "splashText": "Давайте вместе меняться"
 }

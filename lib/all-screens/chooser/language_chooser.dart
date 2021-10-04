@@ -53,9 +53,22 @@ class _LanguageChooserState extends State<LanguageChooser> {
                           height: 40,
                         ),
                         Container(
-                          child: Text(
-                            AppLocalizations.of(context)!.welcome,
-                            style: TextStyle(fontSize: 40),
+                          width: double.infinity,
+                          padding: EdgeInsets.only(left: 30),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(text: "Welcome!",style: TextStyle(fontSize: 50, fontWeight: FontWeight.w800, color: Colors.black, fontFamily: "Poppins")),
+                                      TextSpan(text: "\nGet started",style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500, color: Colors.black, fontFamily: "Poppins")),
+                                    ]
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
