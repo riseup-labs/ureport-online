@@ -73,6 +73,8 @@ class Settings extends StatelessWidget {
       ),
     );
   }
+  
+  //Main
 
   getItem(String title, String image) {
     return Container(
