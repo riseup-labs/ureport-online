@@ -110,25 +110,6 @@ class MyApp extends StatelessWidget {
     },
   );
 
-  static void setLocal(LocaleProvider provider) {
-    var sp = locator<SPUtil>();
-    if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "en"){
-      provider.setLocale(new Locale('en'));
-    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ar"){
-      provider.setLocale(new Locale('ar'));
-    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "zh"){
-      provider.setLocale(new Locale('zh'));
-    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "fr"){
-      provider.setLocale(new Locale('fr'));
-    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ru"){
-      provider.setLocale(new Locale('ru'));
-    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "es"){
-      provider.setLocale(new Locale('es'));
-    }else{
-      provider.setLocale(new Locale('en'));
-    }
-  }
-
   static void setInitialLocal(LocaleProvider provider) {
     var sp = locator<SPUtil>();
     if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "en"){

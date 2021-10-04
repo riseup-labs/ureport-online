@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:ureport_ecaro/utils/size_config.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -54,29 +55,32 @@ class SplashContent extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Container(
-              margin: EdgeInsets.only(left: 30,right: 30),
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    text,
-                    style: TextStyle(
-                      fontSize: getProportionateScreenWidth(40),
-                      fontWeight: FontWeight.bold,
-                      color: text != AppLocalizations.of(context)!.stories?Colors.white:Colors.black
-                    ),
-                  ),
-                  Text(
-                    text2,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: getProportionateScreenWidth(13),
+              color: text == AppLocalizations.of(context)!.opinions?AppColors.opinion_intro_back:null,
+              child: Container(
+                margin: EdgeInsets.only(left: 30,right: 30),
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      text,
+                      style: TextStyle(
+                        fontSize: getProportionateScreenWidth(40),
+                        fontWeight: FontWeight.bold,
                         color: text != AppLocalizations.of(context)!.stories?Colors.white:Colors.black
+                      ),
                     ),
-                  ),
-                ],
+                    Text(
+                      text2,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: getProportionateScreenWidth(13),
+                          color: text != AppLocalizations.of(context)!.stories?Colors.white:Colors.black
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           )

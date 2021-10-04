@@ -8,15 +8,12 @@ import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
-import 'package:ureport_ecaro/all-screens/splash-screen/banner_screen.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
-import 'package:ureport_ecaro/locale/locale_provider.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
-import 'package:ureport_ecaro/utils/resources.dart';
-import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -154,8 +151,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     children: [
                       Expanded(
                         child: Container(
-                            margin: EdgeInsets.only(top: 30,left: 20),
-                            child: Text("Together \nwe create \nchanges", style: TextStyle(fontSize: 48, color: Colors.white, fontWeight: FontWeight.w800,),)
+                            margin: EdgeInsets.only(top: 40,left: 30, right: 30),
+                            child: Text(AppLocalizations.of(context)!.splashText, style: TextStyle(fontSize: 48, color: Colors.white, fontWeight: FontWeight.w800,),)
                         ),
                       ),
                     ],
@@ -223,9 +220,6 @@ class _SplashScreenState extends State<SplashScreen> {
       Provider.of<ChatController>(context, listen: false)
           .addMessage(notificationmessage);
       if (remotemessage.notification!.body != null) {
-        print(
-            "the notification value is .......${remotemessage.notification!.body}");
-
         isDataExist = true;
       } else {
         isDataExist = false;

@@ -91,6 +91,7 @@ class MyColors {
 class AppColors {
   static var primary = Color(0xff56A5EE);
   static var border = Color(0xffBDBDBD);
+  static var opinion_intro_back = Color(0xff009cd7);
 
   static var lightBorder = Color(0xffEFEFEF);
   static var offWhiteFA = Color(0xffF5F6FA);

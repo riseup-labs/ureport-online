@@ -12,6 +12,7 @@ import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StoryDetails extends StatefulWidget {
   String id = "";
@@ -76,6 +77,7 @@ class _StoryDetailsState extends State<StoryDetails> {
                             padding: EdgeInsets.only(left: 15, right: 15),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 IconButton(
                                   icon: GestureDetector(
@@ -131,10 +133,15 @@ class _StoryDetailsState extends State<StoryDetails> {
       onTap: () async {
         await Share.share("${RemoteConfigData.getStoryShareUrl()}" + id);
       },
-      child: Card(
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+      child: Container(
+        margin: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Text(AppLocalizations.of(context)!.share, style: TextStyle(fontSize: 17,color: RemoteConfigData.getPrimaryColor()),),
+            SizedBox(width: 5,),
+            Image(image: AssetImage("assets/images/ic_share.png"),height: 20,width: 20, color: RemoteConfigData.getPrimaryColor(),)
+          ],
         ),
       ),
     );
@@ -166,13 +173,13 @@ class _StoryDetailsState extends State<StoryDetails> {
         // loadData();
         loadDataRaw(content, title, image, date);
       },
-      javascriptChannels: Set.from([
-        JavascriptChannel(
-            name: 'Print',
-            onMessageReceived: (JavascriptMessage message) {
-              doShare();
-            })
-      ]),
+      // javascriptChannels: Set.from([
+      //   JavascriptChannel(
+      //       name: 'Print',
+      //       onMessageReceived: (JavascriptMessage message) {
+      //         doShare();
+      //       })
+      // ]),
       onPageFinished: (url) {
         webViewController.getHeight().then((double height) {
           setState(() {
@@ -184,16 +191,6 @@ class _StoryDetailsState extends State<StoryDetails> {
       },
       javascriptMode: JavascriptMode.unrestricted,
     );
-  }
-
-  evaluateScript(String content) {
-    webViewController.webViewController.evaluateJavascript(
-        'document.getElementById("sourceText").innerHTML = "$content";');
-  }
-
-  loadData() {
-    String htmlFilePath = 'assets/storypage/pages/story.html';
-    webViewController.loadUrl(htmlFilePath);
   }
 
   loadDataRaw(String content, String title, String image, String date) {
@@ -271,22 +268,9 @@ class _StoryDetailsState extends State<StoryDetails> {
     <body> 
     <div class="image_box"><img class = "title_image" src="$image"></div>
       <div class="header_time">$clockString</div>
-      <div class="header_share" onclick="getFunction()">
-          <div class="header_group">
-            <div style="color : #F6CA02;">Share</div>
-            <img src="https://storage.googleapis.com/u-report-7f1f3.appspot.com/icon/share.png">
-           </div>
-       </div> 
-    
-   
     <div style="float: left;"><h2>$title</h2></div>
     <div  style="float: left;">$content</div> 
     </body> 
-    <script>
-      function getFunction(){
-         Print.postMessage('code');
-      }
-    </script>
     </html>''';
 
     webViewController.loadUrl(Uri.dataFromString(final_content,

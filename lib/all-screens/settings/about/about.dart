@@ -38,23 +38,29 @@ class _AboutState extends State<About> {
       return SafeArea(
         child: Scaffold(
           body: Container(
-            color: RemoteConfigData.getBackgroundColor(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: (){
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(left: 20),
-                    height: 80,
-                    child: Image(
-                      height: 35,
-                      width: 35,
-                      color:  RemoteConfigData.getTextColor(),
-                      image: AssetImage("assets/images/v2_ic_back.png"),
-                    ),
+                Container(
+                  color: RemoteConfigData.getBackgroundColor(),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 20),
+                          height: 80,
+                          child: Image(
+                            height: 35,
+                            width: 35,
+                            color:  RemoteConfigData.getTextColor(),
+                            image: AssetImage("assets/images/v2_ic_back.png"),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Container(

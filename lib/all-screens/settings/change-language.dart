@@ -5,9 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/locale/locale_provider.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:ureport_ecaro/main.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
-import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 
@@ -29,9 +28,6 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
   ];
 
   String selectedValue = "";
-
-  final selectedColor = Colors.lightBlue;
-  final unselectedColor = Colors.black;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +53,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
     }
 
     return Scaffold(
-      backgroundColor: Color(0xffF5FCFF),
+      // backgroundColor: Color(0xffF5FCFF),
       body: SafeArea(
           child: Container(
         child: Column(
@@ -128,7 +124,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                           child: Radio(
                               value: value,
                               groupValue: selectedValue,
-                              activeColor: Colors.lightBlueAccent,
+                              activeColor: RemoteConfigData.getPrimaryColor(),
                               onChanged: (value) => {
                                     setState(() => {
                                           this.selectedValue = value.toString(),
@@ -137,7 +133,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                               sp.setValue(
                                                   SPConstant.SELECTED_LANGUAGE,
                                                   "en"),
-                                              MyApp.setLocal(provider)
+                                              setLocal(provider)
                                             }
                                           else if (this.selectedValue ==
                                               values[1])
@@ -145,7 +141,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                               sp.setValue(
                                                   SPConstant.SELECTED_LANGUAGE,
                                                   "ar"),
-                                              MyApp.setLocal(provider)
+                                              setLocal(provider)
                                             }
                                           else if (this.selectedValue ==
                                               values[2])
@@ -153,7 +149,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                               sp.setValue(
                                                   SPConstant.SELECTED_LANGUAGE,
                                                   "zh"),
-                                              MyApp.setLocal(provider)
+                                              setLocal(provider)
                                             }
                                           else if (this.selectedValue ==
                                               values[3])
@@ -161,7 +157,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                               sp.setValue(
                                                   SPConstant.SELECTED_LANGUAGE,
                                                   "fr"),
-                                              MyApp.setLocal(provider)
+                                              setLocal(provider)
                                             }
                                           else if (this.selectedValue ==
                                               values[4])
@@ -169,7 +165,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                               sp.setValue(
                                                   SPConstant.SELECTED_LANGUAGE,
                                                   "ru"),
-                                              MyApp.setLocal(provider)
+                                              setLocal(provider)
                                             }
                                           else if (this.selectedValue ==
                                               values[5])
@@ -177,17 +173,17 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                               sp.setValue(
                                                   SPConstant.SELECTED_LANGUAGE,
                                                   "es"),
-                                              MyApp.setLocal(provider)
+                                             setLocal(provider)
                                             }
                                         })
                                   }),
                         )
                       ],
                     ),
+                    SizedBox(height: 9,),
                     Padding(
                       padding: const EdgeInsets.only(left: 20, right: 22),
                       child: DottedLine(
-
                         direction: Axis.horizontal,
                         lineLength: double.infinity,
                         lineThickness: .5,
@@ -204,4 +200,23 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
           ).toList(),
         ),
       ));
+
+  static void setLocal(LocaleProvider provider) {
+    var sp = locator<SPUtil>();
+    if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "en"){
+      provider.setLocale(new Locale('en'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ar"){
+      provider.setLocale(new Locale('ar'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "zh"){
+      provider.setLocale(new Locale('zh'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "fr"){
+      provider.setLocale(new Locale('fr'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ru"){
+      provider.setLocale(new Locale('ru'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "es"){
+      provider.setLocale(new Locale('es'));
+    }else{
+      provider.setLocale(new Locale('en'));
+    }
+  }
 }

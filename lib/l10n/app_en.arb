@@ -11,25 +11,25 @@
   "@next": {
     "description": "Next"
   },
-  "intro_text1": "Read U-Report stories and give feedback online",
+  "intro_text1": "Read the latest U-Report blogs and stay informed",
   "@intro_text1": {
-    "description": "Read U-Report stories and give feedback online"
+    "description": "Read the latest U-Report blogs and stay informed"
   },
   "chat": "Chat",
   "@chat": {
     "description": "Chat"
   },
-  "intro_text2": "Use chat feature to participate in the polls to share your voice and ask questions",
+  "intro_text2": "Participate in polls and access to interactive chatbots about topics you care about",
   "@intro_text2": {
-    "description": "Use chat feature to participate in the polls to share your voice and ask questions"
+    "description": "Participate in polls and access to interactive chatbots about topics you care about"
   },
   "opinions": "Opinions",
   "@opinions": {
     "description": "Opinions"
   },
-  "intro_text3": "View current and previous poll results and share result on social media channels",
+  "intro_text3": "View polls results and share the findings",
   "@intro_text3": {
-    "description": "View current and previous poll results and share result on social media channels"
+    "description": "View polls results and share the findings"
   },
   "welcome": "Welcome",
   "@welcome": {
@@ -43,11 +43,11 @@
   "@more": {
     "description": "More"
   },
-  "choose_program": "Select U-Report Program",
+  "choose_program": "Select U-Report \nCountry/Program",
   "@choose_program": {
     "description": "Select U-Report Program"
   },
-  "enter_message": "Enter message",
+  "enter_message": "Enter text here",
   "@enter_message": {
     "description": "Enter message"
   },
@@ -55,7 +55,7 @@
   "@settings": {
     "description": "Settings"
   },
-  "about_us": "About Us",
+  "about_us": "About",
   "@about_us": {
     "description": "About Us"
   },
@@ -186,5 +186,13 @@
   "remove": "Remove",
   "@remove": {
     "description": "Remove"
+  },
+  "share": "Share",
+  "@share": {
+    "description": "Share"
+  },
+  "splashText": "Let’s drive change together",
+  "@splashText": {
+    "description": "splashText"
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/opinion_controller.dart';
+import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
@@ -168,6 +169,8 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                                     context,
                                                     listen: false)
                                                 .notify();
+                                            Provider.of<StoryController>(context, listen: false).isLoaded = true;
+                                            Provider.of<OpinionController>(context, listen: false).isLoaded = true;
                                             NavUtils.pushAndRemoveUntil(
                                                 context, NavigationScreen(0));
                                           },
