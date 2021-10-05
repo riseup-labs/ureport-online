@@ -172,7 +172,14 @@ class _OpinionSearchState extends State<OpinionSearch> {
               transitionDuration: Duration(milliseconds: 100),
               transition: CircularFloatingSearchBarTransition(),
               debounceDelay: Duration(milliseconds: 100),
-              actions: [],
+              actions: [
+                GestureDetector(
+                    onTap: (){
+                      _floatingSearchBarController.clear();
+                    },
+                    child: Icon(Icons.clear)
+                )
+              ],
               builder: (context, transition) {
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),

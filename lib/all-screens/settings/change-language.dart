@@ -117,6 +117,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                               flex: 4,
                               child: GestureDetector(
                                 onTap: () {
+                                  ClickSound.settingsChanged();
+
                                   setState(() {
                                     selectedValue = value;
                                     print("Radio value : $value");
@@ -128,15 +130,18 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                       sp.setValue(
                                           SPConstant.SELECTED_LANGUAGE, "zh");
                                       setLocal(provider);
-                                    } else if (this.selectedValue == values[2]) {
+                                    } else if (this.selectedValue ==
+                                        values[2]) {
                                       sp.setValue(
                                           SPConstant.SELECTED_LANGUAGE, "fr");
                                       setLocal(provider);
-                                    } else if (this.selectedValue == values[3]) {
+                                    } else if (this.selectedValue ==
+                                        values[3]) {
                                       sp.setValue(
                                           SPConstant.SELECTED_LANGUAGE, "ru");
                                       setLocal(provider);
-                                    } else if (this.selectedValue == values[4]) {
+                                    } else if (this.selectedValue ==
+                                        values[4]) {
                                       sp.setValue(
                                           SPConstant.SELECTED_LANGUAGE, "es");
                                       setLocal(provider);
@@ -159,12 +164,15 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                 groupValue: selectedValue,
                                 activeColor: RemoteConfigData.getPrimaryColor(),
                                 onChanged: (value) => {
+                                      ClickSound.settingsChanged(),
                                       setState(() => {
-                                            this.selectedValue = value.toString(),
+                                            this.selectedValue =
+                                                value.toString(),
                                             if (this.selectedValue == values[0])
                                               {
                                                 sp.setValue(
-                                                    SPConstant.SELECTED_LANGUAGE,
+                                                    SPConstant
+                                                        .SELECTED_LANGUAGE,
                                                     "en"),
                                                 setLocal(provider)
                                               }
@@ -172,7 +180,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                                 values[1])
                                               {
                                                 sp.setValue(
-                                                    SPConstant.SELECTED_LANGUAGE,
+                                                    SPConstant
+                                                        .SELECTED_LANGUAGE,
                                                     "zh"),
                                                 setLocal(provider)
                                               }
@@ -180,7 +189,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                                 values[2])
                                               {
                                                 sp.setValue(
-                                                    SPConstant.SELECTED_LANGUAGE,
+                                                    SPConstant
+                                                        .SELECTED_LANGUAGE,
                                                     "fr"),
                                                 setLocal(provider)
                                               }
@@ -188,7 +198,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                                 values[3])
                                               {
                                                 sp.setValue(
-                                                    SPConstant.SELECTED_LANGUAGE,
+                                                    SPConstant
+                                                        .SELECTED_LANGUAGE,
                                                     "ru"),
                                                 setLocal(provider)
                                               }
@@ -196,7 +207,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                                 values[4])
                                               {
                                                 sp.setValue(
-                                                    SPConstant.SELECTED_LANGUAGE,
+                                                    SPConstant
+                                                        .SELECTED_LANGUAGE,
                                                     "es"),
                                                 setLocal(provider)
                                               }
@@ -208,18 +220,21 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                       SizedBox(
                         height: 9,
                       ),
-                      value != values.last?Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 22),
-                        child: DottedLine(
-                          direction: Axis.horizontal,
-                          lineLength: double.infinity,
-                          lineThickness: .5,
-                          dashLength: 2.0,
-                          dashColor: Colors.lightBlueAccent,
-                          dashGapLength: 2.0,
-                          dashGapColor: Colors.transparent,
-                        ),
-                      ):Container()
+                      value != values.last
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 22),
+                              child: DottedLine(
+                                direction: Axis.horizontal,
+                                lineLength: double.infinity,
+                                lineThickness: .5,
+                                dashLength: 2.0,
+                                dashColor: Colors.lightBlueAccent,
+                                dashGapLength: 2.0,
+                                dashGapColor: Colors.transparent,
+                              ),
+                            )
+                          : Container()
                     ],
                   ),
                 );

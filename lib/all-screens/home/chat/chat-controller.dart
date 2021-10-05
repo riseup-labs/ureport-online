@@ -15,6 +15,7 @@ import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/apicall_responsedata/response_contact_creation.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
 import 'package:ureport_ecaro/network_operation/rapidpro_service.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
@@ -28,8 +29,6 @@ import 'model/response-local-chat-parsing.dart';
 import 'notification-service.dart';
 
 class ChatController extends ChangeNotifier {
-
-
   List<String> quicktype = [];
   final _chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
@@ -225,9 +224,6 @@ class ChatController extends ChangeNotifier {
     } else {
       localmessage.add(messageModelLocal);
     }
-
-    // addMessage(messageModel);
-    // print("the data is ..======================================================================.........${data}")
   }
 
   addselectionitems(
@@ -282,16 +278,6 @@ class ChatController extends ChangeNotifier {
     notifyListeners();
   }
 
-  String getFirstMessageStatus() {
-    String firstvalue = _spservice.getValue(SPUtil.FIRSTMESSAGE);
-    return firstvalue;
-  }
-
-  String setFirstMessageStatus() {
-    String firstvalue = _spservice.setValue(SPUtil.FIRSTMESSAGE, "SENT");
-    return firstvalue;
-  }
-
   List<dynamic> quicdata(String ss) {
     List<dynamic> data = [];
 
@@ -332,14 +318,14 @@ class ChatController extends ChangeNotifier {
         if (apiResponse.httpCode == 200) {
           responseContactCreation = apiResponse.data;
           _spservice.setValue(SPUtil.CONTACT_URN, contact_urn);
-          if(_spservice.getValue(SPUtil.REG_CALLED) == null){
-            sendmessage("join","createContatct if");
+          if (_spservice.getValue(SPUtil.REG_CALLED) == null) {
+            sendmessage("join", "createContatct if");
             _spservice.setValue(SPUtil.REG_CALLED, "true");
           }
         }
-      } else if(_urn != null) {
-        if(_spservice.getValue(SPUtil.REG_CALLED) == null){
-          sendmessage("join","createContatct if");
+      } else if (_urn != null) {
+        if (_spservice.getValue(SPUtil.REG_CALLED) == null) {
+          sendmessage("join", "createContatct if");
           _spservice.setValue(SPUtil.REG_CALLED, "true");
         }
       }
@@ -378,7 +364,7 @@ class ChatController extends ChangeNotifier {
           List<MessageModel> list = [];
           list.add(messageModel);
           _databaseHelper.insertConversation(list);
-          sendmessage(messagekeyword,"createIndividualCaseManagement");
+          sendmessage(messagekeyword, "createIndividualCaseManagement");
           messageModel.status = messagestatus;
 
           notifyListeners();
@@ -397,7 +383,7 @@ class ChatController extends ChangeNotifier {
         List<MessageModel> list = [];
         list.add(messageModel);
         _databaseHelper.insertConversation(list);
-        sendmessage(messagekeyword,"createIndividualCaseManagement");
+        sendmessage(messagekeyword, "createIndividualCaseManagement");
         messageModel.status = messagestatus;
 
         notifyListeners();
@@ -452,6 +438,7 @@ class ChatController extends ChangeNotifier {
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
 
       print("remoteMessage:  ${remotemessage.data}");
+      ClickSound.receiveMessage();
 
       List<dynamic> quicktypest;
       if (remotemessage.data["quick_replies"] != null) {
@@ -485,7 +472,6 @@ class ChatController extends ChangeNotifier {
           serverMessage.message == remove_Contact2) {
         _spservice.setValue(SPUtil.REGISTRATION_COMPLETE, "");
       }
-
       addMessage(serverMessage);
       isMessageCome = false;
     });
@@ -502,7 +488,6 @@ class ChatController extends ChangeNotifier {
   }
 
   sendmessage(String message, String from) async {
-
     print("Call frem : $from");
 
     isMessageCome = true;
@@ -535,25 +520,25 @@ class ChatController extends ChangeNotifier {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? remotemessage) {
-          if(remotemessage != null){
-            DateTime now = DateTime.now();
-            String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
-            List<dynamic> quicktypest;
-            if (remotemessage.data["quick_replies"] != null) {
-              quicktypest = json.decode(remotemessage.data["quick_replies"]);
-            } else {
-              quicktypest = [""];
-            }
-            //print("the notification message is ${remotemessage.notification!.body}");
-            var notificationmessage_terminatestate = MessageModel(
-                sender: 'server',
-                message: remotemessage.notification!.body,
-                status: "received",
-                quicktypest: quicktypest,
-                time: formattedDate);
-            addMessage(notificationmessage_terminatestate);
-            FirebaseNotificationService.display(remotemessage);
-          }
+      if (remotemessage != null) {
+        DateTime now = DateTime.now();
+        String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
+        List<dynamic> quicktypest;
+        if (remotemessage.data["quick_replies"] != null) {
+          quicktypest = json.decode(remotemessage.data["quick_replies"]);
+        } else {
+          quicktypest = [""];
+        }
+        //print("the notification message is ${remotemessage.notification!.body}");
+        var notificationmessage_terminatestate = MessageModel(
+            sender: 'server',
+            message: remotemessage.notification!.body,
+            status: "received",
+            quicktypest: quicktypest,
+            time: formattedDate);
+        addMessage(notificationmessage_terminatestate);
+        FirebaseNotificationService.display(remotemessage);
+      }
     });
   }
 

@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 
@@ -72,7 +74,7 @@ class TopBar {
                 child: Container(
                   height: 80,
                   child: Container(
-                    padding: EdgeInsets.only(right: 30),
+                    padding: EdgeInsets.only(right: 10),
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -84,14 +86,17 @@ class TopBar {
                                 color: RemoteConfigData.getTextColor(),
                                 fontWeight: FontWeight.bold),
                           ),
+                          SizedBox(width: 5,),
                           IconButton(
                             icon: Icon(
                               Icons.clear,
                               size: 30,
+                              color: RemoteConfigData.getTextColor(),
                             ),
                             onPressed: () {
                               //Detect where this page called
                               if(from == "Home"){
+                                Provider.of<ChatController>(context, listen: false).selectall = false;
                                 Navigator.pop(context);
                               }else{
                                 NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));

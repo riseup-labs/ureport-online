@@ -102,7 +102,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
             ClickSound.buttonClickYes();
             setState(() {
               if(i == 1){
-                NavUtils.push(context, Chat("Home"));
+                // NavUtils.push(context, Chat("Home"));
+                NavUtils.pushToChat(context, "Home");
               }else{
                 changedIndex = i;
               }

@@ -116,6 +116,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold),
                                         onChanged: (String? newValue) {
+                                          ClickSound.buttonClickYes();
                                           setState(() {
                                             dropdownValue = newValue!;
                                             if (dropdownValue == "English") {
@@ -150,6 +151,9 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                             child: Text(value),
                                           );
                                         }).toList(),
+                                        onTap: (){
+                                          ClickSound.buttonClickYes();
+                                        },
                                       ),
                                     ),
                                   ),

@@ -16,16 +16,15 @@ class SplashContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Expanded(
-            flex: 4,
             child: Container(
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  //Logo
                   Container(
                     height: 100,
                     child: Container(
@@ -38,12 +37,13 @@ class SplashContent extends StatelessWidget {
                       ),
                     ),
                   ),
+                  //Image
                   Container(
                     margin: EdgeInsets.only(right: text == AppLocalizations.of(context)!.stories?55:0),
                     child: Image.asset(
                       image,
                       fit: BoxFit.fill,
-                      height: getProportionateScreenHeight(390),
+                      height: getProportionateScreenHeight(350),
                       width: double.infinity,
                     ),
                   ),
@@ -51,36 +51,34 @@ class SplashContent extends StatelessWidget {
               ),
             ),
           ),
-
-          Expanded(
-            flex: 1,
+          Container(
+            padding: EdgeInsets.only(top: 10),
+            height: 180,
+            color: text == AppLocalizations.of(context)!.opinions?AppColors.opinion_intro_back:null,
             child: Container(
-              color: text == AppLocalizations.of(context)!.opinions?AppColors.opinion_intro_back:null,
-              child: Container(
-                margin: EdgeInsets.only(left: 30,right: 30),
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      text,
-                      style: TextStyle(
-                        fontSize: getProportionateScreenWidth(40),
-                        fontWeight: FontWeight.bold,
+              margin: EdgeInsets.only(left: 30,right: 30),
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(40),
+                      fontWeight: FontWeight.bold,
+                      color: text != AppLocalizations.of(context)!.stories?Colors.white:Colors.black
+                    ),
+                  ),
+                  Text(
+                    text2,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(13),
                         color: text != AppLocalizations.of(context)!.stories?Colors.white:Colors.black
-                      ),
                     ),
-                    Text(
-                      text2,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: getProportionateScreenWidth(13),
-                          color: text != AppLocalizations.of(context)!.stories?Colors.white:Colors.black
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           )

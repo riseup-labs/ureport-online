@@ -12,13 +12,8 @@ import 'model/response-story-data.dart' as storyarray;
 class StoryController extends ConnectivityController {
   var _storyservice = locator<StroyRipository>();
 
-  var isExpanded = false;
+  var noResultFound = false;
   bool isLoaded = true;
-
-  void setExpanded(bool state) {
-    isExpanded = state;
-    notifyListeners();
-  }
 
   var isLoading = false;
   var isSyncing = false;

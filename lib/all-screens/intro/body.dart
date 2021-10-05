@@ -57,61 +57,57 @@ class _IntroScreenState extends State<IntroScreen> {
           child: Column(
             children: <Widget>[
               Expanded(
-                flex: 7,
                 child: Container(
                   child: getPageBuilder(0,splashData),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  color: currentPage == 2?AppColors.opinion_intro_back:null,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: getProportionateScreenWidth(20)),
-                    child: Container(
-                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: (){
+              Container(
+                color: currentPage == 2?AppColors.opinion_intro_back:null,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: getProportionateScreenWidth(20)),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: (){
+                            ClickSound.buttonClickYes();
+                            NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
+                          },
+                          child: Text("${AppLocalizations.of(context)!.skip}",
+                              style:
+                                  TextStyle(fontSize: 16, color: currentPage != 0?Colors.white:Colors.black, fontWeight: FontWeight.bold)),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 7),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: getBuildDot(splashData),
+                          ),
+                        ),
+                        GestureDetector(
+                            onTap: () {
                               ClickSound.buttonClickYes();
-                              NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
+                              currentPage++;
+                              if (currentPage >= 3) {
+                                NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
+                              }else{
+                                _pageController!.nextPage(
+                                    duration: Duration(milliseconds: 100),
+                                    curve: Curves.easeIn
+                                );
+                                setState(() {});
+                              }
                             },
-                            child: Text("${AppLocalizations.of(context)!.skip}",
-                                style:
-                                    TextStyle(fontSize: 16, color: currentPage != 0?Colors.white:Colors.black, fontWeight: FontWeight.bold)),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 7),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: getBuildDot(splashData),
-                            ),
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                ClickSound.buttonClickYes();
-                                currentPage++;
-                                if (currentPage >= 3) {
-                                  NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
-                                }else{
-                                  _pageController!.nextPage(
-                                      duration: Duration(milliseconds: 100),
-                                      curve: Curves.easeIn
-                                  );
-                                  setState(() {});
-                                }
-                              },
-                              child: Text(
-                                "${AppLocalizations.of(context)!.next}",
-                                style: TextStyle(
-                                    fontSize: 16, color: currentPage != 0?Colors.white:Colors.black, fontWeight: FontWeight.bold),
-                              )),
-                        ],
-                      ),
+                            child: Text(
+                              "${AppLocalizations.of(context)!.next}",
+                              style: TextStyle(
+                                  fontSize: 16, color: currentPage != 0?Colors.white:Colors.black, fontWeight: FontWeight.bold),
+                            )),
+                      ],
                     ),
                   ),
                 ),

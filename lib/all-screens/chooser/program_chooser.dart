@@ -135,6 +135,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold),
                                               onChanged: (String? newValue) {
+                                                ClickSound.buttonClickYes();
                                                 setState(() {
                                                   dropdownValue = newValue!;
                                                   spset.setValue(
@@ -144,6 +145,9 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                               },
                                               items: RemoteConfigData
                                                   .getProgramListForProgramChooser(),
+                                              onTap: (){
+                                                ClickSound.buttonClickYes();
+                                              },
                                             ),
                                           ),
                                         ),
