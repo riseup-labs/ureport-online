@@ -104,8 +104,6 @@ class StoryController extends ConnectivityController {
   }
 
   initializeDatabase() {
-    _databaseHelper.initializeDatabase().then((value) {
-      print("the database story table created$value");
-    });
+    _databaseHelper.initializeDatabase();
   }
 }

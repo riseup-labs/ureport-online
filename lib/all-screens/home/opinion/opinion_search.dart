@@ -33,7 +33,6 @@ class _OpinionSearchState extends State<OpinionSearch> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Provider.of<OpinionController>(context, listen: false).isExpanded = false;
     filteredCategoryList.clear();
@@ -208,7 +207,6 @@ Widget buildItem(OpinionController provider, OpinionSearchItem item, BuildContex
           onTap: () {
             ClickSound.buttonClickYes();
             _floatingSearchBarController.clear();
-            _floatingSearchBarController.close();
             provider.opinionID = item.id;
             NavUtils.pushAndRemoveUntil(context, NavigationScreen(2));
           },

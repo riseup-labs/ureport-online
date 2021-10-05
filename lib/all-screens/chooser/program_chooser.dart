@@ -158,7 +158,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                     child: Container(
                                       child: GestureDetector(
                                           onTap: () {
-                                            ClickSound.settingsChanged();
+                                            ClickSound.buttonClickYes();
                                             spset.setValue(SPUtil.PROGRAMKEY,
                                                 dropdownValue);
                                             Provider.of<OpinionController>(

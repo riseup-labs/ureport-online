@@ -535,23 +535,25 @@ class ChatController extends ChangeNotifier {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? remotemessage) {
-      DateTime now = DateTime.now();
-      String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
-      List<dynamic> quicktypest;
-      if (remotemessage!.data["quick_replies"] != null) {
-        quicktypest = json.decode(remotemessage.data["quick_replies"]);
-      } else {
-        quicktypest = [""];
-      }
-      //print("the notification message is ${remotemessage.notification!.body}");
-      var notificationmessage_terminatestate = MessageModel(
-          sender: 'server',
-          message: remotemessage.notification!.body,
-          status: "received",
-          quicktypest: quicktypest,
-          time: formattedDate);
-      addMessage(notificationmessage_terminatestate);
-      FirebaseNotificationService.display(remotemessage);
+          if(remotemessage != null){
+            DateTime now = DateTime.now();
+            String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
+            List<dynamic> quicktypest;
+            if (remotemessage.data["quick_replies"] != null) {
+              quicktypest = json.decode(remotemessage.data["quick_replies"]);
+            } else {
+              quicktypest = [""];
+            }
+            //print("the notification message is ${remotemessage.notification!.body}");
+            var notificationmessage_terminatestate = MessageModel(
+                sender: 'server',
+                message: remotemessage.notification!.body,
+                status: "received",
+                quicktypest: quicktypest,
+                time: formattedDate);
+            addMessage(notificationmessage_terminatestate);
+            FirebaseNotificationService.display(remotemessage);
+          }
     });
   }
 

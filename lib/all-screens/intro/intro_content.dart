@@ -19,7 +19,7 @@ class SplashContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Expanded(
-            flex: 5,
+            flex: 4,
             child: Container(
               width: double.infinity,
               child: Column(

@@ -9,6 +9,7 @@ import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/Chat.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
+import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
@@ -31,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     getFirebaseInitialMessage(context);
 
     return Consumer<RemoteConfigController>(
@@ -39,15 +41,14 @@ class _SplashScreenState extends State<SplashScreen> {
           body: SafeArea(
             child: Stack(
               children: [
-                Expanded(
-                    child: Container(
+                Container(
                   width: double.infinity,
                   height: double.infinity,
                   child: Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage("assets/images/v2_splash_screen2.png"),
+                fit: BoxFit.fill,
+                image: AssetImage("assets/images/v2_splash_screen2.png"),
                   ),
-                )),
+                ),
                 Positioned(
                   bottom: 60,
                   right: 40,
@@ -92,7 +93,6 @@ class _SplashScreenState extends State<SplashScreen> {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? remotemessage) {
-      print("Firebase value :  init called $remotemessage");
       if (remotemessage != null) {
         DateTime now = DateTime.now();
         String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
@@ -127,9 +127,9 @@ class _SplashScreenState extends State<SplashScreen> {
         var spset = locator<SPUtil>();
         String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
         if (isSigned != null) {
-          NavUtils.pushReplacement(context, Chat());
+          NavUtils.pushAndRemoveUntil(context, Chat("notification"));
         } else {
-          NavUtils.pushReplacement(context, LanguageChooser());
+          NavUtils.pushAndRemoveUntil(context, LanguageChooser());
         }
       },
     );
@@ -142,9 +142,9 @@ class _SplashScreenState extends State<SplashScreen> {
         var spset = locator<SPUtil>();
         String isSigned = spset.getValue(SPUtil.PROGRAMKEY);
         if (isSigned != null) {
-          NavUtils.pushReplacement(context, NavigationScreen(0));
+          NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
         } else {
-          NavUtils.pushReplacement(context, LanguageChooser());
+          NavUtils.pushAndRemoveUntil(context, LanguageChooser());
         }
       },
     );

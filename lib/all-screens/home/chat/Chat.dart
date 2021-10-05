@@ -25,14 +25,20 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Chat extends StatefulWidget {
 
+  String from;
+  Chat(this.from);
 
   @override
-  _ChatState createState() => _ChatState();
+  _ChatState createState() => _ChatState(from);
 }
 
 
-
 class _ChatState extends State<Chat> {
+
+  String from;
+
+
+  _ChatState(this.from);
 
   final sendMessageKey = GlobalKey<FormState>();
   TextEditingController _messagecontroller= TextEditingController();
@@ -65,7 +71,6 @@ class _ChatState extends State<Chat> {
     });
     super.initState();
 
-
     if(Provider.of<ChatController>(context, listen: false).isLoaded){
       Provider.of<ChatController>(context, listen: false).createContatct();
       Provider.of<ChatController>(context, listen: false).getfirebaseInitialmessage();
@@ -82,10 +87,14 @@ class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
 
-
     return WillPopScope(
       onWillPop: () async{
-        NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
+        //Detect where this page called
+        if(widget.from == "Home"){
+          Navigator.pop(context);
+        }else{
+          NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
+        }
         return false;
       },
       child: Consumer<ChatController>(
@@ -96,27 +105,12 @@ class _ChatState extends State<Chat> {
                 color: Colors.white,
                 child: Column(
                   children: [
-                    TopBar.getTopBar(AppLocalizations.of(context)!.chat),
+                    TopBar.getChatTopBar(AppLocalizations.of(context)!.chat,context,widget.from),
                     Container(
                       child: Divider(
                         height: 1.5,
                         color: Colors.grey[600],
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: 10),
-                          padding: EdgeInsets.all(4),
-                            child: IconButton(
-                              icon: Icon(Icons.clear,size: 30,),
-                              onPressed: (){
-                                NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
-                              },
-                            )
-                        )
-                      ],
                     ),
                     Expanded(
                       child: Column(

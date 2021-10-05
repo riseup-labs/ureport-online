@@ -40,8 +40,6 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
     Provider.of<StoryController>(context, listen: false).initializeDatabase();
     List<ResultLocal>? stories = [];
 
-    Provider.of<StoryController>(context, listen: false).getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
-
     if(Provider.of<StoryController>(context, listen: false).isLoaded){
       Provider.of<StoryController>(context, listen: false).getRecentStory(
           RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
@@ -51,8 +49,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
 
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
-      var _futureStory =
-          provider.getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
+      var _futureStory = provider.getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
       return SafeArea(
           child: Scaffold(
               body: Container(
@@ -174,9 +171,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
                                                   onTap: (){
                                                     ClickSound.buttonClickYes();
                                                     itemCount = itemCount+ 10;
-                                                    setState(() {
-
-                                                    });
+                                                    setState(() {});
                                                   },
                                                     child: Center(
                                                         child:

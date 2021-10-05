@@ -91,9 +91,6 @@ class OpinionController extends ConnectivityController {
     return _databaseHelper.getOpinions(program, id);
   }
 
-  getLatestOpinionFromLocal(String program) {
-    return _databaseHelper.getLatestOpinion(program);
-  }
 
   getCategories(String program) {
     return _databaseHelper.getOpinionCategories(program);

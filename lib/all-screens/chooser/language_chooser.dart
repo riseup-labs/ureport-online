@@ -53,9 +53,8 @@ class _LanguageChooserState extends State<LanguageChooser> {
                         ),
                         Container(
                           width: double.infinity,
-                          padding: EdgeInsets.only(left: 30),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
                                 child: RichText(
