@@ -15,6 +15,7 @@ class OpinionController extends ConnectivityController {
 
   int opinionID = 0;
   bool isLoaded = true;
+  var noResultFound = false;
 
   setOpinionId(int id){
     opinionID = id;
@@ -41,7 +42,7 @@ class OpinionController extends ConnectivityController {
   }
 
   var _opinionrepository = locator<OpinionRepository>();
-  List<opinionsarray.Result> items = List.empty(growable: true);
+  List<opinionsarray.Result> items = [];
 
   checkOpinion(String url, String program) async {
     _databaseHelper.getOpinionCount(program).then((value) => {
@@ -64,7 +65,7 @@ class OpinionController extends ConnectivityController {
       if (apiresponsedata.data.next != null) {
         getOpinionsFromRemote(apiresponsedata.data.next, program);
       } else {
-        sp.setValue("${SPUtil.PROGRAMKEY}_latest_opinion", items[0].id.toString());
+        sp.setValue("${sp.getValue(SPUtil.PROGRAMKEY)}_latest_opinion", items[0].id.toString());
         await _databaseHelper.insertOpinion(items, program);
         LoadDataHandling.storeOpinionLastUpdate();
         isLoading = false;
@@ -80,6 +81,7 @@ class OpinionController extends ConnectivityController {
     if (apiresponsedata.httpCode == 200) {
       await _databaseHelper.insertOpinion(
           apiresponsedata.data.results, program);
+      sp.setValue("${sp.getValue(SPUtil.PROGRAMKEY)}_latest_opinion", apiresponsedata.data.results[0].id.toString());
       LoadDataHandling.storeOpinionLastUpdate();
       isLoading = false;
       isSyncing = false;

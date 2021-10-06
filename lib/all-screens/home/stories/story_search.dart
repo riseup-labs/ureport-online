@@ -308,7 +308,8 @@ class _StorySearchState extends State<StorySearch> {
                             children: <TextSpan>[
                               TextSpan(
                                 children: highlightOccurrences(item.title, item.value),
-                                style: TextStyle(color: Colors.black),),
+                                style: TextStyle(color: Colors.black),
+                              ),
                               TextSpan(text: "  "),
                               TextSpan(
                                   text: titleDate,

@@ -221,8 +221,9 @@ class DatabaseHelper {
 
   Future<int> getOpinionCount(String program) async {
     Database db = await this.database;
-    int? count = Sqflite.firstIntValue(await db.rawQuery(
-        "SELECT COUNT(*) FROM ${DatabaseConstant.tableNameOpinion} WHERE ${DatabaseConstant.columnProgramOpinion} = '$program'"));
+    int? count = Sqflite.firstIntValue(await db.rawQuery("SELECT COUNT(*) FROM ${DatabaseConstant.tableNameOpinion} WHERE ${DatabaseConstant.columnProgramOpinion} = '$program'"));
+    print("Opinion count: $count");
+    print("Opinion count: $program");
     return count!;
   }
 

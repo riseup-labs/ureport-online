@@ -175,6 +175,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                                 .notify();
                                             Provider.of<StoryController>(context, listen: false).isLoaded = true;
                                             Provider.of<OpinionController>(context, listen: false).isLoaded = true;
+                                            Provider.of<OpinionController>(context, listen: false).items = [];
                                             NavUtils.pushAndRemoveUntil(
                                                 context, NavigationScreen(0));
                                           },

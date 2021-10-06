@@ -25,7 +25,7 @@ class OpinionSearchItem{
   String title;
   String date;
   int id;
-
-  OpinionSearchItem(this.id,this.title, this.date);
+  String value;
+  OpinionSearchItem(this.id,this.title, this.date,{this.value = ""});
 
 }

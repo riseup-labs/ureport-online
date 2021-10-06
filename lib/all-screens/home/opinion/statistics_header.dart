@@ -61,6 +61,10 @@ class StatisticsHeader {
     }
 
     String latest_opinion_id = sp.getValue("${SPUtil.PROGRAMKEY}_latest_opinion");
+    print("Opinion count: sp id $latest_opinion_id");
+    print("Opinion count: db id ${opinions.id}");
+    print("Opinion count: db id ${SPUtil.PROGRAMKEY}");
+
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
