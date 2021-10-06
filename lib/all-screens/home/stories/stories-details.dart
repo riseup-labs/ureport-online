@@ -8,6 +8,7 @@ import 'package:ureport_ecaro/all-screens/home/stories/save_story.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-details-controller.dart';
 import 'package:share/share.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -20,7 +21,6 @@ class StoryDetails extends StatefulWidget {
   String image = "";
   String date = "";
 
-
   StoryDetails(this.id, this.title, this.image, this.date);
 
   @override
@@ -28,7 +28,6 @@ class StoryDetails extends StatefulWidget {
 }
 
 class _StoryDetailsState extends State<StoryDetails> {
-
   var sp = locator<SPUtil>();
   String storyContent = "";
 
@@ -37,110 +36,123 @@ class _StoryDetailsState extends State<StoryDetails> {
     // TODO: implement initState
     super.initState();
 
-    StorageUtil.readStory("${sp.getValue(SPUtil.PROGRAMKEY)}_${widget.id}").then((String value) {
+    StorageUtil.readStory("${sp.getValue(SPUtil.PROGRAMKEY)}_${widget.id}")
+        .then((String value) {
       setState(() {
         storyContent = value;
       });
     });
-
   }
-
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer<StoryDetailsController>(
         builder: (context, provider, snapshot) {
-          return WillPopScope(
-            onWillPop: () async {
-              webViewController.webViewController
-                  .canGoBack().then((value) => {
-                if(value){
-                  webViewController.webViewController.
-                  goBack()
-                }else{
-                  Navigator.pop(context)
+      return WillPopScope(
+        onWillPop: () async {
+          webViewController.webViewController.canGoBack().then((value) => {
+                if (value){
+                  webViewController.webViewController.goBack(),
+                  ClickSound.soundClose()
                 }
-              }
-              );
-              return false;
-            },
-            child: Scaffold(
-                body: SafeArea(
-                  child: Container(
-                    color: Colors.white,
-                    child: SafeArea(
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: 60,
-                            padding: EdgeInsets.only(left: 15, right: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  icon: GestureDetector(
-                                      onTap: () {
-
-                                        webViewController.webViewController
-                                            .canGoBack().then((value) => {
-                                        if(value){
-                                            webViewController.webViewController.
-                                            goBack()
-                                      }else{
-                                        Navigator.pop(context)
-                                        }
-                                      }
-                                        );
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.only(top: 10),
-                                          width: 60,
-                                          child: Image(
-                                            image: AssetImage("assets/images/v2_ic_back.png"),
-                                          )
-                                      )),
-                                  color: Colors.black,
-                                  onPressed: () {},
-                                ),
-                                getShareButton(widget.id)
-                              ],
-                            ),
+                else {
+                  Navigator.pop(context),
+                  ClickSound.soundClose()
+                }
+              });
+          return false;
+        },
+        child: Scaffold(
+            body: SafeArea(
+          child: Container(
+            color: Colors.white,
+            child: SafeArea(
+              child: Stack(
+                children: [
+                  Container(
+                    height: 70,
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 55,
+                          child: IconButton(
+                            icon: Container(
+                                height: 60,
+                                width: 120,
+                                child: Image(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage(
+                                      "assets/images/v2_ic_back.png"),
+                                )),
+                            color: Colors.black,
+                            onPressed: () {
+                              webViewController.webViewController
+                                  .canGoBack()
+                                  .then((value) => {
+                                        if (value)
+                                          {
+                                            webViewController.webViewController
+                                                .goBack(),
+                                            ClickSound.soundClose()
+                                          }
+                                        else
+                                          {Navigator.pop(context),
+                                            ClickSound.soundClose()}
+                                      });
+                            },
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 60),
-                            width: double.infinity,
-                            child: loadLocalHTML(
-                                provider, storyContent, widget.title,
-                                widget.image, widget.date),
-                          ),
-                        ],
-                      ),
+                        ),
+                        getShareButton(widget.id)
+                      ],
                     ),
                   ),
-                )),
-          );
-        });
+                  Container(
+                    margin: EdgeInsets.only(top: 70),
+                    width: double.infinity,
+                    child: loadLocalHTML(provider, storyContent, widget.title,
+                        widget.image, widget.date),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )),
+      );
+    });
   }
 
-  doShare() async{
-    await Share.share("${RemoteConfigData.getStoryShareUrl()}" + "${widget.id}");
+  doShare() async {
+    await Share.share(
+        "${RemoteConfigData.getStoryShareUrl()}" + "${widget.id}");
   }
 
   getShareButton(String id) {
     return GestureDetector(
       onTap: () async {
+        ClickSound.soundShare();
         await Share.share("${RemoteConfigData.getStoryShareUrl()}" + id);
       },
       child: Container(
-        margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.all(8.0),
         child: Row(
           children: [
-            Text(AppLocalizations.of(context)!.share, style: TextStyle(fontSize: 17,color: RemoteConfigData.getPrimaryColor()),),
-            SizedBox(width: 5,),
-            Image(image: AssetImage("assets/images/ic_share.png"),height: 20,width: 20, color: RemoteConfigData.getPrimaryColor(),)
+            Text(
+              AppLocalizations.of(context)!.share,
+              style: TextStyle(
+                  fontSize: 17, color: RemoteConfigData.getPrimaryColor()),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Image(
+              image: AssetImage("assets/images/ic_share.png"),
+              height: 20,
+              width: 20,
+              color: RemoteConfigData.getPrimaryColor(),
+            )
           ],
         ),
       ),
@@ -155,69 +167,54 @@ class _StoryDetailsState extends State<StoryDetails> {
 
     return content == ""
         ? Container(
-      margin: EdgeInsets.only(top: 30),
-      height: MediaQuery
-          .of(context)
-          .size
-          .height,
-      child: Column(
-        children: [
-          CircularProgressIndicator(),
-        ],
-      ),
-    )
+            margin: EdgeInsets.only(top: 30),
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [
+                CircularProgressIndicator(),
+              ],
+            ),
+          )
         : WebViewPlus(
-      onWebViewCreated: (controller) {
-        webViewController = controller;
-        controller.webViewController.clearCache();
-        // loadData();
-        loadDataRaw(content, title, image, date);
-      },
-      // javascriptChannels: Set.from([
-      //   JavascriptChannel(
-      //       name: 'Print',
-      //       onMessageReceived: (JavascriptMessage message) {
-      //         doShare();
-      //       })
-      // ]),
-      onPageFinished: (url) {
-        webViewController.getHeight().then((double height) {
-          setState(() {
-            _height = height;
-          });
-        });
-        content = content.replaceAll("\"", "\'");
-        content = content.replaceAll("\\", "");
-      },
-      javascriptMode: JavascriptMode.unrestricted,
-    );
+            onWebViewCreated: (controller) {
+              webViewController = controller;
+              controller.webViewController.clearCache();
+              // loadData();
+              loadDataRaw(content, title, image, date);
+            },
+            // javascriptChannels: Set.from([
+            //   JavascriptChannel(
+            //       name: 'Print',
+            //       onMessageReceived: (JavascriptMessage message) {
+            //         doShare();
+            //       })
+            // ]),
+            onPageFinished: (url) {
+              webViewController.getHeight().then((double height) {
+                setState(() {
+                  _height = height;
+                });
+              });
+              content = content.replaceAll("\"", "\'");
+              content = content.replaceAll("\\", "");
+            },
+            javascriptMode: JavascriptMode.unrestricted,
+          );
   }
 
   loadDataRaw(String content, String title, String image, String date) {
-    String contentEx = content
-        .split('')
-        .reversed
-        .join();
+    String contentEx = content.split('').reversed.join();
     if (contentEx.length > 2097152) {
       contentEx = contentEx.replaceFirst(RegExp('>.*?gmi<'), '');
       if (contentEx.length > 2097152) {
         contentEx = contentEx.replaceFirst(RegExp('>.*?gmi<'), '');
-        loadHtml(contentEx
-            .split('')
-            .reversed
-            .join(), title, image, date);
+        loadHtml(contentEx.split('').reversed.join(), title, image, date);
         // loadHtml(contentEx);
       } else {
-        loadHtml(contentEx
-            .split('')
-            .reversed
-            .join(), title, image, date);
+        loadHtml(contentEx.split('').reversed.join(), title, image, date);
       }
     } else {
-      loadHtml(contentEx
-          .split('')
-          .reversed
-          .join(), title, image, date);
+      loadHtml(contentEx.split('').reversed.join(), title, image, date);
     }
   }
 
@@ -225,20 +222,28 @@ class _StoryDetailsState extends State<StoryDetails> {
     final dateTime = DateTime.parse(date);
     final format = DateFormat('dd MMMM, yyyy');
     final clockString = format.format(dateTime);
-    content = content.replaceAll("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
-    content = content.replaceAll("<br><br><br><br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
-    content = content.replaceAll("<br><br><br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
-    content = content.replaceAll("<br><br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
-    content = content.replaceAll("<br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
-    content = content.replaceAll("<br><br><br><br><br><br><br><br><br><br>", "<br><br>");
-    content = content.replaceAll("<br><br><br><br><br><br><br><br><br>", "<br><br>");
-    content = content.replaceAll("<br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll(
+        "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>",
+        "<br><br>");
+    content = content.replaceAll(
+        "<br><br><br><br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll(
+        "<br><br><br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll(
+        "<br><br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll(
+        "<br><br><br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content = content.replaceAll(
+        "<br><br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content =
+        content.replaceAll("<br><br><br><br><br><br><br><br><br>", "<br><br>");
+    content =
+        content.replaceAll("<br><br><br><br><br><br><br><br>", "<br><br>");
     content = content.replaceAll("<br><br><br><br><br><br><br>", "<br><br>");
     content = content.replaceAll("<br><br><br><br><br><br>", "<br><br>");
     content = content.replaceAll("<br><br><br><br><br>", "<br><br>");
     content = content.replaceAll("<br><br><br><br>", "<br><br>");
     content = content.replaceAll("<br><br><br>", "<br><br>");
-
 
     String final_content = '''
     <html> 
@@ -274,8 +279,7 @@ class _StoryDetailsState extends State<StoryDetails> {
     </html>''';
 
     webViewController.loadUrl(Uri.dataFromString(final_content,
-        mimeType: 'text/html',
-        encoding: Encoding.getByName("UTF-8"))
+            mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
         .toString());
   }
 }

@@ -54,7 +54,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                       ? GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
-                            ClickSound.buttonClickYes();
+                            ClickSound.soundClose();
                           },
                           child: Container(
                             margin: EdgeInsets.only(left: 20),
@@ -135,7 +135,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold),
                                               onChanged: (String? newValue) {
-                                                ClickSound.buttonClickYes();
+                                                ClickSound.soundClick();
                                                 setState(() {
                                                   dropdownValue = newValue!;
                                                   spset.setValue(
@@ -146,7 +146,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                               items: RemoteConfigData
                                                   .getProgramListForProgramChooser(),
                                               onTap: (){
-                                                ClickSound.buttonClickYes();
+                                                ClickSound.soundDropdown();
                                               },
                                             ),
                                           ),
@@ -162,7 +162,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                     child: Container(
                                       child: GestureDetector(
                                           onTap: () {
-                                            ClickSound.buttonClickYes();
+                                            ClickSound.soundClick();
                                             spset.setValue(SPUtil.PROGRAMKEY,
                                                 dropdownValue);
                                             Provider.of<OpinionController>(
@@ -185,6 +185,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                                   .continu,
                                               style: TextStyle(
                                                 fontSize: 20,
+                                                decoration: TextDecoration.underline
                                               ),
                                             ),
                                           )),

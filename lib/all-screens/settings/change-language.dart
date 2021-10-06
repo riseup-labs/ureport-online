@@ -60,7 +60,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
-                ClickSound.buttonClickYes();
+                ClickSound.soundClose();
               },
               child: Container(
                 margin: EdgeInsets.only(left: 20),
@@ -117,39 +117,23 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                               flex: 4,
                               child: GestureDetector(
                                 onTap: () {
-                                  ClickSound.settingsChanged();
-
-                                  setState(() {
+                                  ClickSound.soundClick();
                                     selectedValue = value;
                                     print("Radio value : $value");
                                     if (selectedValue == values[0]) {
-                                      sp.setValue(
-                                          SPConstant.SELECTED_LANGUAGE, "en");
-                                      setLocal(provider);
+                                      setLocal(provider,"en");
                                     } else if (selectedValue == values[1]) {
-                                      sp.setValue(
-                                          SPConstant.SELECTED_LANGUAGE, "zh");
-                                      setLocal(provider);
-                                    } else if (this.selectedValue ==
-                                        values[2]) {
-                                      sp.setValue(
-                                          SPConstant.SELECTED_LANGUAGE, "fr");
-                                      setLocal(provider);
-                                    } else if (this.selectedValue ==
-                                        values[3]) {
-                                      sp.setValue(
-                                          SPConstant.SELECTED_LANGUAGE, "ru");
-                                      setLocal(provider);
-                                    } else if (this.selectedValue ==
-                                        values[4]) {
-                                      sp.setValue(
-                                          SPConstant.SELECTED_LANGUAGE, "es");
-                                      setLocal(provider);
+                                      setLocal(provider,"zh");
+                                    } else if (this.selectedValue == values[2]) {
+                                      setLocal(provider,"fr");
+                                    } else if (this.selectedValue == values[3]) {
+                                      setLocal(provider,"ru");
+                                    } else if (this.selectedValue == values[4]) {
+                                      setLocal(provider,"es");
                                     }
-                                  });
                                 },
                                 child: Container(
-                                    padding: EdgeInsets.only(left: 20),
+                                    padding: EdgeInsets.only(left: 20,top: 3,bottom: 3),
                                     child: Text(
                                       value,
                                       style: TextStyle(
@@ -164,54 +148,32 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                 groupValue: selectedValue,
                                 activeColor: RemoteConfigData.getPrimaryColor(),
                                 onChanged: (value) => {
-                                      ClickSound.settingsChanged(),
+                                      ClickSound.soundClick(),
                                       setState(() => {
                                             this.selectedValue =
                                                 value.toString(),
                                             if (this.selectedValue == values[0])
                                               {
-                                                sp.setValue(
-                                                    SPConstant
-                                                        .SELECTED_LANGUAGE,
-                                                    "en"),
-                                                setLocal(provider)
+                                                setLocal(provider,"en")
                                               }
                                             else if (this.selectedValue ==
                                                 values[1])
                                               {
-                                                sp.setValue(
-                                                    SPConstant
-                                                        .SELECTED_LANGUAGE,
-                                                    "zh"),
-                                                setLocal(provider)
+                                                setLocal(provider,"zh")
                                               }
                                             else if (this.selectedValue ==
                                                 values[2])
                                               {
-                                                sp.setValue(
-                                                    SPConstant
-                                                        .SELECTED_LANGUAGE,
-                                                    "fr"),
-                                                setLocal(provider)
+                                                setLocal(provider,"fr")
                                               }
                                             else if (this.selectedValue ==
                                                 values[3])
                                               {
-                                                sp.setValue(
-                                                    SPConstant
-                                                        .SELECTED_LANGUAGE,
-                                                    "ru"),
-                                                setLocal(provider)
+                                                setLocal(provider,"ru")
                                               }
                                             else if (this.selectedValue ==
                                                 values[4])
-                                              {
-                                                sp.setValue(
-                                                    SPConstant
-                                                        .SELECTED_LANGUAGE,
-                                                    "es"),
-                                                setLocal(provider)
-                                              }
+                                              {setLocal(provider, "es")}
                                           })
                                     }),
                           )
@@ -244,20 +206,38 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
         ),
       ));
 
-  static void setLocal(LocaleProvider provider) {
+  static void setLocal(LocaleProvider provider, String language) {
     var sp = locator<SPUtil>();
-    if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "en") {
+    if (language == "en") {
+
+      sp.setValue(SPConstant.SELECTED_LANGUAGE, "en");
       provider.setLocale(new Locale('en'));
-    } else if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "zh") {
+
+    } else if (language == "zh") {
+
+      sp.setValue(SPConstant.SELECTED_LANGUAGE, "zh");
       provider.setLocale(new Locale('zh'));
-    } else if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "fr") {
+
+    } else if (language == "fr") {
+
+      sp.setValue(SPConstant.SELECTED_LANGUAGE, "fr");
       provider.setLocale(new Locale('fr'));
-    } else if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ru") {
+
+    } else if (language == "ru") {
+
+      sp.setValue(SPConstant.SELECTED_LANGUAGE, "ru");
       provider.setLocale(new Locale('ru'));
-    } else if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "es") {
+
+    } else if (language == "es") {
+
+      sp.setValue(SPConstant.SELECTED_LANGUAGE, "es");
       provider.setLocale(new Locale('es'));
+
     } else {
+
+      sp.setValue(SPConstant.SELECTED_LANGUAGE, "en");
       provider.setLocale(new Locale('en'));
+
     }
   }
 }

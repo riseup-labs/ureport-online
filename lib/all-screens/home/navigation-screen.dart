@@ -58,8 +58,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
               label: "${AppLocalizations.of(context)!.stories}",
             ),
             BottomNavigationBarItem(
-              icon: Image.asset("assets/images/ic_chat.png",
-                  height: 40.18, width: 33.66),
+              icon: Container(
+                margin: EdgeInsets.only(left: 5),
+                child: Image.asset("assets/images/ic_chat.png",
+                    height: 40.18, width: 33.66),
+              ),
               activeIcon: Image.asset(
                 "assets/images/ic_chat_on.png",
                 height: 40.18,
@@ -99,10 +102,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
           unselectedFontSize: 13,
           unselectedItemColor: Colors.black,
           onTap: (int i) {
-            ClickSound.buttonClickYes();
+            ClickSound.soundTap();
             setState(() {
               if(i == 1){
-                // NavUtils.push(context, Chat("Home"));
                 NavUtils.pushToChat(context, "Home");
               }else{
                 changedIndex = i;

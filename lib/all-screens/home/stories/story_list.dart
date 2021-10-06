@@ -79,7 +79,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: GestureDetector(
                 onTap: () {
-                  ClickSound.buttonClickYes();
+                  ClickSound.soundTap();
                   NavUtils.push(context, StorySearch());
                 },
                 child: Card(
@@ -138,7 +138,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
                                       (BuildContext context, int index) {
                                     return GestureDetector(
                                       onTap: () {
-                                        ClickSound.buttonClickYes();
+                                        ClickSound.soundTap();
                                         NavUtils.push(
                                             context,
                                             StoryDetails(
@@ -169,7 +169,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
                                                 height: 35,
                                                 child: GestureDetector(
                                                   onTap: (){
-                                                    ClickSound.buttonClickYes();
+                                                    ClickSound.soundTap();
                                                     itemCount = itemCount+ 10;
                                                     setState(() {});
                                                   },
@@ -179,7 +179,8 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
                                                               AppLocalizations.of(context)!.see_more,
                                                               style: TextStyle(
                                                                 fontSize: 18,
-                                                                color: Colors.black
+                                                                color: Colors.black,
+                                                                decoration: TextDecoration.underline
                                                               ),
                                                             )
                                                     )

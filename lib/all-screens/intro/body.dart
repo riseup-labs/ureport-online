@@ -74,7 +74,7 @@ class _IntroScreenState extends State<IntroScreen> {
                       children: <Widget>[
                         GestureDetector(
                           onTap: (){
-                            ClickSound.buttonClickYes();
+                            ClickSound.soundClick();
                             NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
                           },
                           child: Text("${AppLocalizations.of(context)!.skip}",
@@ -90,7 +90,7 @@ class _IntroScreenState extends State<IntroScreen> {
                         ),
                         GestureDetector(
                             onTap: () {
-                              ClickSound.buttonClickYes();
+                              ClickSound.soundClick();
                               currentPage++;
                               if (currentPage >= 3) {
                                 NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
@@ -127,20 +127,39 @@ class _IntroScreenState extends State<IntroScreen> {
   }
 
   getPageBuilder(int page,List<Map<String, String>> splashData) {
-    return PageView.builder(
-      onPageChanged: (value) {
-        setState(() {
-          currentPage = value;
-        });
-      },
-      itemCount: splashData.length,
-      itemBuilder: (context, index) => SplashContent(
-        image: splashData[index]["image"]!,
-        text: splashData[index]['text']!,
-        text2: splashData[index]['text2']!,
-        key: null,
-      ),
-      controller: _pageController
+    return Stack(
+      children: [
+        Positioned(
+          right: 30,
+          child: Container(
+            height: 100,
+            child: Container(
+              margin: EdgeInsets.only(top: 35),
+              child: Image.asset(
+                "assets/images/v2_ic_u.png",
+                fit: BoxFit.fill,
+                height: 60,
+                width: 60,
+              ),
+            ),
+          ),
+        ),
+        PageView.builder(
+          onPageChanged: (value) {
+            setState(() {
+              currentPage = value;
+            });
+          },
+          itemCount: splashData.length,
+          itemBuilder: (context, index) => SplashContent(
+            image: splashData[index]["image"]!,
+            text: splashData[index]['text']!,
+            text2: splashData[index]['text2']!,
+            key: null,
+          ),
+          controller: _pageController
+        ),
+      ],
     );
   }
 

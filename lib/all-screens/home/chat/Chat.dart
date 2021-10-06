@@ -89,7 +89,7 @@ class _ChatState extends State<Chat> {
     return WillPopScope(
       onWillPop: () async {
         Provider.of<ChatController>(context, listen: false).selectall = false;
-        ClickSound.buttonClickYes();
+        ClickSound.soundClose();
         //Detect where this page called
         if (widget.from == "Home") {
           Navigator.pop(context);
@@ -138,7 +138,7 @@ class _ChatState extends State<Chat> {
                                             //after selecting the item..........the view is as following................
                                             GestureDetector(
                                                 onTap: () {
-                                                  ClickSound.buttonClickYes();
+                                                  ClickSound.soundClick();
                                                   if (provider.individualselect
                                                       .contains(index)) {
                                                     provider.removeIndex(
@@ -171,7 +171,7 @@ class _ChatState extends State<Chat> {
                                                     GestureDetector(
                                                       onTap: () {
                                                         ClickSound
-                                                            .buttonClickYes();
+                                                            .soundClick();
                                                         if (provider
                                                             .individualselect
                                                             .contains(index)) {
@@ -400,7 +400,7 @@ class _ChatState extends State<Chat> {
                                                                         GestureDetector(
                                                                           onTap:
                                                                               () {
-                                                                            ClickSound.sendMessage();
+                                                                            ClickSound.soundMsgSend();
                                                                             DateTime
                                                                                 now =
                                                                                 DateTime.now();
@@ -475,7 +475,7 @@ class _ChatState extends State<Chat> {
                                             //before select the view is .............as following
                                             GestureDetector(
                                                 onLongPress: () {
-                                                  ClickSound.buttonClickYes();
+                                                  ClickSound.soundClick();
                                                   provider.selectall = true;
                                                   provider.individualselect.clear();
                                                   // provider.deleteSingleMessage(localmessage.time);
@@ -668,7 +668,7 @@ class _ChatState extends State<Chat> {
                                                                           children: [
                                                                             GestureDetector(
                                                                               onTap: () async {
-                                                                                ClickSound.sendMessage();
+                                                                                ClickSound.soundMsgSend();
                                                                                 DateTime now = DateTime.now();
                                                                                 String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
                                                                                 MessageModel messageModel = MessageModel(message: provider.quicdata(provider.localmessage[index].quicktypest.toString())[j], sender: "user", status: "Sending...", quicktypest: [""], time: formattedDate);
@@ -790,7 +790,7 @@ class _ChatState extends State<Chat> {
                                                             fontSize: 12,
                                                             fontWeight:
                                                                 FontWeight
-                                                                    .w700),
+                                                                    .w500),
                                                         textAlign:
                                                             TextAlign.left,
                                                       ),
@@ -873,110 +873,7 @@ class _ChatState extends State<Chat> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    ClickSound.buttonClickYes();
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (_) {
-                                                          return Dialog(
-                                                            child: Container(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left: 5,
-                                                                      right: 5,
-                                                                      bottom:
-                                                                          10),
-                                                              width: double
-                                                                  .infinity,
-                                                              height: 150,
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              10)),
-                                                                  color: Colors
-                                                                      .white),
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  SizedBox(
-                                                                    height: 5,
-                                                                  ),
-                                                                  Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Expanded(
-                                                                          child:
-                                                                              Text(
-                                                                        AppLocalizations.of(context)!
-                                                                            .delete_message,
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.red,
-                                                                            fontSize: 15),
-                                                                        textAlign:
-                                                                            TextAlign.center,
-                                                                      )),
-                                                                    ],
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 10,
-                                                                  ),
-                                                                  GestureDetector(
-                                                                      onTap:
-                                                                          () {
-                                                                        ClickSound
-                                                                            .buttonClickYes();
-                                                                        provider
-                                                                            .deleteMessage();
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child:
-                                                                          Text(
-                                                                        AppLocalizations.of(context)!
-                                                                            .delete,
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.red,
-                                                                            fontSize: 18),
-                                                                      )),
-                                                                  SizedBox(
-                                                                    height: 10,
-                                                                  ),
-                                                                  Divider(
-                                                                    height: 1,
-                                                                    color: Colors
-                                                                        .grey,
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 10,
-                                                                  ),
-                                                                  GestureDetector(
-                                                                      onTap:
-                                                                          () {
-                                                                        ClickSound
-                                                                            .buttonClickYes();
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child:
-                                                                          Text(
-                                                                        AppLocalizations.of(context)!
-                                                                            .cancel,
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                RemoteConfigData.getPrimaryColor(),
-                                                                            fontSize: 18),
-                                                                      )),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          );
-                                                        });
+                                                    deleteMessageDialog(provider);
                                                   },
                                                   child: Image.asset(
                                                     "assets/images/ic_delete.png",
@@ -996,7 +893,7 @@ class _ChatState extends State<Chat> {
                                                 GestureDetector(
                                                     onTap: () {
                                                       ClickSound
-                                                          .buttonClickYes();
+                                                          .soundClick();
                                                       provider.selectall =
                                                           false;
                                                       provider.selectedMessage
@@ -1038,22 +935,54 @@ class _ChatState extends State<Chat> {
     );
   }
 
+  deleteMessageDialog(ChatController provider) {
+    AlertDialog alert = AlertDialog(
+      content: Text(AppLocalizations.of(context)!.delete_message),
+      actions: [
+        TextButton(
+          child: Text(AppLocalizations.of(context)!.delete,style: TextStyle(color: Colors.red),),
+          onPressed: () {
+            ClickSound
+                .soundClick();
+            provider
+                .deleteMessage();
+            Navigator.pop(
+                context);
+          },
+        ),
+        TextButton(
+          child: Text(AppLocalizations.of(context)!.cancel),
+          onPressed: () {
+            ClickSound.soundClick();
+            Provider.of<ChatController>(context, listen: false).selectall = false;
+            Navigator.pop(context);
+          },
+        )
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   Widget sendMessage(context, provider) {
     return Form(
       key: sendMessageKey,
       child: Row(
         children: [
           provider.isExpanded == true || isKeyboardOpen == false
-              /*||
-             RemoteConfigData.getDefaultActionVisibility()==true &&  RemoteConfigData.getIndividualCaseManagementVisibility()==false ||
-             RemoteConfigData.getDefaultActionVisibility()==false &&  RemoteConfigData.getIndividualCaseManagementVisibility()==true
-             */
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     RemoteConfigData.getDefaultActionVisibility() == true
                         ? GestureDetector(
                             onTap: () {
+                              ClickSound.soundMsgSend();
                               provider.addQuickType();
                               provider.isExpanded = false;
                               _scrollController.animateTo(0.0,
@@ -1079,6 +1008,7 @@ class _ChatState extends State<Chat> {
                             true
                         ? GestureDetector(
                             onTap: () {
+                              ClickSound.soundMsgSend();
                               provider.addQuickTypeCaseManagement();
                               provider.isExpanded = false;
                               _scrollController.animateTo(0.0,
@@ -1086,7 +1016,7 @@ class _ChatState extends State<Chat> {
                                   curve: Curves.easeOut);
                             },
                             child: Container(
-                              padding: EdgeInsets.all(4),
+                              padding: EdgeInsets.all(3.5),
                               height: 40,
                               width: 30,
                               child: Image.asset(
@@ -1137,7 +1067,7 @@ class _ChatState extends State<Chat> {
                 IconButton(
                   icon: Image.asset("assets/images/ic_sand.png"),
                   onPressed: () {
-                    ClickSound.sendMessage();
+                    ClickSound.soundMsgSend();
                     DateTime now = DateTime.now();
                     String formattedDate =
                         DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);

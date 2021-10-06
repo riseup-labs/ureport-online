@@ -83,7 +83,7 @@ class _OpinionState extends State<Opinion> {
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: GestureDetector(
                 onTap: () {
-                  ClickSound.buttonClickYes();
+                  ClickSound.soundClick();
                   NavUtils.push(context, OpinionSearch());
                 },
                 child: Card(

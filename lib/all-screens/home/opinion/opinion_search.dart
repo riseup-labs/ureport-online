@@ -69,7 +69,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
                       child: GestureDetector(
                         onTap: (){
                           Navigator.pop(context);
-                          ClickSound.buttonClickYes();
+                          ClickSound.soundClose();
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 10),
@@ -116,7 +116,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
                                   color: Colors.white,
                                   child: Center(
                                       child: Text(
-                                        "No result found",
+                                        AppLocalizations.of(context)!.no_result_found,
                                         style: TextStyle(fontSize: 15),
                                       ))),
                             ],
@@ -163,7 +163,6 @@ class _OpinionSearchState extends State<OpinionSearch> {
               onQueryChanged: (value) {
 
                 filteredCategoryList.clear();
-
                 for(int i = 0; i < categoryListFull.length; i++){
                   OpinionSearchList category = OpinionSearchList(categoryListFull[i].title, []);
                   for(int j = 0 ; j < categoryListFull[i].children.length; j++){
@@ -202,12 +201,13 @@ class _OpinionSearchState extends State<OpinionSearch> {
               transition: CircularFloatingSearchBarTransition(),
               debounceDelay: Duration(milliseconds: 100),
               actions: [
-                GestureDetector(
+                isExpanded?GestureDetector(
                     onTap: (){
+                      ClickSound.soundClick();
                       _floatingSearchBarController.clear();
                     },
                     child: Icon(Icons.clear)
-                )
+                ):SizedBox()
               ],
               builder: (context, transition) {
                 return Container();
@@ -249,6 +249,9 @@ class _OpinionSearchState extends State<OpinionSearch> {
                 ),
                 children: list,
                 initiallyExpanded: isExpanded,
+                onExpansionChanged: (value){
+                  ClickSound.soundDropdown();
+                },
               ),
             )),
         Container(
@@ -272,7 +275,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
     return Container(
         child: GestureDetector(
             onTap: () {
-              ClickSound.buttonClickYes();
+              ClickSound.soundClick();
               _floatingSearchBarController.clear();
               provider.opinionID = item.id;
               NavUtils.pushAndRemoveUntil(context, NavigationScreen(2));

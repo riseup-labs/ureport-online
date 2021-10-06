@@ -49,8 +49,8 @@ class _StorySearchState extends State<StorySearch> {
 
   @override
   Widget build(BuildContext context) {
-
-  _future = Provider.of<StoryController>(context, listen: false).getCategories(sp.getValue(SPUtil.PROGRAMKEY));
+    _future = Provider.of<StoryController>(context, listen: false)
+        .getCategories(sp.getValue(SPUtil.PROGRAMKEY));
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       return Scaffold(
@@ -71,7 +71,7 @@ class _StorySearchState extends State<StorySearch> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
-                        ClickSound.buttonClickYes();
+                        ClickSound.soundClose();
                       },
                       child: Container(
                         margin: EdgeInsets.only(left: 10),
@@ -92,7 +92,7 @@ class _StorySearchState extends State<StorySearch> {
                     margin: EdgeInsets.only(top: 136),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: FutureBuilder<List<StorySearchList>>(
-                        future:_future,
+                        future: _future,
                         builder: (context, snapshot) {
                           if (snapshot.hasData && isLoaded) {
                             filteredCategoryList = snapshot.data!;
@@ -105,8 +105,7 @@ class _StorySearchState extends State<StorySearch> {
                                   child: ListView.builder(
                                     itemBuilder:
                                         (BuildContext context, int index) =>
-                                            getItem(
-                                                filteredCategoryList[index],
+                                            getItem(filteredCategoryList[index],
                                                 provider),
                                     itemCount: filteredCategoryList.length,
                                   ),
@@ -169,29 +168,31 @@ class _StorySearchState extends State<StorySearch> {
               scrollPadding: EdgeInsets.only(bottom: 10, top: 5),
               physics: BouncingScrollPhysics(),
               onQueryChanged: (value) {
-
                 filteredCategoryList.clear();
 
-                for(int i = 0; i < categoryListFull.length; i++){
-                  StorySearchList category = StorySearchList(categoryListFull[i].title, []);
-                  for(int j = 0 ; j < categoryListFull[i].children.length; j++){
-                      var titleObj = categoryListFull[i].children[j];
-                      var title = categoryListFull[i].children[j].title;
+                for (int i = 0; i < categoryListFull.length; i++) {
+                  StorySearchList category =
+                      StorySearchList(categoryListFull[i].title, []);
+                  for (int j = 0;
+                      j < categoryListFull[i].children.length;
+                      j++) {
+                    var titleObj = categoryListFull[i].children[j];
+                    var title = categoryListFull[i].children[j].title;
 
-                      if(title.toLowerCase().contains(value.toLowerCase())){
-                        titleObj.value = value;
-                        category.children.add(titleObj);
-                      }
+                    if (title.toLowerCase().contains(value.toLowerCase())) {
+                      titleObj.value = value;
+                      category.children.add(titleObj);
+                    }
                   }
-                  if(category.children.length>0){
+                  if (category.children.length > 0) {
                     filteredCategoryList.add(category);
                     setState(() {});
                   }
                 }
 
-                if(value.isEmpty){
+                if (value.isEmpty) {
                   isExpanded = false;
-                }else{
+                } else {
                   isExpanded = true;
                 }
                 if (filteredCategoryList.isEmpty) {
@@ -211,11 +212,12 @@ class _StorySearchState extends State<StorySearch> {
               transition: CircularFloatingSearchBarTransition(),
               debounceDelay: Duration(milliseconds: 100),
               actions: [
-                GestureDetector(
+                isExpanded?GestureDetector(
                     onTap: () {
+                      ClickSound.soundClick();
                       _floatingSearchBarController.clear();
                     },
-                    child: Icon(Icons.clear))
+                    child: Icon(Icons.clear)):SizedBox()
               ],
               builder: (context, transition) {
                 return Container();
@@ -225,8 +227,7 @@ class _StorySearchState extends State<StorySearch> {
     );
   }
 
-  getItem(StorySearchList popup, StoryController provider){
-
+  getItem(StorySearchList popup, StoryController provider) {
     if (popup.children.isEmpty) return ListTile(title: Text(popup.title));
 
     List<Widget> list = [];
@@ -257,6 +258,9 @@ class _StorySearchState extends State<StorySearch> {
                 ),
                 children: list,
                 initiallyExpanded: isExpanded,
+                onExpansionChanged: (value){
+                  ClickSound.soundDropdown();
+                },
               ),
             )),
         Container(
@@ -278,7 +282,7 @@ class _StorySearchState extends State<StorySearch> {
     return Container(
         child: GestureDetector(
             onTap: () {
-              ClickSound.buttonClickYes();
+              ClickSound.soundTap();
               _floatingSearchBarController.clear();
               _floatingSearchBarController.close();
               NavUtils.pushReplacement(
@@ -298,34 +302,38 @@ class _StorySearchState extends State<StorySearch> {
                   ),
                   Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 1),
-                        child: RichText(
-                          text: TextSpan(
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                            ),
-                            children: <TextSpan>[
-                              TextSpan(
-                                children: highlightOccurrences(item.title, item.value),
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              TextSpan(text: "  "),
-                              TextSpan(
-                                  text: titleDate,
-                                  style: new TextStyle(fontWeight: FontWeight.bold)),
-                            ],
-                          ),
+                    padding: const EdgeInsets.only(top: 1),
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black,
                         ),
-                      )),
+                        children: <TextSpan>[
+                          TextSpan(
+                            children:
+                                highlightOccurrences(item.title, item.value),
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          TextSpan(text: "  "),
+                          TextSpan(
+                              text: titleDate,
+                              style:
+                                  new TextStyle(fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
+                  )),
                 ],
               ),
             )));
   }
 
   List<TextSpan> highlightOccurrences(String source, String query) {
-    if (query == null || query.isEmpty || !source.toLowerCase().contains(query.toLowerCase())) {
-      return [ TextSpan(text: source) ];
+    if (query == null ||
+        query.isEmpty ||
+        !source.toLowerCase().contains(query.toLowerCase())) {
+      return [TextSpan(text: source)];
     }
     final matches = query.toLowerCase().allMatches(source.toLowerCase());
 
@@ -343,7 +351,11 @@ class _StorySearchState extends State<StorySearch> {
 
       children.add(TextSpan(
         text: source.substring(match.start, match.end),
-        style: TextStyle(fontWeight: FontWeight.bold, color: RemoteConfigData.getTextColor(),backgroundColor: RemoteConfigData.getBackgroundColor(), fontSize: 15),
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: RemoteConfigData.getTextColor(),
+            backgroundColor: RemoteConfigData.getBackgroundColor(),
+            fontSize: 15),
       ));
 
       if (i == matches.length - 1 && match.end != source.length) {
@@ -356,6 +368,4 @@ class _StorySearchState extends State<StorySearch> {
     }
     return children;
   }
-
 }
-

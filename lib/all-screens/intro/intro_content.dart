@@ -26,16 +26,7 @@ class SplashContent extends StatelessWidget {
                 children: [
                   //Logo
                   Container(
-                    height: 100,
-                    child: Container(
-                      margin: EdgeInsets.only(top: 35,right: 30),
-                      child: Image.asset(
-                        "assets/images/v2_ic_u.png",
-                        fit: BoxFit.fill,
-                        height: 60,
-                        width: 60,
-                      ),
-                    ),
+                    height: 70,
                   ),
                   //Image
                   Container(

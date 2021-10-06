@@ -36,11 +36,11 @@ class _SettingDetailsState extends State<SettingDetails> {
       statesf = false;
 
     soundstate = spservice.getValue(SPUtil.SOUND);
-    if (soundstate == "true" || soundstate == "null") {
-      statesSound = true;
-    } else
+    print("Sound state : $soundstate");
+    if (soundstate == "false") {
       statesSound = false;
-
+    } else
+      statesSound = true;
 
     super.initState();
   }
@@ -57,7 +57,7 @@ class _SettingDetailsState extends State<SettingDetails> {
             children: [
               GestureDetector(
                 onTap: () {
-                  ClickSound.buttonClickYes();
+                  ClickSound.soundClose();
                   Navigator.pop(context);
                 },
                 child: Container(
@@ -148,7 +148,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                             activeColor: Colors.white,
                             value: statesNotification,
                             onChanged: (value) {
-                              ClickSound.settingsChanged();
+                              ClickSound.soundTap();
                             }),
                       ],
                     ),
@@ -208,7 +208,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                             activeColor: Colors.white,
                             value: statesSound,
                             onChanged: (value) {
-                              ClickSound.settingsChanged();
+                              ClickSound.soundTap();
                               setState(() {
                                 statesSound = value;
                                 spservice.setValue(
@@ -274,7 +274,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                             activeColor: Colors.white,
                             value: statesf,
                             onChanged: (value) {
-                              ClickSound.settingsChanged();
+                              ClickSound.soundTap();
                               setState(() {
                                 statesf = value;
                                 spservice.setValue(
@@ -315,96 +315,8 @@ class _SettingDetailsState extends State<SettingDetails> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            ClickSound.buttonClickYes();
-                            showDialog(
-                                context: context,
-                                builder: (_) {
-                                  return Dialog(
-                                    child: Container(
-                                      margin:
-                                          EdgeInsets.only(left: 10, right: 10),
-                                      width: double.infinity,
-                                      height: 120,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                          color: Colors.white),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                  AppLocalizations.of(context)!
-                                                      .delete_message,
-                                                  style: TextStyle(
-                                                      color: Colors.red,
-                                                      fontSize: 15)),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                              onTap: () async {
-                                                ClickSound.buttonClickYes();
-                                                await _databaseHelper
-                                                    .deleteConversation()
-                                                    .then((value) {
-                                                  Navigator.pop(context);
-                                                  Provider.of<ChatController>(
-                                                          context,
-                                                          listen: false)
-                                                      .localmessage
-                                                      .clear();
-                                                  Provider.of<ChatController>(
-                                                          context,
-                                                          listen: false)
-                                                      .notifyListeners();
-                                                });
-                                              },
-                                              child: Text(
-                                                AppLocalizations.of(context)!
-                                                    .delete,
-                                                style: TextStyle(
-                                                    color: Colors.red,
-                                                    fontSize: 18),
-                                              )),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Divider(
-                                            height: 1,
-                                            color: Colors.grey,
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          GestureDetector(
-                                              onTap: () {
-                                                ClickSound.buttonClickYes();
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(
-                                                AppLocalizations.of(context)!
-                                                    .cancel,
-                                                style: TextStyle(
-                                                    color: Colors.blue,
-                                                    fontSize: 18),
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                });
+                            ClickSound.soundClick();
+                            deleteMessageDialog();
                           },
                           child: Container(
                             height: 25,
@@ -434,6 +346,49 @@ class _SettingDetailsState extends State<SettingDetails> {
           ),
         ),
       ),
+    );
+  }
+
+  deleteMessageDialog() {
+    AlertDialog alert = AlertDialog(
+      content: Text(AppLocalizations.of(context)!.delete_message),
+      actions: [
+        TextButton(
+          child: Text(AppLocalizations.of(context)!.delete,style: TextStyle(color: Colors.red),),
+          onPressed: () async {
+            ClickSound.soundClick();
+            await _databaseHelper
+                .deleteConversation()
+                .then((value) {
+              Navigator.pop(context);
+              Provider.of<ChatController>(
+                  context,
+                  listen: false)
+                  .localmessage
+                  .clear();
+              Provider.of<ChatController>(
+                  context,
+                  listen: false)
+                  .notifyListeners();
+            });
+          },
+        ),
+        TextButton(
+          child: Text(AppLocalizations.of(context)!.cancel),
+          onPressed: () {
+            ClickSound.soundClick();
+            Navigator.pop(context);
+          },
+        )
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

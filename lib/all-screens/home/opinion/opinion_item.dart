@@ -91,7 +91,7 @@ class _OpinionItemState extends State<OpinionItem> {
                               flex: 4,
                               child: GestureDetector(
                                 onTap: (){
-                                  ClickSound.buttonClickYes();
+                                  ClickSound.soundTap();
                                   setState(() {
                                     selectedTab = 0;
                                   });
@@ -118,7 +118,7 @@ class _OpinionItemState extends State<OpinionItem> {
                               flex: 4,
                               child: GestureDetector(
                                 onTap: (){
-                                  ClickSound.buttonClickYes();
+                                  ClickSound.soundTap();
                                   setState(() {
                                     selectedTab = 1;
                                   });
@@ -142,7 +142,7 @@ class _OpinionItemState extends State<OpinionItem> {
                               flex: 5,
                               child: GestureDetector(
                                 onTap: (){
-                                  ClickSound.buttonClickYes();
+                                  ClickSound.soundTap();
                                   setState(() {
                                     selectedTab = 2;
                                   });
@@ -166,7 +166,7 @@ class _OpinionItemState extends State<OpinionItem> {
                               flex: 5,
                               child: GestureDetector(
                                 onTap: (){
-                                  ClickSound.buttonClickYes();
+                                  ClickSound.soundTap();
                                   setState(() {
                                     selectedTab = 3;
                                   });

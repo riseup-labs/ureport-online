@@ -167,9 +167,9 @@
   "@delete_message": {
     "description": "Are you sure you want to delete?"
   },
-  "previous_message_deleted": "All Previous Message was deleted",
+  "previous_message_deleted": "All previous message was deleted",
   "@previous_message_deleted": {
-    "description": "All Previous Message was deleted"
+    "description": "All previous message was deleted"
   },
   "notification": "Notification",
   "@notification": {
@@ -191,9 +191,13 @@
   "@share": {
     "description": "Share"
   },
-  "this_message_deleted": "This Message was Deleted",
+  "this_message_deleted": "This message was deleted",
   "@this_message_deleted": {
     "description": "This Message was Deleted"
+  },
+  "no_result_found": "No result found",
+  "@no_result_found": {
+    "description": "No result found"
   },
   "splashText": "Let’s drive change together",
   "@splashText": {

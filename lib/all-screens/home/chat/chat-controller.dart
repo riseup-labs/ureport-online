@@ -438,7 +438,7 @@ class ChatController extends ChangeNotifier {
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
 
       print("remoteMessage:  ${remotemessage.data}");
-      ClickSound.receiveMessage();
+      ClickSound.soundMsgReceived();
 
       List<dynamic> quicktypest;
       if (remotemessage.data["quick_replies"] != null) {

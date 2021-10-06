@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 
 import 'nav_utils.dart';
@@ -94,6 +95,7 @@ class TopBar {
                               color: RemoteConfigData.getTextColor(),
                             ),
                             onPressed: () {
+                              ClickSound.soundClose();
                               //Detect where this page called
                               if(from == "Home"){
                                 Provider.of<ChatController>(context, listen: false).selectall = false;

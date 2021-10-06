@@ -39,7 +39,7 @@ class Settings extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  ClickSound.buttonClickYes();
+                  ClickSound.soundClick();
                   NavUtils.push(context, SettingDetails());
                 },
                 child: getItem(
@@ -47,7 +47,7 @@ class Settings extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  ClickSound.buttonClickYes();
+                  ClickSound.soundClick();
                   NavUtils.push(context, About());
                 },
                 child: getItem(
@@ -55,7 +55,7 @@ class Settings extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  ClickSound.buttonClickYes();
+                  ClickSound.soundClick();
                   NavUtils.push(context, ChangeLanguage());
                 },
                 child: getItem("${AppLocalizations.of(context)!.change_language}",
@@ -63,7 +63,7 @@ class Settings extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  ClickSound.buttonClickYes();
+                  ClickSound.soundClick();
                   NavUtils.push(context, ProgramChooser("more"));
                 },
                 child: getItem("${AppLocalizations.of(context)!.change_ureport_program}",

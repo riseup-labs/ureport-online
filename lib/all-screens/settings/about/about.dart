@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/loading_bar.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
@@ -48,6 +49,7 @@ class _AboutState extends State<About> {
                       GestureDetector(
                         onTap: (){
                           Navigator.pop(context);
+                          ClickSound.soundClose();
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 20),

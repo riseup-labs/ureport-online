@@ -40,14 +40,16 @@ class _LanguageChooserState extends State<LanguageChooser> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                            margin: EdgeInsets.only(top: 50),
-                            height: 55,
-                            width: 170,
-                            child: Image(
-                              fit: BoxFit.fill,
-                              image: AssetImage("assets/images/v2_logo_1.png"),
-                            )),
+                        Center(
+                          child: Container(
+                              margin: EdgeInsets.only(top: 50),
+                              height: 55,
+                              width: 170,
+                              child: Image(
+                                fit: BoxFit.fill,
+                                image: AssetImage("assets/images/v2_logo_1.png"),
+                              )),
+                        ),
                         SizedBox(
                           height: 40,
                         ),
@@ -116,7 +118,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold),
                                         onChanged: (String? newValue) {
-                                          ClickSound.buttonClickYes();
+                                          ClickSound.soundClick();
                                           setState(() {
                                             dropdownValue = newValue!;
                                             if (dropdownValue == "English") {
@@ -152,7 +154,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                           );
                                         }).toList(),
                                         onTap: (){
-                                          ClickSound.buttonClickYes();
+                                          ClickSound.soundDropdown();
                                         },
                                       ),
                                     ),
@@ -168,7 +170,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                             child: Container(
                                 child: GestureDetector(
                                   onTap: (){
-                                    ClickSound.settingsChanged();
+                                    ClickSound.soundClick();
                                     final provider_l = Provider.of<
                                         LocaleProvider>(context, listen: false);
                                     if (selected_language == 'en') {
@@ -193,6 +195,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                           AppLocalizations.of(context)!.continu,
                                         style: TextStyle(
                                           fontSize: 20,
+                                          decoration: TextDecoration.underline
                                         ),
                                       ),
                                     ),
