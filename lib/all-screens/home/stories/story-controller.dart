@@ -5,6 +5,7 @@ import 'package:ureport_ecaro/all-screens/home/stories/story-repository.dart';
 import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/utils/connectivity_controller.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/load_data_handling.dart';
 import 'model/ResponseStoryLocal.dart';
 import 'model/response-story-data.dart' as storyarray;
@@ -79,6 +80,7 @@ class StoryController extends ConnectivityController {
       if (apiresponsedata.data.results[0].id != id) {
         getStoriesFromRemote(url, program);
       }else{
+        ClickSound.soundShare();
         isLoading = false;
         isSyncing = false;
         notifyListeners();

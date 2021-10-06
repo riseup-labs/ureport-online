@@ -124,15 +124,10 @@ class _StoryDetailsState extends State<StoryDetails> {
     });
   }
 
-  doShare() async {
-    await Share.share(
-        "${RemoteConfigData.getStoryShareUrl()}" + "${widget.id}");
-  }
-
   getShareButton(String id) {
     return GestureDetector(
       onTap: () async {
-        ClickSound.soundShare();
+        ClickSound.soundClick();
         await Share.share("${RemoteConfigData.getStoryShareUrl()}" + id);
       },
       child: Container(

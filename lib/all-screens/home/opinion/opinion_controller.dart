@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/utils/connectivity_controller.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/load_data_handling.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'model/response-opinion-localdb.dart';
@@ -79,6 +80,7 @@ class OpinionController extends ConnectivityController {
     var apiresponsedata =
         await _opinionrepository.getOpinions(url + "?limit=1");
     if (apiresponsedata.httpCode == 200) {
+      ClickSound.soundShare();
       await _databaseHelper.insertOpinion(
           apiresponsedata.data.results, program);
       sp.setValue("${sp.getValue(SPUtil.PROGRAMKEY)}_latest_opinion", apiresponsedata.data.results[0].id.toString());

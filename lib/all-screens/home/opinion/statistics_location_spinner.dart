@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'model/response_opinions.dart' as questionArray;
@@ -67,6 +68,7 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
               style:
               TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16,),
               onChanged: (String? newValue) {
+                ClickSound.soundClick();
                   dropdownValue = newValue!;
                   // print("the value is : $dropdownValue");
                   resultsByLocation.forEach((element) {
@@ -76,7 +78,11 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
                   });
                   setState(() {});
               },
-              items: countryList),
+              items: countryList,
+            onTap: (){
+              ClickSound.soundDropdown();
+            },
+          ),
           
           ListView.builder(
               shrinkWrap: true,
