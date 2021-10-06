@@ -102,7 +102,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           unselectedFontSize: 13,
           unselectedItemColor: Colors.black,
           onTap: (int i) {
-            ClickSound.soundTap();
+            ClickSound.soundClick();
             setState(() {
               if(i == 1){
                 NavUtils.pushToChat(context, "Home");

@@ -29,7 +29,7 @@ class ClickSound {
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
     if(status != "false"){
-      player.play('audio/v2_click.mp3');
+      player.play('audio/v2_dropdown.wav');
     }
   }
 
@@ -74,7 +74,7 @@ class ClickSound {
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
     if(status != "false"){
-      player.play('audio/v2_click.mp3');
+      player.play('audio/v3_tap.wav');
     }
   }
 

@@ -202,5 +202,9 @@
   "splashText": "Let’s drive change together",
   "@splashText": {
     "description": "splashText"
+  },
+  "no_internet_text": "No internet connection is available",
+  "@no_internet_text": {
+    "description": "No internet connection is available"
   }
 }
