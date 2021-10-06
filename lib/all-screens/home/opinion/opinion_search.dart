@@ -267,6 +267,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
     final dateTime = DateTime.parse(item.date);
     final format = DateFormat('dd MMMM, yyyy');
     final titleDate = format.format(dateTime);
+    String latest_opinion_id = sp.getValue("${sp.getValue(SPUtil.PROGRAMKEY)}_latest_opinion");
 
     return Container(
         child: GestureDetector(
@@ -291,13 +292,23 @@ class _OpinionSearchState extends State<OpinionSearch> {
                           fontSize: 16.0,
                           color: Colors.black,
                         ),
-                        children: <TextSpan>[
+                        children: <InlineSpan>[
                           TextSpan(
                             children: highlightOccurrences(item.title, item.value),
                             style: TextStyle(color: Colors.black),
                           ),
                           TextSpan(text: "  "),
                           TextSpan(text: titleDate, style: new TextStyle(fontWeight: FontWeight.bold)),
+                          item.id.toString() == latest_opinion_id?WidgetSpan(
+                              child: Container(
+                                padding: EdgeInsets.only(left: 6, right: 6, top: 3, bottom: 3),
+                                decoration: BoxDecoration(
+                                  color: RemoteConfigData.getPrimaryColor(),
+                                  borderRadius: BorderRadius.circular(4)
+                                ),
+                                child: Text(AppLocalizations.of(context)!.latest_opinion, style: TextStyle(fontSize: 12, color: Colors.white),),
+                              )
+                          ):TextSpan(text: "")
                         ],
                       ),
                     ),

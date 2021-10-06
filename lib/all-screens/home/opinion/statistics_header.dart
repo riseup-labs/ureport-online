@@ -60,10 +60,10 @@ class StatisticsHeader {
       femaleResponseRate = (femaleSet / genderTotal) * 100;
     }
 
-    String latest_opinion_id = sp.getValue("${SPUtil.PROGRAMKEY}_latest_opinion");
+    String latest_opinion_id = sp.getValue("${sp.getValue(SPUtil.PROGRAMKEY)}_latest_opinion");
     print("Opinion count: sp id $latest_opinion_id");
     print("Opinion count: db id ${opinions.id}");
-    print("Opinion count: db id ${SPUtil.PROGRAMKEY}");
+    print("Opinion count: db id ${sp.getValue(SPUtil.PROGRAMKEY)}");
 
 
     return Column(
