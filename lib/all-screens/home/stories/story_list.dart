@@ -32,6 +32,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
   void initState() {
     super.initState();
     Provider.of<StoryController>(context, listen: false).startMonitoring();
+    sp.setValue(SPUtil.ABOUT_DATA, "");
   }
 
   @override

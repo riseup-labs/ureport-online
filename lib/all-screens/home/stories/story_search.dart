@@ -214,7 +214,7 @@ class _StorySearchState extends State<StorySearch> {
               actions: [
                 isExpanded?GestureDetector(
                     onTap: () {
-                      ClickSound.soundClick();
+                      ClickSound.soundClose();
                       _floatingSearchBarController.clear();
                     },
                     child: Icon(Icons.clear)):SizedBox()

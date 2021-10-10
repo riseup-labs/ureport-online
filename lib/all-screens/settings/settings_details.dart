@@ -24,8 +24,9 @@ class _SettingDetailsState extends State<SettingDetails> {
   late String soundstate;
   late String notificationstate;
   bool statesf = true;
-  bool statesNotification = false;
+  bool statesNotification = true;
   bool statesSound = true;
+  bool isNotificationClickable = false;
 
   @override
   void initState() {
@@ -145,7 +146,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                           ],
                         ),
                         Switch(
-                            activeColor: Colors.white,
+                            activeColor: Colors.grey,
                             value: statesNotification,
                             onChanged: (value) {
                               ClickSound.soundTap();

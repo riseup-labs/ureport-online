@@ -203,7 +203,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
               actions: [
                 isExpanded?GestureDetector(
                     onTap: (){
-                      ClickSound.soundClick();
+                      ClickSound.soundClose();
                       _floatingSearchBarController.clear();
                     },
                     child: Icon(Icons.clear)

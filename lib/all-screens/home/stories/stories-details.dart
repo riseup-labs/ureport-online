@@ -48,9 +48,9 @@ class _StoryDetailsState extends State<StoryDetails> {
   Widget build(BuildContext context) {
     return Consumer<StoryDetailsController>(
         builder: (context, provider, snapshot) {
-      return WillPopScope(
-        onWillPop: () async {
-          webViewController.webViewController.canGoBack().then((value) => {
+          return WillPopScope(
+            onWillPop: () async {
+              webViewController.webViewController.canGoBack().then((value) => {
                 if (value){
                   webViewController.webViewController.goBack(),
                   ClickSound.soundClose()
@@ -60,38 +60,38 @@ class _StoryDetailsState extends State<StoryDetails> {
                   ClickSound.soundClose()
                 }
               });
-          return false;
-        },
-        child: Scaffold(
-            body: SafeArea(
-          child: Container(
-            color: Colors.white,
-            child: SafeArea(
-              child: Stack(
-                children: [
-                  Container(
-                    height: 70,
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 55,
-                          child: IconButton(
-                            icon: Container(
-                                height: 60,
-                                width: 120,
-                                child: Image(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage(
-                                      "assets/images/v2_ic_back.png"),
-                                )),
-                            color: Colors.black,
-                            onPressed: () {
-                              webViewController.webViewController
-                                  .canGoBack()
-                                  .then((value) => {
+              return false;
+            },
+            child: Scaffold(
+                body: SafeArea(
+                  child: Container(
+                    color: Colors.white,
+                    child: SafeArea(
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 70,
+                            padding: EdgeInsets.only(left: 15, right: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 55,
+                                  child: IconButton(
+                                    icon: Container(
+                                        height: 60,
+                                        width: 120,
+                                        child: Image(
+                                          fit: BoxFit.fill,
+                                          image: AssetImage(
+                                              "assets/images/v2_ic_back.png"),
+                                        )),
+                                    color: Colors.black,
+                                    onPressed: () {
+                                      webViewController.webViewController
+                                          .canGoBack()
+                                          .then((value) => {
                                         if (value)
                                           {
                                             webViewController.webViewController
@@ -102,26 +102,26 @@ class _StoryDetailsState extends State<StoryDetails> {
                                           {Navigator.pop(context),
                                             ClickSound.soundClose()}
                                       });
-                            },
+                                    },
+                                  ),
+                                ),
+                                getShareButton(widget.id)
+                              ],
+                            ),
                           ),
-                        ),
-                        getShareButton(widget.id)
-                      ],
+                          Container(
+                            margin: EdgeInsets.only(top: 70),
+                            width: double.infinity,
+                            child: loadLocalHTML(provider, storyContent, widget.title,
+                                widget.image, widget.date),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 70),
-                    width: double.infinity,
-                    child: loadLocalHTML(provider, storyContent, widget.title,
-                        widget.image, widget.date),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        )),
-      );
-    });
+                )),
+          );
+        });
   }
 
   getShareButton(String id) {
@@ -162,39 +162,39 @@ class _StoryDetailsState extends State<StoryDetails> {
 
     return content == ""
         ? Container(
-            margin: EdgeInsets.only(top: 30),
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                CircularProgressIndicator(),
-              ],
-            ),
-          )
+      margin: EdgeInsets.only(top: 30),
+      height: MediaQuery.of(context).size.height,
+      child: Column(
+        children: [
+          CircularProgressIndicator(),
+        ],
+      ),
+    )
         : WebViewPlus(
-            onWebViewCreated: (controller) {
-              webViewController = controller;
-              controller.webViewController.clearCache();
-              // loadData();
-              loadDataRaw(content, title, image, date);
-            },
-            // javascriptChannels: Set.from([
-            //   JavascriptChannel(
-            //       name: 'Print',
-            //       onMessageReceived: (JavascriptMessage message) {
-            //         doShare();
-            //       })
-            // ]),
-            onPageFinished: (url) {
-              webViewController.getHeight().then((double height) {
-                setState(() {
-                  _height = height;
-                });
-              });
-              content = content.replaceAll("\"", "\'");
-              content = content.replaceAll("\\", "");
-            },
-            javascriptMode: JavascriptMode.unrestricted,
-          );
+      onWebViewCreated: (controller) {
+        webViewController = controller;
+        controller.webViewController.clearCache();
+        // loadData();
+        loadDataRaw(content, title, image, date);
+      },
+      // javascriptChannels: Set.from([
+      //   JavascriptChannel(
+      //       name: 'Print',
+      //       onMessageReceived: (JavascriptMessage message) {
+      //         doShare();
+      //       })
+      // ]),
+      onPageFinished: (url) {
+        webViewController.getHeight().then((double height) {
+          setState(() {
+            _height = height;
+          });
+        });
+        content = content.replaceAll("\"", "\'");
+        content = content.replaceAll("\\", "");
+      },
+      javascriptMode: JavascriptMode.unrestricted,
+    );
   }
 
   loadDataRaw(String content, String title, String image, String date) {
@@ -274,7 +274,7 @@ class _StoryDetailsState extends State<StoryDetails> {
     </html>''';
 
     webViewController.loadUrl(Uri.dataFromString(final_content,
-            mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
+        mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
         .toString());
   }
 }

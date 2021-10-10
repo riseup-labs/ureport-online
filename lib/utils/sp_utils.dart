@@ -23,6 +23,8 @@ class SPUtil {
   static String USER_ROLE = "user_role";
   static String SOUND = "sound";
   static String REG_CALLED = "reg_called";
+  static String ABOUT_DATA = "about_data";
+  static String ABOUT_TITLE = "about_title";
 
 
   setValue(String key, String value) async {
@@ -35,5 +37,13 @@ class SPUtil {
 
   String getValue(String key) {
     return GetStorage().read(key);
+  }
+
+  String getValueNoNull(String key) {
+    if(GetStorage().hasData(key)){
+      return GetStorage().read(key);
+    }else{
+      return "";
+    }
   }
 }
