@@ -9,6 +9,7 @@ import 'package:ureport_ecaro/utils/click_sound.dart';
 
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
+import 'package:ureport_ecaro/utils/top_bar_background.dart';
 
 import 'about/about.dart';
 
@@ -17,60 +18,51 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          color: Colors.white,
-          width: double.infinity,
-          child: ListView(
-            children: [
-              SizedBox(
-                height: 40,
+        body: Column(
+          children: [
+            TopBar.getTopBar(AppLocalizations.of(context)!.more),
+            Expanded(
+              child: ListView(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      ClickSound.soundClick();
+                      NavUtils.push(context, SettingDetails());
+                    },
+                    child: getItem(
+                        "${AppLocalizations.of(context)!.settings}", "assets/images/v2_ic_settings.png"),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      ClickSound.soundClick();
+                      NavUtils.push(context, About());
+                    },
+                    child: getItem(
+                        "${AppLocalizations.of(context)!.about_us}", "assets/images/v2_ic_about.png"),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      ClickSound.soundClick();
+                      NavUtils.push(context, ChangeLanguage());
+                    },
+                    child: getItem("${AppLocalizations.of(context)!.change_language}",
+                        "assets/images/v2_ic_language.png"),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      ClickSound.soundClick();
+                      NavUtils.push(context, ProgramChooser("more"));
+                    },
+                    child: getItem("${AppLocalizations.of(context)!.change_ureport_program}",
+                        "assets/images/v2_ic_program.png"),
+                  ),
+                ],
               ),
-              Container(
-                margin: EdgeInsets.only(
-                  left: 50,
-                ),
-                child: Text(
-                  "${AppLocalizations.of(context)!.more}",
-                  style: TextStyle(color: Colors.black, fontSize: 35,fontWeight: FontWeight.w800),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                onTap: () {
-                  ClickSound.soundClick();
-                  NavUtils.push(context, SettingDetails());
-                },
-                child: getItem(
-                    "${AppLocalizations.of(context)!.settings}", "assets/images/v2_ic_settings.png"),
-              ),
-              GestureDetector(
-                onTap: () {
-                  ClickSound.soundClick();
-                  NavUtils.push(context, About());
-                },
-                child: getItem(
-                    "${AppLocalizations.of(context)!.about_us}", "assets/images/v2_ic_about.png"),
-              ),
-              GestureDetector(
-                onTap: () {
-                  ClickSound.soundClick();
-                  NavUtils.push(context, ChangeLanguage());
-                },
-                child: getItem("${AppLocalizations.of(context)!.change_language}",
-                    "assets/images/v2_ic_language.png"),
-              ),
-              GestureDetector(
-                onTap: () {
-                  ClickSound.soundClick();
-                  NavUtils.push(context, ProgramChooser("more"));
-                },
-                child: getItem("${AppLocalizations.of(context)!.change_ureport_program}",
-                    "assets/images/v2_ic_program.png"),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

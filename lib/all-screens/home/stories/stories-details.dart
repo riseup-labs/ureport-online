@@ -11,6 +11,7 @@ import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
+import 'package:ureport_ecaro/utils/top_bar_background.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -48,80 +49,129 @@ class _StoryDetailsState extends State<StoryDetails> {
   Widget build(BuildContext context) {
     return Consumer<StoryDetailsController>(
         builder: (context, provider, snapshot) {
-          return WillPopScope(
-            onWillPop: () async {
-              webViewController.webViewController.canGoBack().then((value) => {
-                if (value){
-                  webViewController.webViewController.goBack(),
-                  ClickSound.soundClose()
-                }
-                else {
-                  Navigator.pop(context),
-                  ClickSound.soundClose()
-                }
+      return WillPopScope(
+        onWillPop: () async {
+          webViewController.webViewController.canGoBack().then((value) => {
+                if (value)
+                  {
+                    webViewController.webViewController.goBack(),
+                    ClickSound.soundClose()
+                  }
+                else
+                  {Navigator.pop(context), ClickSound.soundClose()}
               });
-              return false;
-            },
-            child: Scaffold(
-                body: SafeArea(
-                  child: Container(
-                    color: Colors.white,
-                    child: SafeArea(
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: 70,
-                            padding: EdgeInsets.only(left: 15, right: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 55,
-                                  child: IconButton(
-                                    icon: Container(
-                                        height: 60,
-                                        width: 120,
-                                        child: Image(
-                                          fit: BoxFit.fill,
-                                          image: AssetImage(
-                                              "assets/images/v2_ic_back.png"),
-                                        )),
-                                    color: Colors.black,
-                                    onPressed: () {
-                                      webViewController.webViewController
-                                          .canGoBack()
-                                          .then((value) => {
-                                        if (value)
-                                          {
-                                            webViewController.webViewController
-                                                .goBack(),
-                                            ClickSound.soundClose()
-                                          }
-                                        else
-                                          {Navigator.pop(context),
-                                            ClickSound.soundClose()}
-                                      });
-                                    },
+          return false;
+        },
+        child: Scaffold(
+            body: SafeArea(
+          child: Container(
+            color: Colors.white,
+            child: SafeArea(
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 15),
+                        height: 70,
+                        color: Colors.white,
+                        child: Row(
+                          children: [
+                            Expanded(flex: 1, child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 55,
+                                    child: IconButton(
+                                      icon: Container(
+                                          height: 60,
+                                          width: 120,
+                                          child: Image(
+                                            fit: BoxFit.fill,
+                                            image: AssetImage(
+                                                "assets/images/v2_ic_back.png"),
+                                          )),
+                                      color: Colors.black,
+                                      onPressed: () {
+                                        webViewController.webViewController
+                                            .canGoBack()
+                                            .then((value) => {
+                                          if (value)
+                                            {
+                                              webViewController.webViewController
+                                                  .goBack(),
+                                              ClickSound.soundClose()
+                                            }
+                                          else
+                                            {
+                                              Navigator.pop(context),
+                                              ClickSound.soundClose()
+                                            }
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: Container(
+                                        child: Center(
+                                          child: getShareButton(widget.id),
+                                        ),
+                                      )
+                                  )
+
+                                ],
+                              ),
+                            )),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                child: CustomPaint(
+                                  painter: CustomBackground(),
+                                  child: Container(
+                                    height: 80,
+                                    child: Container(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Center(
+                                        child: Text(
+                                          AppLocalizations.of(context)!.stories,
+                                          style: TextStyle(
+                                              fontSize: 26.0,
+                                              color:
+                                                  RemoteConfigData.getTextColor(),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                getShareButton(widget.id)
-                              ],
+                              ),
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 70),
-                            width: double.infinity,
-                            child: loadLocalHTML(provider, storyContent, widget.title,
-                                widget.image, widget.date),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                      Container(
+                        child: Divider(
+                          height: 1.5,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
                   ),
-                )),
-          );
-        });
+                  Container(
+                    margin: EdgeInsets.only(top: 71.5),
+                    width: double.infinity,
+                    child: loadLocalHTML(provider, storyContent, widget.title,
+                        widget.image, widget.date),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )),
+      );
+    });
   }
 
   getShareButton(String id) {
@@ -133,6 +183,7 @@ class _StoryDetailsState extends State<StoryDetails> {
       child: Container(
         padding: EdgeInsets.all(8.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               AppLocalizations.of(context)!.share,
@@ -162,39 +213,39 @@ class _StoryDetailsState extends State<StoryDetails> {
 
     return content == ""
         ? Container(
-      margin: EdgeInsets.only(top: 30),
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        children: [
-          CircularProgressIndicator(),
-        ],
-      ),
-    )
+            margin: EdgeInsets.only(top: 30),
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [
+                CircularProgressIndicator(),
+              ],
+            ),
+          )
         : WebViewPlus(
-      onWebViewCreated: (controller) {
-        webViewController = controller;
-        controller.webViewController.clearCache();
-        // loadData();
-        loadDataRaw(content, title, image, date);
-      },
-      // javascriptChannels: Set.from([
-      //   JavascriptChannel(
-      //       name: 'Print',
-      //       onMessageReceived: (JavascriptMessage message) {
-      //         doShare();
-      //       })
-      // ]),
-      onPageFinished: (url) {
-        webViewController.getHeight().then((double height) {
-          setState(() {
-            _height = height;
-          });
-        });
-        content = content.replaceAll("\"", "\'");
-        content = content.replaceAll("\\", "");
-      },
-      javascriptMode: JavascriptMode.unrestricted,
-    );
+            onWebViewCreated: (controller) {
+              webViewController = controller;
+              controller.webViewController.clearCache();
+              // loadData();
+              loadDataRaw(content, title, image, date);
+            },
+            // javascriptChannels: Set.from([
+            //   JavascriptChannel(
+            //       name: 'Print',
+            //       onMessageReceived: (JavascriptMessage message) {
+            //         doShare();
+            //       })
+            // ]),
+            onPageFinished: (url) {
+              webViewController.getHeight().then((double height) {
+                setState(() {
+                  _height = height;
+                });
+              });
+              content = content.replaceAll("\"", "\'");
+              content = content.replaceAll("\\", "");
+            },
+            javascriptMode: JavascriptMode.unrestricted,
+          );
   }
 
   loadDataRaw(String content, String title, String image, String date) {
@@ -274,7 +325,7 @@ class _StoryDetailsState extends State<StoryDetails> {
     </html>''';
 
     webViewController.loadUrl(Uri.dataFromString(final_content,
-        mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
+            mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
         .toString());
   }
 }

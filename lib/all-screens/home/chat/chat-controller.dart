@@ -15,6 +15,7 @@ import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/apicall_responsedata/response_contact_creation.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
 import 'package:ureport_ecaro/network_operation/rapidpro_service.dart';
+import 'package:ureport_ecaro/network_operation/utils/connectivity_controller.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
@@ -28,7 +29,7 @@ import 'model/rapidpro-response-data.dart';
 import 'model/response-local-chat-parsing.dart';
 import 'notification-service.dart';
 
-class ChatController extends ChangeNotifier {
+class ChatController extends ConnectivityController {
   List<String> quicktype = [];
   final _chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';

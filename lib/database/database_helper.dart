@@ -135,7 +135,7 @@ class DatabaseHelper {
     List<ResultLocal> _stories = [];
     var db = await this.database;
     var result = await db.rawQuery(
-        "SELECT id,title,created_on,images,featured,summary FROM ${DatabaseConstant.tableName} WHERE featured = 'true' AND program = '$program'");
+        "SELECT id,title,created_on,images,featured,summary FROM ${DatabaseConstant.tableName} WHERE program = '$program'");
     result.forEach((element) {
       var list = ResultLocal.fromJson(element);
       _stories.add(list);
@@ -147,12 +147,18 @@ class DatabaseHelper {
     List<ResultLocal> _stories = [];
     var db = await this.database;
     var result = await db.rawQuery(
-        "SELECT id FROM ${DatabaseConstant.tableName} WHERE featured = 'true' AND program = '$program' ORDER BY id DESC LIMIT 1 ");
+        "SELECT id FROM ${DatabaseConstant.tableName} WHERE  program = '$program' ORDER BY id DESC LIMIT 1 ");
     result.forEach((element) {
       var list = ResultLocal.fromJson(element);
       _stories.add(list);
     });
     return _stories;
+  }
+
+  Future<int> getStoryCount(String program) async {
+    Database db = await this.database;
+    int? count = Sqflite.firstIntValue(await db.rawQuery("SELECT COUNT(*) FROM ${DatabaseConstant.tableName} WHERE program = '$program'"));
+    return count!;
   }
 
   Future<List<StorySearchList>> getStoryCategories(String program) async {

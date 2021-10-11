@@ -52,7 +52,7 @@ class TopBar {
     );
   }
 
-  static Widget getChatTopBar(String title,BuildContext context,String from) {
+  static Widget getChatTopBar(String title, BuildContext context, String from) {
     return Container(
       color: Colors.white,
       child: Row(
@@ -87,7 +87,9 @@ class TopBar {
                                 color: RemoteConfigData.getTextColor(),
                                 fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(width: 5,),
+                          SizedBox(
+                            width: 5,
+                          ),
                           IconButton(
                             icon: Icon(
                               Icons.clear,
@@ -97,11 +99,14 @@ class TopBar {
                             onPressed: () {
                               ClickSound.soundClose();
                               //Detect where this page called
-                              if(from == "Home"){
-                                Provider.of<ChatController>(context, listen: false).selectall = false;
+                              if (from == "Home") {
+                                Provider.of<ChatController>(context,
+                                        listen: false)
+                                    .selectall = false;
                                 Navigator.pop(context);
-                              }else{
-                                NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
+                              } else {
+                                NavUtils.pushAndRemoveUntil(
+                                    context, NavigationScreen(0));
                               }
                             },
                           )

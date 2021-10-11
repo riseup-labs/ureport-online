@@ -6,9 +6,11 @@ import 'package:ureport_ecaro/all-screens/home/opinion/opinion_controller.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/network_operation/utils/connectivity_controller.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
+import 'package:ureport_ecaro/utils/snackbar.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -32,6 +34,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
 
   @override
   void initState() {
+    Provider.of<ConnectivityController>(context, listen: false).startMonitoring();
     Provider.of<RemoteConfigController>(context, listen: false)
         .getInitialData(context);
     super.initState();
@@ -162,22 +165,27 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                     child: Container(
                                       child: GestureDetector(
                                           onTap: () {
-                                            ClickSound.soundClick();
-                                            spset.setValue(SPUtil.PROGRAMKEY,
-                                                dropdownValue);
-                                            Provider.of<OpinionController>(
-                                                    context,
-                                                    listen: false)
-                                                .opinionID = 0;
-                                            Provider.of<OpinionController>(
-                                                    context,
-                                                    listen: false)
-                                                .notify();
-                                            Provider.of<StoryController>(context, listen: false).isLoaded = true;
-                                            Provider.of<OpinionController>(context, listen: false).isLoaded = true;
-                                            Provider.of<OpinionController>(context, listen: false).items = [];
-                                            NavUtils.pushAndRemoveUntil(
-                                                context, NavigationScreen(0));
+                                            if(Provider.of<ConnectivityController>(context, listen: false).isOnline){
+                                              ClickSound.soundClick();
+                                              spset.setValue(SPUtil.PROGRAMKEY,
+                                                  dropdownValue);
+                                              Provider.of<OpinionController>(
+                                                  context,
+                                                  listen: false)
+                                                  .opinionID = 0;
+                                              Provider.of<OpinionController>(
+                                                  context,
+                                                  listen: false)
+                                                  .notify();
+                                              Provider.of<StoryController>(context, listen: false).isLoaded = true;
+                                              Provider.of<OpinionController>(context, listen: false).isLoaded = true;
+                                              Provider.of<OpinionController>(context, listen: false).items = [];
+                                              NavUtils.pushAndRemoveUntil(
+                                                  context, NavigationScreen(0));
+                                            }else{
+                                              ShowSnackBar.showNoInternetMessage(context);
+                                            }
+
                                           },
                                           child: Center(
                                             child: Text(

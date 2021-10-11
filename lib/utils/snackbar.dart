@@ -11,5 +11,11 @@ class ShowSnackBar{
     ClickSound.soundNoInternet();
   }
 
+  static showNoInternetMessageChat(context){
+    final snackBar = SnackBar(content: Text(AppLocalizations.of(context)!.no_internet_text), duration: Duration(minutes: 10),);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    ClickSound.soundNoInternet();
+  }
+
 
 }

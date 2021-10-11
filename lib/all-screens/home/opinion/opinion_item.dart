@@ -163,7 +163,7 @@ class _OpinionItemState extends State<OpinionItem> {
                               ),
                             ),
                             Expanded(
-                              flex: 5,
+                              flex: 8,
                               child: GestureDetector(
                                 onTap: (){
                                   ClickSound.soundTap();

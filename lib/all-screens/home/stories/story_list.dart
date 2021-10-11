@@ -23,31 +23,26 @@ class StoryList extends StatefulWidget {
   _StoryListState createState() => _StoryListState();
 }
 
-class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixin{
+class _StoryListState extends State<StoryList>
+    with AutomaticKeepAliveClientMixin {
   var sp = locator<SPUtil>();
-
-  int itemCount = 10;
-
   @override
   void initState() {
     super.initState();
     Provider.of<StoryController>(context, listen: false).startMonitoring();
-    sp.setValue(SPUtil.ABOUT_DATA, "");
   }
 
   @override
   Widget build(BuildContext context) {
-
     Provider.of<StoryController>(context, listen: false).initializeDatabase();
     List<ResultLocal>? stories = [];
 
-    if(Provider.of<StoryController>(context, listen: false).isLoaded){
+    if (Provider.of<StoryController>(context, listen: false).isLoaded) {
       Provider.of<StoryController>(context, listen: false).getRecentStory(
           RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
           sp.getValue(SPUtil.PROGRAMKEY));
       Provider.of<StoryController>(context, listen: false).isLoaded = false;
     }
-
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       var _futureStory = provider.getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
@@ -131,10 +126,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
                                   physics: ScrollPhysics(),
                                   shrinkWrap: true,
                                   addAutomaticKeepAlives: true,
-                                  itemCount: stories!.length <= 10
-                                      ? stories!.length
-                                      : itemCount <= stories!.length ?
-                                  itemCount + 1 : stories!.length,
+                                  itemCount: provider.itemCount < sp.getInt("${SPUtil.PROGRAMKEY}_${SPUtil.STORY_COUNT}") ? provider.itemCount+1 : provider.itemCount,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return GestureDetector(
@@ -155,39 +147,49 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
                                                     .toString()));
                                       },
                                       child: Container(
-                                        child: index <= itemCount - 1
-                                            ? getItem(
-                                                stories?[index].images != ''
-                                                    ? stories![index].images
-                                                    : "assets/images/default.jpg",
-                                                stories![index].featured,
-                                                stories![index].title,
-                                                stories![index].summary,
-                                                context)
-                                            : Container(
-                                                margin: EdgeInsets.only(
-                                                    top: 5, bottom: 20),
-                                                height: 35,
-                                                child: GestureDetector(
-                                                  onTap: (){
-                                                    ClickSound.soundTap();
-                                                    itemCount = itemCount+ 10;
-                                                    setState(() {});
-                                                  },
-                                                    child: Center(
-                                                        child:
-                                                            Text(
-                                                              AppLocalizations.of(context)!.see_more,
-                                                              style: TextStyle(
+                                          child: index < provider.itemCount
+                                              ? getItem(
+                                                  stories?[index].images != ''
+                                                      ? stories![index].images
+                                                      : "assets/images/default.jpg",
+                                                  stories![index].featured,
+                                                  stories![index].title,
+                                                  stories![index].summary,
+                                                  context)
+                                              : !provider.nextLoading
+                                                  ? Container(
+                                                      margin: EdgeInsets.only(
+                                                          top: 5, bottom: 20),
+                                                      height: 35,
+                                                      child: GestureDetector(
+                                                          onTap: () {
+                                                            ClickSound
+                                                                .soundTap();
+                                                            provider.checkForNextStories(
+                                                                sp.getValue(SPUtil
+                                                                    .PROGRAMKEY));
+                                                          },
+                                                          child: Center(
+                                                              child: Text(
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .see_more,
+                                                            style: TextStyle(
                                                                 fontSize: 18,
-                                                                color: Colors.black,
-                                                                decoration: TextDecoration.underline
-                                                              ),
-                                                            )
-                                                    )
-                                                )
-                                        ),
-                                      ),
+                                                                color: Colors
+                                                                    .black,
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .underline),
+                                                          ))))
+                                                  : Center(
+                                                      child: Container(
+                                                        height: 60,
+                                                        width: 60,
+                                                        child:
+                                                            LoadingBar.spinkit,
+                                                      ),
+                                                    )),
                                     );
                                   }),
                             )
@@ -221,7 +223,6 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
   }
 
   @override
-
   bool get wantKeepAlive => true;
 }
 
@@ -229,7 +230,8 @@ getBackground() {
   return Image(image: AssetImage("assets/images/bg_home.png"));
 }
 
-getItem(String image_url, String featured, String title, String summery, BuildContext context) {
+getItem(String image_url, String featured, String title, String summery,
+    BuildContext context) {
   return Card(
     elevation: 2,
     shape: RoundedRectangleBorder(
@@ -240,7 +242,7 @@ getItem(String image_url, String featured, String title, String summery, BuildCo
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         getItemTitleImage(image_url),
-        getItemFeatured(featured,context),
+        getItemFeatured(featured, context),
         getItemTitle(title),
         getItemSummery(summery, context),
       ],
@@ -281,8 +283,7 @@ getItemTitleImage(String image_url) {
               width: 50,
               child: LoadingBar.spinkit,
             ),
-          )
-      ),
+          )),
     ),
   );
 }
@@ -302,7 +303,9 @@ getItemFeatured(String featured, BuildContext context) {
       Container(
         margin: EdgeInsets.only(top: 10),
         child: Text(
-          featured == "true" ? AppLocalizations.of(context)!.featured_story : "STORY",
+          featured == "true"
+              ? AppLocalizations.of(context)!.featured_story
+              : "STORY",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
         ),
       )
@@ -325,12 +328,13 @@ getItemSummery(String summery, BuildContext context) {
       padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: RichText(
         text: TextSpan(
-          style:
-              TextStyle(fontSize: 14, color: Colors.black),
+          style: TextStyle(fontSize: 14, color: Colors.black),
           children: <TextSpan>[
             TextSpan(text: summery),
             TextSpan(
-                text: summery.length != 0?" ${AppLocalizations.of(context)!.read_more}":"${AppLocalizations.of(context)!.read_more}",
+                text: summery.length != 0
+                    ? " ${AppLocalizations.of(context)!.read_more}"
+                    : "${AppLocalizations.of(context)!.read_more}",
                 style: new TextStyle(
                     fontSize: 13, color: RemoteConfigData.getPrimaryColor())),
           ],

@@ -44,12 +44,12 @@ class _OpinionState extends State<Opinion> {
 
     List<ResultOpinionLocal>? opinions = [];
 
-    if (Provider.of<OpinionController>(context, listen: false).isLoaded) {
-      Provider.of<OpinionController>(context, listen: false).checkOpinion(
-          RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-          sp.getValue(SPUtil.PROGRAMKEY));
-      Provider.of<OpinionController>(context, listen: false).isLoaded = false;
-    }
+    // if (Provider.of<OpinionController>(context, listen: false).isLoaded) {
+    //   Provider.of<OpinionController>(context, listen: false).checkOpinion(
+    //       RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+    //       sp.getValue(SPUtil.PROGRAMKEY));
+    //   Provider.of<OpinionController>(context, listen: false).isLoaded = false;
+    // }
 
     return Consumer<OpinionController>(builder: (context, provider, child) {
       var _futureOpinion = provider.getOpinionsFromLocal(sp.getValue(SPUtil.PROGRAMKEY), provider.opinionID);

@@ -53,6 +53,7 @@ class _ChatState extends State<Chat> {
 
   @override
   void initState() {
+    Provider.of<ChatController>(context, listen: false).startMonitoring();
     myFocusNode = FocusNode();
     KeyboardVisibilityController().onChange.listen((event) {
       setState(() {
@@ -829,22 +830,23 @@ class _ChatState extends State<Chat> {
                           SizedBox(
                             height: 10,
                           ),
+                          !provider.isOnline?Container(
+                            height: 40,
+                            padding: EdgeInsets.only(left: 25),
+                            width: double.infinity,
+                            color: Colors.black87,
+                            child: Row(
+                              children: [
+                                Text(AppLocalizations.of(context)!.no_internet_text, style: TextStyle(color: Colors.white),),
+                              ],
+                            ),
+                          ):Container(),
                           Container(
                             width: double.infinity,
                             height: 64,
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ],
                             ),
-                            //donee
 
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -855,7 +857,7 @@ class _ChatState extends State<Chat> {
                                 Expanded(
                                   child: Container(
                                     width: double.infinity,
-                                    padding: EdgeInsets.only(left: 5, right: 5),
+                                    padding: EdgeInsets.only(left: 0, right: 3),
                                     decoration: BoxDecoration(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(20)),
@@ -924,7 +926,6 @@ class _ChatState extends State<Chat> {
                         ],
                       ),
                     )
-                    /* sendMessage(context),*/
                   ],
                 ),
               ),
@@ -971,144 +972,165 @@ class _ChatState extends State<Chat> {
   }
 
   Widget sendMessage(context, provider) {
-    return Form(
-      key: sendMessageKey,
-      child: Row(
-        children: [
-          provider.isExpanded == true || isKeyboardOpen == false
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    RemoteConfigData.getDefaultActionVisibility() == true
-                        ? GestureDetector(
-                            onTap: () {
-                              ClickSound.soundMsgSend();
-                              provider.addQuickType();
-                              provider.isExpanded = false;
-                              _scrollController.animateTo(0.0,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeOut);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(4),
-                              height: 40,
-                              width: 30,
-                              child: Image.asset(
-                                "assets/images/ic_chat_menu.png",
-                              ),
-                            ),
-                          )
-                        : SizedBox(),
-                    RemoteConfigData.getDefaultActionVisibility() == true
-                        ? SizedBox(
-                            width: 10,
-                          )
-                        : SizedBox(),
-                    RemoteConfigData.getIndividualCaseManagementVisibility() ==
-                            true
-                        ? GestureDetector(
-                            onTap: () {
-                              ClickSound.soundMsgSend();
-                              provider.addQuickTypeCaseManagement();
-                              provider.isExpanded = false;
-                              _scrollController.animateTo(0.0,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeOut);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(3.5),
-                              height: 40,
-                              width: 30,
-                              child: Image.asset(
-                                "assets/images/ic_one_to_one_chat.png",
-                              ),
-                            ),
-                          )
-                        : SizedBox(),
-                  ],
-                )
-              :
-              /* RemoteConfigData.getDefaultActionVisibility()==true || RemoteConfigData.getIndividualCaseManagementVisibility()==true?*/
-              GestureDetector(
-                  onTap: () {
-                    provider.isExpanded = true;
-                    // provider.addQuickType();
-                  },
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    padding: EdgeInsets.all(4),
-                    child: Image.asset(
-                      "assets/images/ic_arrow_chat.png",
-                    ),
-                  ),
-                ) /*:SizedBox()*/,
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(left: 10),
-              decoration: BoxDecoration(),
-              child: TextFormField(
-                controller: _messagecontroller,
-                focusNode: myFocusNode,
-                onChanged: (String value) {
-                  message = value;
-                  myFocusNode.requestFocus();
-                },
-                decoration: InputDecoration.collapsed(
-                    hintText: "${AppLocalizations.of(context)!.enter_message}",
-                    hintStyle: TextStyle(fontSize: 14)),
-              ),
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: Offset(0, 0), // changes position of shadow
           ),
-          Material(
+        ],
+      ),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(35.0),
+        ),
+        child: Container(
+          padding: EdgeInsets.only(left: 10, right: 10),
+          child: Form(
+            key: sendMessageKey,
             child: Row(
               children: [
-                IconButton(
-                  icon: Image.asset("assets/images/ic_sand.png"),
-                  onPressed: () {
-                    ClickSound.soundMsgSend();
-                    DateTime now = DateTime.now();
-                    String formattedDate =
-                        DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
-                    sendMessageKey.currentState!.save();
-                    if (message == "") return;
-                    final messageModel = MessageModel(
-                        message: message,
-                        sender: "user",
-                        status: "Sending...",
-                        quicktypest: [""],
-                        time: formattedDate);
-                    provider.addMessage(messageModel);
-                    List<String> listDefault =
-                        RemoteConfigData.getDefaultAction();
-                    List<String> listCaseManagement =
-                        RemoteConfigData.getOneToOneAction();
-
-                    if (listDefault.contains(message)) {
-                      locator<SPUtil>().setValue(SPUtil.USER_ROLE, "regular");
-                    } else if (listCaseManagement.contains(message)) {
-                      locator<SPUtil>()
-                          .setValue(SPUtil.USER_ROLE, "caseManagement");
-                    }
-
-                    provider.sendmessage(message, "from send message button");
-
-                    messageModel.status = provider.messagestatus;
-
-                    // sendMessageKey.currentState!.reset();
-                    _messagecontroller.clear();
-                    message = "";
-
-                    setState(() {
-                      myFocusNode.requestFocus();
-                    });
-                  },
+                provider.isExpanded == true || isKeyboardOpen == false
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          RemoteConfigData.getDefaultActionVisibility() == true
+                              ? GestureDetector(
+                                  onTap: () {
+                                    if(provider.isOnline){
+                                      ClickSound.soundMsgSend();
+                                      provider.addQuickType();
+                                      provider.isExpanded = false;
+                                      _scrollController.animateTo(0.0,
+                                          duration: const Duration(milliseconds: 300),
+                                          curve: Curves.easeOut);
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(4),
+                                    height: 40,
+                                    width: 30,
+                                    child: Image.asset(
+                                      "assets/images/ic_chat_menu.png",
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
+                          RemoteConfigData.getDefaultActionVisibility() == true
+                              ? SizedBox(
+                                  width: 10,
+                                )
+                              : SizedBox(),
+                          RemoteConfigData.getIndividualCaseManagementVisibility() ==
+                                  true
+                              ? GestureDetector(
+                                  onTap: () {
+                                    if(provider.isOnline){
+                                      ClickSound.soundMsgSend();
+                                      provider.addQuickTypeCaseManagement();
+                                      provider.isExpanded = false;
+                                      _scrollController.animateTo(0.0,
+                                          duration: const Duration(milliseconds: 300),
+                                          curve: Curves.easeOut);
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(3.5),
+                                    height: 40,
+                                    width: 30,
+                                    child: Image.asset(
+                                      "assets/images/ic_one_to_one_chat.png",
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
+                        ],
+                      )
+                    :
+                    GestureDetector(
+                        onTap: () {
+                          provider.isExpanded = true;
+                          // provider.addQuickType();
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          padding: EdgeInsets.all(4),
+                          child: Image.asset(
+                            "assets/images/ic_arrow_chat.png",
+                          ),
+                        ),
+                      ) /*:SizedBox()*/,
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(left: 10),
+                    decoration: BoxDecoration(),
+                    child: TextFormField(
+                      controller: _messagecontroller,
+                      focusNode: myFocusNode,
+                      onChanged: (String value) {
+                        message = value;
+                        myFocusNode.requestFocus();
+                      },
+                      decoration: InputDecoration.collapsed(
+                          hintText: "${AppLocalizations.of(context)!.enter_message}",
+                          hintStyle: TextStyle(fontSize: 14)),
+                    ),
+                  ),
                 ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Image.asset("assets/images/ic_sand.png"),
+                      onPressed: () {
+                        if(provider.isOnline){
+                          ClickSound.soundMsgSend();
+                          DateTime now = DateTime.now();
+                          String formattedDate =
+                          DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
+                          sendMessageKey.currentState!.save();
+                          if (message == "") return;
+                          final messageModel = MessageModel(
+                              message: message,
+                              sender: "user",
+                              status: "Sending...",
+                              quicktypest: [""],
+                              time: formattedDate);
+                          provider.addMessage(messageModel);
+                          List<String> listDefault =
+                          RemoteConfigData.getDefaultAction();
+                          List<String> listCaseManagement =
+                          RemoteConfigData.getOneToOneAction();
+
+                          if (listDefault.contains(message)) {
+                            locator<SPUtil>().setValue(SPUtil.USER_ROLE, "regular");
+                          } else if (listCaseManagement.contains(message)) {
+                            locator<SPUtil>()
+                                .setValue(SPUtil.USER_ROLE, "caseManagement");
+                          }
+
+                          provider.sendmessage(message, "from send message button");
+
+                          messageModel.status = provider.messagestatus;
+                          _messagecontroller.clear();
+                          message = "";
+
+                          setState(() {
+                            myFocusNode.requestFocus();
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                )
               ],
             ),
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
