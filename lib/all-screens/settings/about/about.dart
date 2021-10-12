@@ -4,9 +4,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/loading_bar.dart';
+import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -32,18 +34,19 @@ class _AboutState extends State<About> {
 
     Provider.of<AboutController>(context, listen: false).startMonitoring();
 
-    Provider.of<AboutController>(context, listen: false).data = sp.getValueNoNull(SPUtil.ABOUT_DATA);
-    Provider.of<AboutController>(context, listen: false).title = sp.getValueNoNull(SPUtil.ABOUT_TITLE);
+    Provider.of<AboutController>(context, listen: false).data =
+        sp.getValueNoNull(SPUtil.ABOUT_DATA);
+    Provider.of<AboutController>(context, listen: false).title =
+        sp.getValueNoNull(SPUtil.ABOUT_TITLE);
 
     Provider.of<AboutController>(context, listen: false).aboutData = null;
+
     Provider.of<AboutController>(context, listen: false).getAboutFromRemote(
         RemoteConfigData.getAboutUrl(sp.getValue(SPUtil.PROGRAMKEY)));
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer<AboutController>(
       builder: (context, provider, child) {
         return SafeArea(
@@ -88,11 +91,13 @@ class _AboutState extends State<About> {
                   Expanded(
                     child: RefreshIndicator(
                       onRefresh: () {
-                        return provider.isOnline?Provider.of<AboutController>(context,
-                                listen: false)
-                            .refreshAboutFromRemote(
-                                RemoteConfigData.getAboutUrl(
-                                    sp.getValue(SPUtil.PROGRAMKEY))):Future.value();
+                        return provider.isOnline
+                            ? Provider.of<AboutController>(context,
+                                    listen: false)
+                                .refreshAboutFromRemote(
+                                    RemoteConfigData.getAboutUrl(
+                                        sp.getValue(SPUtil.PROGRAMKEY)))
+                            : Future.value();
                       },
                       child: SingleChildScrollView(
                         physics: AlwaysScrollableScrollPhysics(),
@@ -103,12 +108,12 @@ class _AboutState extends State<About> {
                                   onWebViewCreated: (controller) {
                                     webViewController = controller;
                                     controller.webViewController.clearCache();
-                                    if(provider.isOnline){
+                                    if (provider.isOnline) {
                                       getContent(provider.title, provider.data);
-                                    }else{
-                                      getContentOffline(provider.title, provider.data);
+                                    } else {
+                                      getContentOffline(
+                                          provider.title, provider.data);
                                     }
-
                                   },
                                   onPageFinished: (url) {
                                     webViewController
@@ -122,10 +127,12 @@ class _AboutState extends State<About> {
                                   javascriptMode: JavascriptMode.unrestricted,
                                 ),
                               )
-                            :provider.isOnline?Container(
-                              height: MediaQuery.of(context).size.height,
-                              child: Center(child: LoadingBar.spinkit),
-                            ):noInternetDialog(),
+                            : provider.isOnline
+                                ? Container(
+                                    height: MediaQuery.of(context).size.height,
+                                    child: Center(child: LoadingBar.spinkit),
+                                  )
+                                : noInternetDialog(context),
                       ),
                     ),
                   ),
@@ -138,43 +145,45 @@ class _AboutState extends State<About> {
     );
   }
 
-  noInternetDialog() {
-    Timer(
-      Duration(seconds: 1),
-        (){
-          AlertDialog alert = AlertDialog(
-            content: Text(AppLocalizations.of(context)!.no_internet_text),
-            actions: [
-              TextButton(
-                child: Text("EXIT",style: TextStyle(color: Colors.red),),
-                onPressed: () {
-                  ClickSound.soundClick();
-                  Navigator.of(context).pop();
-                  Navigator.pop(context);
-                },
-              ),
-              TextButton(
-                child: Text("RETRY"),
-                onPressed: () {
-                  ClickSound.soundClick();
-                  Navigator.of(context).pop();
-                  Provider.of<AboutController>(context, listen: false).aboutData = null;
-                  Provider.of<AboutController>(context, listen: false).getAboutFromRemote(
-                      RemoteConfigData.getAboutUrl(sp.getValue(SPUtil.PROGRAMKEY)));
-                },
-              )
-            ],
-          );
-
-          // show the dialog
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return alert;
+  noInternetDialog(BuildContext context) {
+    Timer(Duration(seconds: 1), () {
+      AlertDialog alert = AlertDialog(
+        content: Text(AppLocalizations.of(context)!.no_internet_text),
+        actions: [
+          TextButton(
+            child: Text(
+              "${AppLocalizations.of(context)!.back}",
+              style: TextStyle(color: Colors.red),
+            ),
+            onPressed: () {
+              ClickSound.soundClick();
+              NavUtils.pushAndRemoveUntil(context, NavigationScreen(3));
             },
-          );
-        }
-    );
+          ),
+          TextButton(
+            child: Text(AppLocalizations.of(context)!.retry),
+            onPressed: () {
+              ClickSound.soundClick();
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+              Provider.of<AboutController>(context, listen: false).aboutData =
+                  null;
+              Provider.of<AboutController>(context, listen: false)
+                  .getAboutFromRemote(RemoteConfigData.getAboutUrl(
+                      sp.getValue(SPUtil.PROGRAMKEY)));
+            },
+          )
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    });
   }
 
   getContent(String title, String content) {

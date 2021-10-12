@@ -9,6 +9,7 @@ import 'package:ureport_ecaro/all-screens/home/stories/story-details-controller.
 import 'package:share/share.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/utils/story_details_utils.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
+import 'package:ureport_ecaro/network_operation/utils/connectivity_controller.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
@@ -37,7 +38,7 @@ class _StoryDetailsState extends State<StoryDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    Provider.of<ConnectivityController>(context, listen: false).startMonitoring();
     StorageUtil.readStory("${sp.getValue(SPUtil.PROGRAMKEY)}_${widget.id}")
         .then((String value) {
       setState(() {
@@ -328,8 +329,52 @@ class _StoryDetailsState extends State<StoryDetails> {
     </body> 
     </html>''';
 
-    webViewController.loadUrl(Uri.dataFromString(final_content,
-            mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
-        .toString());
+    String final_content_offline = '''
+    
+    <html> 
+    
+    <style> 
+    ${StoryUtils.style}
+    img{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
+    iframe{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
+    body{width: 90% !important;margin-left: auto;margin-right: auto;display: block;margin-top:10px;margin-bottom:10px;} 
+    p{font-size: 24px;}
+    span{font-size: 14px !important; line-height: 1.6 !important;}
+    .header_group{
+      display: inline-flex;
+    }
+    .header_group img {
+      height: 20px;
+      margin: 0 0 0 5px !important;
+    }
+    .header_time{
+       float: left;
+       margin-top: 3px;
+       font-size: 14px;
+       font-weight: bold;
+    }
+    .header_share{
+      float: right;
+      margin-right: 20px;
+    }
+    </style> 
+    <body> 
+    <div class="header_time">$clockString</div>
+    <div style="float: left; font-weight: bold; margin-top:10px; margin-bottom: 10px; font-size: 20px "><h2>$title</h2></div>
+    <div  style="float: left;">$content</div> 
+    </body> 
+    </html>''';
+
+
+    if(Provider.of<ConnectivityController>(context, listen: false).isOnline){
+      webViewController.loadUrl(Uri.dataFromString(final_content,
+          mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
+          .toString());
+    }else{
+      webViewController.loadUrl(Uri.dataFromString(final_content_offline,
+          mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
+          .toString());
+    }
+
   }
 }
