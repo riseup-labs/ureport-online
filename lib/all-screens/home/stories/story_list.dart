@@ -127,7 +127,7 @@ class _StoryListState extends State<StoryList>
                                   physics: ScrollPhysics(),
                                   shrinkWrap: true,
                                   addAutomaticKeepAlives: true,
-                                  itemCount: provider.itemCount < sp.getInt("${SPUtil.PROGRAMKEY}_${SPUtil.STORY_COUNT}") ? provider.itemCount+1 : provider.itemCount,
+                                  itemCount: provider.itemCount < sp.getInt("${sp.getValue(SPUtil.PROGRAMKEY)}_${SPUtil.STORY_COUNT}") ? provider.itemCount+1 : provider.itemCount,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return GestureDetector(

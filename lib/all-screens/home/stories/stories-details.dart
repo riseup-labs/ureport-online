@@ -302,7 +302,7 @@ class _StoryDetailsState extends State<StoryDetails> {
     iframe{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
     body{width: 90% !important;margin-left: auto;margin-right: auto;display: block;margin-top:10px;margin-bottom:10px;} 
     p{font-size: 24px;}
-    span{font-size: 14px !important; line-height: 1.6 !important;}
+    span{font-size: 16px !important; line-height: 1.6 !important;}
     .header_group{
       display: inline-flex;
     }
@@ -339,7 +339,7 @@ class _StoryDetailsState extends State<StoryDetails> {
     iframe{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
     body{width: 90% !important;margin-left: auto;margin-right: auto;display: block;margin-top:10px;margin-bottom:10px;} 
     p{font-size: 24px;}
-    span{font-size: 14px !important; line-height: 1.6 !important;}
+    span{font-size: 16px !important; line-height: 1.6 !important;}
     .header_group{
       display: inline-flex;
     }

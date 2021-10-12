@@ -56,7 +56,7 @@ class StoryController extends ConnectivityController {
       isLoading = false;
       isSyncing = false;
       notifyListeners();
-      sp.setInt("${SPUtil.PROGRAMKEY}_${SPUtil.STORY_COUNT}", apiresponsedata.data.count);
+      sp.setInt("${program}_${SPUtil.STORY_COUNT}", apiresponsedata.data.count);
 
       if (apiresponsedata.data.count > 5) {
         itemCount = 5;
@@ -66,7 +66,7 @@ class StoryController extends ConnectivityController {
       }
 
     if (apiresponsedata.data.next != null) {
-    sp.setValue(SPUtil.STORY_NEXT, apiresponsedata.data.next);
+    sp.setValue("${program}_${SPUtil.STORY_NEXT}", apiresponsedata.data.next);
     }
     } else {
     isLoading = false;
@@ -94,11 +94,11 @@ class StoryController extends ConnectivityController {
   
   getNextStoriesFromRemote(String program) async{
 
-    if(sp.getValue(SPUtil.STORY_NEXT) != "null"){
+    if(sp.getValue("${program}_${SPUtil.STORY_NEXT}") != "null"){
       setNextLoading();
       items.clear();
       var apiresponsedata = await _storyservice.getStory(
-          sp.getValue(SPUtil.STORY_NEXT));
+          sp.getValue("${program}_${SPUtil.STORY_NEXT}"));
       if (apiresponsedata.httpCode == 200) {
         items.addAll(apiresponsedata.data.results);
         await _databaseHelper.insertStory(items, program);
@@ -119,9 +119,9 @@ class StoryController extends ConnectivityController {
         );
 
         if (apiresponsedata.data.next != null) {
-          sp.setValue(SPUtil.STORY_NEXT, apiresponsedata.data.next);
+          sp.setValue("${program}_${SPUtil.STORY_NEXT}", apiresponsedata.data.next);
         }else{
-          sp.setValue(SPUtil.STORY_NEXT,"null");
+          sp.setValue("${program}_${SPUtil.STORY_NEXT}","null");
         }
       } else {
         nextLoading = false;
@@ -139,7 +139,7 @@ class StoryController extends ConnectivityController {
     {
       if (value.length != 0)
         {
-          if(sp.getInt("${SPUtil.PROGRAMKEY}_${SPUtil.STORY_COUNT}") > 5){
+          if(sp.getInt("${program}_${SPUtil.STORY_COUNT}") > 5){
             itemCount = 5,
             notifyListeners()
           },

@@ -18,7 +18,7 @@ class OpinionController extends ConnectivityController {
   bool isLoaded = true;
   var noResultFound = false;
 
-  setOpinionId(int id){
+  setOpinionId(int id) {
     opinionID = id;
     notifyListeners();
   }
@@ -47,14 +47,18 @@ class OpinionController extends ConnectivityController {
 
   checkOpinion(String url, String program) async {
     _databaseHelper.getOpinionCount(program).then((value) => {
-          if (value <= 0)
-            {getLatestOpinions(url, program)}
+          if (value == 0)
+            {getLatestOpinionFromRemote(url, program)}
+          else if (value == 1)
+            {
+              getAllOpinions(url, program)
+            }
           else
             {refreshOpinion(url, program)}
         });
   }
 
-  getLatestOpinions(String url, String program) {
+  getAllOpinions(String url, String program) {
     setLoading();
     getOpinionsFromRemote(url + "?limit=40", program);
   }
@@ -66,13 +70,27 @@ class OpinionController extends ConnectivityController {
       if (apiresponsedata.data.next != null) {
         getOpinionsFromRemote(apiresponsedata.data.next, program);
       } else {
-        sp.setValue("${sp.getValue(SPUtil.PROGRAMKEY)}_latest_opinion", items[0].id.toString());
         await _databaseHelper.insertOpinion(items, program);
         LoadDataHandling.storeOpinionLastUpdate();
         isLoading = false;
         isSyncing = false;
         notifyListeners();
       }
+    }
+  }
+
+  getLatestOpinionFromRemote(String url, String program) async {
+    var apiresponsedata =
+        await _opinionrepository.getOpinions(url + "?limit=1");
+    if (apiresponsedata.httpCode == 200) {
+      items.addAll(apiresponsedata.data.results);
+      sp.setValue("${sp.getValue(SPUtil.PROGRAMKEY)}_latest_opinion",
+          items[0].id.toString());
+      await _databaseHelper.insertOpinion(items, program);
+      isLoading = false;
+      isSyncing = true;
+      notifyListeners();
+      getAllOpinions(url, program);
     }
   }
 
@@ -83,7 +101,8 @@ class OpinionController extends ConnectivityController {
       ClickSound.soundShare();
       await _databaseHelper.insertOpinion(
           apiresponsedata.data.results, program);
-      sp.setValue("${sp.getValue(SPUtil.PROGRAMKEY)}_latest_opinion", apiresponsedata.data.results[0].id.toString());
+      sp.setValue("${sp.getValue(SPUtil.PROGRAMKEY)}_latest_opinion",
+          apiresponsedata.data.results[0].id.toString());
       LoadDataHandling.storeOpinionLastUpdate();
       isLoading = false;
       isSyncing = false;
@@ -94,7 +113,6 @@ class OpinionController extends ConnectivityController {
   getOpinionsFromLocal(String program, int id) {
     return _databaseHelper.getOpinions(program, id);
   }
-
 
   getCategories(String program) {
     return _databaseHelper.getOpinionCategories(program);

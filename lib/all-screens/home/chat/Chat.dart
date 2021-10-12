@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -13,6 +15,7 @@ import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
+import 'package:ureport_ecaro/utils/snackbar.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:ureport_ecaro/utils/top_bar_background.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -78,6 +81,7 @@ class _ChatState extends State<Chat> {
           .deletemsgAfterfiveDays();
       Provider.of<ChatController>(context, listen: false).isLoaded = false;
     }
+
   }
 
   DatabaseHelper _databaseHelper = DatabaseHelper();
@@ -86,6 +90,7 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
 
     String deletedMessageText = "This Message was Deleted";
+    showNoInternetDialog();
 
     return WillPopScope(
       onWillPop: () async {
@@ -305,7 +310,7 @@ class _ChatState extends State<Chat> {
                                                                                   (data) => data.contains(provider.detectedlink.length > 0 ? provider.detectedlink[0] : "nodata")
                                                                                       ? TextSpan(
                                                                                           text: " $data ",
-                                                                                          style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                                                                                          style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline, fontSize: 16),
                                                                                           recognizer: tapGestureRecognizer
                                                                                             ..onTap = () {
                                                                                               String url = provider.detectedlink[0];
@@ -313,7 +318,7 @@ class _ChatState extends State<Chat> {
                                                                                             })
                                                                                       : TextSpan(
                                                                                           text: "${data} ",
-                                                                                          style: TextStyle(color: Colors.black),
+                                                                                          style: TextStyle(color: Colors.black, fontSize: 16),
                                                                                         ),
                                                                                 )
                                                                                 .toList(),
@@ -325,7 +330,7 @@ class _ChatState extends State<Chat> {
                                                                               : provider.localmessage[index].message!,
                                                                           style: TextStyle(
                                                                               color: Colors.black,
-                                                                              fontSize: 15,
+                                                                              fontSize: 16,
                                                                               fontWeight: FontWeight.w400),
                                                                           textAlign:
                                                                               TextAlign.left,
@@ -361,7 +366,7 @@ class _ChatState extends State<Chat> {
                                                                         color: Colors
                                                                             .white,
                                                                         fontSize:
-                                                                            15,
+                                                                            16,
                                                                         fontWeight:
                                                                             FontWeight.w400),
                                                                     textAlign:
@@ -435,7 +440,7 @@ class _ChatState extends State<Chat> {
                                                                             child: Center(
                                                                                 child: Text(
                                                                               "${provider.quicdata(provider.localmessage[index].quicktypest.toString())[j]}",
-                                                                              style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
+                                                                              style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                                                                             )),
                                                                           ),
                                                                         ),
@@ -558,7 +563,7 @@ class _ChatState extends State<Chat> {
                                                                               children: [
                                                                                 Text(
                                                                                   provider.localmessage[index].message! == deletedMessageText ? AppLocalizations.of(context)!.this_message_deleted : provider.localmessage[index].message!,
-                                                                                  style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w400),
+                                                                                  style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                                                                                   textAlign: TextAlign.left,
                                                                                 ),
                                                                                 SizedBox(
@@ -581,7 +586,7 @@ class _ChatState extends State<Chat> {
                                                                                           (data) => data.contains(provider.detectedlink.length > 0 ? provider.detectedlink[0] : "nodata")
                                                                                               ? TextSpan(
                                                                                                   text: " $data ",
-                                                                                                  style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                                                                                                  style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline, fontSize: 16),
                                                                                                   recognizer: tapGestureRecognizer
                                                                                                     ..onTap = () {
                                                                                                       String url = provider.detectedlink[0];
@@ -589,7 +594,7 @@ class _ChatState extends State<Chat> {
                                                                                                     })
                                                                                               : TextSpan(
                                                                                                   text: "${data} ",
-                                                                                                  style: TextStyle(color: Colors.black),
+                                                                                                  style: TextStyle(color: Colors.black, fontSize: 16),
                                                                                                 ),
                                                                                         )
                                                                                         .toList(),
@@ -597,7 +602,7 @@ class _ChatState extends State<Chat> {
                                                                                 )
                                                                               : Text(
                                                                                   provider.localmessage[index].message! == deletedMessageText ? AppLocalizations.of(context)!.this_message_deleted : provider.localmessage[index].message!,
-                                                                                  style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
+                                                                                  style: TextStyle(color: Colors.black, fontSize: 16 ,fontWeight: FontWeight.w400),
                                                                                   textAlign: TextAlign.left,
                                                                                 ))
                                                                   : provider.localmessage[index]
@@ -631,14 +636,14 @@ class _ChatState extends State<Chat> {
                                                                                     ),
                                                                                     Text(
                                                                                       provider.localmessage[index].message! == deletedMessageText ? AppLocalizations.of(context)!.this_message_deleted : provider.localmessage[index].message!,
-                                                                                      style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w400),
+                                                                                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                                                                                       textAlign: TextAlign.left,
                                                                                     ),
                                                                                   ],
                                                                                 )
                                                                               : Text(
                                                                                   provider.localmessage[index].message! == deletedMessageText ? AppLocalizations.of(context)!.this_message_deleted : provider.localmessage[index].message!,
-                                                                                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400),
+                                                                                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
                                                                                   textAlign: TextAlign.left,
                                                                                 ),
                                                                         )
@@ -702,7 +707,7 @@ class _ChatState extends State<Chat> {
                                                                                 child: Center(
                                                                                     child: Text(
                                                                                   "${provider.quicdata(provider.localmessage[index].quicktypest.toString())[j]}",
-                                                                                  style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
+                                                                                  style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                                                                                 )),
                                                                               ),
                                                                             ),
@@ -788,7 +793,7 @@ class _ChatState extends State<Chat> {
                                                             .previous_message_deleted,
                                                         style: TextStyle(
                                                             color: Colors.black,
-                                                            fontSize: 12,
+                                                            fontSize: 16,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500),
@@ -830,17 +835,17 @@ class _ChatState extends State<Chat> {
                           SizedBox(
                             height: 10,
                           ),
-                          !provider.isOnline?Container(
-                            height: 40,
-                            padding: EdgeInsets.only(left: 25),
-                            width: double.infinity,
-                            color: Colors.black87,
-                            child: Row(
-                              children: [
-                                Text(AppLocalizations.of(context)!.no_internet_text, style: TextStyle(color: Colors.white),),
-                              ],
-                            ),
-                          ):Container(),
+                          // !provider.isOnline?Container(
+                          //   height: 40,
+                          //   padding: EdgeInsets.only(left: 25),
+                          //   width: double.infinity,
+                          //   color: Colors.black87,
+                          //   child: Row(
+                          //     children: [
+                          //       Text(AppLocalizations.of(context)!.no_internet_text, style: TextStyle(color: Colors.white, fontSize: 16),),
+                          //     ],
+                          //   ),
+                          // ):Container(),
                           Container(
                             width: double.infinity,
                             height: 64,
@@ -878,19 +883,27 @@ class _ChatState extends State<Chat> {
                                                     ClickSound.soundClick();
                                                     deleteMessageDialog(provider);
                                                   },
-                                                  child: Image.asset(
-                                                    "assets/images/ic_delete.png",
-                                                    height: 35,
-                                                    width: 35,
-                                                    color: Colors.red,
+                                                  child: Container(
+                                                    width: 70,
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: [
+                                                        Image.asset(
+                                                          "assets/images/ic_delete.png",
+                                                          height: 35,
+                                                          width: 35,
+                                                          color: Colors.red,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ):Container(),
+                                                ):SizedBox(width: 70,),
                                                 Spacer(),
                                                 Text(
                                                   "${provider.individualselect.length} ${AppLocalizations.of(context)!.selected}",
                                                   style: TextStyle(
                                                       color: Colors.black,
-                                                      fontSize: 15),
+                                                      fontSize: 16),
                                                 ),
                                                 Spacer(),
                                                 GestureDetector(
@@ -904,13 +917,16 @@ class _ChatState extends State<Chat> {
                                                       provider.individualselect
                                                           .clear();
                                                     },
-                                                    child: Text(
-                                                      AppLocalizations.of(
-                                                              context)!
-                                                          .cancel,
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 15),
+                                                    child: Container(
+                                                      width: 70,
+                                                      child: Text(
+                                                        AppLocalizations.of(
+                                                                context)!
+                                                            .cancel,
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 15),
+                                                      ),
                                                     )),
                                                 SizedBox(
                                                   width: 10,
@@ -974,6 +990,7 @@ class _ChatState extends State<Chat> {
 
   Widget sendMessage(context, provider) {
     return Container(
+      height: 60,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -1008,6 +1025,8 @@ class _ChatState extends State<Chat> {
                                       _scrollController.animateTo(0.0,
                                           duration: const Duration(milliseconds: 300),
                                           curve: Curves.easeOut);
+                                    }else{
+                                      ShowSnackBar.showNoInternetMessageChat(context);
                                     }
                                   },
                                   child: Container(
@@ -1036,6 +1055,8 @@ class _ChatState extends State<Chat> {
                                       _scrollController.animateTo(0.0,
                                           duration: const Duration(milliseconds: 300),
                                           curve: Curves.easeOut);
+                                    }else{
+                                      ShowSnackBar.showNoInternetMessageChat(context);
                                     }
                                   },
                                   child: Container(
@@ -1123,6 +1144,8 @@ class _ChatState extends State<Chat> {
                           setState(() {
                             myFocusNode.requestFocus();
                           });
+                        }else{
+                          ShowSnackBar.showNoInternetMessageChat(context);
                         }
                       },
                     ),
@@ -1135,4 +1158,17 @@ class _ChatState extends State<Chat> {
       ),
     );
   }
+
+  showNoInternetDialog(){
+    Timer(
+      Duration(seconds: 1),
+        (){
+          if(!Provider.of<ChatController>(context, listen: false).isOnline){
+            ShowSnackBar.showNoInternetMessageChat(context);
+          }
+        }
+    );
+
+  }
+
 }
