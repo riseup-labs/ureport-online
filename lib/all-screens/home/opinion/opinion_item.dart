@@ -67,7 +67,7 @@ class _OpinionItemState extends State<OpinionItem> {
                 margin: EdgeInsets.only(bottom: 5),
                 child: Text(
                   "${FormattedNumber.formatNumber(set)} ${AppLocalizations.of(context)!.responded_out_of} ${FormattedNumber.formatNumber(total)} ${AppLocalizations.of(context)!.polled}",
-                  style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[500], fontSize: 13),
+                  style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[500], fontSize: 14),
                 ),
               ),
               SizedBox(height: 9),

@@ -53,5 +53,9 @@
     "this_message_deleted": "此消息已被刪除",
     "no_result_found": "未找到結果",
     "splashText": "讓我們一起推動改變",
-    "no_internet_text": "沒有可用的互聯網連接"
+    "no_internet_text": "沒有可用的互聯網連接",
+    "get_started": "開始",
+    "back": "背部",
+    "exit": "出口",
+    "retry": "重試"
 }

@@ -252,7 +252,7 @@ class _StorySearchState extends State<StorySearch> {
                   children: [
                     Text(
                       popup.title,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize:18, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -306,7 +306,7 @@ class _StorySearchState extends State<StorySearch> {
                     child: RichText(
                       text: TextSpan(
                         style: TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 17.0,
                           color: Colors.black,
                         ),
                         children: <TextSpan>[

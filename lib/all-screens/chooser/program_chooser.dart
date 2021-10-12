@@ -37,14 +37,15 @@ class _ProgramChooserState extends State<ProgramChooser> {
     Provider.of<ConnectivityController>(context, listen: false).startMonitoring();
     Provider.of<RemoteConfigController>(context, listen: false)
         .getInitialData(context);
+    dropdownValue = spset.getValue(SPUtil.PROGRAMKEY) == null
+        ? "Global"
+        : spset.getValue(SPUtil.PROGRAMKEY);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    dropdownValue = spset.getValue(SPUtil.PROGRAMKEY) == null
-        ? "Global"
-        : spset.getValue(SPUtil.PROGRAMKEY);
+
 
     return Consumer<RemoteConfigController>(
       builder: (context, provider, child) {
@@ -141,9 +142,6 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                                 ClickSound.soundClick();
                                                 setState(() {
                                                   dropdownValue = newValue!;
-                                                  spset.setValue(
-                                                      SPUtil.PROGRAMKEY,
-                                                      dropdownValue);
                                                 });
                                               },
                                               items: RemoteConfigData
@@ -169,14 +167,8 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                               ClickSound.soundClick();
                                               spset.setValue(SPUtil.PROGRAMKEY,
                                                   dropdownValue);
-                                              Provider.of<OpinionController>(
-                                                  context,
-                                                  listen: false)
-                                                  .opinionID = 0;
-                                              Provider.of<OpinionController>(
-                                                  context,
-                                                  listen: false)
-                                                  .notify();
+                                              Provider.of<OpinionController>(context, listen: false).opinionID = 0;
+                                              Provider.of<OpinionController>(context, listen: false).notify();
                                               Provider.of<StoryController>(context, listen: false).isLoaded = true;
                                               Provider.of<OpinionController>(context, listen: false).isLoaded = true;
                                               Provider.of<OpinionController>(context, listen: false).items = [];

@@ -44,12 +44,12 @@ class _OpinionState extends State<Opinion> {
 
     List<ResultOpinionLocal>? opinions = [];
 
-    // if (Provider.of<OpinionController>(context, listen: false).isLoaded) {
-    //   Provider.of<OpinionController>(context, listen: false).checkOpinion(
-    //       RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-    //       sp.getValue(SPUtil.PROGRAMKEY));
-    //   Provider.of<OpinionController>(context, listen: false).isLoaded = false;
-    // }
+    if (Provider.of<OpinionController>(context, listen: false).isLoaded) {
+      Provider.of<OpinionController>(context, listen: false).checkOpinion(
+          RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+          sp.getValue(SPUtil.PROGRAMKEY));
+      Provider.of<OpinionController>(context, listen: false).isLoaded = false;
+    }
 
     return Consumer<OpinionController>(builder: (context, provider, child) {
       var _futureOpinion = provider.getOpinionsFromLocal(sp.getValue(SPUtil.PROGRAMKEY), provider.opinionID);
@@ -80,7 +80,7 @@ class _OpinionState extends State<Opinion> {
                   )
                 : Container(),
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
+              padding: const EdgeInsets.only(left: 10, right: 10),
               child: GestureDetector(
                 onTap: () {
                   ClickSound.soundClick();
@@ -137,7 +137,7 @@ class _OpinionState extends State<Opinion> {
                                   physics: AlwaysScrollableScrollPhysics(),
                                   child: Container(
                                     padding:
-                                        EdgeInsets.only(left: 20, right: 20),
+                                        EdgeInsets.only(left: 15, right: 15),
                                     margin: EdgeInsets.only(top: 10),
                                     child: Column(
                                       children: [

@@ -130,8 +130,8 @@ class _SettingDetailsState extends State<SettingDetails> {
                           children: [
                             Image.asset(
                               "assets/images/v2_ic_sound.png",
-                              height: 15,
-                              width: 15,
+                              height: 18,
+                              width: 18,
                               color: RemoteConfigData.getTextColor(),
                             ),
                             SizedBox(
@@ -141,7 +141,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                                 "${AppLocalizations.of(context)!.on}/${AppLocalizations.of(context)!.off}",
                               style: TextStyle(
                                   color: RemoteConfigData.getTextColor(),
-                                  fontSize: 15),
+                                  fontSize: 16),
                             ),
                           ],
                         ),
@@ -190,8 +190,8 @@ class _SettingDetailsState extends State<SettingDetails> {
                           children: [
                             Image.asset(
                               "assets/images/v2_ic_sound.png",
-                              height: 15,
-                              width: 15,
+                              height: 18,
+                              width: 18,
                               color: RemoteConfigData.getTextColor(),
                             ),
                             SizedBox(
@@ -201,7 +201,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                                 "${AppLocalizations.of(context)!.on}/${AppLocalizations.of(context)!.off}",
                               style: TextStyle(
                                   color: RemoteConfigData.getTextColor(),
-                                  fontSize: 15),
+                                  fontSize: 16),
                             ),
                           ],
                         ),
@@ -253,8 +253,8 @@ class _SettingDetailsState extends State<SettingDetails> {
                             children: [
                               Image.asset(
                                 "assets/images/v2_ic_sound.png",
-                                height: 15,
-                                width: 15,
+                                height: 18,
+                                width: 18,
                                 color: RemoteConfigData.getTextColor(),
                               ),
                               SizedBox(
@@ -265,7 +265,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                                   "${AppLocalizations.of(context)!.five_days_delete_text}",
                                   style: TextStyle(
                                       color: RemoteConfigData.getTextColor(),
-                                      fontSize: 15),
+                                      fontSize: 16),
                                 ),
                               ),
                             ],
@@ -296,8 +296,8 @@ class _SettingDetailsState extends State<SettingDetails> {
                             children: [
                               Image.asset(
                                 "assets/images/v2_ic_setting_chat.png",
-                                height: 15,
-                                width: 15,
+                                height: 18,
+                                width: 18,
                                 color: RemoteConfigData.getTextColor(),
                               ),
                               SizedBox(
@@ -308,7 +308,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                                   AppLocalizations.of(context)!.remove_all_message_text,
                                   style: TextStyle(
                                       color: RemoteConfigData.getTextColor(),
-                                      fontSize: 15),
+                                      fontSize: 16),
                                 ),
                               ),
                             ],

@@ -18,11 +18,11 @@ class LanguageChooser extends StatefulWidget {
   @override
   _LanguageChooserState createState() => _LanguageChooserState();
 }
+var dropdownValue = "English";
+String selected_language = "";
+var _sp = locator<SPUtil>();
 
 class _LanguageChooserState extends State<LanguageChooser> {
-  var dropdownValue = "English";
-  String selected_language = "";
-  var _sp = locator<SPUtil>();
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +54,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                           height: 40,
                         ),
                         Container(
+                          margin: EdgeInsets.only(left: selected_language == "ru"?30:0),
                           width: double.infinity,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,8 +63,8 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                 child: RichText(
                                   text: TextSpan(
                                     children: [
-                                      TextSpan(text: "Welcome!",style: TextStyle(fontSize: 50, fontWeight: FontWeight.w800, color: Colors.black, fontFamily: "Poppins")),
-                                      TextSpan(text: "\nGet started",style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500, color: Colors.black, fontFamily: "Poppins")),
+                                      TextSpan(text: "${AppLocalizations.of(context)!.welcome}!",style: TextStyle(fontSize: 45, fontWeight: FontWeight.w800, color: Colors.black, fontFamily: "Poppins")),
+                                      TextSpan(text: "\n${AppLocalizations.of(context)!.get_started}",style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500, color: Colors.black, fontFamily: "Poppins")),
                                     ]
                                   ),
                                 ),
@@ -119,25 +120,35 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                             fontWeight: FontWeight.bold),
                                         onChanged: (String? newValue) {
                                           ClickSound.soundClick();
-                                          setState(() {
+                                          final provider_l = Provider.of<
+                                              LocaleProvider>(context, listen: false);
+
                                             dropdownValue = newValue!;
                                             if (dropdownValue == "English") {
                                               selected_language = "en";
+                                              provider_l.setLocale(new Locale('en'));
                                             } else if (dropdownValue == "中國人") {
                                               selected_language = "zh";
+                                              provider_l.setLocale(new Locale('zh'));
                                             } else if (dropdownValue ==
                                                 "français") {
                                               selected_language = "fr";
+                                              provider_l.setLocale(new Locale('fr'));
                                             } else if (dropdownValue ==
                                                 "русский") {
                                               selected_language = "ru";
+                                              provider_l.setLocale(new Locale('ru'));
                                             } else if (dropdownValue ==
                                                 "Española") {
                                               selected_language = "es";
+                                              provider_l.setLocale(new Locale('es'));
                                             } else {
                                               selected_language = "en";
+                                              provider_l.setLocale(new Locale('en'));
                                             }
-                                          });
+                                          _sp.setValue(SPConstant.SELECTED_LANGUAGE,
+                                              selected_language);
+                                          setState(() {});
                                         },
                                         items: <String>[
                                           'English',

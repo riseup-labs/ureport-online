@@ -873,8 +873,9 @@ class _ChatState extends State<Chat> {
                                                 SizedBox(
                                                   width: 3,
                                                 ),
-                                                GestureDetector(
+                                                provider.individualselect.length> 0 ?GestureDetector(
                                                   onTap: () {
+                                                    ClickSound.soundClick();
                                                     deleteMessageDialog(provider);
                                                   },
                                                   child: Image.asset(
@@ -883,7 +884,7 @@ class _ChatState extends State<Chat> {
                                                     width: 35,
                                                     color: Colors.red,
                                                   ),
-                                                ),
+                                                ):Container(),
                                                 Spacer(),
                                                 Text(
                                                   "${provider.individualselect.length} ${AppLocalizations.of(context)!.selected}",

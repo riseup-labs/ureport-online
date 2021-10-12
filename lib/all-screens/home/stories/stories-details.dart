@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/save_story.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-details-controller.dart';
 import 'package:share/share.dart';
+import 'package:ureport_ecaro/all-screens/home/stories/utils/story_details_utils.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
@@ -293,11 +294,14 @@ class _StoryDetailsState extends State<StoryDetails> {
 
     String final_content = '''
     <html> 
+    
     <style> 
+    ${StoryUtils.style}
     img{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
     iframe{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
     body{width: 90% !important;margin-left: auto;margin-right: auto;display: block;margin-top:10px;margin-bottom:10px;} 
     p{font-size: 24px;}
+    span{font-size: 14px !important; line-height: 1.6 !important;}
     .header_group{
       display: inline-flex;
     }
@@ -319,7 +323,7 @@ class _StoryDetailsState extends State<StoryDetails> {
     <body> 
     <div class="image_box"><img class = "title_image" src="$image"></div>
       <div class="header_time">$clockString</div>
-    <div style="float: left;"><h2>$title</h2></div>
+    <div style="float: left; font-weight: bold; margin-top:10px; margin-bottom: 10px; font-size: 20px "><h2>$title</h2></div>
     <div  style="float: left;">$content</div> 
     </body> 
     </html>''';

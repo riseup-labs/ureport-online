@@ -206,5 +206,22 @@
   "no_internet_text": "No internet connection is available",
   "@no_internet_text": {
     "description": "No internet connection is available"
+  },
+  "get_started": "Get started",
+  "@get_started": {
+    "description": "get_started"
+  },
+  "back": "BACK",
+  "@back": {
+    "description": "back"
+  },
+  "exit": "EXIT",
+  "@exit": {
+    "description": "exit"
+  },
+  "retry": "RETRY",
+  "@retry": {
+    "description": "retry"
   }
+
 }

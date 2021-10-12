@@ -53,5 +53,9 @@
     "this_message_deleted": "Este mensaje fue eliminado",
     "no_result_found": "No se han encontrado resultados",
     "splashText": "Impulsemos el cambio juntos",
-    "no_internet_text": "No hay conexión a internet disponible"
+    "no_internet_text": "No hay conexión a internet disponible",
+    "get_started": "Empezar",
+    "back": "Espalda",
+    "exit": "SALIDA",
+    "retry": "REVER"
 }

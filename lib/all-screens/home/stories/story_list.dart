@@ -5,6 +5,7 @@ import 'package:ureport_ecaro/all-screens/home/stories/stories-details.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_search.dart';
+import 'package:ureport_ecaro/all-screens/settings/about/about_controller.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/load_data_handling.dart';
@@ -269,10 +270,6 @@ getItemTitleImage(String image_url) {
               child: LoadingBar.spinkit,
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Text("Loading")
         ],
       ),
       errorWidget: (context, url, error) => Container(
@@ -306,7 +303,7 @@ getItemFeatured(String featured, BuildContext context) {
           featured == "true"
               ? AppLocalizations.of(context)!.featured_story
               : "STORY",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
         ),
       )
     ],
@@ -318,7 +315,7 @@ getItemTitle(String title) {
     padding: EdgeInsets.all(10),
     child: Text(
       title,
-      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
     ),
   );
 }
@@ -328,7 +325,7 @@ getItemSummery(String summery, BuildContext context) {
       padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: RichText(
         text: TextSpan(
-          style: TextStyle(fontSize: 14, color: Colors.black),
+          style: TextStyle(fontSize: 16, color: Colors.black),
           children: <TextSpan>[
             TextSpan(text: summery),
             TextSpan(
@@ -336,7 +333,7 @@ getItemSummery(String summery, BuildContext context) {
                     ? " ${AppLocalizations.of(context)!.read_more}"
                     : "${AppLocalizations.of(context)!.read_more}",
                 style: new TextStyle(
-                    fontSize: 13, color: RemoteConfigData.getPrimaryColor())),
+                    fontSize: 14, color: RemoteConfigData.getPrimaryColor())),
           ],
         ),
       ));

@@ -54,5 +54,9 @@
     "this_message_deleted": "تم حذف هذه الرسالة",
     "no_result_found": "لم يتم العثور على نتائج",
     "splashText": "دعونا نقود التغيير معًا",
-    "no_internet_text": "لا يوجد اتصال بالإنترنت"
+    "no_internet_text": "لا يوجد اتصال بالإنترنت",
+    "get_started": "البدء",
+    "back": "الى الخلف",
+    "exit": "خروج",
+    "retry": "أعد المحاولة"
 }

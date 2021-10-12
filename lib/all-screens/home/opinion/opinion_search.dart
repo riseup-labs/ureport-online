@@ -243,7 +243,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
                   children: [
                     Text(
                       popup.title,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -292,7 +292,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
                     child: RichText(
                       text: TextSpan(
                         style: TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 17.0,
                           color: Colors.black,
                         ),
                         children: <InlineSpan>[
