@@ -277,12 +277,12 @@ class DatabaseHelper {
     return _conversation;
   }
 
-  Future<bool> deleteConversation() async {
+  Future<bool> deleteConversation(String program) async {
     var db = await this.database;
     db.transaction((txn) async {
       var batch = txn.batch();
 
-      batch.delete(DatabaseConstant.tableNameMessage);
+      batch.delete(DatabaseConstant.tableNameMessage,where: "program = '$program'");
       await batch.commit();
     });
     // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
@@ -291,7 +291,7 @@ class DatabaseHelper {
     return true;
   }
 
-  deleteSingelMessage(time) async {
+  deleteSingelMessage(time, String program) async {
     var db = await this.database;
     // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
     await db.rawDelete(

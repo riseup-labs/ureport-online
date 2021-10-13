@@ -254,6 +254,22 @@ class ChatController extends ConnectivityController {
     notifyListeners();
   }
 
+  addMessageFromPushNotification(MessageModel messageModel, String program) async {
+    _spservice.setValue(SPUtil.FIRSTMESSAGE, "SENT");
+    messagearray.clear();
+    ordered.clear();
+
+    messagearray.add(messageModel);
+    await _databaseHelper.insertConversation(messagearray,program).then((value) async {
+      await _databaseHelper.getConversation(locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)).then((valuereal) {
+        ordered.addAll(valuereal);
+        localmessage = ordered.reversed.toList();
+      });
+    });
+
+    notifyListeners();
+  }
+
   List<dynamic> quicdata(String ss) {
     List<dynamic> data = [];
 
@@ -267,13 +283,11 @@ class ChatController extends ConnectivityController {
   }
 
   deleteSingleMessage(time) async {
-    print("message time $time");
-    //localmessage.remove(item);
-    await _databaseHelper.deleteSingelMessage(time);
+    await _databaseHelper.deleteSingelMessage(time,locator<SPUtil>().getValue(SPUtil.PROGRAMKEY));
   }
 
   delteAllMessage() async {
-    await _databaseHelper.deleteConversation();
+    await _databaseHelper.deleteConversation(locator<SPUtil>().getValue(SPUtil.PROGRAMKEY));
     ordered.clear();
     localmessage.clear();
     notifyListeners();
@@ -281,7 +295,6 @@ class ChatController extends ConnectivityController {
 
   createContatct() async {
     _spservice.setValue(SPUtil.USER_ROLE, "regular");
-    print("Call frem : Create contact called");
     await getToken();
     if (_token.isNotEmpty) {
       String _urn = _spservice.getValue(SPUtil.CONTACT_URN);
@@ -294,15 +307,15 @@ class ChatController extends ConnectivityController {
         if (apiResponse.httpCode == 200) {
           responseContactCreation = apiResponse.data;
           _spservice.setValue(SPUtil.CONTACT_URN, contact_urn);
-          if (_spservice.getValue(SPUtil.REG_CALLED) == null) {
+          if (_spservice.getValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}") != "true") {
             sendmessage("join", "createContatct if");
-            _spservice.setValue(SPUtil.REG_CALLED, "true");
+            _spservice.setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "true");
           }
         }
       } else if (_urn != null) {
-        if (_spservice.getValue(SPUtil.REG_CALLED) == null) {
+        if (_spservice.getValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}") != "true") {
           sendmessage("join", "createContatct if");
-          _spservice.setValue(SPUtil.REG_CALLED, "true");
+          _spservice.setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "true");
         }
       }
     }
@@ -370,7 +383,7 @@ class ChatController extends ConnectivityController {
   List<String> detectedlink = [];
 
   deletemsgAfterfiveDays() async {
-    if (_spservice.getValue(SPUtil.DELETE5DAYS) == "true") {
+    if (_spservice.getValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.DELETE5DAYS}") == "true") {
       await _databaseHelper.getConversation(locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)).then((valuereal) {
         //get curreent date
         DateTime now = DateTime.now();
@@ -380,7 +393,7 @@ class ChatController extends ConnectivityController {
               new DateFormat('dd-MM-yyyy hh:mm:ss a').parse(element.time);
           Duration sincetime = now.difference(valuetime);
 
-          if (sincetime.inSeconds >= 60) {
+          if (sincetime.inSeconds >= 20) {
             await deleteSingleMessage(element.time);
             notifyListeners();
           }
@@ -405,52 +418,6 @@ class ChatController extends ConnectivityController {
     });
 
     return stringlist;
-  }
-
-  //on app notification
-  getfirebase() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage remotemessage) {
-      DateTime now = DateTime.now();
-      String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
-
-      print("remoteMessage:  ${remotemessage.data}");
-      ClickSound.soundMsgReceived();
-
-      List<dynamic> quicktypest;
-      if (remotemessage.data["quick_replies"] != null) {
-        //print("the incomeing quick tyupe data is........${remotemessage.data["quick_replies"]}");
-        quicktypest = json.decode(remotemessage.data["quick_replies"]);
-      } else {
-        quicktypest = [""];
-      }
-
-      var serverMessage = MessageModel(
-          sender: 'server',
-          message: remotemessage.data["message"],
-          status: "received",
-          quicktypest: quicktypest,
-          time: formattedDate);
-
-      const String lastmessage =
-          "You have finished your registration. We are glad to have you with us. Soon you will receive surveys on themes that you care about!";
-      const String lastmessgetwo =
-          "You are already registered. Please wait for your first survey.";
-      const String remove_Contact =
-          "You are unregistered to UReport. It's sad to see you go. You can come back at anytime by sending the word JOIN.";
-      const String remove_Contact2 =
-          "You have finished your registration. We are glad to have you with us. Soon you will receive surveys on themes that you care about!";
-      if (serverMessage.message == lastmessage ||
-          serverMessage.message == lastmessgetwo) {
-        _spservice.setValue(SPUtil.REGISTRATION_COMPLETE, "YES");
-      }
-
-      if (serverMessage.message == remove_Contact ||
-          serverMessage.message == remove_Contact2) {
-        _spservice.setValue(SPUtil.REGISTRATION_COMPLETE, "");
-      }
-      addMessage(serverMessage);
-      isMessageCome = false;
-    });
   }
 
   loaddefaultmessage() async {
@@ -492,7 +459,54 @@ class ChatController extends ConnectivityController {
         fcmToken: _token);
   }
 
+  //on app notification
+  getfirebase() {
+    print("getFirebase called");
+    FirebaseMessaging.onMessage.listen((RemoteMessage remotemessage) {
+      DateTime now = DateTime.now();
+      String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
+
+      print("remoteMessage:  ${remotemessage.data}");
+      ClickSound.soundMsgReceived();
+
+      List<dynamic> quicktypest;
+      if (remotemessage.data["quick_replies"] != null) {
+        quicktypest = json.decode(remotemessage.data["quick_replies"]);
+      } else {
+        quicktypest = [""];
+      }
+
+      var serverMessage = MessageModel(
+          sender: 'server',
+          message: remotemessage.data["message"],
+          status: "received",
+          quicktypest: quicktypest,
+          time: formattedDate);
+
+      const String lastmessage =
+          "You have finished your registration. We are glad to have you with us. Soon you will receive surveys on themes that you care about!";
+      const String lastmessgetwo =
+          "You are already registered. Please wait for your first survey.";
+      const String remove_Contact =
+          "You are unregistered to UReport. It's sad to see you go. You can come back at anytime by sending the word JOIN.";
+      const String remove_Contact2 =
+          "You have finished your registration. We are glad to have you with us. Soon you will receive surveys on themes that you care about!";
+      if (serverMessage.message == lastmessage ||
+          serverMessage.message == lastmessgetwo) {
+        _spservice.setValue(SPUtil.REGISTRATION_COMPLETE, "YES");
+      }
+
+      if (serverMessage.message == remove_Contact ||
+          serverMessage.message == remove_Contact2) {
+        _spservice.setValue(SPUtil.REGISTRATION_COMPLETE, "");
+      }
+      addMessageFromPushNotification(serverMessage,remotemessage.data["title"]);
+      isMessageCome = false;
+    });
+  }
+
   getfirebaseInitialmessage() {
+    print("Init called");
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? remotemessage) {
@@ -520,6 +534,9 @@ class ChatController extends ConnectivityController {
 
 // app background notification
   getfirebaseonApp(context) {
+
+    print("OnApp called");
+
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage) {
       DateTime now = DateTime.now();
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);

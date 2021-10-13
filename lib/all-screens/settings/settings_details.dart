@@ -30,7 +30,7 @@ class _SettingDetailsState extends State<SettingDetails> {
 
   @override
   void initState() {
-    switchstate = spservice.getValue(SPUtil.DELETE5DAYS);
+    switchstate = spservice.getValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.DELETE5DAYS}");
     if (switchstate == "true") {
       statesf = true;
     } else
@@ -279,7 +279,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                               setState(() {
                                 statesf = value;
                                 spservice.setValue(
-                                    SPUtil.DELETE5DAYS, value.toString());
+                                    "${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.DELETE5DAYS}", value.toString());
                               });
                             }),
                       ],
@@ -359,7 +359,7 @@ class _SettingDetailsState extends State<SettingDetails> {
           onPressed: () async {
             ClickSound.soundClick();
             await _databaseHelper
-                .deleteConversation()
+                .deleteConversation(locator<SPUtil>().getValue(SPUtil.PROGRAMKEY))
                 .then((value) {
               Navigator.pop(context);
               Provider.of<ChatController>(
@@ -367,6 +367,11 @@ class _SettingDetailsState extends State<SettingDetails> {
                   listen: false)
                   .localmessage
                   .clear();
+              locator<SPUtil>().setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "false");
+              Provider.of<ChatController>(
+                  context,
+                  listen: false)
+                  .createContatct();
               Provider.of<ChatController>(
                   context,
                   listen: false)

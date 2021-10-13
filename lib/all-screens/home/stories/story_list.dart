@@ -262,7 +262,7 @@ getItemTitleImage(String image_url) {
   return ClipRRect(
     borderRadius: BorderRadius.only(
         topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-    child: CachedNetworkImage(
+    child: image_url != null ? CachedNetworkImage(
       height: 200,
       fit: BoxFit.cover,
       imageUrl: image_url,
@@ -287,6 +287,12 @@ getItemTitleImage(String image_url) {
               child: LoadingBar.spinkit,
             ),
           )),
+    ):
+    Container(
+      child: Image(
+        image: AssetImage("assets/images/default.jpg"),
+        fit: BoxFit.fill,
+      ),
     ),
   );
 }

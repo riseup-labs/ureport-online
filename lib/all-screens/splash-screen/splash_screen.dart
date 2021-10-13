@@ -113,8 +113,10 @@ class _SplashScreenState extends State<SplashScreen> {
             quicktypest: quicktypest,
             time: formattedDate);
 
+        locator<SPUtil>().setValue(SPUtil.PROGRAMKEY, remotemessage.notification!.title!);
+
         Provider.of<ChatController>(context, listen: false)
-            .addMessage(notificationmessage_terminatestate);
+            .addMessageFromPushNotification(notificationmessage_terminatestate,remotemessage.notification!.title!);
         Provider.of<ChatController>(context, listen: false).isMessageCome =
             false;
         senDToChat();
