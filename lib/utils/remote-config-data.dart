@@ -270,6 +270,36 @@ class RemoteConfigData{
   }
 
 
+  static getChannelId(){
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+
+    String channelId = "";
+    ResponseRemoteConfigData data = getAllData();
+
+    data.programs.forEach((element) {
+      if(element.name == program){
+        channelId = element.channelId;
+      }
+    });
+    return channelId;
+  }
+
+  static getChannelHost(){
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+
+    String channelHost = "";
+    ResponseRemoteConfigData data = getAllData();
+
+    data.programs.forEach((element) {
+      if(element.name == program){
+        channelHost = element.channelHost;
+      }
+    });
+    return channelHost;
+  }
+
 
   static getAllData(){
     var sp = locator<SPUtil>();

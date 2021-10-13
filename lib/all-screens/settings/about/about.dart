@@ -104,6 +104,7 @@ class _AboutState extends State<About> {
                         child: provider.data != ""
                             ? Container(
                                 height: _height,
+                                color: RemoteConfigData.getBackgroundColor(),
                                 child: WebViewPlus(
                                   onWebViewCreated: (controller) {
                                     webViewController = controller;
@@ -164,7 +165,6 @@ class _AboutState extends State<About> {
             child: Text(AppLocalizations.of(context)!.retry),
             onPressed: () {
               ClickSound.soundClick();
-              Navigator.of(context).pop();
               Navigator.of(context).pop();
               Provider.of<AboutController>(context, listen: false).aboutData =
                   null;

@@ -155,7 +155,7 @@ class _StoryDetailsState extends State<StoryDetails> {
                       ),
                       Container(
                         child: Divider(
-                          height: 1.5,
+                          height: 1,
                           color: Colors.grey[600],
                         ),
                       ),

@@ -22,6 +22,7 @@ import 'locator/locator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'network_operation/utils/connectivity_controller.dart';
+import 'package:flutter/services.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -49,6 +50,8 @@ Future<void> _firebaseMessagingBackgroundhandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 

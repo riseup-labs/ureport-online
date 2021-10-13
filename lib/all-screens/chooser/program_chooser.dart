@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/opinion_controller.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-controller.dart';
@@ -172,6 +173,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                               Provider.of<StoryController>(context, listen: false).isLoaded = true;
                                               Provider.of<OpinionController>(context, listen: false).isLoaded = true;
                                               Provider.of<OpinionController>(context, listen: false).items = [];
+                                              Provider.of<ChatController>(context, listen: false).loaddefaultmessage();
                                               NavUtils.pushAndRemoveUntil(
                                                   context, NavigationScreen(0));
                                             }else{

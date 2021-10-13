@@ -90,7 +90,6 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
 
     String deletedMessageText = "This Message was Deleted";
-    showNoInternetDialog();
 
     return WillPopScope(
       onWillPop: () async {
@@ -116,7 +115,7 @@ class _ChatState extends State<Chat> {
                         context, widget.from),
                     Container(
                       child: Divider(
-                        height: 1.5,
+                        height: 1,
                         color: Colors.grey[600],
                       ),
                     ),
@@ -686,7 +685,7 @@ class _ChatState extends State<Chat> {
                                                                                   provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString(), "Quicktype");
                                                                                   List<MessageModel> datalist = [];
                                                                                   datalist.add(messageModel);
-                                                                                  await _databaseHelper.insertConversation(datalist);
+                                                                                  await _databaseHelper.insertConversation(datalist,locator<SPUtil>().getValue(SPUtil.PROGRAMKEY));
                                                                                 } else if (listCaseManagement.contains(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString())) {
                                                                                   locator<SPUtil>().setValue(SPUtil.USER_ROLE, "caseManagement");
                                                                                   provider.createIndividualCaseManagement(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
@@ -694,7 +693,7 @@ class _ChatState extends State<Chat> {
                                                                                   provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString(), "Quicktype");
                                                                                   List<MessageModel> datalist = [];
                                                                                   datalist.add(messageModel);
-                                                                                  await _databaseHelper.insertConversation(datalist);
+                                                                                  await _databaseHelper.insertConversation(datalist,locator<SPUtil>().getValue(SPUtil.PROGRAMKEY));
                                                                                 }
 
                                                                                 messageModel.status = provider.messagestatus;
@@ -835,17 +834,17 @@ class _ChatState extends State<Chat> {
                           SizedBox(
                             height: 10,
                           ),
-                          // !provider.isOnline?Container(
-                          //   height: 40,
-                          //   padding: EdgeInsets.only(left: 25),
-                          //   width: double.infinity,
-                          //   color: Colors.black87,
-                          //   child: Row(
-                          //     children: [
-                          //       Text(AppLocalizations.of(context)!.no_internet_text, style: TextStyle(color: Colors.white, fontSize: 16),),
-                          //     ],
-                          //   ),
-                          // ):Container(),
+                          !provider.isOnline?Container(
+                            height: 40,
+                            padding: EdgeInsets.only(left: 25),
+                            width: double.infinity,
+                            color: Colors.black87,
+                            child: Row(
+                              children: [
+                                Text(AppLocalizations.of(context)!.no_internet_text, style: TextStyle(color: Colors.white, fontSize: 16),),
+                              ],
+                            ),
+                          ):Container(),
                           Container(
                             width: double.infinity,
                             height: 64,
@@ -1026,7 +1025,7 @@ class _ChatState extends State<Chat> {
                                           duration: const Duration(milliseconds: 300),
                                           curve: Curves.easeOut);
                                     }else{
-                                      ShowSnackBar.showNoInternetMessageChat(context);
+                                      // ShowSnackBar.showNoInternetMessageChat(context);
                                     }
                                   },
                                   child: Container(
@@ -1056,7 +1055,7 @@ class _ChatState extends State<Chat> {
                                           duration: const Duration(milliseconds: 300),
                                           curve: Curves.easeOut);
                                     }else{
-                                      ShowSnackBar.showNoInternetMessageChat(context);
+                                      // ShowSnackBar.showNoInternetMessageChat(context);
                                     }
                                   },
                                   child: Container(
@@ -1145,7 +1144,7 @@ class _ChatState extends State<Chat> {
                             myFocusNode.requestFocus();
                           });
                         }else{
-                          ShowSnackBar.showNoInternetMessageChat(context);
+                          // ShowSnackBar.showNoInternetMessageChat(context);
                         }
                       },
                     ),

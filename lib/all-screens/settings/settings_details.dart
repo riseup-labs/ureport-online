@@ -333,7 +333,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                               AppLocalizations.of(context)!.remove,
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 10,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold),
                             )),
                           ),

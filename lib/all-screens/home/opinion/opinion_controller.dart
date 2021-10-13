@@ -51,6 +51,7 @@ class OpinionController extends ConnectivityController {
             {getLatestOpinionFromRemote(url, program)}
           else if (value == 1)
             {
+              setSyncing(),
               getAllOpinions(url, program)
             }
           else
@@ -62,7 +63,6 @@ class OpinionController extends ConnectivityController {
     setLoading();
     getOpinionsFromRemote(url + "?limit=40", program);
   }
-
   getOpinionsFromRemote(String url, String program) async {
     var apiresponsedata = await _opinionrepository.getOpinions(url);
     if (apiresponsedata.httpCode == 200) {

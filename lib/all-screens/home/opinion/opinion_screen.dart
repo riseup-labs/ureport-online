@@ -63,7 +63,7 @@ class _OpinionState extends State<Opinion> {
             TopBar.getTopBar(AppLocalizations.of(context)!.opinions),
             Container(
               child: Divider(
-                height: 1.5,
+                height: 1,
                 color: Colors.grey[600],
               ),
             ),
@@ -73,7 +73,7 @@ class _OpinionState extends State<Opinion> {
             provider.isSyncing
                 ? Container(
                     height: 5,
-                    padding: EdgeInsets.only(left: 20, right: 20),
+                    padding: EdgeInsets.only(left: 13, right: 13),
                     child: LinearProgressIndicator(
                       color: RemoteConfigData.getPrimaryColor(),
                     ),

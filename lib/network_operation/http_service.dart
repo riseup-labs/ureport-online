@@ -23,19 +23,6 @@ class HttpService {
       _dio.interceptors.add(
         InterceptorsWrapper(
           onRequest: (RequestOptions options, RequestInterceptorHandler handler) async {
-
-            /*options.headers = {
-              "Content-Type": "application/json",
-              //"Authorization": "Bearer  $token",
-            };
-*/
-
-
-           /* var token = spUtil.getValue(SPUtil.KEY_AUTH_TOKEN);
-            if (token != null) {
-              print(("token : " + token));
-
-            }*/
             return handler.next(options); //continue
           },
           onResponse: (Response response, ResponseInterceptorHandler handler) async {
@@ -105,7 +92,7 @@ class HttpService {
     try {
 
       _getDio().options.contentType=Headers.formUrlEncodedContentType;
-      _getDio().options.headers= {"Content-Type":"application/json","Authorization":"Token ${ApiConst.WORKSPACETOKEN_LIVE}"};
+      _getDio().options.headers= {"Content-Type":"application/json"};
 
       Response response = await _getDio().post(
         route,

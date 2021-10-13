@@ -21,6 +21,12 @@ class Settings extends StatelessWidget {
         body: Column(
           children: [
             TopBar.getTopBar(AppLocalizations.of(context)!.more),
+            Container(
+              child: Divider(
+                height: 1,
+                color: Colors.grey[600],
+              ),
+            ),
             Expanded(
               child: ListView(
                 children: [

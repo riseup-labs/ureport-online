@@ -3,10 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/model/messagehandler.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
@@ -20,12 +17,6 @@ import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
-
-import '../../../main.dart';
-import 'Chat.dart';
-import 'message-handler.dart';
-import 'model/golbakey.dart';
-import 'model/rapidpro-response-data.dart';
 import 'model/response-local-chat-parsing.dart';
 import 'notification-service.dart';
 
@@ -96,7 +87,6 @@ class ChatController extends ConnectivityController {
   //done
 
   deleteMessage() async {
-    //localmessage[individualselect[i]]= local;
 
     for (int i = 0; i < individualselect.length; i++) {
       MessageModelLocal msgl = MessageModelLocal(
@@ -106,8 +96,6 @@ class ChatController extends ConnectivityController {
           quicktypest: "",
           time: localmessage[individualselect[i]].time);
       localmessage[individualselect[i]] = msgl;
-
-      // print("the message time is------------ ${msgl.time}");
 
       await _databaseHelper.updateSingleMessage(msgl);
     }
@@ -122,7 +110,6 @@ class ChatController extends ConnectivityController {
     selectedMessage.clear();
     List<MessageModelLocal> willReplacelist = [];
 
-    //final index = localmessage.indexWhere((element) => element.message!="This Message was Deleted");
     willReplacelist.addAll(localmessage
         .where((element) => element.message != "This Message was Deleted"));
 
@@ -131,38 +118,26 @@ class ChatController extends ConnectivityController {
       if (localmessage[i].message != "This Message was Deleted") {
         individualselect.add(i);
       }
-      /* MessageModelLocal mscl =MessageModelLocal(message: "This Message was Deleted",
-          sender: willReplacelist[i].sender, status: willReplacelist[i].status, quicktypest: "", time: willReplacelist[i].time);
-
-      list.add(mscl);*/
     }
 
     if (list.length > 0) selectedMessage.addAll(list);
-    //print("select message length is ............${selectedMessage.length}");
     notifyListeners();
   }
 
   addSelectionMessage(MessageModelLocal msg) {
-    /*   MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: msg.sender,
-        status: msg.status, quicktypest: "", time: msg.time);*/
     selectedMessage.add(msg);
     notifyListeners();
   }
 
   deleteSelectionMessage(MessageModelLocal msg) {
-    /* MessageModelLocal msgl   = MessageModelLocal(message: "This Message was Deleted", sender: msg.sender,
-        status: msg.status, quicktypest: "", time: msg.time);*/
     selectedMessage.remove(msg);
-    //print("after remove/deselect total selected length is -----${selectedMessage.length}");
     notifyListeners();
   }
 
   replaceQuickReplaydata(int index, data) async {
-    // print("the data is ..======================================================================.........${data}");
     List<dynamic> repdata = [];
     repdata.add(data);
     localmessage[index].quicktypest = '["$data"]';
-    // print("the data is ..======================================================================.........${ jsonEncode(repdata)}");
 
     await _databaseHelper
         .updateQuicktypeMessage(localmessage[index].time, repdata)
@@ -269,8 +244,8 @@ class ChatController extends ConnectivityController {
     ordered.clear();
 
     messagearray.add(messageModel);
-    await _databaseHelper.insertConversation(messagearray).then((value) async {
-      await _databaseHelper.getConversation().then((valuereal) {
+    await _databaseHelper.insertConversation(messagearray,locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)).then((value) async {
+      await _databaseHelper.getConversation(locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)).then((valuereal) {
         ordered.addAll(valuereal);
         localmessage = ordered.reversed.toList();
       });
@@ -364,7 +339,7 @@ class ChatController extends ConnectivityController {
           // addMessage(messageModel);
           List<MessageModel> list = [];
           list.add(messageModel);
-          _databaseHelper.insertConversation(list);
+          _databaseHelper.insertConversation(list,locator<SPUtil>().getValue(SPUtil.PROGRAMKEY));
           sendmessage(messagekeyword, "createIndividualCaseManagement");
           messageModel.status = messagestatus;
 
@@ -383,7 +358,7 @@ class ChatController extends ConnectivityController {
         // addMessage(messageModel);
         List<MessageModel> list = [];
         list.add(messageModel);
-        _databaseHelper.insertConversation(list);
+        _databaseHelper.insertConversation(list,locator<SPUtil>().getValue(SPUtil.PROGRAMKEY));
         sendmessage(messagekeyword, "createIndividualCaseManagement");
         messageModel.status = messagestatus;
 
@@ -396,7 +371,7 @@ class ChatController extends ConnectivityController {
 
   deletemsgAfterfiveDays() async {
     if (_spservice.getValue(SPUtil.DELETE5DAYS) == "true") {
-      await _databaseHelper.getConversation().then((valuereal) {
+      await _databaseHelper.getConversation(locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)).then((valuereal) {
         //get curreent date
         DateTime now = DateTime.now();
         //compare c_date with valuereal.date
@@ -481,7 +456,7 @@ class ChatController extends ConnectivityController {
   loaddefaultmessage() async {
     ordered.clear();
     localmessage.clear();
-    await _databaseHelper.getConversation().then((valuereal) {
+    await _databaseHelper.getConversation(locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)).then((valuereal) {
       ordered.addAll(valuereal);
       localmessage = ordered.reversed.toList();
       notifyListeners();

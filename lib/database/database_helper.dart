@@ -72,6 +72,7 @@ class DatabaseHelper {
           ${DatabaseConstant.message} text,
           ${DatabaseConstant.sender} text,
           ${DatabaseConstant.status} text,
+          ${DatabaseConstant.columnPROGRAM} text,
           ${DatabaseConstant.quicktypest} text,
           ${DatabaseConstant.time} text)
          
@@ -80,6 +81,8 @@ class DatabaseHelper {
     );
     return database;
   }
+
+  //Story section
 
   Future<bool> insertStory(List<storyArray.Result> list, String program) async {
     var db = await this.database;
@@ -105,29 +108,6 @@ class DatabaseHelper {
           },
           conflictAlgorithm: ConflictAlgorithm.ignore);
     });
-    return true;
-  }
-
-  Future<bool> insertOpinion(
-      List<opinionArray.Result?> list, String program) async {
-    var db = await this.database;
-
-    list.forEach((element) async {
-      var result = await db.insert(
-          DatabaseConstant.tableNameOpinion,
-          {
-            DatabaseConstant.columnIDOpinion: element!.id,
-            DatabaseConstant.columnTitleOpinion: element.title,
-            DatabaseConstant.columnCategoryOpinion: element.category.name,
-            DatabaseConstant.columnOrganizationOpinion: element.org,
-            DatabaseConstant.columnPollDateOpinion: element.pollDate.toString(),
-            DatabaseConstant.columnProgramOpinion: program,
-            DatabaseConstant.columnQuestionOpinion:
-                jsonEncode(element.questions),
-          },
-          conflictAlgorithm: ConflictAlgorithm.replace);
-    });
-
     return true;
   }
 
@@ -185,6 +165,35 @@ class DatabaseHelper {
     return StoryCategory;
   }
 
+  Future<int> deleteStoryTable() async {
+    var db = await this.database;
+    return await db.delete(DatabaseConstant.tableName);
+  }
+
+  //Opinion section
+
+  Future<bool> insertOpinion(List<opinionArray.Result?> list, String program) async {
+    var db = await this.database;
+
+    list.forEach((element) async {
+      var result = await db.insert(
+          DatabaseConstant.tableNameOpinion,
+          {
+            DatabaseConstant.columnIDOpinion: element!.id,
+            DatabaseConstant.columnTitleOpinion: element.title,
+            DatabaseConstant.columnCategoryOpinion: element.category.name,
+            DatabaseConstant.columnOrganizationOpinion: element.org,
+            DatabaseConstant.columnPollDateOpinion: element.pollDate.toString(),
+            DatabaseConstant.columnProgramOpinion: program,
+            DatabaseConstant.columnQuestionOpinion:
+            jsonEncode(element.questions),
+          },
+          conflictAlgorithm: ConflictAlgorithm.replace);
+    });
+
+    return true;
+  }
+
   Future<List<OpinionSearchList>> getOpinionCategories(String program) async {
     List<OpinionSearchList> opinionCategory = [];
 
@@ -233,12 +242,9 @@ class DatabaseHelper {
     return count!;
   }
 
-  Future<int> deleteStoryTable() async {
-    var db = await this.database;
-    return await db.delete(DatabaseConstant.tableName);
-  }
+  //Chat section
 
-  Future<bool> insertConversation(List<MessageModel> list) async {
+  Future<bool> insertConversation(List<MessageModel> list, String program) async {
     var db = await this.database;
     list.forEach((element) async {
       // var result = await db.insert(DatabaseConstant.tableName, element.toJson());
@@ -250,19 +256,20 @@ class DatabaseHelper {
             DatabaseConstant.status: element.status,
             DatabaseConstant.quicktypest: jsonEncode(element.quicktypest),
             DatabaseConstant.time: element.time,
+            DatabaseConstant.columnPROGRAM: program,
           },
-          conflictAlgorithm: ConflictAlgorithm.ignore);
+          conflictAlgorithm: ConflictAlgorithm.replace);
     });
 
     return true;
   }
 
-  Future<List<MessageModelLocal>> getConversation() async {
+  Future<List<MessageModelLocal>> getConversation(String program) async {
     List<MessageModelLocal> _conversation = [];
     var db = await this.database;
     // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
     var result = await db
-        .rawQuery("SELECT * FROM ${DatabaseConstant.tableNameMessage} ");
+        .rawQuery("SELECT * FROM ${DatabaseConstant.tableNameMessage} WHERE program = '$program'");
     result.forEach((element) {
       var list = MessageModelLocal.fromJson(element);
       _conversation.add(list);

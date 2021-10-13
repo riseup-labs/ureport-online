@@ -56,7 +56,7 @@ class _StoryListState extends State<StoryList>
             TopBar.getTopBar(AppLocalizations.of(context)!.stories),
             Container(
               child: Divider(
-                height: 1.5,
+                height: 1,
                 color: Colors.grey[600],
               ),
             ),
@@ -69,6 +69,7 @@ class _StoryListState extends State<StoryList>
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: LinearProgressIndicator(
                       color: RemoteConfigData.getPrimaryColor(),
+                      backgroundColor: Colors.grey[300],
                     ),
                   )
                 : Container(),
@@ -166,9 +167,14 @@ class _StoryListState extends State<StoryList>
                                                           onTap: () {
                                                             ClickSound
                                                                 .soundTap();
-                                                            provider.checkForNextStories(
-                                                                sp.getValue(SPUtil
-                                                                    .PROGRAMKEY));
+                                                            if(provider.isOnline){
+                                                              provider.checkForNextStories(
+                                                                  sp.getValue(SPUtil
+                                                                      .PROGRAMKEY));
+                                                            }else{
+                                                              ShowSnackBar.showNoInternetMessage(context);
+                                                            }
+
                                                           },
                                                           child: Center(
                                                               child: Text(
