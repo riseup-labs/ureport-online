@@ -174,8 +174,10 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                               Provider.of<OpinionController>(context, listen: false).isLoaded = true;
                                               Provider.of<OpinionController>(context, listen: false).items = [];
                                               Provider.of<ChatController>(context, listen: false).loaddefaultmessage();
-                                              locator<SPUtil>().setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "false");
-                                              Provider.of<ChatController>(context, listen: false).createContatct();
+                                              if(from == "more"){
+                                                // locator<SPUtil>().setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "false");
+                                                Provider.of<ChatController>(context, listen: false).createContatct();
+                                              }
                                               NavUtils.pushAndRemoveUntil(
                                                   context, NavigationScreen(0));
                                             }else{

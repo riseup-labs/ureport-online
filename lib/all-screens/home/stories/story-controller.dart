@@ -111,13 +111,7 @@ class StoryController extends ConnectivityController {
           itemCount = apiresponsedata.data.count - 1;
         }
         nextLoading = false;
-        Timer(
-          Duration(seconds: 2),
-            (){
-              notifyListeners();
-            }
-        );
-
+        notifyListeners();
         if (apiresponsedata.data.next != null) {
           sp.setValue("${program}_${SPUtil.STORY_NEXT}", apiresponsedata.data.next);
         }else{

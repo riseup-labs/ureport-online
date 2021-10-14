@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -149,11 +151,9 @@ class _StoryListState extends State<StoryList>
                                                     .toString()));
                                       },
                                       child: Container(
-                                          child: index < provider.itemCount
+                                          child: index < provider.itemCount && index < stories!.length
                                               ? getItem(
-                                                  stories?[index].images != ''
-                                                      ? stories![index].images
-                                                      : "assets/images/default.jpg",
+                                                  stories![index] != null? stories![index].images:"",
                                                   stories![index].featured,
                                                   stories![index].title,
                                                   stories![index].summary,
@@ -231,122 +231,122 @@ class _StoryListState extends State<StoryList>
 
   @override
   bool get wantKeepAlive => true;
-}
 
-getBackground() {
-  return Image(image: AssetImage("assets/images/bg_home.png"));
-}
+  getItem(String image_url, String featured, String title, String summery,
+      BuildContext context) {
 
-getItem(String image_url, String featured, String title, String summery,
-    BuildContext context) {
-  return Card(
-    elevation: 2,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-    ),
-    margin: EdgeInsets.only(top: 10, bottom: 10),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        getItemTitleImage(image_url),
-        getItemFeatured(featured, context),
-        getItemTitle(title),
-        getItemSummery(summery, context),
-      ],
-    ),
-  );
-}
-//test
-
-getItemTitleImage(String image_url) {
-  return ClipRRect(
-    borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-    child: image_url != null ? CachedNetworkImage(
-      height: 200,
-      fit: BoxFit.cover,
-      imageUrl: image_url,
-      progressIndicatorBuilder: (context, url, downloadProgress) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: EdgeInsets.only(top: 10, bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Center(
-            child: Container(
-              height: 60,
-              width: 60,
-              child: LoadingBar.spinkit,
-            ),
-          ),
+          getItemTitleImage(image_url),
+          getItemFeatured(featured, context),
+          getItemTitle(title),
+          getItemSummery(summery, context),
         ],
       ),
-      errorWidget: (context, url, error) => Container(
-          color: AppColors.errorWidgetBack,
-          child: Center(
-            child: Container(
-              height: 50,
-              width: 50,
-              child: LoadingBar.spinkit,
+    );
+  }
+//test
+
+  getItemTitleImage(String image_url) {
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+      child: image_url != null ? CachedNetworkImage(
+        height: 200,
+        fit: BoxFit.cover,
+        imageUrl: image_url,
+        progressIndicatorBuilder: (context, url, downloadProgress) => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                height: 60,
+                width: 60,
+                child: LoadingBar.spinkit,
+              ),
             ),
-          )),
-    ):
-    Container(
-      child: Image(
-        image: AssetImage("assets/images/default.jpg"),
-        fit: BoxFit.fill,
-      ),
-    ),
-  );
-}
-
-getItemFeatured(String featured, BuildContext context) {
-  return Row(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Container(
-        margin: EdgeInsets.only(left: 10, top: 15, bottom: 5, right: 10),
-        height: 10,
-        width: 10,
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: RemoteConfigData.getBackgroundColor()),
-      ),
-      Container(
-        margin: EdgeInsets.only(top: 10),
-        child: Text(
-          featured == "true"
-              ? AppLocalizations.of(context)!.featured_story
-              : "STORY",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-        ),
-      )
-    ],
-  );
-}
-
-getItemTitle(String title) {
-  return Container(
-    padding: EdgeInsets.all(10),
-    child: Text(
-      title,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    ),
-  );
-}
-
-getItemSummery(String summery, BuildContext context) {
-  return Container(
-      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-      child: RichText(
-        text: TextSpan(
-          style: TextStyle(fontSize: 16, color: Colors.black),
-          children: <TextSpan>[
-            TextSpan(text: summery),
-            TextSpan(
-                text: summery.length != 0
-                    ? " ${AppLocalizations.of(context)!.read_more}"
-                    : "${AppLocalizations.of(context)!.read_more}",
-                style: new TextStyle(
-                    fontSize: 14, color: RemoteConfigData.getPrimaryColor())),
           ],
         ),
-      ));
+        errorWidget: (context, url, error) => Container(
+            color: AppColors.errorWidgetBack,
+            child: Center(
+              child: Container(
+                height: 50,
+                width: 50,
+                child: LoadingBar.spinkit,
+              ),
+            )),
+      ):
+      Container(
+        child: Image(
+          image: AssetImage("assets/images/default.jpg"),
+          fit: BoxFit.fill,
+        ),
+      ),
+    );
+  }
+
+  getItemFeatured(String featured, BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 10, top: 15, bottom: 5, right: 10),
+          height: 10,
+          width: 10,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: RemoteConfigData.getBackgroundColor()),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 10),
+          child: Text(
+            featured == "true"
+                ? AppLocalizations.of(context)!.featured_story
+                : "STORY",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+          ),
+        )
+      ],
+    );
+  }
+
+  getItemTitle(String title) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Text(
+        title,
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  getItemSummery(String summery, BuildContext context) {
+    return Container(
+        padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        child: RichText(
+          text: TextSpan(
+            style: TextStyle(fontSize: 16, color: Colors.black),
+            children: <TextSpan>[
+              TextSpan(text: summery),
+              TextSpan(
+                  text: summery.length != 0
+                      ? " ${AppLocalizations.of(context)!.read_more}"
+                      : "${AppLocalizations.of(context)!.read_more}",
+                  style: new TextStyle(
+                      fontSize: 14, color: RemoteConfigData.getPrimaryColor())),
+            ],
+          ),
+        ));
+  }
+
 }
+
+

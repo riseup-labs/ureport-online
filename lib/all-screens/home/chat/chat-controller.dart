@@ -312,7 +312,8 @@ class ChatController extends ConnectivityController {
             _spservice.setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "true");
           }
         }
-      } else if (_urn != null) {
+      }
+      else if (_urn != null) {
         if (_spservice.getValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}") != "true") {
           sendmessage("join", "createContatct if");
           _spservice.setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "true");
@@ -483,24 +484,12 @@ class ChatController extends ConnectivityController {
           quicktypest: quicktypest,
           time: formattedDate);
 
-      const String lastmessage =
-          "You have finished your registration. We are glad to have you with us. Soon you will receive surveys on themes that you care about!";
-      const String lastmessgetwo =
-          "You are already registered. Please wait for your first survey.";
-      const String remove_Contact =
-          "You are unregistered to UReport. It's sad to see you go. You can come back at anytime by sending the word JOIN.";
-      const String remove_Contact2 =
-          "You have finished your registration. We are glad to have you with us. Soon you will receive surveys on themes that you care about!";
-      if (serverMessage.message == lastmessage ||
-          serverMessage.message == lastmessgetwo) {
-        _spservice.setValue(SPUtil.REGISTRATION_COMPLETE, "YES");
+      if(remotemessage.data["title"] == _spservice.getValue(SPUtil.PROGRAMKEY)){
+        addMessage(serverMessage);
+      }else{
+        addMessageFromPushNotification(serverMessage,remotemessage.data["title"]);
       }
 
-      if (serverMessage.message == remove_Contact ||
-          serverMessage.message == remove_Contact2) {
-        _spservice.setValue(SPUtil.REGISTRATION_COMPLETE, "");
-      }
-      addMessageFromPushNotification(serverMessage,remotemessage.data["title"]);
       isMessageCome = false;
     });
   }

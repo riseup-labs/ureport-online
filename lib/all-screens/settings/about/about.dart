@@ -52,10 +52,10 @@ class _AboutState extends State<About> {
         return SafeArea(
           child: Scaffold(
             body: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Stack(
                 children: [
                   Container(
+                    height: 60,
                     color: RemoteConfigData.getBackgroundColor(),
                     child: Row(
                       children: [
@@ -78,64 +78,40 @@ class _AboutState extends State<About> {
                       ],
                     ),
                   ),
-                  provider.isRefreshing
-                      ? Container(
-                          color: RemoteConfigData.getBackgroundColor(),
-                          height: 5,
-                          padding: EdgeInsets.only(left: 20, right: 20),
-                          child: LinearProgressIndicator(
-                            color: RemoteConfigData.getPrimaryColor(),
-                          ),
-                        )
-                      : Container(),
                   Expanded(
-                    child: RefreshIndicator(
-                      onRefresh: () {
-                        return provider.isOnline
-                            ? Provider.of<AboutController>(context,
-                                    listen: false)
-                                .refreshAboutFromRemote(
-                                    RemoteConfigData.getAboutUrl(
-                                        sp.getValue(SPUtil.PROGRAMKEY)))
-                            : Future.value();
-                      },
-                      child: SingleChildScrollView(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        child: provider.data != ""
-                            ? Container(
-                                height: _height,
-                                color: RemoteConfigData.getBackgroundColor(),
-                                child: WebViewPlus(
-                                  onWebViewCreated: (controller) {
-                                    webViewController = controller;
-                                    controller.webViewController.clearCache();
-                                    if (provider.isOnline) {
-                                      getContent(provider.title, provider.data);
-                                    } else {
-                                      getContentOffline(
-                                          provider.title, provider.data);
-                                    }
-                                  },
-                                  onPageFinished: (url) {
-                                    webViewController
-                                        .getHeight()
-                                        .then((double height) {
-                                      setState(() {
-                                        _height = height;
-                                      });
-                                    });
-                                  },
-                                  javascriptMode: JavascriptMode.unrestricted,
-                                ),
-                              )
-                            : provider.isOnline
-                                ? Container(
-                                    height: MediaQuery.of(context).size.height,
-                                    child: Center(child: LoadingBar.spinkit),
-                                  )
-                                : noInternetDialog(context),
+                    child: provider.data != ""
+                        ? Container(
+                      color: RemoteConfigData.getBackgroundColor(),
+                      margin: EdgeInsets.only(top: 60),
+                      child: WebViewPlus(
+                        onWebViewCreated: (controller) {
+                          webViewController = controller;
+                          controller.webViewController.clearCache();
+                          if (provider.isOnline) {
+                            getContent(provider.title, provider.data);
+                          } else {
+                            getContentOffline(
+                                provider.title, provider.data);
+                          }
+                        },
+                        onPageFinished: (url) {
+                          webViewController
+                              .getHeight()
+                              .then((double height) {
+                            setState(() {
+                              _height = height;
+                            });
+                          });
+                        },
+                        javascriptMode: JavascriptMode.unrestricted,
                       ),
-                    ),
+                    )
+                        : provider.isOnline
+                        ? Container(
+                      height: MediaQuery.of(context).size.height,
+                      child: Center(child: LoadingBar.spinkit),
+                    )
+                        : noInternetDialog(context),
                   ),
                 ],
               ),
@@ -166,11 +142,12 @@ class _AboutState extends State<About> {
             onPressed: () {
               ClickSound.soundClick();
               Navigator.of(context).pop();
+              Navigator.of(context).pop();
               Provider.of<AboutController>(context, listen: false).aboutData =
-                  null;
+              null;
               Provider.of<AboutController>(context, listen: false)
                   .getAboutFromRemote(RemoteConfigData.getAboutUrl(
-                      sp.getValue(SPUtil.PROGRAMKEY)));
+                  sp.getValue(SPUtil.PROGRAMKEY)));
             },
           )
         ],
@@ -273,7 +250,7 @@ class _AboutState extends State<About> {
     </html>''';
 
     webViewController.loadUrl(Uri.dataFromString(final_content,
-            mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
+        mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
         .toString());
   }
 
@@ -314,7 +291,7 @@ class _AboutState extends State<About> {
     margin-left: auto;
     margin-right: auto;
     display: block;
-    padding: 20 20px;
+    padding: 1 1px;
     position: relative;
     z-index: 9999;
     } 
@@ -358,7 +335,7 @@ class _AboutState extends State<About> {
     </html>''';
 
     webViewController.loadUrl(Uri.dataFromString(final_content,
-            mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
+        mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
         .toString());
   }
 }

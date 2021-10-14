@@ -1071,7 +1071,7 @@ class _ChatState extends State<Chat> {
                         ],
                       )
                     :
-                    GestureDetector(
+                RemoteConfigData.getDefaultActionVisibility() == true?GestureDetector(
                         onTap: () {
                           provider.isExpanded = true;
                           // provider.addQuickType();
@@ -1084,7 +1084,7 @@ class _ChatState extends State<Chat> {
                             "assets/images/ic_arrow_chat.png",
                           ),
                         ),
-                      ) /*:SizedBox()*/,
+                      ):Container() /*:SizedBox()*/,
                 Expanded(
                   child: Container(
                     width: double.infinity,
