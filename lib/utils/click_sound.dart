@@ -10,7 +10,7 @@ class ClickSound {
     final  player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status != "false"){
+    if(status == "true"){
       player.play('audio/v2_click.mp3');
     }
   }
@@ -19,7 +19,7 @@ class ClickSound {
     final  player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status != "false"){
+    if(status == "true"){
       player.play('audio/v2_close.mp3');
     }
   }
@@ -28,7 +28,7 @@ class ClickSound {
     final  player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status != "false"){
+    if(status == "true"){
       player.play('audio/v2_dropdown.wav');
     }
   }
@@ -37,7 +37,7 @@ class ClickSound {
     final  player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status != "false"){
+    if(status == "true"){
       player.play('audio/v2_msg_received.mp3');
     }
   }
@@ -46,7 +46,7 @@ class ClickSound {
     final  player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status != "false"){
+    if(status == "true"){
       player.play('audio/v2_msg_send.mp3');
     }
   }
@@ -55,7 +55,7 @@ class ClickSound {
     final  player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status != "false"){
+    if(status == "true"){
       player.play('audio/v2_msg_typing.mp3');
     }
   }
@@ -64,7 +64,7 @@ class ClickSound {
     final  player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status != "false"){
+    if(status == "true"){
       player.play('audio/v2_share.mp3');
     }
   }
@@ -73,7 +73,7 @@ class ClickSound {
     final  player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status != "false"){
+    if(status == "true"){
       player.play('audio/v2_click.mp3');
     }
   }
@@ -82,7 +82,7 @@ class ClickSound {
     final  player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status != "false"){
+    if(status == "true"){
       player.play('audio/no_internet_alert.mp3');
     }
   }

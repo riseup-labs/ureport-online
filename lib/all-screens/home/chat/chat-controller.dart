@@ -225,12 +225,17 @@ class ChatController extends ConnectivityController {
     // print("this is firebase fcm token ==  ${_token}");
   }
 
+
+
   bool firstmessageStatus() {
-    String firstvalue = _spservice.getValue(SPUtil.FIRSTMESSAGE);
+
+    String firstvalue = _spservice.getValue("${SPUtil.FIRSTMESSAGE}_${_spservice.getValue(SPUtil.PROGRAMKEY)}");
     if (firstvalue == "SENT") {
       return true;
-    } else
+    } else {
       return false;
+    }
+
   }
 
   Random _rnd = Random();
@@ -239,7 +244,7 @@ class ChatController extends ConnectivityController {
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
   addMessage(MessageModel messageModel) async {
-    _spservice.setValue(SPUtil.FIRSTMESSAGE, "SENT");
+    _spservice.setValue("${SPUtil.FIRSTMESSAGE}_${_spservice.getValue(SPUtil.PROGRAMKEY)}", "SENT");
     messagearray.clear();
     ordered.clear();
 
@@ -255,7 +260,7 @@ class ChatController extends ConnectivityController {
   }
 
   addMessageFromPushNotification(MessageModel messageModel, String program) async {
-    _spservice.setValue(SPUtil.FIRSTMESSAGE, "SENT");
+    _spservice.setValue("${SPUtil.FIRSTMESSAGE}_${_spservice.getValue(SPUtil.PROGRAMKEY)}", "SENT");
     messagearray.clear();
     ordered.clear();
 

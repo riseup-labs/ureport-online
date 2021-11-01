@@ -83,7 +83,7 @@ class TopBar {
                           Text(
                             title,
                             style: TextStyle(
-                                fontSize: 26.0,
+                                fontSize: title.length <= 4 ? 26.0 : 21.0,
                                 color: RemoteConfigData.getTextColor(),
                                 fontWeight: FontWeight.bold),
                           ),

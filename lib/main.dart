@@ -98,14 +98,16 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
               fontFamily: "Poppins"
             ),
-            home: SplashScreen(),
+            home: Directionality(
+              textDirection: TextDirection.ltr,
+              child: SplashScreen(),
+            ),
             supportedLocales: L10n.all,
             locale: provider.locale,
             localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
             ],
           ),
         ),

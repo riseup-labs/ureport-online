@@ -76,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             child: Text(
                               AppLocalizations.of(context)!.splashText,
                               style: TextStyle(
-                                fontSize: 48,
+                                fontSize: (AppLocalizations.of(context)!.splashText).length <= 28 ? 48 : 40,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w800,
                               ),

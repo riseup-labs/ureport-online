@@ -38,10 +38,10 @@ class _SettingDetailsState extends State<SettingDetails> {
 
     soundstate = spservice.getValue(SPUtil.SOUND);
     print("Sound state : $soundstate");
-    if (soundstate == "false") {
-      statesSound = false;
-    } else
+    if (soundstate == "true") {
       statesSound = true;
+    } else
+      statesSound = false;
 
     super.initState();
   }

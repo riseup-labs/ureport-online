@@ -321,4 +321,11 @@ class DatabaseHelper {
 
     return false;
   }
+
+  Future<int> getMessageCount(String program) async {
+    Database db = await this.database;
+    int? count = Sqflite.firstIntValue(await db.rawQuery("SELECT COUNT(*) FROM ${DatabaseConstant.tableNameMessage} WHERE program = '$program'"));
+    return count!;
+  }
+
 }
