@@ -297,7 +297,7 @@ class _StoryDetailsState extends State<StoryDetails> {
     <html> 
     
     <style> 
-    ${StoryUtils.style}
+    ${sp.getValue(SPUtil.PROGRAMKEY) == "Global" ? StoryUtils.styleItalia : sp.getValue(SPUtil.PROGRAMKEY) == "Italia" ? StoryUtils.styleItalia : StoryUtils.styleOnTheMove}
     img{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
     iframe{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
     body{width: 90% !important;margin-left: auto;margin-right: auto;display: block;margin-top:10px;margin-bottom:10px;} 
@@ -311,21 +311,19 @@ class _StoryDetailsState extends State<StoryDetails> {
       margin: 0 0 0 5px !important;
     }
     .header_time{
-       float: left;
        margin-top: 3px;
        font-size: 14px;
        font-weight: bold;
     }
     .header_share{
-      float: right;
       margin-right: 20px;
     }
     </style> 
     <body> 
     <div class="image_box"><img class = "title_image" src="$image"></div>
       <div class="header_time">$clockString</div>
-    <div style="float: left; font-weight: bold; margin-top:10px; margin-bottom: 10px; font-size: 20px "><h2>$title</h2></div>
-    <div  style="float: left;">$content</div> 
+    <div style="font-weight: bold; margin-top:10px; margin-bottom: 10px; font-size: 20px "><h2>$title</h2></div>
+    <div>$content</div> 
     </body> 
     </html>''';
 
@@ -334,7 +332,7 @@ class _StoryDetailsState extends State<StoryDetails> {
     <html> 
     
     <style> 
-    ${StoryUtils.style}
+    ${sp.getValue(SPUtil.PROGRAMKEY) == "Global" ? StoryUtils.styleItalia : sp.getValue(SPUtil.PROGRAMKEY) == "Italia" ? StoryUtils.styleItalia : StoryUtils.styleItalia}
     img{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
     iframe{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
     body{width: 90% !important;margin-left: auto;margin-right: auto;display: block;margin-top:10px;margin-bottom:10px;} 
@@ -348,20 +346,18 @@ class _StoryDetailsState extends State<StoryDetails> {
       margin: 0 0 0 5px !important;
     }
     .header_time{
-       float: left;
        margin-top: 3px;
        font-size: 14px;
        font-weight: bold;
     }
     .header_share{
-      float: right;
       margin-right: 20px;
     }
     </style> 
     <body> 
     <div class="header_time">$clockString</div>
-    <div style="float: left; font-weight: bold; margin-top:10px; margin-bottom: 10px; font-size: 20px "><h2>$title</h2></div>
-    <div  style="float: left;">$content</div> 
+    <div style="font-weight: bold; margin-top:10px; margin-bottom: 10px; font-size: 20px "><h2>$title</h2></div>
+    <div>$content</div> 
     </body> 
     </html>''';
 
