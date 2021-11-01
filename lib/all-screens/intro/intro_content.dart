@@ -44,19 +44,19 @@ class SplashContent extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.only(top: 10),
-            height: 180,
+            height: 210,
             color: text == AppLocalizations.of(context)!.opinions?AppColors.opinion_intro_back:null,
             child: Container(
               margin: EdgeInsets.only(left: 30,right: 30),
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     text,
                     style: TextStyle(
-                      fontSize: getProportionateScreenWidth(40),
+                      fontSize: getProportionateScreenWidth(35),
                       fontWeight: FontWeight.bold,
                       color: text != AppLocalizations.of(context)!.stories?Colors.white:Colors.black
                     ),
