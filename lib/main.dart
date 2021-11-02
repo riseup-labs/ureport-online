@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +76,9 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
+  FirebaseAnalytics analytics = FirebaseAnalytics();
+
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
     create: (context) => LocaleProvider(),
@@ -108,6 +113,9 @@ class MyApp extends StatelessWidget {
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
+            ],
+            navigatorObservers: [
+              FirebaseAnalyticsObserver(analytics: analytics),
             ],
           ),
         ),
