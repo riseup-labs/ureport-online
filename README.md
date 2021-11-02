@@ -3,7 +3,7 @@
 
 ## Documentation
 
-Our [wiki](https://github.com/riseup-labs/ureport-online/wiki) has several pages of information for developers, and people contributing to "U-Report Online". Check it out for your authoritative source of information about the <ureport-online> community.
+This documatation has several pages of information for developers, and people contributing to "U-Report Online". Check it out for your authoritative source of information about the <ureport-online> community.
   
 ## Current Flutter Version
 1. Flutter sdk - 2.5.2 (Stable)
@@ -24,5 +24,5 @@ Thank you to all the people who already contributed to U-Report Online!
 [GNU AFFERO GENERAL PUBLIC LICENSE](https://github.com/riseup-labs/ureport-online/LICENSE)
 
 
-## Download APK [Download](http://riseuplabs.me/ureportonlineapp).
+## [Click here to Download the latest APK](http://riseuplabs.me/ureportonlineapp).
 
