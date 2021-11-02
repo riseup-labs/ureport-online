@@ -56,7 +56,7 @@ class SplashContent extends StatelessWidget {
                   Text(
                     text,
                     style: TextStyle(
-                      fontSize: getProportionateScreenWidth(40),
+                      fontSize: getProportionateScreenWidth(35),
                       fontWeight: FontWeight.bold,
                       color: text != AppLocalizations.of(context)!.stories?Colors.white:Colors.black
                     ),
