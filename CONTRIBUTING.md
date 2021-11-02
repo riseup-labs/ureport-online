@@ -23,7 +23,7 @@ In order to contribute as a developer you will need to have a basic understandin
 
 ## Issue tracking
 
-<ureport-online> uses GitHub’s tracker called [Issues](https://github.com/unicefecar/<sample-repository>/issues) for easy collaboration among developers to keep track of tasks, enhancements, and bugs during software sprints. A typical issue looks like this:
+<ureport-online> uses GitHub’s tracker called [Issues](https://github.com/riseup-labs/ureport-online/issues) for easy collaboration among developers to keep track of tasks, enhancements, and bugs during software sprints. A typical issue looks like this:
 * A **title** and **description** describe what the issue is all about.
 * Color-coded labels help you categorize and filter your issues (just like labels in email).
 * A **milestone** acts like a container for issues. This is useful for associating a group of issues with specific features or time period (e.g. Weekly Sprint 9/7-7/20 or PWA 1.0). 
@@ -49,8 +49,8 @@ Please follow the coding style of the project.
 Good pull requests, such as patches, improvements, and new features, are a fantastic help. They should remain focused in scope and avoid containing unrelated commits.
 
 In summary, if you want to contribute to :
-1. Claim an [issue](https://github.com/unicefecar/sample-repository/issues) from the issue tracker.
-2. Fork the [sample-repository](https://https://github.com/unicefecar/sample-repository) project.
+1. Claim an [issue](https://github.com/riseup-labs/ureport-online/issues) from the issue tracker.
+2. Fork the [U-Report Online](https://github.com/riseup-labs/ureport-online.git) project.
 3. Clone it to your local system.
 4. Make a new branch.
 5. Make your changes.
@@ -65,7 +65,7 @@ In summary, if you want to contribute to :
 We use [Github Actions](https://github.com/features/actions) for continuous integration to automatically run unit tests while [Heroku](https://www.heroku.com/) does the hosting of the releases for continous delivery.
 
 ## Project Wiki
-Our [wiki](https://github.com/unicefecar/<ureport-online> /wiki) has several pages of information for developers, and people contributing to <ureport-online>. Check it out for your authoritative source of information about the IOGT-PWA community.
+This documentation has several pages of information for developers, and people contributing to <ureport-online>. Check it out for your authoritative source of information about the IOGT-PWA community.
 
 ## License
 
