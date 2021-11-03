@@ -370,7 +370,7 @@ class _SettingDetailsState extends State<SettingDetails> {
           return Container(
             margin: EdgeInsets.only(right: 20, bottom: 5),
             width: double.infinity,
-            child: Text("Ver : ${snapshot.data}", style: TextStyle(), textAlign: TextAlign.end),
+            child: Text("Ver: ${snapshot.data}", style: TextStyle(), textAlign: TextAlign.end),
           );
         });
   }

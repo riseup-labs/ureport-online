@@ -57,6 +57,7 @@ class _ChatState extends State<Chat> {
   @override
   void initState() {
     Provider.of<ChatController>(context, listen: false).startMonitoring();
+    Provider.of<ChatController>(context, listen: false).createContatct();
     myFocusNode = FocusNode();
     KeyboardVisibilityController().onChange.listen((event) {
       setState(() {
@@ -70,7 +71,6 @@ class _ChatState extends State<Chat> {
     super.initState();
 
     if (Provider.of<ChatController>(context, listen: false).isLoaded) {
-      Provider.of<ChatController>(context, listen: false).createContatct();
       Provider.of<ChatController>(context, listen: false)
           .getfirebaseInitialmessage();
       Provider.of<ChatController>(context, listen: false).getfirebase();

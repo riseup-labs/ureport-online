@@ -306,22 +306,26 @@ class ChatController extends ConnectivityController {
       if (_urn == null) {
         String contact_urn = getRandomString(15);
         var apiResponse = await _rapidproservice.createContact(
-            contact_urn, _token, "Regular Use", onSuccess: (uuid) {
+            contact_urn, _token, "User", onSuccess: (uuid) {
           contatct = uuid;
         });
         if (apiResponse.httpCode == 200) {
           responseContactCreation = apiResponse.data;
           _spservice.setValue(SPUtil.CONTACT_URN, contact_urn);
           if (_spservice.getValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}") != "true") {
-            sendmessage("join", "createContatct if");
+            sendmessage(RemoteConfigData.getRegistrationFlowKeyword(), "createContatct if");
             _spservice.setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "true");
+          }else{
+            sendmessage(RemoteConfigData.getIdleFlowKeyword(), "createContatct if");
           }
         }
       }
       else if (_urn != null) {
         if (_spservice.getValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}") != "true") {
-          sendmessage("join", "createContatct if");
+          sendmessage(RemoteConfigData.getRegistrationFlowKeyword(), "createContatct if");
           _spservice.setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "true");
+        }else{
+          sendmessage(RemoteConfigData.getIdleFlowKeyword(), "createContatct if");
         }
       }
     }

@@ -36,17 +36,12 @@ class Program {
     required this.storyShareUrl,
     required this.largeIcon,
     required this.smallIcon,
-    required this.individualCaseManagementVisibility,
-    required this.defaultActionVisibility,
     required this.aboutUrl,
     required this.programBackgroundColor,
     required this.programTextColor,
     required this.primaryColor,
     required this.secondaryColor,
-    required this.defaultTriggerActions,
-    required this.icmsTriggerActions,
     required this.triggerKeywords,
-    required this.logo,
   });
 
   bool status;
@@ -58,17 +53,12 @@ class Program {
   String storyShareUrl;
   String largeIcon;
   String smallIcon;
-  bool individualCaseManagementVisibility;
-  bool defaultActionVisibility;
   String aboutUrl;
   String programBackgroundColor;
   String programTextColor;
   String primaryColor;
   List<String> secondaryColor;
-  List<String> defaultTriggerActions;
-  List<String> icmsTriggerActions;
   TriggerKeywords triggerKeywords;
-  String logo;
 
   factory Program.fromJson(Map<String, dynamic> json) => Program(
     status: json["status"],
@@ -80,17 +70,12 @@ class Program {
     storyShareUrl: json["story_share_url"],
     largeIcon: json["large_icon"],
     smallIcon: json["small_icon"],
-    individualCaseManagementVisibility: json["individual_case_management_visibility"],
-    defaultActionVisibility: json["default_action_visibility"],
     aboutUrl: json["about_url"],
     programBackgroundColor: json["program_background_color"],
     programTextColor: json["program_text_color"],
     primaryColor: json["primary_color"],
     secondaryColor: List<String>.from(json["secondary_color"].map((x) => x)),
-    defaultTriggerActions: List<String>.from(json["default_trigger_actions"].map((x) => x)),
-    icmsTriggerActions: List<String>.from(json["icms_trigger_actions"].map((x) => x)),
     triggerKeywords: TriggerKeywords.fromJson(json["trigger_keywords"]),
-    logo: json["logo"] == null ? null : json["logo"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -103,72 +88,31 @@ class Program {
     "story_share_url": storyShareUrl,
     "large_icon": largeIcon,
     "small_icon": smallIcon,
-    "individual_case_management_visibility": individualCaseManagementVisibility,
-    "default_action_visibility": defaultActionVisibility,
     "about_url": aboutUrl,
     "program_background_color": programBackgroundColor,
     "program_text_color": programTextColor,
     "primary_color": primaryColor,
     "secondary_color": List<dynamic>.from(secondaryColor.map((x) => x)),
-    "default_trigger_actions": List<dynamic>.from(defaultTriggerActions.map((x) => x)),
-    "icms_trigger_actions": List<dynamic>.from(icmsTriggerActions.map((x) => x)),
     "trigger_keywords": triggerKeywords.toJson(),
-    "logo": logo == null ? null : logo,
   };
 }
 
 class TriggerKeywords {
   TriggerKeywords({
-    required this.en,
-    required this.ar,
-    required this.zh,
-    required this.fr,
-    required this.ru,
-    required this.es,
-  });
-
-  Ar en;
-  Ar ar;
-  Ar zh;
-  Ar fr;
-  Ar ru;
-  Ar es;
-
-  factory TriggerKeywords.fromJson(Map<String, dynamic> json) => TriggerKeywords(
-    en: Ar.fromJson(json["en"]),
-    ar: Ar.fromJson(json["ar"]),
-    zh: Ar.fromJson(json["zh"]),
-    fr: Ar.fromJson(json["fr"]),
-    ru: Ar.fromJson(json["ru"]),
-    es: Ar.fromJson(json["es"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "en": en.toJson(),
-    "ar": ar.toJson(),
-    "zh": zh.toJson(),
-    "fr": fr.toJson(),
-    "ru": ru.toJson(),
-    "es": es.toJson(),
-  };
-}
-
-class Ar {
-  Ar({
     required this.registrationFlow,
-    required this.recentFlow,
+    required this.idleFlow,
   });
 
   String registrationFlow;
-  String recentFlow;
+  String idleFlow;
 
-  factory Ar.fromJson(Map<String, dynamic> json) => Ar(
+  factory TriggerKeywords.fromJson(Map<String, dynamic> json) => TriggerKeywords(
     registrationFlow: json["registration_flow"],
-    recentFlow: json["recent_flow"],
+    idleFlow: json["idle_flow"],
   );
 
   Map<String, dynamic> toJson() => {
     "registration_flow": registrationFlow,
-    "recent_flow": recentFlow,
+    "idle_flow": idleFlow,
   };
 }
