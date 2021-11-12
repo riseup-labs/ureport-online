@@ -14,7 +14,7 @@ This documatation has several pages of information for developers, and people co
 
 ## Contribution
 
-Please make sure to read the [contributing guide](https://github.com/riseup-labs/ureport-online/CONTRIBUTING.md) before making a pull request. 
+Please make sure to read the [contributing guide](https://github.com/riseup-labs/ureport-online/blob/main/CONTRIBUTING.md) before making a pull request. 
 
 Thank you to all the people who already contributed to U-Report Online!
 
