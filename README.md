@@ -9,7 +9,7 @@ This documatation has several pages of information for developers, and people co
 1. Flutter sdk - 2.5.2 (Stable)
 2. Dart sdk - 2.14.3
 
-## Current App Version : 1.0.12
+## Current App Version : 1.0.13
 
 
 ## Contribution
