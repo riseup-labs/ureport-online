@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
-import 'package:ureport_ecaro/utils/api_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 import 'api_response.dart';

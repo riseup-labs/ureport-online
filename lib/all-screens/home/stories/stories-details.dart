@@ -224,6 +224,7 @@ class _StoryDetailsState extends State<StoryDetails> {
             ),
           )
         : WebViewPlus(
+
             onWebViewCreated: (controller) {
               webViewController = controller;
               controller.webViewController.clearCache();
@@ -294,8 +295,9 @@ class _StoryDetailsState extends State<StoryDetails> {
     content = content.replaceAll("<br><br><br>", "<br><br>");
 
     String final_content = '''
+    <!ECOTYPE html>
     <html> 
-    
+   
     <style> 
     ${sp.getValue(SPUtil.PROGRAMKEY) == "Global" ? StoryUtils.styleItalia : sp.getValue(SPUtil.PROGRAMKEY) == "Italia" ? StoryUtils.styleItalia : StoryUtils.styleOnTheMove}
     img{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
@@ -319,6 +321,7 @@ class _StoryDetailsState extends State<StoryDetails> {
       margin-right: 20px;
     }
     </style> 
+    <head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
     <body> 
     <div class="image_box"><img class = "title_image" src="$image"></div>
       <div class="header_time">$clockString</div>
@@ -329,8 +332,8 @@ class _StoryDetailsState extends State<StoryDetails> {
 
     String final_content_offline = '''
     
+    <!ECOTYPE html>
     <html> 
-    
     <style> 
     ${sp.getValue(SPUtil.PROGRAMKEY) == "Global" ? StoryUtils.styleItalia : sp.getValue(SPUtil.PROGRAMKEY) == "Italia" ? StoryUtils.styleItalia : StoryUtils.styleOnTheMove}
     img{width: 100% !important;margin-left: auto;margin-right: auto;display: block;margin-top:20px;margin-bottom:20px;} 
@@ -354,6 +357,7 @@ class _StoryDetailsState extends State<StoryDetails> {
       margin-right: 20px;
     }
     </style> 
+    <head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
     <body> 
     <div class="header_time">$clockString</div>
     <div style="font-weight: bold; margin-top:10px; margin-bottom: 10px; font-size: 20px "><h2>$title</h2></div>

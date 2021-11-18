@@ -10,6 +10,7 @@ import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_messag
 import '/all-screens/home/stories/model/response-story-data.dart' as storyArray;
 import 'package:ureport_ecaro/all-screens/home/opinion/model/response_opinions.dart'
     as opinionArray;
+import 'package:path/path.dart' as p;
 
 class DatabaseHelper {
   static Database? _database;
@@ -32,8 +33,10 @@ class DatabaseHelper {
   }
 
   Future<Database> initializeDatabase() async {
-    var dir = await getDatabasesPath();
-    var path = dir + "database.db";
+    // var dir = await getDatabasesPath();
+    // var path = dir + "database.db";
+    var databasesPath = await getDatabasesPath();
+    String path = p.join(databasesPath, 'ureport_online_db.db');
 
     var database = await openDatabase(
       path,

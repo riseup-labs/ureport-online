@@ -188,6 +188,7 @@ class _AboutState extends State<About> {
     content = content.replaceAll("<br><br><br>", "<br><br>");
 
     String final_content = '''
+    <!ECOTYPE html>
     <html> 
     <style>  
     body{
@@ -235,6 +236,7 @@ class _AboutState extends State<About> {
     }
     
     </style> 
+    <head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
     <body>
     <div class="content_body"> 
       <div><h2>$title</h2></div>
@@ -279,6 +281,7 @@ class _AboutState extends State<About> {
     content = content.replaceAll("<br><br><br>", "<br><br>");
 
     String final_content = '''
+    <!ECOTYPE html>
     <html> 
     <style>  
     body{
@@ -326,6 +329,7 @@ class _AboutState extends State<About> {
     }
     
     </style> 
+    <head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
     <body>
     <div class="content_body"> 
       <div><h2>$title</h2></div>
