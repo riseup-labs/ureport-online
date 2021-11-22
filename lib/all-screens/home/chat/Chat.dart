@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,9 @@ class _ChatState extends State<Chat> {
 
   @override
   void initState() {
+
+    disableOnScreenPopUp();
+
     Provider.of<ChatController>(context, listen: false).startMonitoring();
     Provider.of<ChatController>(context, listen: false).createContatct();
     myFocusNode = FocusNode();
@@ -82,6 +86,14 @@ class _ChatState extends State<Chat> {
       Provider.of<ChatController>(context, listen: false).isLoaded = false;
     }
 
+  }
+
+  disableOnScreenPopUp() async {
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: false,
+      badge: false,
+      sound: false,
+    );
   }
 
   DatabaseHelper _databaseHelper = DatabaseHelper();

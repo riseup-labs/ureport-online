@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
@@ -50,10 +52,10 @@ class _SettingDetailsState extends State<SettingDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Column(
           children: [
             SingleChildScrollView(
               physics: AlwaysScrollableScrollPhysics(),
@@ -428,4 +430,5 @@ class _SettingDetailsState extends State<SettingDetails> {
       },
     );
   }
+
 }

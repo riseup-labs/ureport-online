@@ -544,7 +544,6 @@ class ChatController extends ConnectivityController {
       } else {
         quicktypest = [""];
       }
-      //print("the notification message is ${remotemessage.notification!.body}");
       var notificationmessage = MessageModel(
           sender: 'server',
           message: remotemessage.notification!.body,
