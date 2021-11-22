@@ -1,4 +1,4 @@
-# Contributing to sample-repository
+# Contributing to Ureport-Online
 
 
 There are plenty of ways you can help if you are interested in contributing to the "Ureport Online Application"  
