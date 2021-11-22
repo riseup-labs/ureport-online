@@ -25,6 +25,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
     'русский',
     'Española',
     'عربي',
+    'Italiano'
   ];
 
   String selectedValue = "";
@@ -49,6 +50,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
       selectedValue = values[4];
     } else if (already_selected == "ar") {
       selectedValue = values[5];
+    }else if (already_selected == "it") {
+      selectedValue = values[6];
     } else {
       selectedValue = values.first;
     }
@@ -136,6 +139,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                     setLocal(provider, "es");
                                   } else if (this.selectedValue == values[5]) {
                                     setLocal(provider, "ar");
+                                  }else if (this.selectedValue == values[6]) {
+                                    setLocal(provider, "it");
                                   }
                                 },
                                 child: Container(
@@ -176,6 +181,9 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                             else if (this.selectedValue ==
                                                 values[5])
                                               {setLocal(provider, "ar")}
+                                            else if (this.selectedValue ==
+                                                values[6])
+                                              {setLocal(provider, "it")}
                                           })
                                     }),
                           )
@@ -228,6 +236,9 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
     } else if (language == "ar") {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "ar");
       provider.setLocale(new Locale('ar'));
+    }else if (language == "it") {
+      sp.setValue(SPConstant.SELECTED_LANGUAGE, "it");
+      provider.setLocale(new Locale('it'));
     } else {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "en");
       provider.setLocale(new Locale('en'));

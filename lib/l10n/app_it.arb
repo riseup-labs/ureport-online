@@ -1,0 +1,226 @@
+{
+    "stories": "Storie",
+    "@stories": {
+        "description": "Stories"
+    },
+    "skip": "Salta",
+    "@skip": {
+        "description": "Skip"
+    },
+    "next": "Prossimo",
+    "@next": {
+        "description": "Next"
+    },
+    "intro_text1": "Leggi le ultime news su U-Report e rimani informato",
+    "@intro_text1": {
+        "description": "Read the latest U-Report blogs and stay informed"
+    },
+    "chat": "Chat",
+    "@chat": {
+        "description": "Chat"
+    },
+    "intro_text2": "Partecipa ai sondaggi e accedi alle chatbot interattive su argomenti che ti interessano",
+    "@intro_text2": {
+        "description": "Participate in polls and access to interactive chatbots about topics you care about"
+    },
+    "opinions": "Opinioni",
+    "@opinions": {
+        "description": "Opinions"
+    },
+    "intro_text3": "Guarda i risultati dei sondaggi e condividi i risultati",
+    "@intro_text3": {
+        "description": "View polls results and share the findings"
+    },
+    "welcome": "Benvenuto/a",
+    "@welcome": {
+        "description": "Welcome"
+    },
+    "continu": "Continua",
+    "@continu": {
+        "description": "Continue"
+    },
+    "more": "Altro",
+    "@more": {
+        "description": "More"
+    },
+    "choose_program": "Seleziona il tuo paese/programma",
+    "@choose_program": {
+        "description": "Select U-Report Program"
+    },
+    "enter_message": "Inserisci il testo qui...",
+    "@enter_message": {
+        "description": "Enter message"
+    },
+    "settings": "Impostazioni",
+    "@settings": {
+        "description": "Settings"
+    },
+    "about_us": "Chi siamo",
+    "@about_us": {
+        "description": "About Us"
+    },
+    "change_ureport_program": "Cambia Programma",
+    "@change_ureport_program": {
+        "description": "Change Program"
+    },
+    "change_language": "Cambia Lingua",
+    "@change_language": {
+        "description": "Change Language"
+    },
+    "feedback": "Feedbacks",
+    "@feedback": {
+        "description": "Feedback"
+    },
+    "privacy_policy": "Privacy Policy",
+    "@privacy_policy": {
+        "description": "Privacy Policy"
+    },
+    "terms": "Termini e condizioni generali",
+    "@terms": {
+        "description": "Terms and Conditions"
+    },
+    "sound": "Suono",
+    "@sound": {
+        "description": "Sound"
+    },
+    "on": "On",
+    "@on": {
+        "description": "On"
+    },
+    "off": "Off",
+    "@off": {
+        "description": "Off"
+    },
+    "select_language": "Seleziona lingua",
+    "@select_language": {
+        "description": "Select Language"
+    },
+    "language": "Lingua",
+    "@language": {
+        "description": "Language"
+    },
+    "see_more": "Vedi di più ",
+    "@see_more": {
+        "description": "See More"
+    },
+    "featured_story": "STORIA IN EVIDENZA",
+    "@featured_story": {
+        "description": "FEATURED STORY"
+    },
+    "read_more": "LEGGI DI PIÙ ",
+    "@read_more": {
+        "description": "READ MORE"
+    },
+    "all": "TUTTO",
+    "@all": {
+        "description": "ALL"
+    },
+    "age": "ETÀ ",
+    "@age": {
+        "description": "AGE"
+    },
+    "gender": "GENERE",
+    "@gender": {
+        "description": "GENDER"
+    },
+    "location": "LUOGO",
+    "@location": {
+        "description": "LOCATION"
+    },
+    "search": "Cerca",
+    "@search": {
+        "description": "Search"
+    },
+    "response_rate": "LIVELLO DI PARTECIPAZIONE",
+    "@response_rate": {
+        "description": "RESPONSE RATE"
+    },
+    "respondents": "PARTECIPANTI",
+    "@respondents": {
+        "description": "RESPONDENTS"
+    },
+    "responded_out_of": "partecipanti su",
+    "@responded_out_of": {
+        "description": "responded out of"
+    },
+    "polled": "sondati",
+    "@polled": {
+        "description": "polled"
+    },
+    "latest_opinion": "ULTIME OPINIONI",
+    "@latest_opinion": {
+        "description": "LATEST OPINION"
+    },
+    "cancel": "Cancella",
+    "@cancel": {
+        "description": "Cancel"
+    },
+    "selected": "Selezionato",
+    "@selected": {
+        "description": "Selected"
+    },
+    "delete": "Cancella",
+    "@delete": {
+        "description": "Delete"
+    },
+    "delete_message": "Sei sicuro di volerti cancellare?",
+    "@delete_message": {
+        "description": "Are you sure you want to delete?"
+    },
+    "previous_message_deleted": "Tutti i messaggio precedenti sono stati cancellati",
+    "@previous_message_deleted": {
+        "description": "All previous message was deleted"
+    },
+    "notification": "Notifiche",
+    "@notification": {
+        "description": "Notification"
+    },
+    "five_days_delete_text": "Cancella automaticamente tutti i messaggi dopo 5 giorni",
+    "@five_days_delete_text": {
+        "description": "Automatically remove messages after 5 days"
+    },
+    "remove_all_message_text": "Cancella tutti i messaggi",
+    "@remove_all_message_text": {
+        "description": "Remove all messages"
+    },
+    "remove": "Cancella",
+    "@remove": {
+        "description": "Remove"
+    },
+    "share": "Condividi",
+    "@share": {
+        "description": "Share"
+    },
+    "this_message_deleted": "Questo messaggio è stato cancellato",
+    "@this_message_deleted": {
+        "description": "This Message was Deleted"
+    },
+    "no_result_found": "Nessun risultato trovato",
+    "@no_result_found": {
+        "description": "No result found"
+    },
+    "splashText": "Guidiamo insieme il cambiamento",
+    "@splashText": {
+        "description": "splashText"
+    },
+    "no_internet_text": "Nessuna connessione internet è stata trovata",
+    "@no_internet_text": {
+        "description": "No internet connection is available"
+    },
+    "get_started": "Inizia",
+    "@get_started": {
+        "description": "get_started"
+    },
+    "back": "INDIETRO",
+    "@back": {
+        "description": "back"
+    },
+    "exit": "ESCI",
+    "@exit": {
+        "description": "exit"
+    },
+    "retry": "ENTRA",
+    "@retry": {
+        "description": "retry"
+    }
+}

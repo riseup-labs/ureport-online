@@ -137,6 +137,8 @@ class MyApp extends StatelessWidget {
       provider.setInitialLocale(new Locale('ru'));
     }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "es"){
       provider.setInitialLocale(new Locale('es'));
+    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "it"){
+      provider.setInitialLocale(new Locale('it'));
     }else{
       provider.setInitialLocale(new Locale('en'));
     }
