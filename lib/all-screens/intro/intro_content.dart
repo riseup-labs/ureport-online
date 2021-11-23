@@ -44,7 +44,7 @@ class SplashContent extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.only(top: 10),
-            height: 310,
+            height: 270,
             color: text == AppLocalizations.of(context)!.opinions?AppColors.opinion_intro_back:null,
             child: Container(
               margin: EdgeInsets.only(left: 30,right: 30),
