@@ -45,19 +45,20 @@ class _IntroScreenState extends State<IntroScreen> {
       {
         "text": "${AppLocalizations.of(context)!.opinions}",
         "text2": "${AppLocalizations.of(context)!.intro_text3}",
-        "image": "assets/images/drawable-xxhdpi/v2_about_3.png"
+        "image": "assets/images/into_page_3.png"
       },
     ];
 
-    return Scaffold(
-      backgroundColor: currentPage == 0 ? AppColors.mainBgColor : currentPage == 1 ? AppColors.mainBgColor2 : AppColors.mainBgColor3,
-      body: SafeArea(
-        child: SizedBox(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: currentPage == 0 ? AppColors.mainBgColor : currentPage == 1 ? AppColors.mainBgColor2 : AppColors.opinion_intro_back,
+        body: SizedBox(
           width: double.infinity,
           child: Column(
             children: <Widget>[
               Expanded(
                 child: Container(
+                  color: currentPage == 0 ? AppColors.mainBgColor : currentPage == 1 ? AppColors.mainBgColor2 : AppColors.mainBgColor3,
                   child: getPageBuilder(0,splashData),
                 ),
               ),

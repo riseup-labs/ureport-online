@@ -44,7 +44,6 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> _firebaseMessagingBackgroundhandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print("a background messaged just swafed up ${message.messageId}");
 }
 
 

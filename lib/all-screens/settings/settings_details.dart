@@ -1,19 +1,17 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
-import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
-import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SettingDetails extends StatefulWidget {
   @override
@@ -27,7 +25,7 @@ class _SettingDetailsState extends State<SettingDetails> {
   late String soundstate;
   late String notificationstate;
   bool statesf = true;
-  bool statesNotification = true;
+  bool statesNotification = false;
   bool statesSound = true;
   bool isNotificationClickable = false;
 
@@ -41,13 +39,39 @@ class _SettingDetailsState extends State<SettingDetails> {
       statesf = false;
 
     soundstate = spservice.getValue(SPUtil.SOUND);
-    print("Sound state : $soundstate");
     if (soundstate == "true") {
       statesSound = true;
     } else
       statesSound = false;
 
+    checkPermission();
+
     super.initState();
+  }
+
+  checkPermission() async{
+    var status = await Permission.notification.status;
+    print("Permission : $status");
+    if(status.isGranted){
+      setState(() {
+        statesNotification = true;
+      });
+    }else{
+      setState(() {
+        statesNotification = false;
+      });
+    }
+  }
+
+  requestPermission() async{
+    final status = await Permission.notification.request();
+
+    if(status == PermissionStatus.denied){
+      await Permission.notification.request();
+    }else if(status == PermissionStatus.permanentlyDenied){
+      await openAppSettings();
+    }
+
   }
 
   @override
@@ -103,6 +127,7 @@ class _SettingDetailsState extends State<SettingDetails> {
                   SizedBox(
                     height: 10,
                   ),
+                  Platform.isIOS?
                   Container(
                     padding:
                     EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
@@ -153,16 +178,22 @@ class _SettingDetailsState extends State<SettingDetails> {
                               ],
                             ),
                             Switch(
-                                activeColor: Colors.grey,
+                                activeColor: Colors.white,
                                 value: statesNotification,
                                 onChanged: (value) {
                                   ClickSound.soundTap();
+                                  requestPermission();
+                                  // if(!statesNotification){
+                                  //   requestPermission();
+                                  // }
+                                  // statesNotification = !statesNotification;
+                                  // setState(() {});
                                 }),
                           ],
                         ),
                       ],
                     ),
-                  ),
+                  ):Container(),
                   Container(
                     padding:
                     EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
