@@ -61,7 +61,9 @@ class _ChatState extends State<Chat> {
     disableOnScreenPopUp();
 
     Provider.of<ChatController>(context, listen: false).startMonitoring();
-    Provider.of<ChatController>(context, listen: false).createContatct();
+    if(from != "notification"){
+      Provider.of<ChatController>(context, listen: false).createContatct();
+    }
     myFocusNode = FocusNode();
     KeyboardVisibilityController().onChange.listen((event) {
       setState(() {
@@ -117,9 +119,14 @@ class _ChatState extends State<Chat> {
       },
       child: Consumer<ChatController>(
         builder: (context, provider, child) {
-          return SafeArea(
-            child: Scaffold(
-              body: Container(
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              toolbarHeight: 0.0,
+            ),
+            body: SafeArea(
+              child: Container(
                 color: Colors.white,
                 child: Column(
                   children: [

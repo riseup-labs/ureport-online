@@ -18,7 +18,7 @@ class SettingDetails extends StatefulWidget {
   _SettingDetailsState createState() => _SettingDetailsState();
 }
 
-class _SettingDetailsState extends State<SettingDetails> {
+class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObserver{
   DatabaseHelper _databaseHelper = DatabaseHelper();
   var spservice = locator<SPUtil>();
   late String switchstate;
@@ -31,6 +31,7 @@ class _SettingDetailsState extends State<SettingDetails> {
 
   @override
   void initState() {
+    super.initState();
     switchstate = spservice.getValue(
         "${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.DELETE5DAYS}");
     if (switchstate == "true") {
@@ -45,8 +46,13 @@ class _SettingDetailsState extends State<SettingDetails> {
       statesSound = false;
 
     checkPermission();
+    WidgetsBinding.instance!.addObserver(this);
+  }
 
-    super.initState();
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      checkPermission();
+    }
   }
 
   checkPermission() async{
@@ -64,22 +70,20 @@ class _SettingDetailsState extends State<SettingDetails> {
   }
 
   requestPermission() async{
-    final status = await Permission.notification.request();
-
-    if(status == PermissionStatus.denied){
-      await Permission.notification.request();
-    }else if(status == PermissionStatus.permanentlyDenied){
       await openAppSettings();
-    }
-
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
+      appBar: AppBar(
         backgroundColor: Colors.white,
-        body: Column(
+        elevation: 0,
+        toolbarHeight: 0.0,
+      ),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
           children: [
             SingleChildScrollView(
               physics: AlwaysScrollableScrollPhysics(),

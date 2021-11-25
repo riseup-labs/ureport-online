@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +14,8 @@ import 'chat/chat-controller.dart';
 import 'opinion/opinion_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
-
   int changedIndex;
+
   NavigationScreen(this.changedIndex);
 
   @override
@@ -30,89 +31,103 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    getfirebaseonApp(context);
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          body: IndexedStack(index: changedIndex, children: tabs),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: changedIndex,
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(
-                icon: Image.asset(
-                  "assets/images/ic_stories.png",
-                  height: 40.18,
-                  width: 33.66,
-                ),
-                activeIcon: Image.asset(
-                  "assets/images/ic_stories_on.png",
-                  height: 40.18,
-                  width: 33.66,
-                  color: RemoteConfigData.getPrimaryColor(),
-                ),
-                label: "${AppLocalizations.of(context)!.stories}",
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          toolbarHeight: 0.0,
+        ),
+        body: IndexedStack(index: changedIndex, children: tabs),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: changedIndex,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+              icon: Image.asset(
+                "assets/images/ic_stories.png",
+                height: 40.18,
+                width: 33.66,
               ),
-              BottomNavigationBarItem(
-                icon: Container(
-                  margin: EdgeInsets.only(left: 5),
-                  child: Image.asset("assets/images/ic_chat.png",
-                      height: 40.18, width: 33.66),
-                ),
-                activeIcon: Image.asset(
-                  "assets/images/ic_chat_on.png",
-                  height: 40.18,
-                  width: 33.66,
-                  color: RemoteConfigData.getPrimaryColor(),
-                ),
-                label: "${AppLocalizations.of(context)!.chat}",
+              activeIcon: Image.asset(
+                "assets/images/ic_stories_on.png",
+                height: 40.18,
+                width: 33.66,
+                color: RemoteConfigData.getPrimaryColor(),
               ),
-              BottomNavigationBarItem(
-                icon: Image.asset("assets/images/ic_opinions.png",
+              label: "${AppLocalizations.of(context)!.stories}",
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                margin: EdgeInsets.only(left: 5),
+                child: Image.asset("assets/images/ic_chat.png",
                     height: 40.18, width: 33.66),
-                activeIcon: Image.asset(
-                  "assets/images/ic_opinions_on.png",
-                  height: 40.18,
-                  width: 33.66,
-                  color: RemoteConfigData.getPrimaryColor(),
-                ),
-                label: "${AppLocalizations.of(context)!.opinions}",
               ),
-              BottomNavigationBarItem(
-                icon: Image.asset("assets/images/ic_more.png",
-                    height: 40.18, width: 33.66),
-                activeIcon: Image.asset(
-                  "assets/images/ic_more_on.png",
-                  height: 40.18,
-                  width: 33.66,
-                  color: RemoteConfigData.getPrimaryColor(),
-                ),
-                label: "${AppLocalizations.of(context)!.more}",
+              activeIcon: Image.asset(
+                "assets/images/ic_chat_on.png",
+                height: 40.18,
+                width: 33.66,
+                color: RemoteConfigData.getPrimaryColor(),
               ),
-            ],
-            backgroundColor: Colors.white,
-            showUnselectedLabels: true,
-            showSelectedLabels: true,
-            selectedItemColor: RemoteConfigData.getPrimaryColor(),
-            selectedFontSize: 13,
-            unselectedFontSize: 13,
-            unselectedItemColor: Colors.black,
-            onTap: (int i) {
-              ClickSound.soundClick();
-              setState(() {
-                if(i == 1){
-                  NavUtils.pushToChat(context, "Home");
-                }else{
-                  changedIndex = i;
-                }
-              });
-            },
-          )),
-    );
+              label: "${AppLocalizations.of(context)!.chat}",
+            ),
+            BottomNavigationBarItem(
+              icon: Image.asset("assets/images/ic_opinions.png",
+                  height: 40.18, width: 33.66),
+              activeIcon: Image.asset(
+                "assets/images/ic_opinions_on.png",
+                height: 40.18,
+                width: 33.66,
+                color: RemoteConfigData.getPrimaryColor(),
+              ),
+              label: "${AppLocalizations.of(context)!.opinions}",
+            ),
+            BottomNavigationBarItem(
+              icon: Image.asset("assets/images/ic_more.png",
+                  height: 40.18, width: 33.66),
+              activeIcon: Image.asset(
+                "assets/images/ic_more_on.png",
+                height: 40.18,
+                width: 33.66,
+                color: RemoteConfigData.getPrimaryColor(),
+              ),
+              label: "${AppLocalizations.of(context)!.more}",
+            ),
+          ],
+          backgroundColor: Colors.white,
+          showUnselectedLabels: true,
+          showSelectedLabels: true,
+          selectedItemColor: RemoteConfigData.getPrimaryColor(),
+          selectedFontSize: 13,
+          unselectedFontSize: 13,
+          unselectedItemColor: Colors.black,
+          onTap: (int i) {
+            ClickSound.soundClick();
+            setState(() {
+              if (i == 1) {
+                NavUtils.pushToChat(context, "Home");
+              } else {
+                changedIndex = i;
+              }
+            });
+          },
+        ));
+  }
+
+  getfirebaseonApp(context) {
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? remoteMessage) {
+
+      print("Navigation screen called");
+      if(remoteMessage != null){
+        NavUtils.pushReplacement(context, Chat("notification"));
+      }
+
+    });
   }
 }

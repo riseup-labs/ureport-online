@@ -65,113 +65,116 @@ class _StoryDetailsState extends State<StoryDetails> {
           return false;
         },
         child: Scaffold(
-            body: SafeArea(
-          child: Container(
-            color: Colors.white,
-            child: SafeArea(
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 15),
-                        height: 70,
-                        color: Colors.white,
-                        child: Row(
-                          children: [
-                            Expanded(flex: 1, child: Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 55,
-                                    child: IconButton(
-                                      icon: Container(
-                                          height: 60,
-                                          width: 120,
-                                          child: Image(
-                                            fit: BoxFit.fill,
-                                            image: AssetImage(
-                                                "assets/images/v2_ic_back.png"),
-                                          )),
-                                      color: Colors.black,
-                                      onPressed: () {
-                                        webViewController.webViewController
-                                            .canGoBack()
-                                            .then((value) => {
-                                          if (value)
-                                            {
-                                              webViewController.webViewController
-                                                  .goBack(),
-                                              ClickSound.soundClose()
-                                            }
-                                          else
-                                            {
-                                              Navigator.pop(context),
-                                              ClickSound.soundClose()
-                                            }
-                                        });
-                                      },
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              toolbarHeight: 0.0,
+            ),
+            body: Container(
+              color: Colors.white,
+              child: SafeArea(
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 15),
+                          height: 70,
+                          color: Colors.white,
+                          child: Row(
+                            children: [
+                              Expanded(flex: 1, child: Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 55,
+                                      child: IconButton(
+                                        icon: Container(
+                                            height: 60,
+                                            width: 120,
+                                            child: Image(
+                                              fit: BoxFit.fill,
+                                              image: AssetImage(
+                                                  "assets/images/v2_ic_back.png"),
+                                            )),
+                                        color: Colors.black,
+                                        onPressed: () {
+                                          webViewController.webViewController
+                                              .canGoBack()
+                                              .then((value) => {
+                                            if (value)
+                                              {
+                                                webViewController.webViewController
+                                                    .goBack(),
+                                                ClickSound.soundClose()
+                                              }
+                                            else
+                                              {
+                                                Navigator.pop(context),
+                                                ClickSound.soundClose()
+                                              }
+                                          });
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                  Expanded(
-                                      child: Container(
-                                        child: Center(
-                                          child: getShareButton(widget.id),
-                                        ),
-                                      )
-                                  )
+                                    Expanded(
+                                        child: Container(
+                                          child: Center(
+                                            child: getShareButton(widget.id),
+                                          ),
+                                        )
+                                    )
 
-                                ],
-                              ),
-                            )),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                child: CustomPaint(
-                                  painter: CustomBackground(),
-                                  child: Container(
-                                    height: 80,
+                                  ],
+                                ),
+                              )),
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  child: CustomPaint(
+                                    painter: CustomBackground(),
                                     child: Container(
-                                      padding: EdgeInsets.only(left: 10),
-                                      child: Center(
-                                        child: Text(
-                                          AppLocalizations.of(context)!.stories,
-                                          style: TextStyle(
-                                              fontSize: 26.0,
-                                              color:
-                                                  RemoteConfigData.getTextColor(),
-                                              fontWeight: FontWeight.bold),
+                                      height: 80,
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Center(
+                                          child: Text(
+                                            AppLocalizations.of(context)!.stories,
+                                            style: TextStyle(
+                                                fontSize: 26.0,
+                                                color:
+                                                    RemoteConfigData.getTextColor(),
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        child: Divider(
-                          height: 1,
-                          color: Colors.grey[600],
+                        Container(
+                          child: Divider(
+                            height: 1,
+                            color: Colors.grey[600],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 71.5),
-                    width: double.infinity,
-                    child: loadLocalHTML(provider, storyContent, widget.title,
-                        widget.image, widget.date),
-                  ),
-                ],
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 71.5),
+                      width: double.infinity,
+                      child: loadLocalHTML(provider, storyContent, widget.title,
+                          widget.image, widget.date),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
-        )),
+            )),
       );
     });
   }

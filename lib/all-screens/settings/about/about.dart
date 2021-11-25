@@ -10,7 +10,6 @@ import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/loading_bar.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
-import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
@@ -29,7 +28,6 @@ class _AboutState extends State<About> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Provider.of<AboutController>(context, listen: false).startMonitoring();
@@ -49,72 +47,73 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return Consumer<AboutController>(
       builder: (context, provider, child) {
-        return SafeArea(
-          child: Scaffold(
-            body: Container(
-              child: Stack(
-                children: [
-                  Container(
-                    height: 60,
-                    color: RemoteConfigData.getBackgroundColor(),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            ClickSound.soundClose();
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 20),
-                            height: 80,
-                            child: Image(
-                              height: 35,
-                              width: 35,
-                              color: RemoteConfigData.getTextColor(),
-                              image: AssetImage("assets/images/v2_ic_back.png"),
-                            ),
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: RemoteConfigData.getBackgroundColor(),
+            elevation: 0,
+            toolbarHeight: 0.0,
+          ),
+          body: Container(
+            child: Stack(
+              children: [
+                Container(
+                  height: 60,
+                  color: RemoteConfigData.getBackgroundColor(),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          ClickSound.soundClose();
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 20),
+                          height: 80,
+                          child: Image(
+                            height: 35,
+                            width: 35,
+                            color: RemoteConfigData.getTextColor(),
+                            image: AssetImage("assets/images/v2_ic_back.png"),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: provider.data != ""
-                        ? Container(
-                      color: RemoteConfigData.getBackgroundColor(),
-                      margin: EdgeInsets.only(top: 60),
-                      child: WebViewPlus(
-                        onWebViewCreated: (controller) {
-                          webViewController = controller;
-                          controller.webViewController.clearCache();
-                          if (provider.isOnline) {
-                            getContent(provider.title, provider.data);
-                          } else {
-                            getContentOffline(
-                                provider.title, provider.data);
-                          }
-                        },
-                        onPageFinished: (url) {
-                          webViewController
-                              .getHeight()
-                              .then((double height) {
-                            setState(() {
-                              _height = height;
-                            });
-                          });
-                        },
-                        javascriptMode: JavascriptMode.unrestricted,
                       ),
-                    )
-                        : provider.isOnline
-                        ? Container(
-                      height: MediaQuery.of(context).size.height,
-                      child: Center(child: LoadingBar.spinkit),
-                    )
-                        : noInternetDialog(context),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                provider.data != ""
+                    ? Container(
+                  color: RemoteConfigData.getBackgroundColor(),
+                  margin: EdgeInsets.only(top: 60),
+                  child: WebViewPlus(
+                    onWebViewCreated: (controller) {
+                      webViewController = controller;
+                      controller.webViewController.clearCache();
+                      if (provider.isOnline) {
+                        getContent(provider.title, provider.data);
+                      } else {
+                        getContentOffline(
+                            provider.title, provider.data);
+                      }
+                    },
+                    onPageFinished: (url) {
+                      webViewController
+                          .getHeight()
+                          .then((double height) {
+                        setState(() {
+                          _height = height;
+                        });
+                      });
+                    },
+                    javascriptMode: JavascriptMode.unrestricted,
+                  ),
+                )
+                    : provider.isOnline
+                    ? Container(
+                  height: MediaQuery.of(context).size.height,
+                  child: Center(child: LoadingBar.spinkit),
+                )
+                    : noInternetDialog(context),
+              ],
             ),
           ),
         );

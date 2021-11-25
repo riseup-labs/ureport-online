@@ -27,6 +27,7 @@ class ConnectivityController with ChangeNotifier{
 
   }
 
+
   Future<void> initConnectivity() async {
     try{
       var status = await _connectivity.checkConnectivity();

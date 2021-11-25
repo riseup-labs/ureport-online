@@ -49,10 +49,11 @@ class _IntroScreenState extends State<IntroScreen> {
       },
     ];
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: currentPage == 0 ? AppColors.mainBgColor : currentPage == 1 ? AppColors.mainBgColor2 : AppColors.opinion_intro_back,
-        body: SizedBox(
+    return Scaffold(
+      backgroundColor: currentPage == 0 ? AppColors.mainBgColor : currentPage == 1 ? AppColors.mainBgColor2 : AppColors.opinion_intro_back,
+      body: Container(
+        margin: EdgeInsets.only(top: 0, bottom: 20),
+        child: SizedBox(
           width: double.infinity,
           child: Column(
             children: <Widget>[
@@ -132,6 +133,7 @@ class _IntroScreenState extends State<IntroScreen> {
       children: [
         Positioned(
           right: 30,
+          top: 30,
           child: Container(
             height: 100,
             child: Container(
@@ -145,20 +147,23 @@ class _IntroScreenState extends State<IntroScreen> {
             ),
           ),
         ),
-        PageView.builder(
-          onPageChanged: (value) {
-            setState(() {
-              currentPage = value;
-            });
-          },
-          itemCount: splashData.length,
-          itemBuilder: (context, index) => SplashContent(
-            image: splashData[index]["image"]!,
-            text: splashData[index]['text']!,
-            text2: splashData[index]['text2']!,
-            key: null,
+        Container(
+          margin: EdgeInsets.only(top: 40),
+          child: PageView.builder(
+            onPageChanged: (value) {
+              setState(() {
+                currentPage = value;
+              });
+            },
+            itemCount: splashData.length,
+            itemBuilder: (context, index) => SplashContent(
+              image: splashData[index]["image"]!,
+              text: splashData[index]['text']!,
+              text2: splashData[index]['text2']!,
+              key: null,
+            ),
+            controller: _pageController
           ),
-          controller: _pageController
         ),
       ],
     );

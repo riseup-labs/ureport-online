@@ -125,7 +125,7 @@ class SplashContent extends StatelessWidget {
           SizedBox(height: 130),
           Expanded(
             child: Container(
-              padding: EdgeInsets.only(top: devicePixelRatio == 3 ? 60 : 0),
+              padding: EdgeInsets.only(top: devicePixelRatio == 3 ? 80 : 0),
               width: double.infinity,
               child: Image.asset(
                 image,

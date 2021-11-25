@@ -38,55 +38,53 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     getFirebaseInitialMessage(context);
-
+    getfirebaseonApp(context);
     return Consumer<RemoteConfigController>(
       builder: (context, provider, child) {
         return Scaffold(
-          body: SafeArea(
-            child: Stack(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: double.infinity,
+          body: Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: Image(
+                  fit: BoxFit.fill,
+                  image: AssetImage("assets/images/v2_splash_screen2.png"),
+                ),
+              ),
+              Positioned(
+                bottom: 60,
+                right: 40,
+                child: Container(
+                  height: 65,
+                  width: 200,
                   child: Image(
                     fit: BoxFit.fill,
-                    image: AssetImage("assets/images/v2_splash_screen2.png"),
+                    image: AssetImage("assets/images/v2_logo_2.png"),
                   ),
                 ),
-                Positioned(
-                  bottom: 60,
-                  right: 40,
-                  child: Container(
-                    height: 65,
-                    width: 200,
-                    child: Image(
-                      fit: BoxFit.fill,
-                      image: AssetImage("assets/images/v2_logo_2.png"),
+              ),
+              Positioned(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Container(
+                          margin:
+                              EdgeInsets.only(top: 50, left: 30, right: 30),
+                          child: Text(
+                            AppLocalizations.of(context)!.splashText,
+                            style: TextStyle(
+                              fontSize: (AppLocalizations.of(context)!.splashText).length <= 28 ? 48 : 40,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          )),
                     ),
-                  ),
+                  ],
                 ),
-                Positioned(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                            margin:
-                                EdgeInsets.only(top: 40, left: 30, right: 30),
-                            child: Text(
-                              AppLocalizations.of(context)!.splashText,
-                              style: TextStyle(
-                                fontSize: (AppLocalizations.of(context)!.splashText).length <= 28 ? 48 : 40,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            )),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         );
       },
@@ -119,9 +117,21 @@ class _SplashScreenState extends State<SplashScreen> {
             .addMessageFromPushNotification(notificationmessage_terminatestate,remotemessage.notification!.title!);
         Provider.of<ChatController>(context, listen: false).isMessageCome =
             false;
+        print("Remote message : $remotemessage");
         senDToChat();
       } else {
+        print("Remote message : $remotemessage");
         senDToHome();
+      }
+    });
+  }
+
+  getfirebaseonApp(context) {
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? remoteMessage) {
+      print("Navigation screen called");
+      if(remoteMessage != null){
+        NavUtils.pushReplacement(context, Chat("notification"));
       }
     });
   }

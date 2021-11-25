@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
+import 'package:ureport_ecaro/all-screens/home/chat/Chat.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/model/messagehandler.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/database/database_helper.dart';
@@ -504,10 +505,12 @@ class ChatController extends ConnectivityController {
   }
 
   getfirebaseInitialmessage() {
-    print("Init called");
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? remotemessage) {
+
+      print("controller init called");
+
       if (remotemessage != null) {
         DateTime now = DateTime.now();
         String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
@@ -533,9 +536,10 @@ class ChatController extends ConnectivityController {
 // app background notification
   getfirebaseonApp(context) {
 
-    print("OnApp called");
-
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remotemessage) {
+
+      print("controller on App called");
+
       DateTime now = DateTime.now();
       String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
       List<dynamic> quicktypest;
@@ -552,7 +556,7 @@ class ChatController extends ConnectivityController {
           time: formattedDate);
       addMessage(notificationmessage);
       FirebaseNotificationService.display(remotemessage);
-      NavUtils.pushReplacement(context, NavigationScreen(1));
+      NavUtils.pushReplacement(context, Chat("notification"));
     });
   }
 }

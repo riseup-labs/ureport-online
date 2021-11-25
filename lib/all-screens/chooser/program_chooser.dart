@@ -50,9 +50,14 @@ class _ProgramChooserState extends State<ProgramChooser> {
 
     return Consumer<RemoteConfigController>(
       builder: (context, provider, child) {
-        return SafeArea(
-          child: Scaffold(
-            body: Container(
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            toolbarHeight: 0.0,
+          ),
+          body: SafeArea(
+            child: Container(
               child: Stack(
                 children: [
                   from == "more"
