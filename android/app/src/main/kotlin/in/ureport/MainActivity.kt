@@ -1,4 +1,4 @@
-package com.riseuplabs.ureport.ureport_ecaro
+package `in`.ureport
 
 import io.flutter.embedding.android.FlutterActivity
 

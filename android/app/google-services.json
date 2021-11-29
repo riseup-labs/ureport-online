@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:273616988374:android:f671a17053ca8d6db48177",
+        "mobilesdk_app_id": "1:273616988374:android:c327df5466da5123b48177",
         "android_client_info": {
-          "package_name": "com.riseuplabs.ureport.ureport_ecaro"
+          "package_name": "in.ureport"
         }
       },
       "oauth_client": [
@@ -29,6 +29,13 @@
             {
               "client_id": "273616988374-1jpra9i5v19sbr1qj1ful1m4lqkgtcb6.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "273616988374-9ptldpbb78kd037tdilldr4evo5tog3m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "in.ureport"
+              }
             }
           ]
         }

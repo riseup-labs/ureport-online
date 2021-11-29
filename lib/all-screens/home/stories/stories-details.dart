@@ -214,7 +214,6 @@ class _StoryDetailsState extends State<StoryDetails> {
 
   loadLocalHTML(StoryDetailsController provider, String content, String title,
       String image, String date) {
-    double _height = 1;
 
     return content == ""
         ? Container(
@@ -242,11 +241,6 @@ class _StoryDetailsState extends State<StoryDetails> {
             //       })
             // ]),
             onPageFinished: (url) {
-              webViewController.getHeight().then((double height) {
-                setState(() {
-                  _height = height;
-                });
-              });
               content = content.replaceAll("\"", "\'");
               content = content.replaceAll("\\", "");
             },

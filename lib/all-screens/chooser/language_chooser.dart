@@ -145,6 +145,10 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                               "عربي") {
                                             selected_language = "ar";
                                             provider_l.setLocale(new Locale('ar'));
+                                          }else if (dropdownValue ==
+                                              "Italiano") {
+                                            selected_language = "it";
+                                            provider_l.setLocale(new Locale('it'));
                                           } else {
                                             selected_language = "en";
                                             provider_l.setLocale(new Locale('en'));
@@ -160,6 +164,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                         'русский',
                                         'Española',
                                         'عربي',
+                                        'Italiano',
                                       ].map<DropdownMenuItem<String>>(
                                           (String value) {
                                         return DropdownMenuItem<String>(
@@ -200,6 +205,8 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                     provider_l.setLocale(new Locale('es'));
                                   } else if (selected_language == 'ar') {
                                     provider_l.setLocale(new Locale('ar'));
+                                  }else if (selected_language == 'it') {
+                                    provider_l.setLocale(new Locale('it'));
                                   } else {
                                     provider_l.setLocale(new Locale('en'));
                                   }
