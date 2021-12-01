@@ -89,11 +89,11 @@ class _StoryDetailsState extends State<StoryDetails> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: 55,
+                                      width: 50,
                                       child: IconButton(
                                         icon: Container(
                                             height: 60,
-                                            width: 120,
+                                            width: 115,
                                             child: Image(
                                               fit: BoxFit.fill,
                                               image: AssetImage(
@@ -193,15 +193,15 @@ class _StoryDetailsState extends State<StoryDetails> {
             Text(
               AppLocalizations.of(context)!.share,
               style: TextStyle(
-                  fontSize: 17, color: RemoteConfigData.getPrimaryColor()),
+                  fontSize: 15, color: RemoteConfigData.getPrimaryColor()),
             ),
             SizedBox(
               width: 5,
             ),
             Image(
               image: AssetImage("assets/images/ic_share.png"),
-              height: 20,
-              width: 20,
+              height: 17,
+              width: 17,
               color: RemoteConfigData.getPrimaryColor(),
             )
           ],
