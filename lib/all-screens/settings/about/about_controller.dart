@@ -31,8 +31,8 @@ class AboutController extends ConnectivityController{
       aboutData = apiresponsedata.data;
       data = aboutData!.results[0].content;
       title = aboutData!.results[0].title;
-      sp.setValue(SPUtil.ABOUT_DATA, aboutData!.results[0].content);
-      sp.setValue(SPUtil.ABOUT_TITLE, aboutData!.results[0].title);
+      sp.setValue("${SPUtil.ABOUT_DATA}_${sp.getValue(SPUtil.PROGRAMKEY)}", aboutData!.results[0].content);
+      sp.setValue("${SPUtil.ABOUT_TITLE}_${sp.getValue(SPUtil.PROGRAMKEY)}", aboutData!.results[0].title);
       notifyListeners();
       isLoading = false;
     }else{
@@ -48,8 +48,8 @@ class AboutController extends ConnectivityController{
       aboutData = apiresponsedata.data;
       data = aboutData!.results[0].content;
       title = aboutData!.results[0].title;
-      sp.setValue(SPUtil.ABOUT_DATA, aboutData!.results[0].content);
-      sp.setValue(SPUtil.ABOUT_TITLE, aboutData!.results[0].title);
+      sp.setValue("${SPUtil.ABOUT_DATA}_${sp.getValue(SPUtil.PROGRAMKEY)}", aboutData!.results[0].content);
+      sp.setValue("${SPUtil.ABOUT_TITLE}_${sp.getValue(SPUtil.PROGRAMKEY)}", aboutData!.results[0].title);
       notifyListeners();
       isLoading = false;
       isRefreshing = false;

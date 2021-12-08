@@ -404,7 +404,7 @@ class ChatController extends ConnectivityController {
               new DateFormat('dd-MM-yyyy hh:mm:ss a').parse(element.time);
           Duration sincetime = now.difference(valuetime);
 
-          if (sincetime.inSeconds >= 20) {
+          if (sincetime.inDays >= 5) {
             await deleteSingleMessage(element.time);
             notifyListeners();
           }

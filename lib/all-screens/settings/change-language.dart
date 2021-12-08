@@ -20,11 +20,11 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
 
   static const values = <String>[
     'English',
-    '中國人',
+    // '中國人',
     'français',
-    'русский',
+    // 'русский',
     'Española',
-    'عربي',
+    // 'عربي',
     'Italiano'
   ];
 
@@ -38,21 +38,29 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
 
     if (already_selected == "") {
       selectedValue = values.first;
-    } else if (already_selected == "en") {
+    }
+    else if (already_selected == "en") {
       selectedValue = values[0];
-    } else if (already_selected == "zh") {
+    }
+    // else if (already_selected == "zh") {
+    //   selectedValue = values[1];
+    // }
+    else if (already_selected == "fr") {
       selectedValue = values[1];
-    } else if (already_selected == "fr") {
+    }
+    // else if (already_selected == "ru") {
+    //   selectedValue = values[3];
+    // }
+    else if (already_selected == "es") {
       selectedValue = values[2];
-    } else if (already_selected == "ru") {
+    }
+    // else if (already_selected == "ar") {
+    //   selectedValue = values[5];
+    // }
+    else if (already_selected == "it") {
       selectedValue = values[3];
-    } else if (already_selected == "es") {
-      selectedValue = values[4];
-    } else if (already_selected == "ar") {
-      selectedValue = values[5];
-    }else if (already_selected == "it") {
-      selectedValue = values[6];
-    } else {
+    }
+    else {
       selectedValue = values.first;
     }
 
@@ -88,7 +96,11 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
             SizedBox(
               height: 20,
             ),
-            buildRadios(provider),
+            Expanded(
+              child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: buildRadios(provider)),
+            ),
           ],
         ),
       )),
@@ -129,17 +141,23 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                   print("Radio value : $value");
                                   if (selectedValue == values[0]) {
                                     setLocal(provider, "en");
-                                  } else if (selectedValue == values[1]) {
-                                    setLocal(provider, "zh");
-                                  } else if (this.selectedValue == values[2]) {
+                                  }
+                                  // else if (selectedValue == values[1]) {
+                                  //   setLocal(provider, "zh");
+                                  // }
+                                  else if (this.selectedValue == values[1]) {
                                     setLocal(provider, "fr");
-                                  } else if (this.selectedValue == values[3]) {
-                                    setLocal(provider, "ru");
-                                  } else if (this.selectedValue == values[4]) {
+                                  }
+                                  // else if (this.selectedValue == values[3]) {
+                                  //   setLocal(provider, "ru");
+                                  // }
+                                  else if (this.selectedValue == values[2]) {
                                     setLocal(provider, "es");
-                                  } else if (this.selectedValue == values[5]) {
-                                    setLocal(provider, "ar");
-                                  }else if (this.selectedValue == values[6]) {
+                                  }
+                                  // else if (this.selectedValue == values[5]) {
+                                  //   setLocal(provider, "ar");
+                                  // }
+                                  else if (this.selectedValue == values[3]) {
                                     setLocal(provider, "it");
                                   }
                                 },
@@ -166,23 +184,23 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                                 value.toString(),
                                             if (this.selectedValue == values[0])
                                               {setLocal(provider, "en")}
+                                            // else if (this.selectedValue ==
+                                            //     values[1])
+                                            //   {setLocal(provider, "zh")}
                                             else if (this.selectedValue ==
                                                 values[1])
-                                              {setLocal(provider, "zh")}
+                                              {setLocal(provider, "fr")}
+                                            // else if (this.selectedValue ==
+                                            //     values[3])
+                                            //   {setLocal(provider, "ru")}
                                             else if (this.selectedValue ==
                                                 values[2])
-                                              {setLocal(provider, "fr")}
+                                              {setLocal(provider, "es")}
+                                            // else if (this.selectedValue ==
+                                            //     values[5])
+                                            //   {setLocal(provider, "ar")}
                                             else if (this.selectedValue ==
                                                 values[3])
-                                              {setLocal(provider, "ru")}
-                                            else if (this.selectedValue ==
-                                                values[4])
-                                              {setLocal(provider, "es")}
-                                            else if (this.selectedValue ==
-                                                values[5])
-                                              {setLocal(provider, "ar")}
-                                            else if (this.selectedValue ==
-                                                values[6])
                                               {setLocal(provider, "it")}
                                           })
                                     }),
@@ -221,25 +239,32 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
     if (language == "en") {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "en");
       provider.setLocale(new Locale('en'));
-    } else if (language == "zh") {
-      sp.setValue(SPConstant.SELECTED_LANGUAGE, "zh");
-      provider.setLocale(new Locale('zh'));
-    } else if (language == "fr") {
+    }
+    // else if (language == "zh") {
+    //   sp.setValue(SPConstant.SELECTED_LANGUAGE, "zh");
+    //   provider.setLocale(new Locale('zh'));
+    // }
+    else if (language == "fr") {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "fr");
       provider.setLocale(new Locale('fr'));
-    } else if (language == "ru") {
-      sp.setValue(SPConstant.SELECTED_LANGUAGE, "ru");
-      provider.setLocale(new Locale('ru'));
-    } else if (language == "es") {
+    }
+    // else if (language == "ru") {
+    //   sp.setValue(SPConstant.SELECTED_LANGUAGE, "ru");
+    //   provider.setLocale(new Locale('ru'));
+    // }
+    else if (language == "es") {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "es");
       provider.setLocale(new Locale('es'));
-    } else if (language == "ar") {
-      sp.setValue(SPConstant.SELECTED_LANGUAGE, "ar");
-      provider.setLocale(new Locale('ar'));
-    }else if (language == "it") {
+    }
+    // else if (language == "ar") {
+    //   sp.setValue(SPConstant.SELECTED_LANGUAGE, "ar");
+    //   provider.setLocale(new Locale('ar'));
+    // }
+    else if (language == "it") {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "it");
       provider.setLocale(new Locale('it'));
-    } else {
+    }
+    else {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "en");
       provider.setLocale(new Locale('en'));
     }

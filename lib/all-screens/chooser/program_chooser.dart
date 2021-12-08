@@ -79,7 +79,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                         )
                       : Container(),
                   Container(
-                    margin: EdgeInsets.only(top: 80),
+                    margin: EdgeInsets.only(top: 50),
                     width: double.infinity,
                     child: Column(
                       children: [

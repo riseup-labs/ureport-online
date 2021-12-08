@@ -71,15 +71,16 @@ class SplashContent extends StatelessWidget {
           )
         ],
       ) :
-      text == AppLocalizations.of(context)!.stories?
-          //Chat
+
+      //Chat
+      text == AppLocalizations.of(context)!.chat?
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 130),
+          SizedBox(height: 160),
           Expanded(
             child: Container(
-              padding: EdgeInsets.only(left: 30, right: 30, top: 30),
+              padding: EdgeInsets.only(left: 30, right: 30, top: 50),
               child: Image.asset(
                 image,
                 fit: BoxFit.fill,
@@ -118,11 +119,12 @@ class SplashContent extends StatelessWidget {
           )
         ],
       ) :
-          //Opinion
+
+      //Opinion
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 130),
+          SizedBox(height: 170),
           Expanded(
             child: Container(
               padding: EdgeInsets.only(top: devicePixelRatio == 3 ? 80 : 0),

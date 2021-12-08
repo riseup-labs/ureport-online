@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
+import 'package:ureport_ecaro/all-screens/home/stories/utils/story_details_utils.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/loading_bar.dart';
@@ -33,9 +34,9 @@ class _AboutState extends State<About> {
     Provider.of<AboutController>(context, listen: false).startMonitoring();
 
     Provider.of<AboutController>(context, listen: false).data =
-        sp.getValueNoNull(SPUtil.ABOUT_DATA);
+        sp.getValueNoNull("${SPUtil.ABOUT_DATA}_${sp.getValue(SPUtil.PROGRAMKEY)}");
     Provider.of<AboutController>(context, listen: false).title =
-        sp.getValueNoNull(SPUtil.ABOUT_TITLE);
+        sp.getValueNoNull("${SPUtil.ABOUT_TITLE}_${sp.getValue(SPUtil.PROGRAMKEY)}");
 
     Provider.of<AboutController>(context, listen: false).aboutData = null;
 
@@ -189,14 +190,15 @@ class _AboutState extends State<About> {
     String final_content = '''
     <!ECOTYPE html>
     <html> 
-    <style>  
+    <style>
+    ${sp.getValue(SPUtil.PROGRAMKEY) == "Global" ? StoryUtils.styleItalia : sp.getValue(SPUtil.PROGRAMKEY) == "Italia" ? StoryUtils.styleItalia : StoryUtils.styleOnTheMove}  
     body{
     background-color:${RemoteConfigData.getWebBackgroundColor()};
       margin: 0;
       padding: 0;
     }
     .content_body{
-    width: 80% !important;
+    width: 90% !important;
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -282,14 +284,15 @@ class _AboutState extends State<About> {
     String final_content = '''
     <!ECOTYPE html>
     <html> 
-    <style>  
+    <style>
+    ${sp.getValue(SPUtil.PROGRAMKEY) == "Global" ? StoryUtils.styleItalia : sp.getValue(SPUtil.PROGRAMKEY) == "Italia" ? StoryUtils.styleItalia : StoryUtils.styleOnTheMove}  
     body{
     background-color:${RemoteConfigData.getWebBackgroundColor()};
       margin: 0;
       padding: 0;
     }
     .content_body{
-    width: 80% !important;
+    width: 90% !important;
     margin-left: auto;
     margin-right: auto;
     display: block;

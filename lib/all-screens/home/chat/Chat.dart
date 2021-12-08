@@ -781,45 +781,45 @@ class _ChatState extends State<Chat> {
                                         children: [
                                           provider.firstmessageStatus() == true
                                               ? Container(
-                                                  padding: EdgeInsets.only(
-                                                      left: 12,
-                                                      right: 12,
-                                                      top: 5,
-                                                      bottom: 5),
-                                                  decoration: BoxDecoration(
-                                                      color: Color(0xffCCCCCC),
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  20))),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Icon(
-                                                        Icons
-                                                            .not_interested_rounded,
-                                                        size: 12,
-                                                        color: Colors.black,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        AppLocalizations.of(
-                                                                context)!
-                                                            .previous_message_deleted,
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                      ),
-                                                    ],
-                                                  ),
+                                                  // padding: EdgeInsets.only(
+                                                  //     left: 12,
+                                                  //     right: 12,
+                                                  //     top: 5,
+                                                  //     bottom: 5),
+                                                  // decoration: BoxDecoration(
+                                                  //     color: Color(0xffCCCCCC),
+                                                  //     borderRadius:
+                                                  //         BorderRadius.all(
+                                                  //             Radius.circular(
+                                                  //                 20))),
+                                                  // child: Row(
+                                                  //   mainAxisSize:
+                                                  //       MainAxisSize.min,
+                                                  //   children: [
+                                                  //     Icon(
+                                                  //       Icons
+                                                  //           .not_interested_rounded,
+                                                  //       size: 12,
+                                                  //       color: Colors.black,
+                                                  //     ),
+                                                  //     SizedBox(
+                                                  //       width: 5,
+                                                  //     ),
+                                                  //     Text(
+                                                  //       AppLocalizations.of(
+                                                  //               context)!
+                                                  //           .previous_message_deleted,
+                                                  //       style: TextStyle(
+                                                  //           color: Colors.black,
+                                                  //           fontSize: 16,
+                                                  //           fontWeight:
+                                                  //               FontWeight
+                                                  //                   .w500),
+                                                  //       textAlign:
+                                                  //           TextAlign.left,
+                                                  //     ),
+                                                  //   ],
+                                                  // ),
                                                 )
                                               : SizedBox(),
                                           SizedBox(

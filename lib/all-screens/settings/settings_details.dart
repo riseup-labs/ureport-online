@@ -85,213 +85,85 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
       body: SafeArea(
         child: Column(
           children: [
-            SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      ClickSound.soundClose();
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 20),
-                      height: 80,
-                      child: Image(
-                        height: 35,
-                        width: 35,
-                        color: Colors.black,
-                        image: AssetImage("assets/images/v2_ic_back.png"),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 30, right: 30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "${AppLocalizations.of(context)!.settings}",
-                          style: TextStyle(
-                              fontSize: 28, fontWeight: FontWeight.w700),
-                        ),
-                        Container(
+            Expanded(
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        ClickSound.soundClose();
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 20),
+                        height: 80,
+                        child: Image(
                           height: 35,
                           width: 35,
-                          child: Image(
-                            color: RemoteConfigData.getTextColor(),
-                            image:
-                            AssetImage("assets/images/v2_ic_settings.png"),
+                          color: Colors.black,
+                          image: AssetImage("assets/images/v2_ic_back.png"),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 30, right: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${AppLocalizations.of(context)!.settings}",
+                            style: TextStyle(
+                                fontSize: 28, fontWeight: FontWeight.w700),
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Platform.isIOS?
-                  Container(
-                    padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
-                    margin: EdgeInsets.only(
-                        left: 20, right: 20, top: 15, bottom: 7),
-                    decoration: BoxDecoration(
-                      color: RemoteConfigData.getBackgroundColor(),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.notification,
-                          style: TextStyle(
+                          Container(
+                            height: 35,
+                            width: 35,
+                            child: Image(
                               color: RemoteConfigData.getTextColor(),
-                              fontSize: 21,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Image.asset(
-                                  "assets/images/v2_ic_sound.png",
-                                  height: 18,
-                                  width: 18,
-                                  color: RemoteConfigData.getTextColor(),
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  "${AppLocalizations.of(context)!.on}/${AppLocalizations.of(context)!.off}",
-                                  style: TextStyle(
-                                      color: RemoteConfigData.getTextColor(),
-                                      fontSize: 16),
-                                ),
-                              ],
+                              image:
+                              AssetImage("assets/images/v2_ic_settings.png"),
                             ),
-                            Switch(
-                                activeColor: Colors.white,
-                                value: statesNotification,
-                                onChanged: (value) {
-                                  ClickSound.soundTap();
-                                  requestPermission();
-                                  // if(!statesNotification){
-                                  //   requestPermission();
-                                  // }
-                                  // statesNotification = !statesNotification;
-                                  // setState(() {});
-                                }),
-                          ],
-                        ),
-                      ],
+                          )
+                        ],
+                      ),
                     ),
-                  ):Container(),
-                  Container(
-                    padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
-                    margin: EdgeInsets.only(
-                        left: 20, right: 20, top: 15, bottom: 7),
-                    decoration: BoxDecoration(
-                      color: RemoteConfigData.getBackgroundColor(),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    SizedBox(
+                      height: 10,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.sound,
-                          style: TextStyle(
-                              color: RemoteConfigData.getTextColor(),
-                              fontSize: 21,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Image.asset(
-                                  "assets/images/v2_ic_sound.png",
-                                  height: 18,
-                                  width: 18,
-                                  color: RemoteConfigData.getTextColor(),
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  "${AppLocalizations.of(context)!.on}/${AppLocalizations.of(context)!.off}",
-                                  style: TextStyle(
-                                      color: RemoteConfigData.getTextColor(),
-                                      fontSize: 16),
-                                ),
-                              ],
-                            ),
-                            Switch(
-                                activeColor: Colors.white,
-                                value: statesSound,
-                                onChanged: (value) {
-                                  ClickSound.soundTap();
-                                  setState(() {
-                                    statesSound = value;
-                                    spservice.setValue(
-                                        SPUtil.SOUND, value.toString());
-                                  });
-                                }),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        left: 20, right: 20, top: 20, bottom: 20),
-                    margin: EdgeInsets.only(
-                        left: 20, right: 20, top: 15, bottom: 10),
-                    decoration: BoxDecoration(
-                      color: RemoteConfigData.getBackgroundColor(),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.chat,
-                          style: TextStyle(
-                              color: RemoteConfigData.getTextColor(),
-                              fontSize: 21,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Row(
+                    Platform.isIOS?
+                    Container(
+                      padding:
+                      EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+                      margin: EdgeInsets.only(
+                          left: 20, right: 20, top: 15, bottom: 7),
+                      decoration: BoxDecoration(
+                        color: RemoteConfigData.getBackgroundColor(),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            AppLocalizations.of(context)!.notification,
+                            style: TextStyle(
+                                color: RemoteConfigData.getTextColor(),
+                                fontSize: 21,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
                                 children: [
                                   Image.asset(
                                     "assets/images/v2_ic_sound.png",
@@ -302,44 +174,65 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
                                   SizedBox(
                                     width: 8,
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      "${AppLocalizations.of(context)!.five_days_delete_text}",
-                                      style: TextStyle(
-                                          color:
-                                          RemoteConfigData.getTextColor(),
-                                          fontSize: 16),
-                                    ),
+                                  Text(
+                                    "${AppLocalizations.of(context)!.on}/${AppLocalizations.of(context)!.off}",
+                                    style: TextStyle(
+                                        color: RemoteConfigData.getTextColor(),
+                                        fontSize: 16),
                                   ),
                                 ],
                               ),
-                            ),
-                            Switch(
-                                activeColor: Colors.white,
-                                value: statesf,
-                                onChanged: (value) {
-                                  ClickSound.soundTap();
-                                  setState(() {
-                                    statesf = value;
-                                    spservice.setValue(
-                                        "${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.DELETE5DAYS}",
-                                        value.toString());
-                                  });
-                                }),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Row(
+                              Switch(
+                                  activeColor: Colors.white,
+                                  value: statesNotification,
+                                  onChanged: (value) {
+                                    ClickSound.soundTap();
+                                    requestPermission();
+                                    // if(!statesNotification){
+                                    //   requestPermission();
+                                    // }
+                                    // statesNotification = !statesNotification;
+                                    // setState(() {});
+                                  }),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ):Container(),
+                    Container(
+                      padding:
+                      EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+                      margin: EdgeInsets.only(
+                          left: 20, right: 20, top: 15, bottom: 7),
+                      decoration: BoxDecoration(
+                        color: RemoteConfigData.getBackgroundColor(),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            AppLocalizations.of(context)!.sound,
+                            style: TextStyle(
+                                color: RemoteConfigData.getTextColor(),
+                                fontSize: 21,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
                                 children: [
                                   Image.asset(
-                                    "assets/images/v2_ic_setting_chat.png",
+                                    "assets/images/v2_ic_sound.png",
                                     height: 18,
                                     width: 18,
                                     color: RemoteConfigData.getTextColor(),
@@ -347,52 +240,160 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
                                   SizedBox(
                                     width: 8,
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .remove_all_message_text,
-                                      style: TextStyle(
-                                          color:
-                                          RemoteConfigData.getTextColor(),
-                                          fontSize: 16),
-                                    ),
+                                  Text(
+                                    "${AppLocalizations.of(context)!.on}/${AppLocalizations.of(context)!.off}",
+                                    style: TextStyle(
+                                        color: RemoteConfigData.getTextColor(),
+                                        fontSize: 16),
                                   ),
                                 ],
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                ClickSound.soundClick();
-                                deleteMessageDialog();
-                              },
-                              child: Container(
-                                height: 25,
-                                padding: EdgeInsets.only(
-                                    left: 15, right: 15, top: 3, bottom: 3),
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                                  color: Colors.white,
-                                ),
-                                child: Center(
-                                    child: Text(
-                                      AppLocalizations.of(context)!.remove,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                              Switch(
+                                  activeColor: Colors.white,
+                                  value: statesSound,
+                                  onChanged: (value) {
+                                    ClickSound.soundTap();
+                                    setState(() {
+                                      statesSound = value;
+                                      spservice.setValue(
+                                          SPUtil.SOUND, value.toString());
+                                    });
+                                  }),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    Container(
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 20, bottom: 20),
+                      margin: EdgeInsets.only(
+                          left: 20, right: 20, top: 15, bottom: 10),
+                      decoration: BoxDecoration(
+                        color: RemoteConfigData.getBackgroundColor(),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.chat,
+                            style: TextStyle(
+                                color: RemoteConfigData.getTextColor(),
+                                fontSize: 21,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/v2_ic_sound.png",
+                                      height: 18,
+                                      width: 18,
+                                      color: RemoteConfigData.getTextColor(),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "${AppLocalizations.of(context)!.five_days_delete_text}",
+                                        style: TextStyle(
+                                            color:
+                                            RemoteConfigData.getTextColor(),
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Switch(
+                                  activeColor: Colors.white,
+                                  value: statesf,
+                                  onChanged: (value) {
+                                    ClickSound.soundTap();
+                                    setState(() {
+                                      statesf = value;
+                                      spservice.setValue(
+                                          "${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.DELETE5DAYS}",
+                                          value.toString());
+                                    });
+                                  }),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/v2_ic_setting_chat.png",
+                                      height: 18,
+                                      width: 18,
+                                      color: RemoteConfigData.getTextColor(),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        AppLocalizations.of(context)!
+                                            .remove_all_message_text,
+                                        style: TextStyle(
+                                            color:
+                                            RemoteConfigData.getTextColor(),
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  ClickSound.soundClick();
+                                  deleteMessageDialog();
+                                },
+                                child: Container(
+                                  height: 25,
+                                  padding: EdgeInsets.only(
+                                      left: 15, right: 15, top: 3, bottom: 3),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
+                                    color: Colors.white,
+                                  ),
+                                  child: Center(
+                                      child: Text(
+                                        AppLocalizations.of(context)!.remove,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            Spacer(),
             showVersion(),
           ],
         ),

@@ -146,6 +146,7 @@ class StatisticsHeader {
                   Text(
                     AppLocalizations.of(context)!.response_rate,
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),

@@ -126,30 +126,37 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                           if (dropdownValue == "English") {
                                             selected_language = "en";
                                             provider_l.setLocale(new Locale('en'));
-                                          } else if (dropdownValue == "中國人") {
-                                            selected_language = "zh";
-                                            provider_l.setLocale(new Locale('zh'));
-                                          } else if (dropdownValue ==
+                                          }
+                                          // else if (dropdownValue == "中國人") {
+                                          //   selected_language = "zh";
+                                          //   provider_l.setLocale(new Locale('zh'));
+                                          // }
+                                          else if (dropdownValue ==
                                               "français") {
                                             selected_language = "fr";
                                             provider_l.setLocale(new Locale('fr'));
-                                          } else if (dropdownValue ==
-                                              "русский") {
-                                            selected_language = "ru";
-                                            provider_l.setLocale(new Locale('ru'));
-                                          } else if (dropdownValue ==
+                                          }
+                                          // else if (dropdownValue ==
+                                          //     "русский") {
+                                          //   selected_language = "ru";
+                                          //   provider_l.setLocale(new Locale('ru'));
+                                          // }
+                                          else if (dropdownValue ==
                                               "Española") {
                                             selected_language = "es";
                                             provider_l.setLocale(new Locale('es'));
-                                          } else if (dropdownValue ==
-                                              "عربي") {
-                                            selected_language = "ar";
-                                            provider_l.setLocale(new Locale('ar'));
-                                          }else if (dropdownValue ==
+                                          }
+                                          // else if (dropdownValue ==
+                                          //     "عربي") {
+                                          //   selected_language = "ar";
+                                          //   provider_l.setLocale(new Locale('ar'));
+                                          // }
+                                          else if (dropdownValue ==
                                               "Italiano") {
                                             selected_language = "it";
                                             provider_l.setLocale(new Locale('it'));
-                                          } else {
+                                          }
+                                          else {
                                             selected_language = "en";
                                             provider_l.setLocale(new Locale('en'));
                                           }
@@ -159,11 +166,11 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                       },
                                       items: <String>[
                                         'English',
-                                        '中國人',
+                                        // '中國人',
                                         'français',
-                                        'русский',
+                                        // 'русский',
                                         'Española',
-                                        'عربي',
+                                        // 'عربي',
                                         'Italiano',
                                       ].map<DropdownMenuItem<String>>(
                                           (String value) {
@@ -195,19 +202,26 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                       LocaleProvider>(context, listen: false);
                                   if (selected_language == 'en') {
                                     provider_l.setLocale(new Locale('en'));
-                                  } else if (selected_language == 'zh') {
-                                    provider_l.setLocale(new Locale('zh'));
-                                  } else if (selected_language == 'fr') {
+                                  }
+                                  // else if (selected_language == 'zh') {
+                                  //   provider_l.setLocale(new Locale('zh'));
+                                  // }
+                                  else if (selected_language == 'fr') {
                                     provider_l.setLocale(new Locale('fr'));
-                                  } else if (selected_language == 'ru') {
-                                    provider_l.setLocale(new Locale('ru'));
-                                  } else if (selected_language == 'es') {
+                                  }
+                                  // else if (selected_language == 'ru') {
+                                  //   provider_l.setLocale(new Locale('ru'));
+                                  // }
+                                  else if (selected_language == 'es') {
                                     provider_l.setLocale(new Locale('es'));
-                                  } else if (selected_language == 'ar') {
-                                    provider_l.setLocale(new Locale('ar'));
-                                  }else if (selected_language == 'it') {
+                                  }
+                                  // else if (selected_language == 'ar') {
+                                  //   provider_l.setLocale(new Locale('ar'));
+                                  // }
+                                  else if (selected_language == 'it') {
                                     provider_l.setLocale(new Locale('it'));
-                                  } else {
+                                  }
+                                  else {
                                     provider_l.setLocale(new Locale('en'));
                                   }
                                   _sp.setValue(SPConstant.SELECTED_LANGUAGE,
