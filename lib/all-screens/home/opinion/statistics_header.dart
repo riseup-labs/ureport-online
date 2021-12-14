@@ -48,16 +48,25 @@ class StatisticsHeader {
       guysResponseRate = (guysSet / gendeTotal) * 100;
       maleResponseRate = (maleSet / gendeTotal) * 100;
       femaleResponseRate = (femaleSet / gendeTotal) * 100;
-    } else {
-      int femaleSet = question.resultsByGender[1].resultsSet;
-      int maleSet = question.resultsByGender[0].resultsSet;
+    }
+    else {
+      if(question.resultsByGender.length > 0){
+        int femaleSet = question.resultsByGender[1].resultsSet;
+        int maleSet = question.resultsByGender[0].resultsSet;
 
-      maleRespondent = maleSet;
-      femaleRespondent = femaleSet;
-      int genderTotal = maleSet + femaleSet;
+        maleRespondent = maleSet;
+        femaleRespondent = femaleSet;
+        int genderTotal = maleSet + femaleSet;
 
-      maleResponseRate = (maleSet / genderTotal) * 100;
-      femaleResponseRate = (femaleSet / genderTotal) * 100;
+        maleResponseRate = (maleSet / genderTotal) * 100;
+        femaleResponseRate = (femaleSet / genderTotal) * 100;
+      }else{
+        maleRespondent = 0;
+        femaleRespondent = 0;
+
+        maleResponseRate = 0;
+        femaleResponseRate = 0;
+      }
     }
 
     String latest_opinion_id = sp.getValue("${sp.getValue(SPUtil.PROGRAMKEY)}_latest_opinion");
@@ -177,7 +186,7 @@ class StatisticsHeader {
                           height: 5,
                         ),
                         Text(
-                          "${question.resultsByGender[0].label}",
+                          "${question.resultsByGender.length > 0 ?question.resultsByGender[0].label : "-"}",
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w700),
                         ),
@@ -230,7 +239,7 @@ class StatisticsHeader {
                           height: 5,
                         ),
                         Text(
-                          "${question.resultsByGender[1].label}",
+                          "${question.resultsByGender.length > 0 ?question.resultsByGender[1].label : "-"}",
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w700),
                         ),
@@ -284,7 +293,7 @@ class StatisticsHeader {
                                 height: 5,
                               ),
                               Text(
-                                "${question.resultsByGender[2].label}",
+                                "${question.resultsByGender.length > 0 ? question.resultsByGender[2].label : "-"}",
                                 style: TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w700),
                               ),

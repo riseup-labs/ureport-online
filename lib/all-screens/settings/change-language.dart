@@ -23,7 +23,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
     // '中國人',
     'français',
     // 'русский',
-    'Española',
+    'Español',
     // 'عربي',
     'Italiano'
   ];

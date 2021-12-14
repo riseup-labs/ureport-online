@@ -15,6 +15,8 @@ import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'opinion_controller.dart';
+import 'opinion_screen.dart';
+import 'opinion_screen_from_search.dart';
 
 FloatingSearchBarController _floatingSearchBarController =
 FloatingSearchBarController();
@@ -278,7 +280,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
               ClickSound.soundClick();
               _floatingSearchBarController.clear();
               provider.opinionID = item.id;
-              NavUtils.pushAndRemoveUntil(context, NavigationScreen(2));
+              NavUtils.push(context, OpinionScreenFromSearch());
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 10, right: 17, bottom: 15),

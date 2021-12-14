@@ -193,7 +193,7 @@ class _StoryDetailsState extends State<StoryDetails> {
             Text(
               AppLocalizations.of(context)!.share,
               style: TextStyle(
-                  fontSize: 15, color: RemoteConfigData.getPrimaryColor()),
+                  fontSize: 17, color: RemoteConfigData.getPrimaryColor()),
             ),
             SizedBox(
               width: 5,

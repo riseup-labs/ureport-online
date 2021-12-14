@@ -285,7 +285,7 @@ class _StorySearchState extends State<StorySearch> {
               ClickSound.soundTap();
               _floatingSearchBarController.clear();
               _floatingSearchBarController.close();
-              NavUtils.pushReplacement(
+              NavUtils.push(
                   context,
                   StoryDetails(item.id.toString(), item.title.toString(),
                       item.image, item.date));

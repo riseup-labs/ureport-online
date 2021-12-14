@@ -70,6 +70,21 @@ class RemoteConfigData{
     return url;
   }
 
+  static getOpinionShareUrl(){
+    var sp = locator<SPUtil>();
+    String program = sp.getValue(SPUtil.PROGRAMKEY);
+
+    String url = "";
+    ResponseRemoteConfigData data = getAllData();
+
+    data.programs.forEach((element) {
+      if(element.name == program){
+        url = element.opinionShareUrl;
+      }
+    });
+    return url;
+  }
+
   static getLargeIcon(){
     var sp = locator<SPUtil>();
     String program = sp.getValue(SPUtil.PROGRAMKEY);

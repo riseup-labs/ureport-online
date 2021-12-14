@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/opinion_search.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
@@ -19,16 +20,16 @@ import 'model/response_opinions.dart' as questionArray;
 import 'opinion_item.dart';
 import 'statistics_header.dart';
 
-class Opinion extends StatefulWidget {
-  const Opinion({Key? key}) : super(key: key);
+class OpinionScreenFromSearch extends StatefulWidget {
+  const OpinionScreenFromSearch({Key? key}) : super(key: key);
 
   @override
-  _OpinionState createState() => _OpinionState();
+  _OpinionScreenFromSearchState createState() => _OpinionScreenFromSearchState();
 }
 
 var count = 0;
 
-class _OpinionState extends State<Opinion> {
+class _OpinionScreenFromSearchState extends State<OpinionScreenFromSearch> {
   var sp = locator<SPUtil>();
   List<Color> colors = RemoteConfigData.getSecondaryColorList();
   int colorNumber = 0;
@@ -52,64 +53,100 @@ class _OpinionState extends State<Opinion> {
     }
 
     return Consumer<OpinionController>(builder: (context, provider, child) {
-      var _futureOpinion = provider.getOpinionsFromLocal(sp.getValue(SPUtil.PROGRAMKEY), 0);
+      var _futureOpinion = provider.getOpinionsFromLocal(sp.getValue(SPUtil.PROGRAMKEY), provider.opinionID);
       return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            toolbarHeight: 0.0,
+          ),
           body: SafeArea(
             child: Container(
         color: Colors.white,
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        TopBar.getTopBar(AppLocalizations.of(context)!.opinions),
+        Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 15),
+              height: 70,
+              color: Colors.white,
+              child: Row(
+                children: [
+                  Expanded(flex: 1, child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 50,
+                          child: IconButton(
+                            icon: Container(
+                                height: 60,
+                                width: 115,
+                                child: Image(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage(
+                                      "assets/images/v2_ic_back.png"),
+                                )),
+                            color: Colors.black,
+                            onPressed: () {
+                              Navigator.pop(context);
+                              ClickSound.soundClose();
+                            },
+                          ),
+                        ),
+                        Expanded(
+                            child: Container(
+                              child: Center(
+                                child: getShareButton("${provider.opinionID}"),
+                              ),
+                            )
+                        )
+
+                      ],
+                    ),
+                  )),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      child: CustomPaint(
+                        painter: CustomBackground(),
+                        child: Container(
+                          height: 80,
+                          child: Container(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Center(
+                              child: Text(
+                                AppLocalizations.of(context)!.opinions,
+                                style: TextStyle(
+                                    fontSize: 26.0,
+                                    color:
+                                    RemoteConfigData.getTextColor(),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Divider(
+                height: 1,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
         Container(
             child: Divider(
               height: 1,
               color: Colors.grey[600],
-            ),
-        ),
-        SizedBox(
-            height: 5,
-        ),
-        provider.isSyncing
-              ? Container(
-                  height: 5,
-                  padding: EdgeInsets.only(left: 13, right: 13),
-                  child: LinearProgressIndicator(
-                    color: RemoteConfigData.getPrimaryColor(),
-                  ),
-                )
-              : Container(),
-        Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child: GestureDetector(
-              onTap: () {
-                ClickSound.soundClick();
-                NavUtils.push(context, OpinionSearch());
-              },
-              child: Card(
-                elevation: 2,
-                child: Container(
-                  height: 40,
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.search,
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
-                        ),
-                        Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.grey,
-                          size: 38,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
             ),
         ),
         SizedBox(
@@ -213,5 +250,36 @@ class _OpinionState extends State<Opinion> {
     } else {
       return ShowSnackBar.showNoInternetMessage(context);
     }
+  }
+
+  getShareButton(String id) {
+    return GestureDetector(
+      onTap: () async {
+        ClickSound.soundClick();
+        await Share.share("${RemoteConfigData.getOpinionShareUrl()}" + id);
+      },
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              AppLocalizations.of(context)!.share,
+              style: TextStyle(
+                  fontSize: 17, color: RemoteConfigData.getPrimaryColor()),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Image(
+              image: AssetImage("assets/images/ic_share.png"),
+              height: 17,
+              width: 17,
+              color: RemoteConfigData.getPrimaryColor(),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

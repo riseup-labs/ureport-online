@@ -34,6 +34,7 @@ class Program {
     required this.channelId,
     required this.channelHost,
     required this.storyShareUrl,
+    required this.opinionShareUrl,
     required this.largeIcon,
     required this.smallIcon,
     required this.aboutUrl,
@@ -51,6 +52,7 @@ class Program {
   String channelId;
   String channelHost;
   String storyShareUrl;
+  String opinionShareUrl;
   String largeIcon;
   String smallIcon;
   String aboutUrl;
@@ -68,6 +70,7 @@ class Program {
     channelId: json["channel_id"],
     channelHost: json["channel_host"],
     storyShareUrl: json["story_share_url"],
+    opinionShareUrl: json["opinion_share_url"],
     largeIcon: json["large_icon"],
     smallIcon: json["small_icon"],
     aboutUrl: json["about_url"],
@@ -86,6 +89,7 @@ class Program {
     "channel_id": channelId,
     "channel_host": channelHost,
     "story_share_url": storyShareUrl,
+    "opinion_share_url": opinionShareUrl,
     "large_icon": largeIcon,
     "small_icon": smallIcon,
     "about_url": aboutUrl,
