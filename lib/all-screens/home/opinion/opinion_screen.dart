@@ -144,7 +144,7 @@ class _OpinionState extends State<Opinion> {
                                       questionList.length > 0
                                           ? StatisticsHeader
                                               .getHeadingStatistics(
-                                                  questionList[0],
+                                                  questionList.first,
                                                   opinions![0],
                                                   provider,
                                       sp.getValue(SPUtil.PROGRAMKEY),context)

@@ -58,65 +58,64 @@ class TopBar {
       child: Row(
         children: [
           Expanded(
-            flex: 1,
             child: Container(
-                margin: EdgeInsets.only(top: 4),
+                margin: EdgeInsets.only(top: 4,left: 20),
                 child: CachedNetworkImage(
                   imageUrl: RemoteConfigData.getLargeIcon(),
-                  height: 30,
-                  width: 150,
-                )),
+                ),
+              constraints:BoxConstraints(maxHeight: 30, maxWidth: MediaQuery.of(context).size.width/3),
+            ),
           ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              child: CustomPaint(
-                painter: CustomBackground(),
+          Container(
+            child: CustomPaint(
+              painter: CustomBackground(),
+              child: Container(
+                padding: EdgeInsets.only(left: 40),
+                height: 80,
                 child: Container(
-                  height: 80,
-                  child: Container(
-                    padding: EdgeInsets.only(right: 10),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            title,
-                            style: TextStyle(
-                                fontSize: title.length <= 4 ? 26.0 : 21.0,
-                                color: RemoteConfigData.getTextColor(),
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.clear,
-                              size: 30,
+                  padding: EdgeInsets.only(right: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                              fontSize: title.length <= 4 ? 26.0 : 21.0,
                               color: RemoteConfigData.getTextColor(),
-                            ),
-                            onPressed: () {
-                              ClickSound.soundClose();
-                              //Detect where this page called
-                              if (from == "Home") {
-                                Provider.of<ChatController>(context,
-                                        listen: false)
-                                    .selectall = false;
-                                Navigator.pop(context);
-                              } else {
-                                NavUtils.pushAndRemoveUntil(
-                                    context, NavigationScreen(0));
-                              }
-                            },
-                          )
-                        ],
+                              fontWeight: FontWeight.bold),
+                        ),
+
                       ),
-                    ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.clear,
+                          size: 30,
+                          color: RemoteConfigData.getTextColor(),
+                        ),
+                        onPressed: () {
+                          ClickSound.soundClose();
+                          //Detect where this page called
+                          if (from == "Home") {
+                            Provider.of<ChatController>(context,
+                                    listen: false)
+                                .selectall = false;
+                            Navigator.pop(context);
+                          } else {
+                            NavUtils.pushAndRemoveUntil(
+                                context, NavigationScreen(0));
+                          }
+                        },
+                      )
+                    ],
                   ),
                 ),
               ),
             ),
+              constraints:BoxConstraints(minHeight: 80, minWidth: MediaQuery.of(context).size.width/2)
           ),
         ],
       ),

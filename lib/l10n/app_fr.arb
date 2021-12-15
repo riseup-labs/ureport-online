@@ -1,61 +1,226 @@
-
 {
+    "stories": "Articles",
+    "@stories": {
+        "description": "Stories"
+    },
     "skip": "Sauter",
-    "next": "Prochain",
-    "stories": "Histoires",
-    "intro_text1": "Lisez les derniers blogs U-Report et restez informé",
-    "chat": "Discuter",
-    "intro_text2": "Participez à des sondages et accédez à des chatbots interactifs sur des sujets qui vous intéressent",
-    "opinions": "Des avis",
-    "intro_text3": "Afficher les résultats des sondages et partager les résultats",
-    "welcome": "Bienvenu",
+    "@skip": {
+        "description": "Skip"
+    },
+    "next": "Suivant",
+    "@next": {
+        "description": "Next"
+    },
+    "intro_text1": "Lisez les derniers articles U-Report et restez informé",
+    "@intro_text1": {
+        "description": "Read the latest U-Report blogs and stay informed"
+    },
+    "chat": "Messagerie",
+    "@chat": {
+        "description": "Chat"
+    },
+    "intro_text2": "Participez à des sondages et accédez à de l'information gratuite sur des sujets qui vous intéressent",
+    "@intro_text2": {
+        "description": "Participate in polls and access to interactive chatbots about topics you care about"
+    },
+    "opinions": "Sondages",
+    "@opinions": {
+        "description": "Opinions"
+    },
+    "intro_text3": "Afficher et/ou partager les résultats des sondages",
+    "@intro_text3": {
+        "description": "View polls results and share the findings"
+    },
+    "welcome": "Bienvenue",
+    "@welcome": {
+        "description": "Welcome"
+    },
     "continu": "Continuer",
-    "more": "Suite",
+    "@continu": {
+        "description": "Continue"
+    },
+    "more": "Plus de détails",
+    "@more": {
+        "description": "More"
+    },
     "choose_program": "Sélectionnez le pays/programme U-Report",
-    "enter_message": "Entrez le texte ici...",
-
+    "@choose_program": {
+        "description": "Select U-Report Program"
+    },
+    "enter_message": "Tapez le texte ici...",
+    "@enter_message": {
+        "description": "Enter message"
+    },
     "settings": "Paramètres",
-    "about_us": "Sur",
-    "change_ureport_program": "Changer de programme",
-    "change_language": "Changer de langue",
-    "feedback": "Retour d'information",
+    "@settings": {
+        "description": "Settings"
+    },
+    "about_us": "A propos",
+    "@about_us": {
+        "description": "About Us"
+    },
+    "change_ureport_program": "Changer de programme U-Report",
+    "@change_ureport_program": {
+        "description": "Change Program"
+    },
+    "change_language": "Changer la langue",
+    "@change_language": {
+        "description": "Change Language"
+    },
+    "feedback": "Feedback",
+    "@feedback": {
+        "description": "Feedback"
+    },
     "privacy_policy": "Politique de confidentialité",
+    "@privacy_policy": {
+        "description": "Privacy Policy"
+    },
     "terms": "Termes et conditions",
+    "@terms": {
+        "description": "Terms and Conditions"
+    },
     "sound": "Sonner",
+    "@sound": {
+        "description": "Sound"
+    },
     "on": "Au",
+    "@on": {
+        "description": "On"
+    },
     "off": "Désactivé",
+    "@off": {
+        "description": "Off"
+    },
     "select_language": "Choisir la langue",
+    "@select_language": {
+        "description": "Select Language"
+    },
     "language": "Langue",
-
+    "@language": {
+        "description": "Language"
+    },
     "see_more": "Voir plus",
+    "@see_more": {
+        "description": "See More"
+    },
     "featured_story": "HISTOIRE EN VEDETTE",
+    "@featured_story": {
+        "description": "FEATURED STORY"
+    },
     "read_more": "LIRE LA SUITE",
+    "@read_more": {
+        "description": "READ MORE"
+    },
     "all": "Tout",
+    "@all": {
+        "description": "ALL"
+    },
     "age": "Âge",
+    "@age": {
+        "description": "AGE"
+    },
     "gender": "Genre",
+    "@gender": {
+        "description": "GENDER"
+    },
     "location": "Emplacement",
+    "@location": {
+        "description": "LOCATION"
+    },
     "search": "Chercher",
+    "@search": {
+        "description": "Search"
+    },
     "response_rate": "TAUX DE RÉPONSE",
+    "@response_rate": {
+        "description": "RESPONSE RATE"
+    },
     "respondents": "RÉPONDANTS",
+    "@respondents": {
+        "description": "RESPONDENTS"
+    },
     "responded_out_of": "répondu hors de",
+    "@responded_out_of": {
+        "description": "responded out of"
+    },
     "polled": "interrogé",
+    "@polled": {
+        "description": "polled"
+    },
     "latest_opinion": "DERNIER AVIS",
+    "@latest_opinion": {
+        "description": "LATEST OPINION"
+    },
     "cancel": "Annuler",
+    "@cancel": {
+        "description": "Cancel"
+    },
     "selected": "Choisi",
+    "@selected": {
+        "description": "Selected"
+    },
     "delete": "Effacer",
-    "previous_message_deleted": "Tous les messages précédents ont été supprimés",
+    "@delete": {
+        "description": "Delete"
+    },
     "delete_message": "Etes-vous sûr que vous voulez supprimer?",
+    "@delete_message": {
+        "description": "Are you sure you want to delete?"
+    },
+    "previous_message_deleted": "Tous les messages précédents ont été supprimés",
+    "@previous_message_deleted": {
+        "description": "All previous message was deleted"
+    },
     "notification": "Notification",
+    "@notification": {
+        "description": "Notification"
+    },
     "five_days_delete_text": "Supprimer automatiquement les messages après 5 jours",
+    "@five_days_delete_text": {
+        "description": "Automatically remove messages after 5 days"
+    },
     "remove_all_message_text": "Supprimer tous les messages",
+    "@remove_all_message_text": {
+        "description": "Remove all messages"
+    },
     "remove": "Supprimer",
+    "@remove": {
+        "description": "Remove"
+    },
     "share": "Partager",
+    "@share": {
+        "description": "Share"
+    },
     "this_message_deleted": "Ce message a été supprimé",
+    "@this_message_deleted": {
+        "description": "This Message was Deleted"
+    },
     "no_result_found": "Aucun résultat trouvé",
+    "@no_result_found": {
+        "description": "No result found"
+    },
     "splashText": "Conduisons le changement ensemble",
+    "@splashText": {
+        "description": "splashText"
+    },
     "no_internet_text": "Aucune connexion Internet n'est disponible",
+    "@no_internet_text": {
+        "description": "No internet connection is available"
+    },
     "get_started": "Commencer",
+    "@get_started": {
+        "description": "get_started"
+    },
     "back": "Arrière",
+    "@back": {
+        "description": "back"
+    },
     "exit": "SORTIR",
-    "retry": "RÉESSAYEZ"
+    "@exit": {
+        "description": "exit"
+    },
+    "retry": "RÉESSAYEZ",
+    "@retry": {
+        "description": "retry"
+    }
 }

@@ -1,61 +1,226 @@
-
 {
-    "stories": "Cuentos",
+    "stories": "Historias",
+    "@stories": {
+        "description": "Stories"
+    },
     "skip": "Saltar",
+    "@skip": {
+        "description": "Skip"
+    },
     "next": "Próximo",
+    "@next": {
+        "description": "Next"
+    },
     "intro_text1": "Lea los últimos blogs de U-Report y manténgase informado",
+    "@intro_text1": {
+        "description": "Read the latest U-Report blogs and stay informed"
+    },
     "chat": "Chat",
+    "@chat": {
+        "description": "Chat"
+    },
     "intro_text2": "Participe en encuestas y acceda a chatbots interactivos sobre temas que le interesan",
+    "@intro_text2": {
+        "description": "Participate in polls and access to interactive chatbots about topics you care about"
+    },
     "opinions": "Opiniones",
+    "@opinions": {
+        "description": "Opinions"
+    },
     "intro_text3": "Ver los resultados de las encuestas y compartir los hallazgos",
-    "welcome": "Bienvenido",
+    "@intro_text3": {
+        "description": "View polls results and share the findings"
+    },
+    "welcome": "Bienvenid@",
+    "@welcome": {
+        "description": "Welcome"
+    },
     "continu": "Continuar",
+    "@continu": {
+        "description": "Continue"
+    },
     "more": "Más",
+    "@more": {
+        "description": "More"
+    },
     "choose_program": "Seleccione el país / programa de U-Report",
+    "@choose_program": {
+        "description": "Select U-Report Program"
+    },
     "enter_message": "Introducir texto aquí...",
-
-    "settings": "Ajustes",
-    "about_us": "Sobre",
-    "change_ureport_program": "Programa de cambio",
-    "change_language": "Cambiar idioma",
-    "feedback": "Realimentación",
+    "@enter_message": {
+        "description": "Enter message"
+    },
+    "settings": "Configuraciones",
+    "@settings": {
+        "description": "Settings"
+    },
+    "about_us": "Acerca",
+    "@about_us": {
+        "description": "About Us"
+    },
+    "change_ureport_program": "Cambiar de programa",
+    "@change_ureport_program": {
+        "description": "Change Program"
+    },
+    "change_language": "Cambiar la idioma",
+    "@change_language": {
+        "description": "Change Language"
+    },
+    "feedback": "Retroalimentación",
+    "@feedback": {
+        "description": "Feedback"
+    },
     "privacy_policy": "Política de privacidad",
+    "@privacy_policy": {
+        "description": "Privacy Policy"
+    },
     "terms": "Términos y condicioness",
+    "@terms": {
+        "description": "Terms and Conditions"
+    },
     "sound": "Sonido",
+    "@sound": {
+        "description": "Sound"
+    },
     "on": "Sobre",
+    "@on": {
+        "description": "On"
+    },
     "off": "Apagado",
+    "@off": {
+        "description": "Off"
+    },
     "select_language": "Seleccione el idioma",
+    "@select_language": {
+        "description": "Select Language"
+    },
     "language": "Idioma",
-
+    "@language": {
+        "description": "Language"
+    },
     "see_more": "Ver más",
+    "@see_more": {
+        "description": "See More"
+    },
     "featured_story": "HISTORIA DESTACADA",
-    "read_more": "LEE MAS",
+    "@featured_story": {
+        "description": "FEATURED STORY"
+    },
+    "read_more": "LEER MÁS",
+    "@read_more": {
+        "description": "READ MORE"
+    },
     "all": "Todos",
+    "@all": {
+        "description": "ALL"
+    },
     "age": "La edad",
+    "@age": {
+        "description": "AGE"
+    },
     "gender": "Género",
+    "@gender": {
+        "description": "GENDER"
+    },
     "location": "Localización",
+    "@location": {
+        "description": "LOCATION"
+    },
     "search": "Buscar",
+    "@search": {
+        "description": "Search"
+    },
     "response_rate": "TASA DE RESPUESTA",
-    "respondents": "ENCUESTADOS",
+    "@response_rate": {
+        "description": "RESPONSE RATE"
+    },
+    "respondents": "PARTICIPANTES",
+    "@respondents": {
+        "description": "RESPONDENTS"
+    },
     "responded_out_of": "respondió fuera de",
-    "polled": "encuestado",
+    "@responded_out_of": {
+        "description": "responded out of"
+    },
+    "polled": "encuestad@",
+    "@polled": {
+        "description": "polled"
+    },
     "latest_opinion": "ÚLTIMA OPINIÓN",
+    "@latest_opinion": {
+        "description": "LATEST OPINION"
+    },
     "cancel": "Cancelar",
+    "@cancel": {
+        "description": "Cancel"
+    },
     "selected": "Seleccionado",
+    "@selected": {
+        "description": "Selected"
+    },
     "delete": "Borrar",
-    "previous_message_deleted": "Todo el mensaje anterior fue eliminado",
+    "@delete": {
+        "description": "Delete"
+    },
     "delete_message": "¿Estas seguro que quieres borrarlo?",
+    "@delete_message": {
+        "description": "Are you sure you want to delete?"
+    },
+    "previous_message_deleted": "Todo el mensaje anterior fue eliminado",
+    "@previous_message_deleted": {
+        "description": "All previous message was deleted"
+    },
     "notification": "Notificación",
+    "@notification": {
+        "description": "Notification"
+    },
     "five_days_delete_text": "Eliminar mensajes automáticamente después de 5 días",
+    "@five_days_delete_text": {
+        "description": "Automatically remove messages after 5 days"
+    },
     "remove_all_message_text": "Eliminar todos los mensajes",
+    "@remove_all_message_text": {
+        "description": "Remove all messages"
+    },
     "remove": "Eliminar",
+    "@remove": {
+        "description": "Remove"
+    },
     "share": "Cuota",
+    "@share": {
+        "description": "Share"
+    },
     "this_message_deleted": "Este mensaje fue eliminado",
+    "@this_message_deleted": {
+        "description": "This Message was Deleted"
+    },
     "no_result_found": "No se han encontrado resultados",
+    "@no_result_found": {
+        "description": "No result found"
+    },
     "splashText": "Impulsemos el cambio juntos",
-    "no_internet_text": "No hay conexión a internet disponible",
+    "@splashText": {
+        "description": "splashText"
+    },
+    "no_internet_text": "No hay conexión disponible a internet ",
+    "@no_internet_text": {
+        "description": "No internet connection is available"
+    },
     "get_started": "Empezar",
-    "back": "Espalda",
+    "@get_started": {
+        "description": "get_started"
+    },
+    "back": "ATRÁS",
+    "@back": {
+        "description": "back"
+    },
     "exit": "SALIDA",
-    "retry": "REVER"
+    "@exit": {
+        "description": "exit"
+    },
+    "retry": "REINTENTAR",
+    "@retry": {
+        "description": "retry"
+    }
 }

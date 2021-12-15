@@ -173,14 +173,14 @@ class StatisticsHeader {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 55,
+                    height: 65,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Image.asset(
                           "assets/images/male.png",
-                          height: 26,
-                          width: 26,
+                          height: 35,
+                          width: 35,
                         ),
                         SizedBox(
                           height: 5,
@@ -197,7 +197,7 @@ class StatisticsHeader {
                     width: 5,
                   ),
                   Container(
-                    height: 55,
+                    height: 63,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -207,7 +207,7 @@ class StatisticsHeader {
                               fontSize: 14, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(
-                          height: 7,
+                          height: 13,
                         ),
                         Text(
                           "${FormattedNumber.formatNumber(maleRespondent)}",
@@ -226,14 +226,14 @@ class StatisticsHeader {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 55,
+                    height: 65,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Image.asset(
                           "assets/images/female.png",
-                          height: 26,
-                          width: 26,
+                          height: 35,
+                          width: 35,
                         ),
                         SizedBox(
                           height: 5,
@@ -250,7 +250,7 @@ class StatisticsHeader {
                     width: 5,
                   ),
                   Container(
-                    height: 55,
+                    height: 63,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -260,7 +260,7 @@ class StatisticsHeader {
                               fontSize: 14, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(
-                          height: 7,
+                          height: 13,
                         ),
                         Text(
                           "${FormattedNumber.formatNumber(femaleRespondent)}",
@@ -280,14 +280,14 @@ class StatisticsHeader {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          height: 55,
+                          height: 65,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Image.asset(
                                 "assets/images/gender_other.png",
-                                height: 26,
-                                width: 26,
+                                height: 35,
+                                width: 35,
                               ),
                               SizedBox(
                                 height: 5,
@@ -304,7 +304,7 @@ class StatisticsHeader {
                           width: 5,
                         ),
                         Container(
-                          height: 55,
+                          height: 63,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -314,7 +314,7 @@ class StatisticsHeader {
                                     fontSize: 14, fontWeight: FontWeight.w700),
                               ),
                               SizedBox(
-                                height: 7,
+                                height: 13,
                               ),
                               Text(
                                 "${FormattedNumber.formatNumber(guysRespondent)}",
@@ -448,14 +448,14 @@ class StatisticsHeader {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 55,
+                    height: 65,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Image.asset(
                           "assets/images/male.png",
-                          height: 26,
-                          width: 26,
+                          height: 35,
+                          width: 35,
                         ),
                         SizedBox(
                           height: 5,
@@ -472,7 +472,7 @@ class StatisticsHeader {
                     width: 5,
                   ),
                   Container(
-                    height: 55,
+                    height: 63,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -482,7 +482,7 @@ class StatisticsHeader {
                               fontSize: 14, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(
-                          height: 7,
+                          height: 13,
                         ),
                         Text(
                           "---",
@@ -501,14 +501,14 @@ class StatisticsHeader {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 55,
+                    height: 65,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Image.asset(
                           "assets/images/female.png",
-                          height: 26,
-                          width: 26,
+                          height: 35,
+                          width: 35,
                         ),
                         SizedBox(
                           height: 5,
@@ -525,7 +525,7 @@ class StatisticsHeader {
                     width: 5,
                   ),
                   Container(
-                    height: 50,
+                    height: 63,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -535,7 +535,7 @@ class StatisticsHeader {
                               fontSize: 14, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(
-                          height: 7,
+                          height: 13,
                         ),
                         Text(
                           "0",
@@ -554,14 +554,14 @@ class StatisticsHeader {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 55,
+                    height: 65,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Image.asset(
                           "assets/images/gender_other.png",
-                          height: 26,
-                          width: 26,
+                          height: 35,
+                          width: 35,
                         ),
                         SizedBox(
                           height: 5,
@@ -578,7 +578,7 @@ class StatisticsHeader {
                     width: 5,
                   ),
                   Container(
-                    height: 55,
+                    height: 63,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -588,7 +588,7 @@ class StatisticsHeader {
                               fontSize: 14, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(
-                          height: 7,
+                          height: 13,
                         ),
                         Text(
                           "0",

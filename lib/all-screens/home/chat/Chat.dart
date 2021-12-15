@@ -61,9 +61,6 @@ class _ChatState extends State<Chat> {
     disableOnScreenPopUp();
 
     Provider.of<ChatController>(context, listen: false).startMonitoring();
-    if(from != "notification"){
-      Provider.of<ChatController>(context, listen: false).createContatct();
-    }
     myFocusNode = FocusNode();
     KeyboardVisibilityController().onChange.listen((event) {
       setState(() {
@@ -86,6 +83,9 @@ class _ChatState extends State<Chat> {
       Provider.of<ChatController>(context, listen: false)
           .deletemsgAfterfiveDays();
       Provider.of<ChatController>(context, listen: false).isLoaded = false;
+      if(from != "notification") {
+        Provider.of<ChatController>(context, listen: false).createContatct();
+      }
     }
 
   }

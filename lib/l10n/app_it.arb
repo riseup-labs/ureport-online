@@ -151,7 +151,7 @@
     "@latest_opinion": {
         "description": "LATEST OPINION"
     },
-    "cancel": "Cancella",
+    "cancel": "no",
     "@cancel": {
         "description": "Cancel"
     },
@@ -159,7 +159,7 @@
     "@selected": {
         "description": "Selected"
     },
-    "delete": "Cancella",
+    "delete": "sì",
     "@delete": {
         "description": "Delete"
     },

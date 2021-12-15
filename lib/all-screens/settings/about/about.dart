@@ -50,7 +50,7 @@ class _AboutState extends State<About> {
       builder: (context, provider, child) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: RemoteConfigData.getBackgroundColor(),
+            backgroundColor: Colors.white,
             elevation: 0,
             toolbarHeight: 0.0,
           ),
@@ -59,7 +59,7 @@ class _AboutState extends State<About> {
               children: [
                 Container(
                   height: 60,
-                  color: RemoteConfigData.getBackgroundColor(),
+                  color: Colors.white,
                   child: Row(
                     children: [
                       GestureDetector(
@@ -73,7 +73,7 @@ class _AboutState extends State<About> {
                           child: Image(
                             height: 35,
                             width: 35,
-                            color: RemoteConfigData.getTextColor(),
+                            color: Colors.black,
                             image: AssetImage("assets/images/v2_ic_back.png"),
                           ),
                         ),
@@ -83,7 +83,7 @@ class _AboutState extends State<About> {
                 ),
                 provider.data != ""
                     ? Container(
-                  color: RemoteConfigData.getBackgroundColor(),
+                  color: Colors.white,
                   margin: EdgeInsets.only(top: 60),
                   child: WebViewPlus(
                     onWebViewCreated: (controller) {
@@ -193,7 +193,7 @@ class _AboutState extends State<About> {
     <style>
     ${sp.getValue(SPUtil.PROGRAMKEY) == "Global" ? StoryUtils.styleItalia : sp.getValue(SPUtil.PROGRAMKEY) == "Italia" ? StoryUtils.styleItalia : StoryUtils.styleOnTheMove}  
     body{
-    background-color:${RemoteConfigData.getWebBackgroundColor()};
+    background-color:${Colors.white};
       margin: 0;
       padding: 0;
     }
@@ -212,10 +212,10 @@ class _AboutState extends State<About> {
       right: 0;
       z-index: 999999;
     }
-    p{color:${RemoteConfigData.getWebTextColor()};}
-    h2{color:${RemoteConfigData.getWebTextColor()};}
-    b{color:${RemoteConfigData.getWebTextColor()};}
-    div{color:${RemoteConfigData.getWebTextColor()};}
+    p{color:${Colors.black}; font-size: 16px; }
+    h2{color:${Colors.black}; font-size: 24px; font-weight: bold; margin-bottom: 10px;}
+    b{color:${Colors.black};}
+    div{color:${Colors.black};}
     
     .footer_wraper{
       display: flex;
@@ -306,10 +306,10 @@ class _AboutState extends State<About> {
       right: 0;
       z-index: 999999;
     }
-    p{color:${RemoteConfigData.getWebTextColor()};}
-    h2{color:${RemoteConfigData.getWebTextColor()};}
-    b{color:${RemoteConfigData.getWebTextColor()};}
-    div{color:${RemoteConfigData.getWebTextColor()};}
+    p{color:${Colors.black};}
+    h2{color:${Colors.black};}
+    b{color:${Colors.black};}
+    div{color:${Colors.black};}
     
     .footer_wraper{
       display: flex;

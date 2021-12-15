@@ -2,6 +2,7 @@
     package="in.ureport">
    <application
         android:label="U-Report"
+       android:hardwareAccelerated="true"
        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity

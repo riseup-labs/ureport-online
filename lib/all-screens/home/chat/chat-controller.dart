@@ -314,10 +314,10 @@ class ChatController extends ConnectivityController {
           responseContactCreation = apiResponse.data;
           _spservice.setValue(SPUtil.CONTACT_URN, contact_urn);
           if (_spservice.getValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}") != "true") {
-            sendmessage(RemoteConfigData.getRegistrationFlowKeyword(), "createContatct if");
+            sendmessage(RemoteConfigData.getRegistrationFlowKeyword(), "");
             _spservice.setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "true");
           }else{
-            sendmessage(RemoteConfigData.getIdleFlowKeyword(), "createContatct if");
+            sendmessage(RemoteConfigData.getIdleFlowKeyword(), "");
           }
         }
       }
