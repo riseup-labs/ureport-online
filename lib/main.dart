@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.blue,
-              fontFamily: "Poppins"
+              fontFamily: "Montserrat"
             ),
             home: Directionality(
               textDirection: TextDirection.ltr,

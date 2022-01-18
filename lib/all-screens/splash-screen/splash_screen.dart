@@ -10,6 +10,7 @@ import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/Chat.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
+import 'package:ureport_ecaro/all-screens/intro/intro_page_first.dart';
 import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
@@ -17,6 +18,7 @@ import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_messag
 import 'package:ureport_ecaro/network_operation/utils/connectivity_controller.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -42,49 +44,16 @@ class _SplashScreenState extends State<SplashScreen> {
     return Consumer<RemoteConfigController>(
       builder: (context, provider, child) {
         return Scaffold(
-          body: Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                height: double.infinity,
-                child: Image(
-                  fit: BoxFit.fill,
-                  image: AssetImage("assets/images/v2_splash_screen2.png"),
-                ),
-              ),
-              Positioned(
-                bottom: 60,
-                right: 40,
-                child: Container(
-                  height: 65,
-                  width: 200,
+          backgroundColor: AppColors.mainBgColor,
+          body: Container(
+            child: Center(
+              child: Container(
+                  width: MediaQuery.of(context).size.width/1.5,
                   child: Image(
                     fit: BoxFit.fill,
-                    image: AssetImage("assets/images/v2_logo_2.png"),
-                  ),
-                ),
-              ),
-              Positioned(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Container(
-                          margin:
-                              EdgeInsets.only(top: 50, left: 30, right: 30),
-                          child: Text(
-                            AppLocalizations.of(context)!.splashText,
-                            style: TextStyle(
-                              fontSize: (AppLocalizations.of(context)!.splashText).length <= 28 ? 48 : 40,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          )),
-                    ),
-                  ],
-                ),
-              )
-            ],
+                    image: AssetImage("assets/images/v2_logo_1.png"),
+                  )),
+            ),
           ),
         );
       },
@@ -145,7 +114,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (isSigned != null) {
           NavUtils.pushAndRemoveUntil(context, Chat("notification"));
         } else {
-          NavUtils.pushAndRemoveUntil(context, LanguageChooser());
+          NavUtils.pushAndRemoveUntil(context, IntroPageFirst());
         }
       },
     );
@@ -161,9 +130,7 @@ class _SplashScreenState extends State<SplashScreen> {
             NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
         } else {
           if (Provider.of<ConnectivityController>(context, listen: false).isOnline) {
-
-            NavUtils.pushAndRemoveUntil(context, LanguageChooser());
-
+            NavUtils.pushAndRemoveUntil(context, IntroPageFirst());
           }else{
             noInternetDialog();
           }

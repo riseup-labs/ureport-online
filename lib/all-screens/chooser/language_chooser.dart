@@ -132,7 +132,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                           //   provider_l.setLocale(new Locale('zh'));
                                           // }
                                           else if (dropdownValue ==
-                                              "français") {
+                                              "Français") {
                                             selected_language = "fr";
                                             provider_l.setLocale(new Locale('fr'));
                                           }
@@ -146,11 +146,11 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                             selected_language = "es";
                                             provider_l.setLocale(new Locale('es'));
                                           }
-                                          // else if (dropdownValue ==
-                                          //     "عربي") {
-                                          //   selected_language = "ar";
-                                          //   provider_l.setLocale(new Locale('ar'));
-                                          // }
+                                          else if (dropdownValue ==
+                                              "عربي") {
+                                            selected_language = "ar";
+                                            provider_l.setLocale(new Locale('ar'));
+                                          }
                                           else if (dropdownValue ==
                                               "Italiano") {
                                             selected_language = "it";
@@ -167,11 +167,11 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                       items: <String>[
                                         'English',
                                         // '中國人',
-                                        'français',
-                                        // 'русский',
                                         'Español',
-                                        // 'عربي',
+                                        'Français',
+                                        // 'русский',
                                         'Italiano',
+                                        'عربي',
                                       ].map<DropdownMenuItem<String>>(
                                           (String value) {
                                         return DropdownMenuItem<String>(

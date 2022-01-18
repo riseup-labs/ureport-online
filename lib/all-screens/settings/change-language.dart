@@ -21,11 +21,11 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
   static const values = <String>[
     'English',
     // '中國人',
-    'français',
-    // 'русский',
     'Español',
-    // 'عربي',
+    'Français',
+    // 'русский',
     'Italiano'
+    'عربي',
   ];
 
   String selectedValue = "";
@@ -45,20 +45,20 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
     // else if (already_selected == "zh") {
     //   selectedValue = values[1];
     // }
-    else if (already_selected == "fr") {
-      selectedValue = values[1];
-    }
     // else if (already_selected == "ru") {
     //   selectedValue = values[3];
     // }
     else if (already_selected == "es") {
+      selectedValue = values[1];
+    }
+    else if (already_selected == "fr") {
       selectedValue = values[2];
     }
-    // else if (already_selected == "ar") {
-    //   selectedValue = values[5];
-    // }
     else if (already_selected == "it") {
       selectedValue = values[3];
+    }
+    else if (already_selected == "ar") {
+      selectedValue = values[4];
     }
     else {
       selectedValue = values.first;
@@ -146,20 +146,21 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                   //   setLocal(provider, "zh");
                                   // }
                                   else if (this.selectedValue == values[1]) {
+                                    setLocal(provider, "es");
+                                  }
+                                  else if (this.selectedValue == values[2]) {
                                     setLocal(provider, "fr");
+                                  }
+                                  else if (this.selectedValue == values[3]) {
+                                    setLocal(provider, "it");
                                   }
                                   // else if (this.selectedValue == values[3]) {
                                   //   setLocal(provider, "ru");
                                   // }
-                                  else if (this.selectedValue == values[2]) {
-                                    setLocal(provider, "es");
+                                  else if (this.selectedValue == values[4]) {
+                                    setLocal(provider, "ar");
                                   }
-                                  // else if (this.selectedValue == values[5]) {
-                                  //   setLocal(provider, "ar");
-                                  // }
-                                  else if (this.selectedValue == values[3]) {
-                                    setLocal(provider, "it");
-                                  }
+
                                 },
                                 child: Container(
                                     padding: EdgeInsets.only(
@@ -187,21 +188,23 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                             // else if (this.selectedValue ==
                                             //     values[1])
                                             //   {setLocal(provider, "zh")}
-                                            else if (this.selectedValue ==
-                                                values[1])
-                                              {setLocal(provider, "fr")}
+
                                             // else if (this.selectedValue ==
                                             //     values[3])
                                             //   {setLocal(provider, "ru")}
                                             else if (this.selectedValue ==
-                                                values[2])
+                                                values[1])
                                               {setLocal(provider, "es")}
-                                            // else if (this.selectedValue ==
-                                            //     values[5])
-                                            //   {setLocal(provider, "ar")}
                                             else if (this.selectedValue ==
-                                                values[3])
-                                              {setLocal(provider, "it")}
+                                                  values[2])
+                                                {setLocal(provider, "fr")}
+                                              else if (this.selectedValue ==
+                                                    values[3])
+                                                  {setLocal(provider, "it")}
+                                            else if (this.selectedValue ==
+                                                values[4])
+                                              {setLocal(provider, "ar")}
+
                                           })
                                     }),
                           )
@@ -256,10 +259,10 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "es");
       provider.setLocale(new Locale('es'));
     }
-    // else if (language == "ar") {
-    //   sp.setValue(SPConstant.SELECTED_LANGUAGE, "ar");
-    //   provider.setLocale(new Locale('ar'));
-    // }
+    else if (language == "ar") {
+      sp.setValue(SPConstant.SELECTED_LANGUAGE, "ar");
+      provider.setLocale(new Locale('ar'));
+    }
     else if (language == "it") {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "it");
       provider.setLocale(new Locale('it'));

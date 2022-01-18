@@ -165,7 +165,7 @@ class StatisticsHeader {
         SizedBox(
           height: 20,
         ),
-        Row(
+        question.resultsByGender.length != 0 ? Row(
           children: [
             Expanded(
               flex: 1,
@@ -329,9 +329,9 @@ class StatisticsHeader {
                   )
                 : Container(),
           ],
-        ),
+        ) : Container(),
         SizedBox(
-          height: 15,
+          height: question.resultsByGender.length != 0 ? 15 : 0,
         ),
         Container(
           child: Divider(
