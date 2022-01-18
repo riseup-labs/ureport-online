@@ -66,21 +66,18 @@ class _OpinionSearchState extends State<OpinionSearch> {
                   Positioned(
                     top: 12,
                     left: 10,
-                    child: Container(
-                      width: 40,
-                      child: GestureDetector(
-                        onTap: (){
-                          Navigator.pop(context);
-                          ClickSound.soundClose();
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(left: 10),
-                          height: 70,
-                          child: Image(
-                            height: 35,
-                            width: 35,
-                            image: AssetImage("assets/images/v2_ic_back.png"),
-                          ),
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                        ClickSound.soundClose();
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 5),
+                        height: 70,
+                        child: Image(
+                          height: 55,
+                          width: 55,
+                          image: AssetImage("assets/images/v2_ic_back.png"),
                         ),
                       ),
                     ),

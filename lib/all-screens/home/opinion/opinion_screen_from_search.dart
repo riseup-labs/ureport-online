@@ -69,7 +69,6 @@ class _OpinionScreenFromSearchState extends State<OpinionScreenFromSearch> {
         Column(
           children: [
             Container(
-              margin: EdgeInsets.only(left: 15),
               height: 70,
               color: Colors.white,
               child: Row(
@@ -80,11 +79,10 @@ class _OpinionScreenFromSearchState extends State<OpinionScreenFromSearch> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          width: 50,
+                          width: 80,
+                          height: 80,
                           child: IconButton(
                             icon: Container(
-                                height: 60,
-                                width: 115,
                                 child: Image(
                                   fit: BoxFit.fill,
                                   image: AssetImage(
@@ -266,7 +264,7 @@ class _OpinionScreenFromSearchState extends State<OpinionScreenFromSearch> {
             Text(
               AppLocalizations.of(context)!.share,
               style: TextStyle(
-                  fontSize: 17, color: RemoteConfigData.getPrimaryColor()),
+                  fontSize: 15, color: RemoteConfigData.getPrimaryColor()),
             ),
             SizedBox(
               width: 5,

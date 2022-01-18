@@ -74,11 +74,11 @@ class _StorySearchState extends State<StorySearch> {
                         ClickSound.soundClose();
                       },
                       child: Container(
-                        margin: EdgeInsets.only(left: 10),
+                        margin: EdgeInsets.only(left: 5),
                         height: 70,
                         child: Image(
-                          height: 35,
-                          width: 35,
+                          height: 55,
+                          width: 55,
                           image: AssetImage("assets/images/v2_ic_back.png"),
                         ),
                       ),

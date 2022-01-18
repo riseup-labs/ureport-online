@@ -78,11 +78,11 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                 ClickSound.soundClose();
               },
               child: Container(
-                margin: EdgeInsets.only(left: 20),
+                margin: EdgeInsets.only(left: 20,top: 10),
                 height: 70,
                 child: Image(
-                  height: 35,
-                  width: 35,
+                  height: 60,
+                  width: 60,
                   image: AssetImage("assets/images/v2_ic_back.png"),
                 ),
               ),

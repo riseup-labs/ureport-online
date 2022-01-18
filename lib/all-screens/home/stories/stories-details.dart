@@ -79,7 +79,6 @@ class _StoryDetailsState extends State<StoryDetails> {
                     Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(left: 15),
                           height: 70,
                           color: Colors.white,
                           child: Row(
@@ -90,11 +89,10 @@ class _StoryDetailsState extends State<StoryDetails> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: 50,
+                                      width: 80,
+                                      height: 80,
                                       child: IconButton(
                                         icon: Container(
-                                            height: 60,
-                                            width: 115,
                                             child: Image(
                                               fit: BoxFit.fill,
                                               image: AssetImage(
@@ -194,7 +192,7 @@ class _StoryDetailsState extends State<StoryDetails> {
             Text(
               AppLocalizations.of(context)!.share,
               style: TextStyle(
-                  fontSize: 17, color: RemoteConfigData.getPrimaryColor()),
+                  fontSize: 15, color: RemoteConfigData.getPrimaryColor()),
             ),
             SizedBox(
               width: 5,
@@ -291,7 +289,7 @@ class _StoryDetailsState extends State<StoryDetails> {
     content = content.replaceAll("<br><br><br><br><br>", "<br><br>");
     content = content.replaceAll("<br><br><br><br>", "<br><br>");
     content = content.replaceAll("<br><br><br>", "<br><br>");
-    content = content.replaceAll("src=\"//www", "src=\"www");
+    content = content.replaceAll("src=\"//", "src=\"https:");
 
     String final_content = '''
     <!ECOTYPE html>

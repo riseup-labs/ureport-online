@@ -67,19 +67,19 @@ class _ProgramChooserState extends State<ProgramChooser> {
                             ClickSound.soundClose();
                           },
                           child: Container(
+                            padding: EdgeInsets.only(top: 10),
                             margin: EdgeInsets.only(left: 20),
                             height: 80,
                             child: Image(
-                              height: 35,
-                              width: 35,
-                              color: Colors.black,
+                              height: 60,
+                              width: 60,
                               image: AssetImage("assets/images/v2_ic_back.png",),
                             ),
                           ),
                         )
                       : Container(),
                   Container(
-                    margin: EdgeInsets.only(top: 50),
+                    margin: EdgeInsets.only(top: 80),
                     width: double.infinity,
                     child: Column(
                       children: [
@@ -180,7 +180,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                               Provider.of<OpinionController>(context, listen: false).items = [];
                                               Provider.of<ChatController>(context, listen: false).loaddefaultmessage();
                                               if(from == "more"){
-                                                locator<SPUtil>().setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "false");
+                                                // locator<SPUtil>().setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "false");
                                                 Provider.of<ChatController>(context, listen: false).createContatct();
                                               }
                                               NavUtils.pushAndRemoveUntil(

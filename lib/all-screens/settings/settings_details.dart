@@ -100,9 +100,8 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
                         margin: EdgeInsets.only(left: 20),
                         height: 80,
                         child: Image(
-                          height: 35,
-                          width: 35,
-                          color: Colors.black,
+                          height: 60,
+                          width: 60,
                           image: AssetImage("assets/images/v2_ic_back.png"),
                         ),
                       ),

@@ -32,7 +32,7 @@ class TopBar {
                 child: Container(
                   height: 80,
                   child: Container(
-                    padding: EdgeInsets.only(left: 10),
+                    padding: EdgeInsets.only(left: title.length>8 ? 40 : 10),
                     child: Center(
                       child: Text(
                         title,

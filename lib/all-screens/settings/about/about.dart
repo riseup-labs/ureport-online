@@ -58,7 +58,7 @@ class _AboutState extends State<About> {
             child: Stack(
               children: [
                 Container(
-                  height: 60,
+                  height: 80,
                   color: Colors.white,
                   child: Row(
                     children: [
@@ -68,12 +68,10 @@ class _AboutState extends State<About> {
                           ClickSound.soundClose();
                         },
                         child: Container(
-                          margin: EdgeInsets.only(left: 20),
-                          height: 80,
+                          margin: EdgeInsets.only(left: 20, top: 20),
                           child: Image(
-                            height: 35,
-                            width: 35,
-                            color: Colors.black,
+                            height: 60,
+                            width: 60,
                             image: AssetImage("assets/images/v2_ic_back.png"),
                           ),
                         ),
@@ -84,7 +82,7 @@ class _AboutState extends State<About> {
                 provider.data != ""
                     ? Container(
                   color: Colors.white,
-                  margin: EdgeInsets.only(top: 60),
+                  margin: EdgeInsets.only(top: 80),
                   child: WebViewPlus(
                     onWebViewCreated: (controller) {
                       webViewController = controller;
