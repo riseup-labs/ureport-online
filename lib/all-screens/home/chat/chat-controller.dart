@@ -316,18 +316,20 @@ class ChatController extends ConnectivityController {
           if (_spservice.getValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}") != "true") {
             sendmessage(RemoteConfigData.getRegistrationFlowKeyword(), "");
             _spservice.setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "true");
-          }else{
-            sendmessage(RemoteConfigData.getIdleFlowKeyword(), "");
           }
+          // else{
+          //   sendmessage(RemoteConfigData.getIdleFlowKeyword(), "");
+          // }
         }
       }
       else if (_urn != null) {
         if (_spservice.getValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}") != "true") {
           sendmessage(RemoteConfigData.getRegistrationFlowKeyword(), "createContatct if");
           _spservice.setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "true");
-        }else{
-          sendmessage(RemoteConfigData.getIdleFlowKeyword(), "createContatct if");
         }
+        // else{
+        //   sendmessage(RemoteConfigData.getIdleFlowKeyword(), "createContatct if");
+        // }
       }
     }
   }
