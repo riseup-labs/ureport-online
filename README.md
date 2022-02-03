@@ -9,7 +9,7 @@ This documatation has several pages of information for developers, and people co
 1. Flutter sdk - 2.5.2 (Stable)
 2. Dart sdk - 2.14.3
 
-## Current App Version : 1.0.13
+## Current App Version : 1.0.4
 
 
 ## Contribution
@@ -23,6 +23,7 @@ Thank you to all the people who already contributed to U-Report Online!
 ## License
 [GNU AFFERO GENERAL PUBLIC LICENSE](https://github.com/riseup-labs/ureport-online/LICENSE)
 
+Android link : https://play.google.com/store/apps/details?id=org.unicef.ureport
+iOS link     : https://apps.apple.com/us/app/ureport/id1598072043
 
-## [Click here to Download the latest APK](http://riseuplabs.me/ureportonlineapp).
 
