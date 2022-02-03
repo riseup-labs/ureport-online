@@ -23,7 +23,8 @@ Thank you to all the people who already contributed to U-Report Online!
 ## License
 [GNU AFFERO GENERAL PUBLIC LICENSE](https://github.com/riseup-labs/ureport-online/LICENSE)
 
-Android link : https://play.google.com/store/apps/details?id=org.unicef.ureport
-iOS link     : https://apps.apple.com/us/app/ureport/id1598072043
+# Android link : https://play.google.com/store/apps/details?id=org.unicef.ureport
+  
+# iOS link     : https://apps.apple.com/us/app/ureport/id1598072043
 
 
