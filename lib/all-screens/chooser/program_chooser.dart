@@ -181,7 +181,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                               Provider.of<ChatController>(context, listen: false).loaddefaultmessage();
                                               if(from == "more"){
                                                 // locator<SPUtil>().setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "false");
-                                                Provider.of<ChatController>(context, listen: false).createContatct();
+                                                Provider.of<ChatController>(context, listen: false).createContact();
                                               }
                                               NavUtils.pushAndRemoveUntil(
                                                   context, NavigationScreen(0));

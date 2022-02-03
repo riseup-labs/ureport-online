@@ -121,6 +121,7 @@ class HttpService {
       }
     }
   }
+
   Future<ApiResponse<Response>> puttRequest(String route, {required Map<String, dynamic> data}) async {
     try {
       Response response = await _getDio().put(

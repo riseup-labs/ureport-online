@@ -84,7 +84,7 @@ class _ChatState extends State<Chat> {
           .deletemsgAfterfiveDays();
       Provider.of<ChatController>(context, listen: false).isLoaded = false;
       if(from != "notification") {
-        Provider.of<ChatController>(context, listen: false).createContatct();
+        Provider.of<ChatController>(context, listen: false).createContact();
       }
     }
 
@@ -438,8 +438,7 @@ class _ChatState extends State<Chat> {
                                                                                 quicktypest: [""],
                                                                                 time: formattedDate);
                                                                             provider.addMessage(messageModel);
-                                                                            provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString(),
-                                                                                "Quicktype");
+                                                                            provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString(),);
                                                                             messageModel.status =
                                                                                 provider.messagestatus;
                                                                           },
@@ -701,7 +700,7 @@ class _ChatState extends State<Chat> {
                                                                                 List<String> listCaseManagement = RemoteConfigData.getOneToOneAction();
                                                                                 if (listDefault.contains(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString())) {
                                                                                   locator<SPUtil>().setValue(SPUtil.USER_ROLE, "regular");
-                                                                                  provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString(), "Quicktype");
+                                                                                  provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
                                                                                   List<MessageModel> datalist = [];
                                                                                   datalist.add(messageModel);
                                                                                   await _databaseHelper.insertConversation(datalist,locator<SPUtil>().getValue(SPUtil.PROGRAMKEY));
@@ -709,7 +708,7 @@ class _ChatState extends State<Chat> {
                                                                                   locator<SPUtil>().setValue(SPUtil.USER_ROLE, "caseManagement");
                                                                                   provider.createIndividualCaseManagement(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
                                                                                 } else {
-                                                                                  provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString(), "Quicktype");
+                                                                                  provider.sendmessage(provider.quicdata(provider.localmessage[index].quicktypest.toString())[j].toString());
                                                                                   List<MessageModel> datalist = [];
                                                                                   datalist.add(messageModel);
                                                                                   await _databaseHelper.insertConversation(datalist,locator<SPUtil>().getValue(SPUtil.PROGRAMKEY));
@@ -1153,7 +1152,7 @@ class _ChatState extends State<Chat> {
                                 .setValue(SPUtil.USER_ROLE, "caseManagement");
                           }
 
-                          provider.sendmessage(message, "from send message button");
+                          provider.sendmessage(message);
 
                           messageModel.status = provider.messagestatus;
                           _messagecontroller.clear();

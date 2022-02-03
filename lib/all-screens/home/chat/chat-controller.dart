@@ -299,7 +299,7 @@ class ChatController extends ConnectivityController {
     notifyListeners();
   }
 
-  createContatct() async {
+  createContact() async {
     _spservice.setValue(SPUtil.USER_ROLE, "regular");
     await getToken();
     if (_token.isNotEmpty) {
@@ -314,22 +314,20 @@ class ChatController extends ConnectivityController {
           responseContactCreation = apiResponse.data;
           _spservice.setValue(SPUtil.CONTACT_URN, contact_urn);
           if (_spservice.getValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}") != "true") {
-            sendmessage(RemoteConfigData.getRegistrationFlowKeyword(), "");
+            print("Create contact called 1");
+            sendmessage(RemoteConfigData.getRegistrationFlowKeyword());
             _spservice.setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "true");
           }
-          // else{
-          //   sendmessage(RemoteConfigData.getIdleFlowKeyword(), "");
-          // }
+
         }
       }
       else if (_urn != null) {
         if (_spservice.getValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}") != "true") {
-          sendmessage(RemoteConfigData.getRegistrationFlowKeyword(), "createContatct if");
+          print("Create contact called 3");
+          sendmessage(RemoteConfigData.getRegistrationFlowKeyword());
           _spservice.setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "true");
         }
-        // else{
-        //   sendmessage(RemoteConfigData.getIdleFlowKeyword(), "createContatct if");
-        // }
+
       }
     }
   }
@@ -366,7 +364,7 @@ class ChatController extends ConnectivityController {
           List<MessageModel> list = [];
           list.add(messageModel);
           _databaseHelper.insertConversation(list,locator<SPUtil>().getValue(SPUtil.PROGRAMKEY));
-          sendmessage(messagekeyword, "createIndividualCaseManagement");
+          sendmessage(messagekeyword);
           messageModel.status = messagestatus;
 
           notifyListeners();
@@ -385,7 +383,7 @@ class ChatController extends ConnectivityController {
         List<MessageModel> list = [];
         list.add(messageModel);
         _databaseHelper.insertConversation(list,locator<SPUtil>().getValue(SPUtil.PROGRAMKEY));
-        sendmessage(messagekeyword, "createIndividualCaseManagement");
+        sendmessage(messagekeyword);
         messageModel.status = messagestatus;
 
         notifyListeners();
@@ -443,14 +441,11 @@ class ChatController extends ConnectivityController {
     });
   }
 
-  sendmessage(String message, String from) async {
-    print("Call frem : $from");
+  sendmessage(String message) async {
 
     isMessageCome = true;
     String urn = "";
     String userRole = _spservice.getValue(SPUtil.USER_ROLE);
-
-    print("User role : $userRole");
 
     if (userRole == "regular") {
       urn = _spservice.getValue(SPUtil.CONTACT_URN);
