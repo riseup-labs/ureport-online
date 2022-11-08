@@ -50,7 +50,7 @@ class _StorySearchState extends State<StorySearch> {
   @override
   Widget build(BuildContext context) {
     _future = Provider.of<StoryController>(context, listen: false)
-        .getCategories(sp.getValue(SPUtil.PROGRAMKEY));
+        .getCategories(sp.getValue(SPUtil.PROGRAMKEY)!);
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       return Scaffold(
@@ -87,7 +87,7 @@ class _StorySearchState extends State<StorySearch> {
                   Container(
                       margin: EdgeInsets.only(left: 11, right: 12, top: 80),
                       child: searchBarUI(
-                          provider, sp.getValue(SPUtil.PROGRAMKEY))),
+                          provider, sp.getValue(SPUtil.PROGRAMKEY)!)),
                   Container(
                     margin: EdgeInsets.only(top: 136),
                     padding: EdgeInsets.only(left: 20, right: 20),
@@ -212,12 +212,14 @@ class _StorySearchState extends State<StorySearch> {
               transition: CircularFloatingSearchBarTransition(),
               debounceDelay: Duration(milliseconds: 100),
               actions: [
-                isExpanded?GestureDetector(
-                    onTap: () {
-                      ClickSound.soundClose();
-                      _floatingSearchBarController.clear();
-                    },
-                    child: Icon(Icons.clear)):SizedBox()
+                isExpanded
+                    ? GestureDetector(
+                        onTap: () {
+                          ClickSound.soundClose();
+                          _floatingSearchBarController.clear();
+                        },
+                        child: Icon(Icons.clear))
+                    : SizedBox()
               ],
               builder: (context, transition) {
                 return Container();
@@ -252,13 +254,14 @@ class _StorySearchState extends State<StorySearch> {
                   children: [
                     Text(
                       popup.title,
-                      style: TextStyle(fontSize:18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
                 children: list,
                 initiallyExpanded: isExpanded,
-                onExpansionChanged: (value){
+                onExpansionChanged: (value) {
                   ClickSound.soundDropdown();
                 },
               ),

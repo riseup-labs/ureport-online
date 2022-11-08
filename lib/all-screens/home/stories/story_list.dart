@@ -42,13 +42,13 @@ class _StoryListState extends State<StoryList>
     if (Provider.of<StoryController>(context, listen: false).isLoaded) {
       Provider.of<StoryController>(context, listen: false).getRecentStory(
           RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-          sp.getValue(SPUtil.PROGRAMKEY));
+          sp.getValue(SPUtil.PROGRAMKEY)!);
       Provider.of<StoryController>(context, listen: false).isLoaded = false;
     }
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       var _futureStory =
-          provider.getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
+          provider.getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY)!);
       return Scaffold(
           body: Container(
         child: Column(
@@ -158,11 +158,11 @@ class _StoryListState extends State<StoryList>
                                                   index < stories!.length
                                               ? getItem(
                                                   stories![index] != null
-                                                      ? stories![index].images
+                                                      ? stories![index].images!
                                                       : "",
-                                                  stories![index].featured,
-                                                  stories![index].title,
-                                                  stories![index].summary,
+                                                  stories![index].featured!,
+                                                  stories![index].title!,
+                                                  stories![index].summary!,
                                                   context)
                                               : !provider.nextLoading
                                                   ? Container(
@@ -177,7 +177,7 @@ class _StoryListState extends State<StoryList>
                                                                 .isOnline) {
                                                               provider.checkForNextStories(
                                                                   sp.getValue(SPUtil
-                                                                      .PROGRAMKEY));
+                                                                      .PROGRAMKEY)!);
                                                             } else {
                                                               ShowSnackBar
                                                                   .showNoInternetMessage(
@@ -231,7 +231,7 @@ class _StoryListState extends State<StoryList>
       return Provider.of<StoryController>(context, listen: false)
           .getRecentStory(
               RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-              sp.getValue(SPUtil.PROGRAMKEY));
+              sp.getValue(SPUtil.PROGRAMKEY)!);
     } else {
       return ShowSnackBar.showNoInternetMessage(context);
     }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>949545309574-kiij40h5t6uoe34rhhufs979uabjpoel.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.949545309574-kiij40h5t6uoe34rhhufs979uabjpoel</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCt4nuPkYMs9pC7OBcYVmTjW7SqsmDs11w</string>
+	<key>GCM_SENDER_ID</key>
+	<string>949545309574</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.unicef.ureport</string>
+	<key>PROJECT_ID</key>
+	<string>ureport-online</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ureport-online.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:949545309574:ios:3dc04c0e65b205c8ba8807</string>
+</dict>
+</plist>

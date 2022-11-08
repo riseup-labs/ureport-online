@@ -140,7 +140,8 @@ class DatabaseHelper {
 
   Future<int> getStoryCount(String program) async {
     Database db = await this.database;
-    int? count = Sqflite.firstIntValue(await db.rawQuery("SELECT COUNT(*) FROM ${DatabaseConstant.tableName} WHERE program = '$program'"));
+    int? count = Sqflite.firstIntValue(await db.rawQuery(
+        "SELECT COUNT(*) FROM ${DatabaseConstant.tableName} WHERE program = '$program'"));
     return count!;
   }
 
@@ -160,10 +161,11 @@ class DatabaseHelper {
       resultTitle.forEach((element) {
         var itemTitle = ResultLocal.fromJson(element);
         if (itemTitle.category == item.category) {
-          titles.add(new StorySearchItem(itemTitle.id, itemTitle.title, itemTitle.images, itemTitle.createdOn));
+          titles.add(new StorySearchItem(itemTitle.id!, itemTitle.title!,
+              itemTitle.images!, itemTitle.createdOn!));
         }
       });
-      StoryCategory.add(new StorySearchList(item.category, titles));
+      StoryCategory.add(new StorySearchList(item.category!, titles));
     });
     return StoryCategory;
   }
@@ -175,7 +177,8 @@ class DatabaseHelper {
 
   //Opinion section
 
-  Future<bool> insertOpinion(List<opinionArray.Result?> list, String program) async {
+  Future<bool> insertOpinion(
+      List<opinionArray.Result?> list, String program) async {
     var db = await this.database;
 
     list.forEach((element) async {
@@ -189,7 +192,7 @@ class DatabaseHelper {
             DatabaseConstant.columnPollDateOpinion: element.pollDate.toString(),
             DatabaseConstant.columnProgramOpinion: program,
             DatabaseConstant.columnQuestionOpinion:
-            jsonEncode(element.questions),
+                jsonEncode(element.questions),
           },
           conflictAlgorithm: ConflictAlgorithm.replace);
     });
@@ -202,18 +205,21 @@ class DatabaseHelper {
 
     var db = await this.database;
 
-    var result = await db.rawQuery("SELECT DISTINCT category FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program' ORDER BY LOWER(category) ASC");
-    var resultTitle = await db.rawQuery("SELECT id,title,poll_date,category FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program' ORDER by id DESC");
+    var result = await db.rawQuery(
+        "SELECT DISTINCT category FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program' ORDER BY LOWER(category) ASC");
+    var resultTitle = await db.rawQuery(
+        "SELECT id,title,poll_date,category FROM ${DatabaseConstant.tableNameOpinion} WHERE program = '$program' ORDER by id DESC");
     result.forEach((element) {
       List<OpinionSearchItem> titles = [];
       var category = ResultOpinionLocal.fromJson(element);
       resultTitle.forEach((element) {
         var title = ResultOpinionLocal.fromJson(element);
-        if(title.category == category.category){
-          titles.add(new OpinionSearchItem(title.id,title.title, title.polldate));
+        if (title.category == category.category) {
+          titles.add(
+              new OpinionSearchItem(title.id, title.title, title.polldate));
         }
       });
-      opinionCategory.add(new OpinionSearchList(category.category,titles));
+      opinionCategory.add(new OpinionSearchList(category.category, titles));
     });
     return opinionCategory;
   }
@@ -239,7 +245,8 @@ class DatabaseHelper {
 
   Future<int> getOpinionCount(String program) async {
     Database db = await this.database;
-    int? count = Sqflite.firstIntValue(await db.rawQuery("SELECT COUNT(*) FROM ${DatabaseConstant.tableNameOpinion} WHERE ${DatabaseConstant.columnProgramOpinion} = '$program'"));
+    int? count = Sqflite.firstIntValue(await db.rawQuery(
+        "SELECT COUNT(*) FROM ${DatabaseConstant.tableNameOpinion} WHERE ${DatabaseConstant.columnProgramOpinion} = '$program'"));
     print("Opinion count: $count");
     print("Opinion count: $program");
     return count!;
@@ -247,7 +254,8 @@ class DatabaseHelper {
 
   //Chat section
 
-  Future<bool> insertConversation(List<MessageModel> list, String program) async {
+  Future<bool> insertConversation(
+      List<MessageModel> list, String program) async {
     var db = await this.database;
     list.forEach((element) async {
       // var result = await db.insert(DatabaseConstant.tableName, element.toJson());
@@ -271,8 +279,8 @@ class DatabaseHelper {
     List<MessageModelLocal> _conversation = [];
     var db = await this.database;
     // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
-    var result = await db
-        .rawQuery("SELECT * FROM ${DatabaseConstant.tableNameMessage} WHERE program = '$program'");
+    var result = await db.rawQuery(
+        "SELECT * FROM ${DatabaseConstant.tableNameMessage} WHERE program = '$program'");
     result.forEach((element) {
       var list = MessageModelLocal.fromJson(element);
       _conversation.add(list);
@@ -285,7 +293,8 @@ class DatabaseHelper {
     db.transaction((txn) async {
       var batch = txn.batch();
 
-      batch.delete(DatabaseConstant.tableNameMessage,where: "program = '$program'");
+      batch.delete(DatabaseConstant.tableNameMessage,
+          where: "program = '$program'");
       await batch.commit();
     });
     // var result = await db.query(DatabaseConstant.tableName,where: "featured = 'true' && 'program' = 'Global'");
@@ -327,8 +336,8 @@ class DatabaseHelper {
 
   Future<int> getMessageCount(String program) async {
     Database db = await this.database;
-    int? count = Sqflite.firstIntValue(await db.rawQuery("SELECT COUNT(*) FROM ${DatabaseConstant.tableNameMessage} WHERE program = '$program'"));
+    int? count = Sqflite.firstIntValue(await db.rawQuery(
+        "SELECT COUNT(*) FROM ${DatabaseConstant.tableNameMessage} WHERE program = '$program'"));
     return count!;
   }
-
 }

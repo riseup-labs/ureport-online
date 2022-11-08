@@ -1,0 +1,228 @@
+{
+  "stories": "Povești",
+  "@stories": {
+    "description": "Povești"
+  },
+  "skip": "Sari",
+  "@skip": {
+    "description": "Sari"
+  },
+  "next": "Următorul",
+  "@next": {
+    "description": "Următorul"
+  },
+  "intro_text1": "Citiți cele mai recente postări U-Report și rămâneți la curent.",
+  "@intro_text1": {
+    "description": "Citiți cele mai recente postări U-Report și rămâneți la curent."
+  },
+  "chat": "Conversație",
+  "@chat": {
+    "description": "Conversație"
+  },
+
+  "intro_text2": "Participate in polls and access to interactive chatbots about topics you care about.",
+  "@intro_text2": {
+    "description": "Participate in polls and access to interactive chatbots about topics you care about"
+  },
+  "opinions": "Opinii",
+  "@opinions": {
+    "description": "Opinii"
+  },
+  "intro_text3": "Vizualizați rezultatele sondajelor și împărtășiți rezultatele.",
+  "@intro_text3": {
+    "description": "View polls results and share the findings"
+  },
+  "welcome": "Bun venit",
+  "@welcome": {
+    "description": "Bun venit"
+  },
+  "continu": "Continuă",
+  "@continu": {
+    "description": "Continuă"
+  },
+  "more": "Mai mult",
+  "@more": {
+    "description": "Mail mult"
+  },
+  "choose_program": "Selecteaza țara/program-ul U-Report",
+  "@choose_program": {
+    "description": "Selecteaza program-ul U-Report"
+  },
+  "enter_message": "Inserați text-ul aici...",
+  "@enter_message": {
+    "description": "Enter message"
+  },
+  "settings": "Setări",
+  "@settings": {
+    "description": "Settings"
+  },
+  "about_us": "Despre noi",
+  "@about_us": {
+    "description": "About Us"
+  },
+  "change_ureport_program": "Schimbă program-ul",
+  "@change_ureport_program": {
+    "description": "Change Program"
+  },
+  "change_language": "Schimbă limba",
+  "@change_language": {
+    "description": "Change Language"
+  },
+  "feedback": "Feedback",
+  "@feedback": {
+    "description": "Feedback"
+  },
+  "privacy_policy": "Politică de confidențialitate",
+  "@privacy_policy": {
+    "description": "Privacy Policy"
+  },
+  "terms": "Termeni și Condiții",
+  "@terms": {
+    "description": "Terms and Conditions"
+  },
+  "sound": "Sunet",
+  "@sound": {
+    "description": "Sound"
+  },
+  "on": "On",
+  "@on": {
+    "description": "On"
+  },
+  "off": "Off",
+  "@off": {
+    "description": "Off"
+  },
+  "select_language": "Selectează Limba",
+  "@select_language": {
+    "description": "Select Language"
+  },
+  "language": "Limba",
+  "@language": {
+    "description": "Language"
+  },
+  "see_more": "Vezi mai multe",
+  "@see_more": {
+    "description": "See More"
+  },
+  "featured_story": "POVESTEA PREFERATĂ",
+  "@featured_story": {
+    "description": "FEATURED STORY"
+  },
+  "read_more": "CITEȘTE MAI MULT",
+  "@read_more": {
+    "description": "READ MORE"
+  },
+  "all": "TOATE",
+  "@all": {
+    "description": "ALL"
+  },
+  "age": "VÂRSTA",
+  "@age": {
+    "description": "AGE"
+  },
+  "gender": "GEN",
+  "@gender": {
+    "description": "GENDER"
+  },
+  "location": "LOCAȚIA",
+  "@location": {
+    "description": "LOCATION"
+  },
+  "search": "CAUTĂ",
+  "@search": {
+    "description": "Search"
+  },
+  "response_rate": "RATĂ DE RĂSPUNS",
+  "@response_rate": {
+    "description": "RESPONSE RATE"
+  },
+  "respondents": "CORESPONDENȚI",
+  "@respondents": {
+    "description": "RESPONDENTS"
+  },
+  "responded_out_of": "răspuns din",
+  "@responded_out_of": {
+    "description": "responded out of"
+  },
+  "polled": "sondat",
+  "@polled": {
+    "description": "polled"
+  },
+  "latest_opinion": "ULTIMILE OPINII",
+  "@latest_opinion": {
+    "description": "LATEST OPINION"
+  },
+  "cancel": "ANULEAZĂ",
+  "@cancel": {
+    "description": "Cancel"
+  },
+  "selected": "Selectat",
+  "@selected": {
+    "description": "Selected"
+  },
+  "delete": "Șterge",
+  "@delete": {
+    "description": "Delete"
+  },
+  "delete_message": "Ești sigur că vrei să ștergi?",
+  "@delete_message": {
+    "description": "Are you sure you want to delete?"
+  },
+  "previous_message_deleted": "Toate mesajele anterioare au fost șterse",
+  "@previous_message_deleted": {
+    "description": "All previous message was deleted"
+  },
+  "notification": "Notificări",
+  "@notification": {
+    "description": "Notification"
+  },
+  "five_days_delete_text": "Ștergeți mesajele automat după 5 zile",
+  "@five_days_delete_text": {
+    "description": "Automatically remove messages after 5 days"
+  },
+  "remove_all_message_text": "Ștergeți toate mesajele",
+  "@remove_all_message_text": {
+    "description": "Remove all messages"
+  },
+  "remove": "Șterge",
+  "@remove": {
+    "description": "Remove"
+  },
+  "share": "Distribuie",
+  "@share": {
+    "description": "Share"
+  },
+  "this_message_deleted": "Acest mesaj a fost șters",
+  "@this_message_deleted": {
+    "description": "This Message was Deleted"
+  },
+  "no_result_found": "Nu s-au găsit rezultate",
+  "@no_result_found": {
+    "description": "No result found"
+  },
+  "splashText": "Să facem schimbarea împreună",
+  "@splashText": {
+    "description": "splashText"
+  },
+  "no_internet_text": "Nu există conexiune la internet",
+  "@no_internet_text": {
+    "description": "No internet connection is available"
+  },
+  "get_started": "Să începem",
+  "@get_started": {
+    "description": "get_started"
+  },
+  "back": "ÎNAPOI",
+  "@back": {
+    "description": "back"
+  },
+  "exit": "IEȘIRE",
+  "@exit": {
+    "description": "exit"
+  },
+  "retry": "ÎNCEARCĂ DIN NOU",
+  "@retry": {
+    "description": "retry"
+  }
+  
+}

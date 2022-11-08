@@ -41,164 +41,169 @@ class _OpinionState extends State<Opinion> {
 
   @override
   Widget build(BuildContext context) {
-
     List<ResultOpinionLocal>? opinions = [];
 
     if (Provider.of<OpinionController>(context, listen: false).isLoaded) {
       Provider.of<OpinionController>(context, listen: false).checkOpinion(
           RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-          sp.getValue(SPUtil.PROGRAMKEY));
+          sp.getValue(SPUtil.PROGRAMKEY)!);
       Provider.of<OpinionController>(context, listen: false).isLoaded = false;
     }
 
     return Consumer<OpinionController>(builder: (context, provider, child) {
-      var _futureOpinion = provider.getOpinionsFromLocal(sp.getValue(SPUtil.PROGRAMKEY), 0);
+      var _futureOpinion =
+          provider.getOpinionsFromLocal(sp.getValue(SPUtil.PROGRAMKEY)!, 0);
       return Scaffold(
           body: SafeArea(
-            child: Container(
-        color: Colors.white,
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        TopBar.getTopBar(AppLocalizations.of(context)!.opinions),
-        Container(
-            child: Divider(
-              height: 1,
-              color: Colors.grey[600],
-            ),
-        ),
-        SizedBox(
-            height: 5,
-        ),
-        provider.isSyncing
-              ? Container(
-                  height: 5,
-                  padding: EdgeInsets.only(left: 13, right: 13),
-                  child: LinearProgressIndicator(
-                    color: RemoteConfigData.getPrimaryColor(),
-                  ),
-                )
-              : Container(),
-        Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child: GestureDetector(
-              onTap: () {
-                ClickSound.soundClick();
-                NavUtils.push(context, OpinionSearch());
-              },
-              child: Card(
-                elevation: 2,
-                child: Container(
-                  height: 40,
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.search,
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TopBar.getTopBar(AppLocalizations.of(context)!.opinions),
+              Container(
+                child: Divider(
+                  height: 1,
+                  color: Colors.grey[600],
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              provider.isSyncing
+                  ? Container(
+                      height: 5,
+                      padding: EdgeInsets.only(left: 13, right: 13),
+                      child: LinearProgressIndicator(
+                        color: RemoteConfigData.getPrimaryColor(),
+                      ),
+                    )
+                  : Container(),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: GestureDetector(
+                  onTap: () {
+                    ClickSound.soundClick();
+                    NavUtils.push(context, OpinionSearch());
+                  },
+                  child: Card(
+                    elevation: 2,
+                    child: Container(
+                      height: 40,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.search,
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.grey),
+                            ),
+                            Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.grey,
+                              size: 38,
+                            ),
+                          ],
                         ),
-                        Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.grey,
-                          size: 38,
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-        ),
-        SizedBox(
-            height: 10,
-        ),
-        Expanded(
-            child: FutureBuilder<List<ResultOpinionLocal>>(
-                future: _futureOpinion,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    opinions = snapshot.data;
-                    if (opinions!.length > 0) {
-                      var mapdata = jsonDecode(opinions![0].questions);
-                      // questionList.clear();
-                      List<questionArray.Question> questionList =
-                          (mapdata as List)
+              SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: FutureBuilder<List<ResultOpinionLocal>>(
+                    future: _futureOpinion,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        opinions = snapshot.data;
+                        if (opinions!.length > 0) {
+                          var mapdata = jsonDecode(opinions![0].questions!);
+                          // questionList.clear();
+                          List<questionArray.Question> questionList = (mapdata
+                                  as List)
                               .map((e) => questionArray.Question.fromJson(e))
                               .toList();
-                      return snapshot.hasData
-                          ? RefreshIndicator(
-                              onRefresh: () {
-                                return _futureOpinion = getDataFromApi(context, provider);
-                              },
-                              child: SingleChildScrollView(
-                                physics: AlwaysScrollableScrollPhysics(),
-                                child: Container(
-                                  padding:
-                                      EdgeInsets.only(left: 15, right: 15),
-                                  margin: EdgeInsets.only(top: 10),
-                                  child: Column(
-                                    children: [
-                                      questionList.length > 0
-                                          ? StatisticsHeader
-                                              .getHeadingStatistics(
-                                                  questionList.first,
-                                                  opinions![0],
-                                                  provider,
-                                      sp.getValue(SPUtil.PROGRAMKEY),context)
-                                          : StatisticsHeader
-                                              .getHeadingStatisticsEmpty(
-                                                  opinions![0],context),
-                                      ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: BouncingScrollPhysics(),
-                                          itemCount: questionList.length,
-                                          itemBuilder: (context, int index) {
-                                            if (colorNumber >
-                                                colors.length - 1) {
-                                              colorNumber = 0;
-                                            }
-                                            return OpinionItem(
-                                                questionList[index],
-                                                colors[questionList[index]
-                                                            .resultsByGender
-                                                            .length !=
-                                                        0
-                                                    ? colorNumber++
-                                                    : colorNumber]);
-                                          })
-                                    ],
+                          return snapshot.hasData
+                              ? RefreshIndicator(
+                                  onRefresh: () {
+                                    return _futureOpinion =
+                                        getDataFromApi(context, provider);
+                                  },
+                                  child: SingleChildScrollView(
+                                    physics: AlwaysScrollableScrollPhysics(),
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.only(left: 15, right: 15),
+                                      margin: EdgeInsets.only(top: 10),
+                                      child: Column(
+                                        children: [
+                                          questionList.length > 0
+                                              ? StatisticsHeader
+                                                  .getHeadingStatistics(
+                                                      questionList.first,
+                                                      opinions![0],
+                                                      provider,
+                                                      sp.getValue(
+                                                          SPUtil.PROGRAMKEY)!,
+                                                      context)
+                                              : StatisticsHeader
+                                                  .getHeadingStatisticsEmpty(
+                                                      opinions![0], context),
+                                          ListView.builder(
+                                              shrinkWrap: true,
+                                              physics: BouncingScrollPhysics(),
+                                              itemCount: questionList.length,
+                                              itemBuilder:
+                                                  (context, int index) {
+                                                if (colorNumber >
+                                                    colors.length - 1) {
+                                                  colorNumber = 0;
+                                                }
+                                                return OpinionItem(
+                                                    questionList[index],
+                                                    colors[questionList[index]
+                                                                .resultsByGender
+                                                                .length !=
+                                                            0
+                                                        ? colorNumber++
+                                                        : colorNumber]);
+                                              })
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            )
-                          : Container(
-                              height: 60,
-                              width: 60,
-                              child: LoadingBar.spinkit,
-                            );
-                    } else {
-                      return Container(
-                        height: 60,
-                        width: 60,
-                        child: LoadingBar.spinkit,
-                      );
-                    }
-                  } else {
-                    return Container(
-                      height: 60,
-                      width: 60,
-                      child: LoadingBar.spinkit,
-                    );
-                  }
-                }),
-        )
-      ],
+                                )
+                              : Container(
+                                  height: 60,
+                                  width: 60,
+                                  child: LoadingBar.spinkit,
+                                );
+                        } else {
+                          return Container(
+                            height: 60,
+                            width: 60,
+                            child: LoadingBar.spinkit,
+                          );
+                        }
+                      } else {
+                        return Container(
+                          height: 60,
+                          width: 60,
+                          child: LoadingBar.spinkit,
+                        );
+                      }
+                    }),
+              )
+            ],
+          ),
         ),
-      ),
-          ));
+      ));
     });
   }
 
@@ -207,9 +212,10 @@ class _OpinionState extends State<Opinion> {
     if (provider.isOnline) {
       Provider.of<OpinionController>(context, listen: false).setSyncing();
       Provider.of<OpinionController>(context, listen: false).isLoading = false;
-      return Provider.of<OpinionController>(context, listen: false).checkOpinion(
+      return Provider.of<OpinionController>(context, listen: false)
+          .checkOpinion(
               RemoteConfigData.getOpinionUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-              sp.getValue(SPUtil.PROGRAMKEY));
+              sp.getValue(SPUtil.PROGRAMKEY)!);
     } else {
       return ShowSnackBar.showNoInternetMessage(context);
     }

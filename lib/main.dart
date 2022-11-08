@@ -1,7 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -43,7 +42,6 @@ AndroidNotificationChannel channel = const AndroidNotificationChannel(
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -72,74 +70,73 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   FirebaseAnalytics analytics = FirebaseAnalytics();
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-    create: (context) => LocaleProvider(),
-    builder: (context, child) {
-      final provider = Provider.of<LocaleProvider>(context);
-      setInitialLocal(provider);
-      return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => OpinionController()),
-          ChangeNotifierProvider(create: (context) => StoryController()),
-          ChangeNotifierProvider(create: (context) => StoryDetailsController()),
-          ChangeNotifierProvider(create: (context) => ChatController()),
-          ChangeNotifierProvider(create: (context) => RemoteConfigController()),
-          ChangeNotifierProvider(create: (context) => ConnectivityController()),
-          ChangeNotifierProvider(create: (context) => AboutController()),
-        ],
-        child: KeyboardDismissOnTap(
-          child: MaterialApp(
-            title: "Ureport Ecaro",
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-              fontFamily: "Montserrat"
-            ),
-            home: Directionality(
-              textDirection: TextDirection.ltr,
-              child: SplashScreen(),
-            ),
-            supportedLocales: L10n.all,
-            locale: provider.locale,
-            localizationsDelegates: [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
+        create: (context) => LocaleProvider(),
+        builder: (context, child) {
+          final provider = Provider.of<LocaleProvider>(context);
+          setInitialLocal(provider);
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (context) => OpinionController()),
+              ChangeNotifierProvider(create: (context) => StoryController()),
+              ChangeNotifierProvider(
+                  create: (context) => StoryDetailsController()),
+              ChangeNotifierProvider(create: (context) => ChatController()),
+              ChangeNotifierProvider(
+                  create: (context) => RemoteConfigController()),
+              ChangeNotifierProvider(
+                  create: (context) => ConnectivityController()),
+              ChangeNotifierProvider(create: (context) => AboutController()),
             ],
-            navigatorObservers: [
-              FirebaseAnalyticsObserver(analytics: analytics),
-            ],
-          ),
-        ),
+            child: KeyboardDismissOnTap(
+              child: MaterialApp(
+                title: "Ureport Ecaro",
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                    primarySwatch: Colors.blue, fontFamily: "Montserrat"),
+                home: Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: SplashScreen(),
+                ),
+                supportedLocales: L10n.all,
+                locale: provider.locale,
+                localizationsDelegates: [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                navigatorObservers: [
+                  FirebaseAnalyticsObserver(analytics: analytics),
+                ],
+              ),
+            ),
+          );
+        },
       );
-    },
-  );
 
   static void setInitialLocal(LocaleProvider provider) {
     var sp = locator<SPUtil>();
-    if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "en"){
+    if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "en") {
       provider.setInitialLocale(new Locale('en'));
-    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ar"){
+    } else if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ar") {
       provider.setInitialLocale(new Locale('ar'));
-    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "zh"){
+    } else if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "zh") {
       provider.setInitialLocale(new Locale('zh'));
-    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "fr"){
+    } else if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "fr") {
       provider.setInitialLocale(new Locale('fr'));
-    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ru"){
+    } else if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ru") {
       provider.setInitialLocale(new Locale('ru'));
-    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "es"){
+    } else if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "es") {
       provider.setInitialLocale(new Locale('es'));
-    }else if(sp.getValue(SPConstant.SELECTED_LANGUAGE) == "it"){
+    } else if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "it") {
       provider.setInitialLocale(new Locale('it'));
-    }else{
+    } else if (sp.getValue(SPConstant.SELECTED_LANGUAGE) == "ro") {
+      provider.setInitialLocale(new Locale('ro'));
+    } else {
       provider.setInitialLocale(new Locale('en'));
     }
   }
-
-
 }
-

@@ -19,7 +19,7 @@ import 'opinion_screen.dart';
 import 'opinion_screen_from_search.dart';
 
 FloatingSearchBarController _floatingSearchBarController =
-FloatingSearchBarController();
+    FloatingSearchBarController();
 List<OpinionSearchList> filteredCategoryList = [];
 List<OpinionSearchList> categoryListFull = [];
 var isLoaded = true;
@@ -48,7 +48,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
   @override
   Widget build(BuildContext context) {
     Provider.of<OpinionController>(context, listen: false)
-        .getCategories(sp.getValue(SPUtil.PROGRAMKEY));
+        .getCategories(sp.getValue(SPUtil.PROGRAMKEY)!);
 
     return Consumer<OpinionController>(builder: (context, provider, snapshot) {
       return Scaffold(
@@ -67,7 +67,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
                     top: 12,
                     left: 10,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.pop(context);
                         ClickSound.soundClose();
                       },
@@ -83,43 +83,49 @@ class _OpinionSearchState extends State<OpinionSearch> {
                     ),
                   ),
                   Container(
-                      margin: EdgeInsets.only(left: 11,right: 12,top: 80),
-                      child: searchBarUI(provider, sp.getValue(SPUtil.PROGRAMKEY))),
+                      margin: EdgeInsets.only(left: 11, right: 12, top: 80),
+                      child: searchBarUI(
+                          provider, sp.getValue(SPUtil.PROGRAMKEY)!)),
                   Container(
                     margin: EdgeInsets.only(top: 136),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: FutureBuilder<List<OpinionSearchList>>(
                         future: provider
-                            .getCategories(sp.getValue(SPUtil.PROGRAMKEY)),
+                            .getCategories(sp.getValue(SPUtil.PROGRAMKEY)!),
                         builder: (context, snapshot) {
                           if (snapshot.hasData && isLoaded) {
                             filteredCategoryList = snapshot.data!;
                             categoryListFull.addAll(snapshot.data!);
                             isLoaded = false;
                           }
-                          return filteredCategoryList.length != 0 ?  Container(
-                            color: AppColors.white,
-                            child: ListView.builder(
-                              itemBuilder: (BuildContext context, int index) =>
-                                  getItem(filteredCategoryList[index], provider),
-                              itemCount: filteredCategoryList.length,
-                            ),
-                          ):!provider.noResultFound
+                          return filteredCategoryList.length != 0
                               ? Container(
-                              child: Center(child: LoadingBar.spinkit))
-                              : Column(
-                            children: [
-                              Container(
-                                  width: double.infinity,
-                                  height: 40,
-                                  color: Colors.white,
-                                  child: Center(
-                                      child: Text(
-                                        AppLocalizations.of(context)!.no_result_found,
-                                        style: TextStyle(fontSize: 15),
-                                      ))),
-                            ],
-                          );
+                                  color: AppColors.white,
+                                  child: ListView.builder(
+                                    itemBuilder:
+                                        (BuildContext context, int index) =>
+                                            getItem(filteredCategoryList[index],
+                                                provider),
+                                    itemCount: filteredCategoryList.length,
+                                  ),
+                                )
+                              : !provider.noResultFound
+                                  ? Container(
+                                      child: Center(child: LoadingBar.spinkit))
+                                  : Column(
+                                      children: [
+                                        Container(
+                                            width: double.infinity,
+                                            height: 40,
+                                            color: Colors.white,
+                                            child: Center(
+                                                child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .no_result_found,
+                                              style: TextStyle(fontSize: 15),
+                                            ))),
+                                      ],
+                                    );
                         }),
                   )
                 ],
@@ -160,28 +166,30 @@ class _OpinionSearchState extends State<OpinionSearch> {
               scrollPadding: EdgeInsets.only(bottom: 10, top: 5),
               physics: BouncingScrollPhysics(),
               onQueryChanged: (value) {
-
                 filteredCategoryList.clear();
-                for(int i = 0; i < categoryListFull.length; i++){
-                  OpinionSearchList category = OpinionSearchList(categoryListFull[i].title, []);
-                  for(int j = 0 ; j < categoryListFull[i].children.length; j++){
+                for (int i = 0; i < categoryListFull.length; i++) {
+                  OpinionSearchList category =
+                      OpinionSearchList(categoryListFull[i].title, []);
+                  for (int j = 0;
+                      j < categoryListFull[i].children.length;
+                      j++) {
                     var titleObj = categoryListFull[i].children[j];
                     var title = categoryListFull[i].children[j].title;
 
-                    if(title.toLowerCase().contains(value.toLowerCase())){
+                    if (title.toLowerCase().contains(value.toLowerCase())) {
                       titleObj.value = value;
                       category.children.add(titleObj);
                     }
                   }
-                  if(category.children.length>0){
+                  if (category.children.length > 0) {
                     filteredCategoryList.add(category);
                     setState(() {});
                   }
                 }
 
-                if(value.isEmpty){
+                if (value.isEmpty) {
                   isExpanded = false;
-                }else{
+                } else {
                   isExpanded = true;
                 }
                 if (filteredCategoryList.isEmpty) {
@@ -200,13 +208,14 @@ class _OpinionSearchState extends State<OpinionSearch> {
               transition: CircularFloatingSearchBarTransition(),
               debounceDelay: Duration(milliseconds: 100),
               actions: [
-                isExpanded?GestureDetector(
-                    onTap: (){
-                      ClickSound.soundClose();
-                      _floatingSearchBarController.clear();
-                    },
-                    child: Icon(Icons.clear)
-                ):SizedBox()
+                isExpanded
+                    ? GestureDetector(
+                        onTap: () {
+                          ClickSound.soundClose();
+                          _floatingSearchBarController.clear();
+                        },
+                        child: Icon(Icons.clear))
+                    : SizedBox()
               ],
               builder: (context, transition) {
                 return Container();
@@ -216,8 +225,7 @@ class _OpinionSearchState extends State<OpinionSearch> {
     );
   }
 
-  getItem(OpinionSearchList popup, OpinionController provider){
-
+  getItem(OpinionSearchList popup, OpinionController provider) {
     if (popup.children.isEmpty) return ListTile(title: Text(popup.title));
 
     List<Widget> list = [];
@@ -242,13 +250,14 @@ class _OpinionSearchState extends State<OpinionSearch> {
                   children: [
                     Text(
                       popup.title,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
                 children: list,
                 initiallyExpanded: isExpanded,
-                onExpansionChanged: (value){
+                onExpansionChanged: (value) {
                   ClickSound.soundDropdown();
                 },
               ),
@@ -264,12 +273,13 @@ class _OpinionSearchState extends State<OpinionSearch> {
     );
   }
 
-  Widget buildItem(OpinionController provider, OpinionSearchItem item, BuildContext context) {
-
+  Widget buildItem(OpinionController provider, OpinionSearchItem item,
+      BuildContext context) {
     final dateTime = DateTime.parse(item.date);
     final format = DateFormat('dd MMMM, yyyy');
     final titleDate = format.format(dateTime);
-    String latest_opinion_id = sp.getValue("${sp.getValue(SPUtil.PROGRAMKEY)}_latest_opinion");
+    String latest_opinion_id =
+        sp.getValue("${sp.getValue(SPUtil.PROGRAMKEY)}_latest_opinion")!;
 
     return Container(
         child: GestureDetector(
@@ -285,8 +295,12 @@ class _OpinionSearchState extends State<OpinionSearch> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(Icons.arrow_right, size: 20,),
-                  Expanded(child: Padding(
+                  Icon(
+                    Icons.arrow_right,
+                    size: 20,
+                  ),
+                  Expanded(
+                      child: Padding(
                     padding: const EdgeInsets.only(top: 1),
                     child: RichText(
                       text: TextSpan(
@@ -296,34 +310,45 @@ class _OpinionSearchState extends State<OpinionSearch> {
                         ),
                         children: <InlineSpan>[
                           TextSpan(
-                            children: highlightOccurrences(item.title, item.value),
+                            children:
+                                highlightOccurrences(item.title, item.value),
                             style: TextStyle(color: Colors.black),
                           ),
                           TextSpan(text: "  "),
-                          TextSpan(text: titleDate, style: new TextStyle(fontWeight: FontWeight.bold)),
-                          item.id.toString() == latest_opinion_id?WidgetSpan(
-                              child: Container(
-                                padding: EdgeInsets.only(left: 6, right: 6, top: 3, bottom: 3),
-                                decoration: BoxDecoration(
-                                  color: RemoteConfigData.getPrimaryColor(),
-                                  borderRadius: BorderRadius.circular(4)
-                                ),
-                                child: Text(AppLocalizations.of(context)!.latest_opinion, style: TextStyle(fontSize: 12, color: Colors.white),),
-                              )
-                          ):TextSpan(text: "")
+                          TextSpan(
+                              text: titleDate,
+                              style:
+                                  new TextStyle(fontWeight: FontWeight.bold)),
+                          item.id.toString() == latest_opinion_id
+                              ? WidgetSpan(
+                                  child: Container(
+                                  padding: EdgeInsets.only(
+                                      left: 6, right: 6, top: 3, bottom: 3),
+                                  decoration: BoxDecoration(
+                                      color: RemoteConfigData.getPrimaryColor(),
+                                      borderRadius: BorderRadius.circular(4)),
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .latest_opinion,
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.white),
+                                  ),
+                                ))
+                              : TextSpan(text: "")
                         ],
                       ),
                     ),
                   )),
                 ],
               ),
-            )
-        ));
+            )));
   }
 
   List<TextSpan> highlightOccurrences(String source, String query) {
-    if (query == null || query.isEmpty || !source.toLowerCase().contains(query.toLowerCase())) {
-      return [ TextSpan(text: source) ];
+    if (query == null ||
+        query.isEmpty ||
+        !source.toLowerCase().contains(query.toLowerCase())) {
+      return [TextSpan(text: source)];
     }
     final matches = query.toLowerCase().allMatches(source.toLowerCase());
 
@@ -341,7 +366,11 @@ class _OpinionSearchState extends State<OpinionSearch> {
 
       children.add(TextSpan(
         text: source.substring(match.start, match.end),
-        style: TextStyle(fontWeight: FontWeight.bold, color: RemoteConfigData.getTextColor(),backgroundColor: RemoteConfigData.getBackgroundColor(), fontSize: 15),
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: RemoteConfigData.getTextColor(),
+            backgroundColor: RemoteConfigData.getBackgroundColor(),
+            fontSize: 15),
       ));
 
       if (i == matches.length - 1 && match.end != source.length) {

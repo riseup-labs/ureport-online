@@ -12,15 +12,13 @@ class ResultOpinionLocal {
     required this.questionList,
   });
 
-
   int id;
   String title;
   dynamic org;
   String category;
-  String questions;
+  String? questions;
   String polldate;
-  List<questionArray.Question> questionList;
-
+  List<questionArray.Question>? questionList;
 
   factory ResultOpinionLocal.fromJson(Map<String, dynamic> json) =>
       ResultOpinionLocal(
