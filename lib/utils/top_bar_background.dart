@@ -32,7 +32,7 @@ class TopBar {
                 child: Container(
                   height: 80,
                   child: Container(
-                    padding: EdgeInsets.only(left: title.length>8 ? 40 : 10),
+                    padding: EdgeInsets.only(left: title.length > 8 ? 40 : 10),
                     child: Center(
                       child: Text(
                         title,
@@ -52,71 +52,74 @@ class TopBar {
     );
   }
 
-  static Widget getChatTopBar(String title, BuildContext context, String from) {
+  static Widget getChatTopBar(
+      String title, BuildContext context, String from, String region) {
     return Container(
       color: Colors.white,
       child: Row(
         children: [
           Expanded(
             child: Container(
-                margin: EdgeInsets.only(top: 4,left: 20),
-                child: CachedNetworkImage(
-                  imageUrl: RemoteConfigData.getLargeIcon(),
-                ),
-              constraints:BoxConstraints(maxHeight: 30, maxWidth: MediaQuery.of(context).size.width/3),
+              margin: EdgeInsets.only(top: 4, left: 20),
+              child: CachedNetworkImage(
+                imageUrl: RemoteConfigData.getLargeIcon(),
+              ),
+              constraints: BoxConstraints(
+                  maxHeight: 30,
+                  maxWidth: MediaQuery.of(context).size.width / 3),
             ),
           ),
           Container(
-            child: CustomPaint(
-              painter: CustomBackground(),
-              child: Container(
-                padding: EdgeInsets.only(left: 40),
-                height: 80,
+              child: CustomPaint(
+                painter: CustomBackground(),
                 child: Container(
-                  padding: EdgeInsets.only(right: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        child: Text(
-                          title,
-                          style: TextStyle(
-                              fontSize: title.length <= 4 ? 26.0 : 21.0,
-                              color: RemoteConfigData.getTextColor(),
-                              fontWeight: FontWeight.bold),
+                  padding: EdgeInsets.only(left: 40),
+                  height: 80,
+                  child: Container(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          child: Text(
+                            title,
+                            style: TextStyle(
+                                fontSize: title.length <= 4 ? 26.0 : 21.0,
+                                color: RemoteConfigData.getTextColor(),
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.clear,
-                          size: 30,
-                          color: RemoteConfigData.getTextColor(),
+                        SizedBox(
+                          width: 5,
                         ),
-                        onPressed: () {
-                          ClickSound.soundClose();
-                          //Detect where this page called
-                          if (from == "Home") {
-                            Provider.of<ChatController>(context,
-                                    listen: false)
-                                .selectall = false;
-                            Navigator.pop(context);
-                          } else {
-                            NavUtils.pushAndRemoveUntil(
-                                context, NavigationScreen(0));
-                          }
-                        },
-                      )
-                    ],
+                        IconButton(
+                          icon: Icon(
+                            Icons.clear,
+                            size: 30,
+                            color: RemoteConfigData.getTextColor(),
+                          ),
+                          onPressed: () {
+                            ClickSound.soundClose();
+                            //Detect where this page called
+                            if (from == "Home") {
+                              Provider.of<ChatController>(context,
+                                      listen: false)
+                                  .selectall = false;
+                              Navigator.pop(context);
+                            } else {
+                              NavUtils.pushAndRemoveUntil(
+                                  context, NavigationScreen(0, region));
+                            }
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-              constraints:BoxConstraints(minHeight: 80, minWidth: MediaQuery.of(context).size.width/2)
-          ),
+              constraints: BoxConstraints(
+                  minHeight: 80,
+                  minWidth: MediaQuery.of(context).size.width / 2)),
         ],
       ),
     );

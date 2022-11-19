@@ -17,6 +17,7 @@ import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:ureport_ecaro/utils/snackbar.dart';
+import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:ureport_ecaro/utils/top_bar_background.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -54,6 +55,8 @@ class _ChatState extends State<Chat> {
   TapGestureRecognizer tapGestureRecognizer = TapGestureRecognizer();
 
   bool isKeyboardOpen = false;
+
+  var _sp = locator<SPUtil>();
 
   @override
   void initState() {
@@ -111,7 +114,8 @@ class _ChatState extends State<Chat> {
         if (widget.from == "Home") {
           Navigator.pop(context);
         } else {
-          NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
+          NavUtils.pushAndRemoveUntil(context,
+              NavigationScreen(0, _sp.getValue(SPConstant.SELECTED_LANGUAGE)));
         }
         return false;
       },
@@ -128,8 +132,11 @@ class _ChatState extends State<Chat> {
                 color: Colors.white,
                 child: Column(
                   children: [
-                    TopBar.getChatTopBar(AppLocalizations.of(context)!.chat,
-                        context, widget.from),
+                    TopBar.getChatTopBar(
+                        AppLocalizations.of(context)!.chat,
+                        context,
+                        widget.from,
+                        _sp.getValue(SPConstant.SELECTED_LANGUAGE)!),
                     Container(
                       child: Divider(
                         height: 1,

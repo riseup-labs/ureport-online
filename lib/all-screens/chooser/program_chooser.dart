@@ -12,6 +12,7 @@ import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/snackbar.dart';
+import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -26,6 +27,8 @@ class ProgramChooser extends StatefulWidget {
 
 class _ProgramChooserState extends State<ProgramChooser> {
   String from;
+
+  var _sp = locator<SPUtil>();
 
   var spset = locator<SPUtil>();
 
@@ -210,7 +213,11 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                                     .createContact();
                                               }
                                               NavUtils.pushAndRemoveUntil(
-                                                  context, NavigationScreen(0));
+                                                  context,
+                                                  NavigationScreen(
+                                                      0,
+                                                      _sp.getValue(SPConstant
+                                                          .SELECTED_LANGUAGE)));
                                             } else {
                                               ShowSnackBar
                                                   .showNoInternetMessage(

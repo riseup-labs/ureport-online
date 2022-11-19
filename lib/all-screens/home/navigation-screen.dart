@@ -1,5 +1,4 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_list.dart';
 import 'package:ureport_ecaro/all-screens/settings/settings.dart';
@@ -9,13 +8,13 @@ import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 
 import 'chat/Chat.dart';
-import 'chat/chat-controller.dart';
 import 'opinion/opinion_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   int changedIndex;
+  final String? region;
 
-  NavigationScreen(this.changedIndex);
+  NavigationScreen(this.changedIndex, this.region);
 
   @override
   _NavigationScreenState createState() => _NavigationScreenState(changedIndex);
@@ -26,11 +25,18 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   _NavigationScreenState(this.changedIndex);
 
-  final tabs = [StoryList(), SizedBox(), Opinion(), Settings()];
+  late List<Widget> tabs;
 
   @override
   void initState() {
-    getfirebaseonApp(context);
+    print("??? ${widget.region}");
+    if (widget.region == 'ro') {
+      tabs = [StoryList()];
+    } else {
+      tabs = [StoryList(), SizedBox(), Opinion(), Settings()];
+      getfirebaseonApp(context);
+    }
+
     super.initState();
   }
 
@@ -57,7 +63,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 "assets/images/ic_stories_on.png",
                 height: 40.18,
                 width: 33.66,
-                color: RemoteConfigData.getPrimaryColor(),
+                color: widget.region == 'ro'
+                    ? Color.fromRGBO(248, 149, 220, 1)
+                    : RemoteConfigData.getPrimaryColor(),
               ),
               label: "${AppLocalizations.of(context)!.stories}",
             ),
@@ -71,7 +79,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 "assets/images/ic_chat_on.png",
                 height: 40.18,
                 width: 33.66,
-                color: RemoteConfigData.getPrimaryColor(),
+                color: widget.region == 'ro'
+                    ? Color.fromRGBO(248, 149, 220, 1)
+                    : RemoteConfigData.getPrimaryColor(),
               ),
               label: "${AppLocalizations.of(context)!.chat}",
             ),
@@ -82,7 +92,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 "assets/images/ic_opinions_on.png",
                 height: 40.18,
                 width: 33.66,
-                color: RemoteConfigData.getPrimaryColor(),
+                color: widget.region == 'ro'
+                    ? Color.fromRGBO(248, 149, 220, 1)
+                    : RemoteConfigData.getPrimaryColor(),
               ),
               label: "${AppLocalizations.of(context)!.opinions}",
             ),
@@ -93,7 +105,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 "assets/images/ic_more_on.png",
                 height: 40.18,
                 width: 33.66,
-                color: RemoteConfigData.getPrimaryColor(),
+                color: widget.region == 'ro'
+                    ? Color.fromRGBO(248, 149, 220, 1)
+                    : RemoteConfigData.getPrimaryColor(),
               ),
               label: "${AppLocalizations.of(context)!.more}",
             ),
@@ -101,7 +115,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
           backgroundColor: Colors.white,
           showUnselectedLabels: true,
           showSelectedLabels: true,
-          selectedItemColor: RemoteConfigData.getPrimaryColor(),
+          selectedItemColor: widget.region == 'ro'
+              ? Color.fromRGBO(248, 149, 220, 1)
+              : RemoteConfigData.getPrimaryColor(),
           selectedFontSize: 13,
           unselectedFontSize: 13,
           unselectedItemColor: Colors.black,
@@ -119,14 +135,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
   }
 
   getfirebaseonApp(context) {
-
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? remoteMessage) {
-
       print("Navigation screen called");
-      if(remoteMessage != null){
+      if (remoteMessage != null) {
         NavUtils.pushReplacement(context, Chat("notification"));
       }
-
     });
   }
 }

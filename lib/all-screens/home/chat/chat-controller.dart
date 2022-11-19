@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
@@ -7,7 +6,6 @@ import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/Chat.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/model/messagehandler.dart';
-import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/apicall_responsedata/response_contact_creation.dart';
@@ -42,7 +40,6 @@ class ChatController extends ConnectivityController {
   String messagestatus = "sending";
 
   late ResponseContactCreation responseContactCreation;
-  var _urn = "";
   String _token = "";
 
   bool isLoaded = true;
@@ -148,18 +145,11 @@ class ChatController extends ConnectivityController {
   }
 
   addQuickType() async {
-    List<dynamic> repdata = [];
     var data = RemoteConfigData.getDefaultAction();
     // repdata.add(data);
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
 
-    MessageModel messageModel = MessageModel(
-        message: "",
-        sender: "self",
-        status: "Received",
-        quicktypest: data,
-        time: formattedDate);
     MessageModelLocal messageModelLocal = MessageModelLocal(
         message: "",
         sender: "self",
@@ -176,18 +166,11 @@ class ChatController extends ConnectivityController {
   }
 
   addQuickTypeCaseManagement() async {
-    List<dynamic> repdata = [];
     var data = RemoteConfigData.getOneToOneAction();
     // repdata.add(data);
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy hh:mm:ss a').format(now);
 
-    MessageModel messageModel = MessageModel(
-        message: "",
-        sender: "self",
-        status: "Received",
-        quicktypest: data,
-        time: formattedDate);
     MessageModelLocal messageModelLocal = MessageModelLocal(
         message: "",
         sender: "self",
@@ -289,7 +272,7 @@ class ChatController extends ConnectivityController {
   List<dynamic> quicdata(String ss) {
     List<dynamic> data = [];
 
-    if (ss != "null" && ss.isNotEmpty && ss != "" && !ss.isEmpty) {
+    if (ss != "null" && ss.isNotEmpty && ss != "" && ss.isNotEmpty) {
       data = json.decode(ss);
 
       return data;
@@ -321,7 +304,7 @@ class ChatController extends ConnectivityController {
         var apiResponse = await _rapidproservice
             .createContact(contact_urn, _token, "User", onSuccess: (uuid) {
           contatct = uuid;
-        });
+        }, onError: (Exception error) {});
         if (apiResponse.httpCode == 200) {
           responseContactCreation = apiResponse.data;
           _spservice.setValue(SPUtil.CONTACT_URN, contact_urn);
@@ -360,7 +343,7 @@ class ChatController extends ConnectivityController {
         var apiResponse = await _rapidproservice
             .createContact(contact_urn, _token, "Unknown", onSuccess: (uuid) {
           contatct = uuid;
-        });
+        }, onError: (Exception error) {});
         // getfirebase();
         if (apiResponse.httpCode == 200) {
           responseContactCreation = apiResponse.data;

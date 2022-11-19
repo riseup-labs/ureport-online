@@ -33,34 +33,35 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    var region = _sp.getValue(SPConstant.SELECTED_LANGUAGE);
 
     List<Map<String, String>> splashData = [
       //TODO: CHANGE IMAGES IF REGION IS RO
       {
         "text": "${AppLocalizations.of(context)!.stories}",
         "text2": "${AppLocalizations.of(context)!.intro_text1}",
-        "image": _sp.getValue(SPConstant.SELECTED_LANGUAGE) == 'ro'
+        "image": region == 'ro'
             ? "assets/images/drawable-xxhdpi/v2_about_1.png"
             : "assets/images/drawable-xxhdpi/v2_about_1.png"
       },
       {
         "text": "${AppLocalizations.of(context)!.chat}",
         "text2": "${AppLocalizations.of(context)!.intro_text2}",
-        "image": _sp.getValue(SPConstant.SELECTED_LANGUAGE) == 'ro'
+        "image": region == 'ro'
             ? "assets/images/drawable-xxhdpi/v2_about_2.png"
             : "assets/images/drawable-xxhdpi/v2_about_2.png"
       },
       {
         "text": "${AppLocalizations.of(context)!.opinions}",
         "text2": "${AppLocalizations.of(context)!.intro_text3}",
-        "image": _sp.getValue(SPConstant.SELECTED_LANGUAGE) == 'ro'
+        "image": region == 'ro'
             ? "assets/images/into_page_3.png"
             : "assets/images/into_page_3.png"
       },
     ];
 
     return Scaffold(
-      backgroundColor: _sp.getValue(SPConstant.SELECTED_LANGUAGE) == 'ro'
+      backgroundColor: region == 'ro'
           ? Colors.white
           : currentPage == 0
               ? AppColors.mainBgColor
@@ -74,7 +75,7 @@ class _IntroScreenState extends State<IntroScreen> {
             width: double.infinity,
             child: Column(
               children: <Widget>[
-                _sp.getValue(SPConstant.SELECTED_LANGUAGE) == 'ro'
+                region == 'ro'
                     ? Container(
                         width: double.infinity,
                         child: Image.asset(
@@ -84,18 +85,18 @@ class _IntroScreenState extends State<IntroScreen> {
                     : Container(),
                 Expanded(
                   child: Container(
-                    color: _sp.getValue(SPConstant.SELECTED_LANGUAGE) == 'ro'
+                    color: region == 'ro'
                         ? Colors.white
                         : currentPage == 0
                             ? AppColors.mainBgColor
                             : currentPage == 1
                                 ? AppColors.mainBgColor2
                                 : AppColors.mainBgColor3,
-                    child: getPageBuilder(0, splashData),
+                    child: getPageBuilder(0, splashData, region!),
                   ),
                 ),
                 Container(
-                  color: _sp.getValue(SPConstant.SELECTED_LANGUAGE) == 'ro'
+                  color: region == 'ro'
                       ? Colors.white
                       : currentPage == 2
                           ? AppColors.opinion_intro_back
@@ -112,7 +113,7 @@ class _IntroScreenState extends State<IntroScreen> {
                           GestureDetector(
                             onTap: () {
                               ClickSound.soundClick();
-                              _sp.getValue(SPConstant.SELECTED_LANGUAGE) == 'ro'
+                              region == 'ro'
                                   ? NavUtils.pushAndRemoveUntil(
                                       context, LoginScreen())
                                   : NavUtils.pushAndRemoveUntil(
@@ -134,7 +135,7 @@ class _IntroScreenState extends State<IntroScreen> {
                             margin: EdgeInsets.only(bottom: 7),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: getBuildDot(splashData),
+                              children: getBuildDot(splashData, region),
                             ),
                           ),
                           GestureDetector(
@@ -142,8 +143,7 @@ class _IntroScreenState extends State<IntroScreen> {
                                 ClickSound.soundClick();
                                 currentPage++;
                                 if (currentPage >= 3) {
-                                  _sp.getValue(SPConstant.SELECTED_LANGUAGE) ==
-                                          'ro'
+                                  region == 'ro'
                                       ? NavUtils.pushAndRemoveUntil(
                                           context, LoginScreen())
                                       : NavUtils.pushAndRemoveUntil(
@@ -181,17 +181,18 @@ class _IntroScreenState extends State<IntroScreen> {
     );
   }
 
-  getBuildDot(List<Map<String, String>> splashData) {
+  getBuildDot(List<Map<String, String>> splashData, String region) {
     return List.generate(
       splashData.length,
-      (index) => buildDot(index: index),
+      (index) => buildDot(index: index, region: region),
     );
   }
 
-  getPageBuilder(int page, List<Map<String, String>> splashData) {
+  getPageBuilder(
+      int page, List<Map<String, String>> splashData, String region) {
     return Stack(
       children: [
-        _sp.getValue(SPConstant.SELECTED_LANGUAGE) == 'ro'
+        region == 'ro'
             ? SizedBox()
             : Positioned(
                 right: 30,
@@ -223,21 +224,21 @@ class _IntroScreenState extends State<IntroScreen> {
                   text: splashData[index]['text']!,
                   text2: splashData[index]['text2']!,
                   key: null,
-                  region: _sp.getValue(SPConstant.SELECTED_LANGUAGE)!),
+                  region: region),
               controller: _pageController),
         ),
       ],
     );
   }
 
-  AnimatedContainer buildDot({int? index}) {
+  AnimatedContainer buildDot({int? index, required String region}) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 200),
       margin: EdgeInsets.only(right: 5),
       height: 6,
       width: currentPage == index ? 20 : 6,
       decoration: BoxDecoration(
-        color: _sp.getValue(SPConstant.SELECTED_LANGUAGE) == 'ro'
+        color: region == 'ro'
             ? Colors.black
             : currentPage == index
                 ? Colors.black

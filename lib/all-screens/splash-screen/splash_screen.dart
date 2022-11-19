@@ -19,6 +19,7 @@ import 'package:ureport_ecaro/network_operation/utils/connectivity_controller.da
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
+import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -28,6 +29,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  var _sp = locator<SPUtil>();
+
   @override
   void initState() {
     Provider.of<ConnectivityController>(context, listen: false)
@@ -128,7 +131,8 @@ class _SplashScreenState extends State<SplashScreen> {
         var spset = locator<SPUtil>();
         String? isSigned = spset.getValue(SPUtil.PROGRAMKEY);
         if (isSigned != null) {
-          NavUtils.pushAndRemoveUntil(context, NavigationScreen(0));
+          NavUtils.pushAndRemoveUntil(context,
+              NavigationScreen(0, _sp.getValue(SPConstant.SELECTED_LANGUAGE)));
         } else {
           if (Provider.of<ConnectivityController>(context, listen: false)
               .isOnline) {

@@ -12,6 +12,7 @@ import 'package:ureport_ecaro/utils/loading_bar.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 
@@ -34,9 +35,11 @@ class _AboutState extends State<About> {
     Provider.of<AboutController>(context, listen: false).startMonitoring();
 
     Provider.of<AboutController>(context, listen: false).data =
-        sp.getValueNoNull("${SPUtil.ABOUT_DATA}_${sp.getValue(SPUtil.PROGRAMKEY)}");
+        sp.getValueNoNull(
+            "${SPUtil.ABOUT_DATA}_${sp.getValue(SPUtil.PROGRAMKEY)}");
     Provider.of<AboutController>(context, listen: false).title =
-        sp.getValueNoNull("${SPUtil.ABOUT_TITLE}_${sp.getValue(SPUtil.PROGRAMKEY)}");
+        sp.getValueNoNull(
+            "${SPUtil.ABOUT_TITLE}_${sp.getValue(SPUtil.PROGRAMKEY)}");
 
     Provider.of<AboutController>(context, listen: false).aboutData = null;
 
@@ -81,37 +84,34 @@ class _AboutState extends State<About> {
                 ),
                 provider.data != ""
                     ? Container(
-                  color: Colors.white,
-                  margin: EdgeInsets.only(top: 80),
-                  child: WebViewPlus(
-                    onWebViewCreated: (controller) {
-                      webViewController = controller;
-                      controller.webViewController.clearCache();
-                      if (provider.isOnline) {
-                        getContent(provider.title, provider.data);
-                      } else {
-                        getContentOffline(
-                            provider.title, provider.data);
-                      }
-                    },
-                    onPageFinished: (url) {
-                      webViewController
-                          .getHeight()
-                          .then((double height) {
-                        setState(() {
-                          _height = height;
-                        });
-                      });
-                    },
-                    javascriptMode: JavascriptMode.unrestricted,
-                  ),
-                )
+                        color: Colors.white,
+                        margin: EdgeInsets.only(top: 80),
+                        child: WebViewPlus(
+                          onWebViewCreated: (controller) {
+                            webViewController = controller;
+                            controller.webViewController.clearCache();
+                            if (provider.isOnline) {
+                              getContent(provider.title, provider.data);
+                            } else {
+                              getContentOffline(provider.title, provider.data);
+                            }
+                          },
+                          onPageFinished: (url) {
+                            webViewController.getHeight().then((double height) {
+                              setState(() {
+                                _height = height;
+                              });
+                            });
+                          },
+                          javascriptMode: JavascriptMode.unrestricted,
+                        ),
+                      )
                     : provider.isOnline
-                    ? Container(
-                  height: MediaQuery.of(context).size.height,
-                  child: Center(child: LoadingBar.spinkit),
-                )
-                    : noInternetDialog(context),
+                        ? Container(
+                            height: MediaQuery.of(context).size.height,
+                            child: Center(child: LoadingBar.spinkit),
+                          )
+                        : noInternetDialog(context),
               ],
             ),
           ),
@@ -132,7 +132,10 @@ class _AboutState extends State<About> {
             ),
             onPressed: () {
               ClickSound.soundClick();
-              NavUtils.pushAndRemoveUntil(context, NavigationScreen(3));
+              NavUtils.pushAndRemoveUntil(
+                  context,
+                  NavigationScreen(
+                      3, sp.getValue(SPConstant.SELECTED_LANGUAGE)));
             },
           ),
           TextButton(
@@ -142,10 +145,10 @@ class _AboutState extends State<About> {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
               Provider.of<AboutController>(context, listen: false).aboutData =
-              null;
+                  null;
               Provider.of<AboutController>(context, listen: false)
                   .getAboutFromRemote(RemoteConfigData.getAboutUrl(
-                  sp.getValue(SPUtil.PROGRAMKEY)));
+                      sp.getValue(SPUtil.PROGRAMKEY)));
             },
           )
         ],
@@ -251,7 +254,7 @@ class _AboutState extends State<About> {
     </html>''';
 
     webViewController.loadUrl(Uri.dataFromString(final_content,
-        mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
+            mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
         .toString());
   }
 
@@ -339,7 +342,7 @@ class _AboutState extends State<About> {
     </html>''';
 
     webViewController.loadUrl(Uri.dataFromString(final_content,
-        mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
+            mimeType: 'text/html', encoding: Encoding.getByName("UTF-8"))
         .toString());
   }
 }

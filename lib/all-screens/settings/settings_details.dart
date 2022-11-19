@@ -47,7 +47,7 @@ class _SettingDetailsState extends State<SettingDetails>
       statesSound = false;
 
     checkPermission();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   void didChangeAppLifecycleState(AppLifecycleState state) async {

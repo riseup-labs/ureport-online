@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/account/forgot_password.dart';
 import 'package:ureport_ecaro/all-screens/account/login_register_widgets.dart';
 import 'package:ureport_ecaro/all-screens/account/register.dart';
+import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:validators/validators.dart' as validator;
 
@@ -132,7 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   type: 'login',
                   onPressed: () {
                     //TODO: login system
-                    Navigator.pop(context);
+                    //Navigator.pop(context);
+                    NavUtils.pushAndRemoveUntil(
+                        context, NavigationScreen(0, 'ro'));
                   });
             },
           ),

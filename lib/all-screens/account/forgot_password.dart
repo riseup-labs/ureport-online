@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/account/login.dart';
 import 'package:ureport_ecaro/all-screens/account/login_register_widgets.dart';
-import 'package:ureport_ecaro/all-screens/account/register.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:validators/validators.dart' as validator;
 
