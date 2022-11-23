@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ureport_ecaro/all-screens/account/login.dart';
-import 'package:ureport_ecaro/all-screens/account/login_register_widgets.dart';
+import 'package:ureport_ecaro/all-screens/account/login-register/login.dart';
+import 'package:ureport_ecaro/all-screens/account/login-register/login_register_widgets.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:validators/validators.dart' as validator;
 
@@ -33,7 +33,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               Container(
                 width: double.infinity,
                 child: Image.asset(
-                  'assets/images/top_header.png',
+                  'assets/images/top_header_ro.png',
                   fit: BoxFit.fitWidth,
                 ),
               ),

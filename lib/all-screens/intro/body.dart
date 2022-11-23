@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ureport_ecaro/all-screens/account/login.dart';
+import 'package:ureport_ecaro/all-screens/account/login-register/login.dart';
+import 'package:ureport_ecaro/all-screens/account/profile/profile_view.dart';
 import 'package:ureport_ecaro/all-screens/chooser/program_chooser.dart';
+import 'package:ureport_ecaro/all-screens/home/chat/Chat.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
@@ -79,7 +81,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     ? Container(
                         width: double.infinity,
                         child: Image.asset(
-                          'assets/images/top_header.png',
+                          'assets/images/top_header_ro.png',
                           fit: BoxFit.fitWidth,
                         ))
                     : Container(),
@@ -115,7 +117,7 @@ class _IntroScreenState extends State<IntroScreen> {
                               ClickSound.soundClick();
                               region == 'ro'
                                   ? NavUtils.pushAndRemoveUntil(
-                                      context, LoginScreen())
+                                      context, ProfileScreen())
                                   : NavUtils.pushAndRemoveUntil(
                                       context, ProgramChooser("intro"));
                             },

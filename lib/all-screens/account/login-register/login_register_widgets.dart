@@ -131,10 +131,11 @@ Widget textField({
   );
 }
 
-void showCompletedLogin(
-    {required BuildContext context,
-    required String type,
-    required Function() onPressed}) async {
+void showCompletedLogin({
+  required BuildContext context,
+  required String type,
+  required Function() onPressed,
+}) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: false,

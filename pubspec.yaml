@@ -102,6 +102,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/images/temp/
     - assets/images/drawable-ldpi/
     - assets/images/drawable-xxhdpi/
     - assets/storypage/

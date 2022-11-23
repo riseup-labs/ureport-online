@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:ureport_ecaro/all-screens/account/forgot_password.dart';
-import 'package:ureport_ecaro/all-screens/account/login_register_widgets.dart';
-import 'package:ureport_ecaro/all-screens/account/register.dart';
-import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
+import 'package:ureport_ecaro/all-screens/account/login-register/login.dart';
+import 'package:ureport_ecaro/all-screens/account/login-register/login_register_widgets.dart';
+
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:validators/validators.dart' as validator;
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
   final _passwdController = TextEditingController();
+  final _confirmPwController = TextEditingController();
+
   var _emailError;
   var _passwordError;
+  var _confirmPwError;
+  var _nameError;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +37,14 @@ class _LoginScreenState extends State<LoginScreen> {
         Container(
             width: double.infinity,
             child: Image.asset(
-              'assets/images/top_header.png',
+              'assets/images/top_header_ro.png',
               fit: BoxFit.fitWidth,
             )),
         Container(
             margin: EdgeInsets.only(top: 80, left: 10),
             width: double.infinity,
             child: Text(
-              "AUTENTIFICĂ-TE",
+              "CREAZĂ-ȚI UN CONT",
               style: TextStyle(
                   fontWeight: FontWeight.w800,
                   fontSize: 28,
@@ -85,6 +94,14 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             )),
         textField(
+          label: "Nume și prenume",
+          textInputAction: TextInputAction.next,
+          obscureText: false,
+          keyboardType: TextInputType.name,
+          controller: _nameController,
+          errorText: _nameError,
+        ),
+        textField(
           label: "Email",
           textInputAction: TextInputAction.next,
           obscureText: false,
@@ -94,19 +111,39 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         textField(
           label: "Password",
-          textInputAction: TextInputAction.done,
+          textInputAction: TextInputAction.next,
           obscureText: true,
           keyboardType: TextInputType.visiblePassword,
           controller: _passwdController,
           errorText: _passwordError,
+        ),
+        textField(
+          label: "Confirmă parola",
+          textInputAction: TextInputAction.done,
+          obscureText: true,
+          keyboardType: TextInputType.visiblePassword,
+          controller: _confirmPwController,
+          errorText: _confirmPwError,
         ),
         Container(
           width: double.infinity,
           margin: EdgeInsets.only(right: 16, left: 16, top: 20),
           height: 44,
           child: loginButton(
-            type: 'login',
+            type: 'register',
             onPressed: () {
+              if (_nameController.text.isEmpty ||
+                  _nameController.text.length < 3) {
+                setState(() {
+                  _nameError = "Numele este prea scurt";
+                });
+                return;
+              } else {
+                setState(() {
+                  _nameError = null;
+                });
+              }
+
               if (!validator.isEmail(_emailController.text)) {
                 setState(() {
                   _emailError = "Email invalid";
@@ -128,40 +165,41 @@ class _LoginScreenState extends State<LoginScreen> {
                   _passwordError = null;
                 });
               }
+              if (_passwdController.text != _confirmPwController.text) {
+                setState(() {
+                  _confirmPwError = "Parolele nu se potrivesc";
+                });
+                return;
+              } else {
+                setState(() {
+                  _confirmPwError = null;
+                });
+              }
               showCompletedLogin(
                   context: context,
-                  type: 'login',
+                  type: 'register',
                   onPressed: () {
-                    //TODO: login system
-                    //Navigator.pop(context);
-                    NavUtils.pushAndRemoveUntil(
-                        context, NavigationScreen(0, 'ro'));
+                    //TODO: register system
+                    Navigator.pop(context);
                   });
             },
           ),
         ),
         SizedBox(
-          height: 10,
-        ),
-        GestureDetector(
-            onTap: () =>
-                NavUtils.pushAndRemoveUntil(context, ForgotPasswordScreen()),
-            child: Text("Ai uitat parola?")),
-        SizedBox(
           height: 30,
         ),
         GestureDetector(
-          onTap: () => NavUtils.pushAndRemoveUntil(context, RegisterScreen()),
+          onTap: () => NavUtils.pushAndRemoveUntil(context, LoginScreen()),
           child: RichText(
             text: TextSpan(
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 16,
               ),
-              text: 'Nu ai cont? ',
+              text: 'Ai deja cont? ',
               children: const <TextSpan>[
                 TextSpan(
-                    text: 'Înregistrează-te',
+                    text: 'Autentifică-te',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.blue)),
               ],

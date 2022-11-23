@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_list.dart';
+import 'package:ureport_ecaro/all-screens/home/articles/categories/category_view.dart';
 import 'package:ureport_ecaro/all-screens/settings/settings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
@@ -29,9 +30,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   void initState() {
-    print("??? ${widget.region}");
     if (widget.region == 'ro') {
-      tabs = [StoryList()];
+      tabs = [
+        CategoryView(),
+      ];
     } else {
       tabs = [StoryList(), SizedBox(), Opinion(), Settings()];
       getfirebaseonApp(context);
@@ -54,69 +56,87 @@ class _NavigationScreenState extends State<NavigationScreen> {
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-              icon: Image.asset(
-                "assets/images/ic_stories.png",
-                height: 40.18,
-                width: 33.66,
-              ),
-              activeIcon: Image.asset(
-                "assets/images/ic_stories_on.png",
-                height: 40.18,
-                width: 33.66,
-                color: widget.region == 'ro'
-                    ? Color.fromRGBO(248, 149, 220, 1)
-                    : RemoteConfigData.getPrimaryColor(),
-              ),
+              icon: widget.region == "ro"
+                  ? Icon(Icons.article, color: Color.fromRGBO(248, 149, 220, 1))
+                  : Image.asset(
+                      "assets/images/ic_stories.png",
+                      height: 40.18,
+                      width: 33.66,
+                    ),
+              activeIcon: widget.region == "ro"
+                  ? Icon(Icons.article,
+                      color: Color.fromARGB(255, 237, 27, 177))
+                  : Image.asset(
+                      "assets/images/ic_stories_on.png",
+                      height: 40.18,
+                      width: 33.66,
+                      color: RemoteConfigData.getPrimaryColor(),
+                    ),
               label: "${AppLocalizations.of(context)!.stories}",
             ),
             BottomNavigationBarItem(
               icon: Container(
                 margin: EdgeInsets.only(left: 5),
-                child: Image.asset("assets/images/ic_chat.png",
-                    height: 40.18, width: 33.66),
+                child: widget.region == "ro"
+                    ? Icon(Icons.chat, color: Color.fromRGBO(248, 149, 220, 1))
+                    : Image.asset("assets/images/ic_chat.png",
+                        height: 40.18, width: 33.66),
               ),
-              activeIcon: Image.asset(
-                "assets/images/ic_chat_on.png",
-                height: 40.18,
-                width: 33.66,
-                color: widget.region == 'ro'
-                    ? Color.fromRGBO(248, 149, 220, 1)
-                    : RemoteConfigData.getPrimaryColor(),
-              ),
+              activeIcon: widget.region == "ro"
+                  ? Icon(Icons.chat, color: Color.fromARGB(255, 237, 27, 177))
+                  : Image.asset(
+                      "assets/images/ic_chat_on.png",
+                      height: 40.18,
+                      width: 33.66,
+                      color: RemoteConfigData.getPrimaryColor(),
+                    ),
               label: "${AppLocalizations.of(context)!.chat}",
             ),
-            BottomNavigationBarItem(
-              icon: Image.asset("assets/images/ic_opinions.png",
-                  height: 40.18, width: 33.66),
-              activeIcon: Image.asset(
-                "assets/images/ic_opinions_on.png",
-                height: 40.18,
-                width: 33.66,
-                color: widget.region == 'ro'
-                    ? Color.fromRGBO(248, 149, 220, 1)
-                    : RemoteConfigData.getPrimaryColor(),
+            if (widget.region == "ro")
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home, color: Color.fromRGBO(248, 149, 220, 1)),
+                activeIcon:
+                    Icon(Icons.home, color: Color.fromARGB(255, 237, 27, 177)),
+                label: "Acasă",
               ),
+            BottomNavigationBarItem(
+              icon: widget.region == "ro"
+                  ? Icon(Icons.article, color: Color.fromRGBO(248, 149, 220, 1))
+                  : Image.asset("assets/images/ic_opinions.png",
+                      height: 40.18, width: 33.66),
+              activeIcon: widget.region == "ro"
+                  ? Icon(Icons.article,
+                      color: Color.fromARGB(255, 237, 27, 177))
+                  : Image.asset(
+                      "assets/images/ic_opinions_on.png",
+                      height: 40.18,
+                      width: 33.66,
+                      color: RemoteConfigData.getPrimaryColor(),
+                    ),
               label: "${AppLocalizations.of(context)!.opinions}",
             ),
             BottomNavigationBarItem(
-              icon: Image.asset("assets/images/ic_more.png",
-                  height: 40.18, width: 33.66),
-              activeIcon: Image.asset(
-                "assets/images/ic_more_on.png",
-                height: 40.18,
-                width: 33.66,
-                color: widget.region == 'ro'
-                    ? Color.fromRGBO(248, 149, 220, 1)
-                    : RemoteConfigData.getPrimaryColor(),
-              ),
+              icon: widget.region == "ro"
+                  ? Icon(Icons.menu, color: Color.fromRGBO(248, 149, 220, 1))
+                  : Image.asset("assets/images/ic_more.png",
+                      height: 40.18, width: 33.66),
+              activeIcon: widget.region == "ro"
+                  ? Icon(Icons.article,
+                      color: Color.fromARGB(255, 237, 27, 177))
+                  : Image.asset(
+                      "assets/images/ic_more_on.png",
+                      height: 40.18,
+                      width: 33.66,
+                      color: RemoteConfigData.getPrimaryColor(),
+                    ),
               label: "${AppLocalizations.of(context)!.more}",
             ),
           ],
           backgroundColor: Colors.white,
           showUnselectedLabels: true,
           showSelectedLabels: true,
-          selectedItemColor: widget.region == 'ro'
-              ? Color.fromRGBO(248, 149, 220, 1)
+          selectedItemColor: widget.region == "ro"
+              ? Colors.black
               : RemoteConfigData.getPrimaryColor(),
           selectedFontSize: 13,
           unselectedFontSize: 13,
@@ -124,7 +144,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           onTap: (int i) {
             ClickSound.soundClick();
             setState(() {
-              if (i == 1) {
+              if (i == 1 && widget.region != "ro") {
                 NavUtils.pushToChat(context, "Home");
               } else {
                 changedIndex = i;
