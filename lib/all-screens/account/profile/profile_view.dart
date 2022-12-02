@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ureport_ecaro/all-screens/account/profile/components/history_tab_component.dart';
-import 'package:ureport_ecaro/all-screens/account/profile/components/medals_tab_component.dart';
+import 'package:ureport_ecaro/all-screens/account/profile/components/history_widget.dart';
+import 'package:ureport_ecaro/all-screens/account/profile/components/medal_widget.dart';
 import 'package:ureport_ecaro/all-screens/account/profile/components/profile_header_component.dart';
+import 'package:ureport_ecaro/all-screens/account/profile/model/history.dart';
+import 'package:ureport_ecaro/all-screens/account/profile/model/medal.dart';
 import 'package:ureport_ecaro/all-screens/home/articles/shared/top_header_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -14,6 +16,82 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen>
     with TickerProviderStateMixin {
   late TabController _controller;
+
+  final List<Medal> medalsList = [
+    Medal(
+        id: 1,
+        image:
+            "https://www.iconpacks.net/icons/1/free-medal-icon-1369-thumb.png",
+        title: "Medal title",
+        description: "Short description medal",
+        isActive: true),
+    Medal(
+        id: 1,
+        image:
+            "https://www.iconpacks.net/icons/1/free-medal-icon-1369-thumb.png",
+        title: "Medal title",
+        description: "Short description medal",
+        isActive: true),
+    Medal(
+        id: 1,
+        image:
+            "https://www.iconpacks.net/icons/1/free-medal-icon-1369-thumb.png",
+        title: "Medal title",
+        description: "Short description medal",
+        isActive: true),
+    Medal(
+        id: 1,
+        image:
+            "https://www.iconpacks.net/icons/1/free-medal-icon-1369-thumb.png",
+        title: "Medal title",
+        description: "Short description medal",
+        isActive: true),
+    Medal(
+        id: 1,
+        image:
+            "https://www.iconpacks.net/icons/1/free-medal-icon-1369-thumb.png",
+        title: "Medal title",
+        description: "Short description medal",
+        isActive: true),
+  ];
+
+  List<History> historyList = [
+    History(
+        id: 1,
+        image: "https://cdn-icons-png.flaticon.com/128/993/993504.png",
+        topic: "SANATATE",
+        title: "Titlu topic"),
+    History(
+        id: 1,
+        image: "https://cdn-icons-png.flaticon.com/128/993/993504.png",
+        topic: "SANATATE",
+        title: "Titlu topic"),
+    History(
+        id: 1,
+        image: "https://cdn-icons-png.flaticon.com/128/993/993504.png",
+        topic: "SANATATE",
+        title: "Titlu topic"),
+    History(
+        id: 1,
+        image: "https://cdn-icons-png.flaticon.com/128/993/993504.png",
+        topic: "SANATATE",
+        title: "Titlu topic"),
+    History(
+        id: 1,
+        image: "https://cdn-icons-png.flaticon.com/128/993/993504.png",
+        topic: "SANATATE",
+        title: "Titlu topic"),
+    History(
+        id: 1,
+        image: "https://cdn-icons-png.flaticon.com/128/993/993504.png",
+        topic: "SANATATE",
+        title: "Titlu topic"),
+    History(
+        id: 1,
+        image: "https://cdn-icons-png.flaticon.com/128/993/993504.png",
+        topic: "SANATATE",
+        title: "Titlu topic"),
+  ];
 
   @override
   void initState() {
@@ -29,44 +107,60 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(children: [
-            TopHeaderWidget(title: "Profil"),
-            ProfileHeaderComponent(),
-            Container(
-              width: 400,
-              height: 100,
-              child: TabBar(
-                indicatorColor: Color.fromRGBO(253, 209, 243, 1),
-                unselectedLabelColor: Color.fromRGBO(0, 0, 0, 0.5),
-                labelColor: Color.fromRGBO(152, 8, 119, 1),
-                labelStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-                controller: _controller,
-                tabs: [
-                  Text("Istoric"),
-                  Text(
-                    "Medalii",
-                    style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.5)),
-                  ),
-                ],
+        child: Column(children: [
+          TopHeaderWidget(title: "Profil"),
+          ProfileHeaderComponent(),
+          Container(
+            width: 400,
+            height: 100,
+            child: TabBar(
+              indicatorColor: Color.fromRGBO(253, 209, 243, 1),
+              unselectedLabelColor: Color.fromRGBO(0, 0, 0, 0.5),
+              labelColor: Color.fromRGBO(152, 8, 119, 1),
+              labelStyle: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
               ),
+              controller: _controller,
+              tabs: [
+                Text("Istoric"),
+                Text(
+                  "Medalii",
+                  style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.5)),
+                ),
+              ],
             ),
-            Container(
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: TabBarView(
                 controller: _controller,
                 children: [
-                  HistoryTabComponent(),
-                  MedalsTabComponent(),
+                  ListView.builder(
+                    itemCount: medalsList.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: HistoryWidget(
+                        history: historyList[index],
+                      ),
+                    ),
+                  ),
+                  ListView.builder(
+                    itemCount: medalsList.length,
+                    itemBuilder: (context, index) => MedalWidget(
+                      medal: medalsList[index],
+                    ),
+                  ),
                 ],
               ),
             ),
-          ]),
-        ),
+          ),
+        ]),
       ),
     );
   }

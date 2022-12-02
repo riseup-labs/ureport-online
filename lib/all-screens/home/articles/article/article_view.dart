@@ -80,6 +80,40 @@ class ArticleView extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Text(
+                    article.content,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 300,
+                    decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0, 4),
+                        spreadRadius: -8,
+                        blurRadius: 4,
+                        color: Color.fromRGBO(0, 0, 0, 0.25),
+                      )
+                    ]),
+                    child: Image.network(article.img),
+                  ),
+                ],
+              ),
+            )
           ]),
         ),
       ),

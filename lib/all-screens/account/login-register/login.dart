@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/account/login-register/forgot_password.dart';
 import 'package:ureport_ecaro/all-screens/account/login-register/login_register_widgets.dart';
 import 'package:ureport_ecaro/all-screens/account/login-register/register.dart';
-
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/home/articles/categories/category_view.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/account/login-register/login.dart';
 import 'package:ureport_ecaro/all-screens/account/profile/profile_view.dart';
 import 'package:ureport_ecaro/all-screens/chooser/program_chooser.dart';
+import 'package:ureport_ecaro/all-screens/home/articles/categories/category_view.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/Chat.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';

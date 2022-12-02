@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ureport_ecaro/all-screens/home/articles/article/articles_list_view.dart';
 import 'package:ureport_ecaro/all-screens/home/articles/article/model/article.dart';
 import 'package:ureport_ecaro/all-screens/home/articles/categories/components/category_card_widget.dart';
 import 'package:ureport_ecaro/all-screens/home/articles/categories/components/search_bar_widget.dart';
 import 'package:ureport_ecaro/all-screens/home/articles/shared/title_description_widget.dart';
-
 import 'package:ureport_ecaro/all-screens/home/articles/shared/top_header_widget.dart';
-import 'package:ureport_ecaro/utils/nav_utils.dart';
 
 import '../article/model/category.dart';
 
@@ -29,7 +26,8 @@ class _CategoryViewState extends State<CategoryView> {
           Article(
               id: 1,
               title: "Beneficiile vaccinării împotriva COVID-19",
-              content: "Description 1",
+              content:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nisi massa, sagittis ut pharetra non, tempus ac eros. Curabitur id dolor quam. Suspendisse potenti. Proin hendrerit dui nec leo cursus pretium. Fusce ac lectus massa. Nunc vestibulum tristique lectus in gravida. Suspendisse condimentum id ligula at pellentesque. Sed blandit est fringilla egestas tincidunt. Aliquam erat volutpat. Vivamus fringilla, ante nec rutrum efficitur, sem felis ornare ante, sed suscipit velit libero non nunc. In hac habitasse platea dictumst.\nIn hac habitasse platea dictumst. Donec nisi purus, posuere ac dui nec, ornare ullamcorper ante. Aliquam quam quam, pellentesque id imperdiet ac, feugiat ut turpis. Integer in feugiat turpis. Suspendisse id congue magna. Phasellus at nibh auctor quam pulvinar volutpat. Nunc convallis enim a nisl sagittis, sed eleifend purus imperdiet. Aenean non dolor commodo, luctus quam a, viverra elit. Nunc fermentum augue at metus ultrices, eu congue nisl venenatis. Ut tincidunt, purus a interdum consectetur, nunc justo maximus massa, eget dictum risus nulla quis tellus. Proin a blandit sapien. Mauris libero purus, molestie vitae tempus rutrum, tempus eu mi. Curabitur a ligula ut dui feugiat pellentesque non a risus. Phasellus lorem purus, ultricies quis convallis sodales, gravida a libero. Phasellus varius aliquet felis, id ultricies mi porta et. Sed maximus justo non mattis euismod.\nSuspendisse pharetra diam nunc, at fermentum elit cursus vel. Aenean porttitor sapien nunc. In quis eleifend turpis, et venenatis arcu. Cras ipsum libero, placerat malesuada volutpat non, elementum eget nisl. Suspendisse erat tortor, auctor at tempor a, elementum a nunc. Nunc lacinia facilisis felis, et tincidunt risus mattis nec. Suspendisse ac ultrices nisi. Suspendisse nulla eros, iaculis vitae justo ut, fringilla rhoncus dui. Sed bibendum sed sapien vitae finibus. Aenean sagittis mauris sed hendrerit varius. Aenean quis leo ex. Fusce porttitor orci justo.\nClass aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc tortor urna, laoreet semper metus ut, ultrices elementum libero. Sed hendrerit vulputate magna, in suscipit justo congue et. Nulla eget tincidunt turpis. Duis commodo feugiat libero, sit amet bibendum odio. Donec maximus nec enim vitae porta. Praesent convallis, arcu egestas auctor porta, purus odio aliquam eros, ultrices tincidunt nulla mauris vel turpis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc laoreet suscipit arcu id placerat. Maecenas a lacinia odio. Duis ultricies mi ligula, sed convallis lectus iaculis vel.",
               author: 'Admin',
               createdAt: DateTime.now(),
               img:
