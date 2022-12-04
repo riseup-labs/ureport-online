@@ -106,10 +106,9 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: TopHeaderWidget(title: "Profil"),
       body: SafeArea(
         child: Column(children: [
-          TopHeaderWidget(title: "Profil"),
-          ProfileHeaderComponent(),
           Container(
             width: 400,
             height: 100,

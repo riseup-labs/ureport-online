@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/account/login-register/login.dart';
+import 'package:ureport_ecaro/all-screens/account/profile/menu_view.dart';
 import 'package:ureport_ecaro/all-screens/account/profile/profile_view.dart';
 import 'package:ureport_ecaro/all-screens/chooser/program_chooser.dart';
 import 'package:ureport_ecaro/all-screens/home/articles/categories/category_view.dart';
@@ -118,7 +119,7 @@ class _IntroScreenState extends State<IntroScreen> {
                               ClickSound.soundClick();
                               region == 'ro'
                                   ? NavUtils.pushAndRemoveUntil(
-                                      context, ProfileScreen())
+                                      context, MenuScreen())
                                   : NavUtils.pushAndRemoveUntil(
                                       context, ProgramChooser("intro"));
                             },
