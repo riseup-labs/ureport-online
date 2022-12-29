@@ -21,7 +21,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   //var _pwError;
   //var _confirmPwError;
   var _emailError;
- // var _codeError;
+  // var _codeError;
   //bool _codeSent = false;
 
   bool _isLoading = false;
@@ -53,16 +53,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
               // _codeSent
               //     ? SizedBox()
-              //     : 
-                  
-                  textField(
-                      label: "Email",
-                      textInputAction: TextInputAction.done,
-                      obscureText: false,
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _emailController,
-                      errorText: _emailError,
-                    ),
+              //     :
+
+              textField(
+                label: "Email",
+                textInputAction: TextInputAction.done,
+                obscureText: false,
+                keyboardType: TextInputType.emailAddress,
+                controller: _emailController,
+                errorText: _emailError,
+              ),
               // _codeSent
               //     ? textField(
               //         label: "Parola nouă",
@@ -99,7 +99,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 height: 44,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(253, 209, 243, 1),
+                    backgroundColor: Color.fromRGBO(68, 151, 223, 1),
                   ),
                   child: Text(
                     "Trimite cod",
@@ -161,42 +161,37 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     //       _pwError = null;
     //     });
     //   }
-      // if (_newPwController.text != _confirmPwController.text) {
-      //   setState(() {
-      //     _confirmPwError = "Parolele nu se potrivesc";
-      //   });
-      //   return;
-      // } else {
-      //   setState(() {
-      //     _confirmPwError = null;
-      //   });
-     // }
-       if (!validator.isEmail(_emailController.text)) {
-        setState(() {
-          _emailError = "Email invalid";
+    // if (_newPwController.text != _confirmPwController.text) {
+    //   setState(() {
+    //     _confirmPwError = "Parolele nu se potrivesc";
+    //   });
+    //   return;
+    // } else {
+    //   setState(() {
+    //     _confirmPwError = null;
+    //   });
+    // }
+    if (!validator.isEmail(_emailController.text)) {
+      setState(() {
+        _emailError = "Email invalid";
+      });
+      return;
+    } else {
+      setState(() {
+        _emailError = null;
+      });
+    }
+    toggleIsLoading();
+
+    await FirebaseApis().resetPassword(
+      email: _emailController.text,
+    );
+
+    showPopup(
+        context: context,
+        type: 'pwrecover',
+        onPressed: () {
+          NavUtils.pushAndRemoveUntil(context, LoginScreen());
         });
-        return;
-      } else {
-        setState(() {
-          _emailError = null;
-        });
-      }
-      toggleIsLoading();
-
-      await FirebaseApis().resetPassword(
-        email: _emailController.text,
-      );
-
-      showPopup(
-          context: context,
-          type: 'pwrecover',
-          onPressed: () {
-            NavUtils.pushAndRemoveUntil(context, LoginScreen());
-          });
-    } 
-    
-
-   
-    
-  
+  }
 }

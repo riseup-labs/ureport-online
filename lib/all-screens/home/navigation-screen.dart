@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/account/login-register/login.dart';
-import 'package:ureport_ecaro/all-screens/home/stories/category_list.dart';
+import 'package:ureport_ecaro/all-screens/account/profile/profile_view.dart';
+import 'package:ureport_ecaro/all-screens/home/articles/categories/category_list.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_list.dart';
 import 'package:ureport_ecaro/all-screens/settings/settings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -33,6 +34,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   _NavigationScreenState(this.changedIndex);
 
   late List<Widget> tabs;
+  List<BottomNavigationBarItem> bottomNavItems = [];
 
   @override
   void initState() {
@@ -45,9 +47,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         SizedBox(),
         SizedBox(),
         Opinion(),
-        Settings(
-          region: spset.getValue(SPUtil.PROGRAMKEY),
-        )
+        ProfileScreen()
       ];
     } else {
       tabs = [StoryList(), SizedBox(), Opinion(), Settings()];
@@ -74,15 +74,15 @@ class _NavigationScreenState extends State<NavigationScreen> {
             BottomNavigationBarItem(
               icon: widget.region!.toLowerCase().startsWith('ro')
                   ? Icon(Icons.article_outlined,
-                      color: Color.fromRGBO(248, 149, 220, 1))
+                      color: RemoteConfigData.getPrimaryColor())
                   : Image.asset(
                       "assets/images/ic_stories.png",
                       height: 40.18,
                       width: 33.66,
                     ),
               activeIcon: widget.region!.toLowerCase().startsWith('ro')
-                  ? Icon(Icons.article_outlined,
-                      color: Color.fromARGB(255, 237, 27, 177))
+                  ? Icon(Icons.article,
+                      color: RemoteConfigData.getPrimaryColor())
                   : Image.asset(
                       "assets/images/ic_stories_on.png",
                       height: 40.18,
@@ -96,13 +96,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 margin: EdgeInsets.only(left: 5),
                 child: widget.region!.toLowerCase().startsWith('ro')
                     ? Icon(Icons.chat_outlined,
-                        color: Color.fromRGBO(248, 149, 220, 1))
+                        color: RemoteConfigData.getPrimaryColor())
                     : Image.asset("assets/images/ic_chat.png",
                         height: 40.18, width: 33.66),
               ),
               activeIcon: widget.region!.toLowerCase().startsWith('ro')
-                  ? Icon(Icons.chat_outlined,
-                      color: Color.fromARGB(255, 237, 27, 177))
+                  ? Icon(Icons.chat, color: RemoteConfigData.getPrimaryColor())
                   : Image.asset(
                       "assets/images/ic_chat_on.png",
                       height: 40.18,
@@ -111,15 +110,27 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     ),
               label: "${AppLocalizations.of(context)!.chat}",
             ),
+            if (widget.region!.toLowerCase().startsWith('ro'))
+              BottomNavigationBarItem(
+                icon: Container(
+                    margin: EdgeInsets.only(left: 5),
+                    child: Icon(Icons.home_outlined,
+                        color: RemoteConfigData.getPrimaryColor())),
+                activeIcon:
+                    Icon(Icons.home, color: RemoteConfigData.getPrimaryColor()),
+                label: "Home",
+              ),
             BottomNavigationBarItem(
               icon: widget.region!.toLowerCase().startsWith('ro')
-                  ? Icon(Icons.article_outlined,
-                      color: Color.fromRGBO(248, 149, 220, 1))
+                  ? Icon(
+                      Icons.bar_chart_outlined,
+                      color: RemoteConfigData.getPrimaryColor(),
+                    )
                   : Image.asset("assets/images/ic_opinions.png",
                       height: 40.18, width: 33.66),
               activeIcon: widget.region!.toLowerCase().startsWith('ro')
-                  ? Icon(Icons.article_outlined,
-                      color: Color.fromARGB(255, 237, 27, 177))
+                  ? Icon(Icons.bar_chart,
+                      color: RemoteConfigData.getPrimaryColor())
                   : Image.asset(
                       "assets/images/ic_opinions_on.png",
                       height: 40.18,
@@ -131,12 +142,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
             BottomNavigationBarItem(
               icon: widget.region!.toLowerCase().startsWith('ro')
                   ? Icon(Icons.menu_outlined,
-                      color: Color.fromRGBO(248, 149, 220, 1))
+                      color: RemoteConfigData.getPrimaryColor())
                   : Image.asset("assets/images/ic_more.png",
                       height: 40.18, width: 33.66),
               activeIcon: widget.region!.toLowerCase().startsWith('ro')
-                  ? Icon(Icons.menu_outlined,
-                      color: Color.fromARGB(255, 237, 27, 177))
+                  ? Icon(Icons.menu, color: RemoteConfigData.getPrimaryColor())
                   : Image.asset(
                       "assets/images/ic_more_on.png",
                       height: 40.18,

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:sqflite/sqflite.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/model/response-local-chat-parsing.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/model/response-opinion-localdb.dart';
@@ -157,7 +156,9 @@ class DatabaseHelper {
 
     result.forEach((element) {
       List<StorySearchItem> titles = [];
+      String img = "";
       var item = ResultLocal.fromJson(element);
+      img = item.images ?? "";
       resultTitle.forEach((element) {
         var itemTitle = ResultLocal.fromJson(element);
         if (itemTitle.category == item.category) {
@@ -165,7 +166,7 @@ class DatabaseHelper {
               itemTitle.images!, itemTitle.createdOn!));
         }
       });
-      StoryCategory.add(new StorySearchList(item.category!, titles));
+      StoryCategory.add(StorySearchList(item.category!, img, titles));
     });
     return StoryCategory;
   }

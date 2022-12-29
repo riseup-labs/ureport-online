@@ -3,7 +3,6 @@ import 'package:ureport_ecaro/all-screens/account/login-register/login.dart';
 import 'package:ureport_ecaro/all-screens/account/profile/menu_view.dart';
 import 'package:ureport_ecaro/all-screens/account/profile/profile_view.dart';
 import 'package:ureport_ecaro/all-screens/chooser/program_chooser.dart';
-import 'package:ureport_ecaro/all-screens/home/articles/categories/category_view.dart';
 import 'package:ureport_ecaro/all-screens/home/articles/shared/top_header_widget.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/Chat.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';

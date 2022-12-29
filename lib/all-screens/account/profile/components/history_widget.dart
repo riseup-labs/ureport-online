@@ -42,7 +42,7 @@ class HistoryWidget extends StatelessWidget {
                 child: Text(
                   "SHARE",
                   style: TextStyle(
-                    color: Color.fromRGBO(217, 0, 119, 1),
+                    color: Color.fromRGBO(68, 151, 223, 1),
                     decoration: TextDecoration.underline,
                     fontSize: 16,
                   ),

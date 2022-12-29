@@ -18,7 +18,7 @@ Widget submitButton({
                 ? Color(0xff3B5998)
                 : type == 'apple'
                     ? Colors.black
-                    : Color.fromRGBO(253, 209, 243, 1),
+                    : Color.fromRGBO(68, 151, 223, 1),
         foregroundColor: type == 'google' ? Colors.black : Colors.white,
       ),
       onPressed: onPressed,
@@ -153,7 +153,7 @@ void showPopup({
         actions: <Widget>[
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromRGBO(253, 209, 243, 1),
+              backgroundColor: Color.fromRGBO(68, 151, 223, 1),
             ),
             child: const Text(
               'Continuă',

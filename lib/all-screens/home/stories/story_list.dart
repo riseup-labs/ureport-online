@@ -20,9 +20,9 @@ import 'model/ResponseStoryLocal.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StoryList extends StatefulWidget {
-  final List<ResultLocal>? stories;
-
-  const StoryList({Key? key, this.stories}) : super(key: key);
+  const StoryList({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _StoryListState createState() => _StoryListState();
@@ -45,8 +45,9 @@ class _StoryListState extends State<StoryList>
 
     if (Provider.of<StoryController>(context, listen: false).isLoaded) {
       Provider.of<StoryController>(context, listen: false).getRecentStory(
-          RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-          sp.getValue(SPUtil.PROGRAMKEY)!);
+        RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+        sp.getValue(SPUtil.PROGRAMKEY)!,
+      );
       Provider.of<StoryController>(context, listen: false).isLoaded = false;
     }
 
@@ -232,8 +233,9 @@ class _StoryListState extends State<StoryList>
       Provider.of<StoryController>(context, listen: false).setSyncing();
       return Provider.of<StoryController>(context, listen: false)
           .getRecentStory(
-              RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-              sp.getValue(SPUtil.PROGRAMKEY)!);
+        RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
+        sp.getValue(SPUtil.PROGRAMKEY)!,
+      );
     } else {
       return ShowSnackBar.showNoInternetMessage(context);
     }

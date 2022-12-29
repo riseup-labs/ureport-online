@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/home/articles/article/article_view.dart';
 import 'package:ureport_ecaro/all-screens/home/articles/article/model/article.dart';
+import 'package:ureport_ecaro/all-screens/home/stories/model/searchbar.dart';
+import 'package:ureport_ecaro/all-screens/home/stories/stories-details.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 
 class ArticleItemWidget extends StatelessWidget {
@@ -9,14 +11,17 @@ class ArticleItemWidget extends StatelessWidget {
     required this.article,
   }) : super(key: key);
 
-  final Article article;
+  final StorySearchItem article;
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
     return GestureDetector(
-      onTap: () => NavUtils.push(context, ArticleView(article: article)),
+      onTap: () => NavUtils.push(
+          context,
+          StoryDetails(article.id.toString(), article.title.toString(),
+              article.image, article.date)),
       child: Container(
           height: 300,
           width: width,
@@ -47,7 +52,7 @@ class ArticleItemWidget extends StatelessWidget {
                         BorderRadius.only(topLeft: Radius.circular(20)),
                   ),
                   child: Image.network(
-                    article.img,
+                    article.image,
                     fit: BoxFit.fitWidth,
                   ),
                 ),
@@ -64,7 +69,7 @@ class ArticleItemWidget extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      article.type,
+                      "Articol",
                       style:
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     ),
@@ -76,6 +81,7 @@ class ArticleItemWidget extends StatelessWidget {
                 margin: EdgeInsets.only(top: 10, left: 20, right: 20),
                 child: Text(
                   article.title,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                 ),
               ),

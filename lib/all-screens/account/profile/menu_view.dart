@@ -15,20 +15,26 @@ class MenuScreen extends StatelessWidget {
     return Scaffold(
       appBar: TopHeaderWidget(title: "Meniu"),
       body: SafeArea(
-          child: Column(
-        children: [
-          ProfileHeaderComponent(),
-          Expanded(
-            child: ListView(children: [
-              menuItem(context, "Despre", AboutScreen()),
-              menuItem(context, "Profilul tau", ProfileScreen()),
-              menuItem(context, "Schimba programul", null),
-              menuItem(context, "Schimba limba", LanguageChooser()),
-              menuItem(context, "Schimba parola", ChangePasswordScreen()),
-              menuItem(context, "Sterge cont", null),
-            ]),
-          ),
-        ],
+          child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            ProfileHeaderComponent(),
+            Expanded(
+              child: ListView(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  children: [
+                    menuItem(context, "Despre", AboutScreen()),
+                    menuItem(context, "Profilul tau", ProfileScreen()),
+                    menuItem(context, "Schimba programul", null),
+                    menuItem(context, "Schimba limba", LanguageChooser()),
+                    menuItem(context, "Schimba parola", ChangePasswordScreen()),
+                    menuItem(context, "Sterge cont", null),
+                  ]),
+            ),
+          ],
+        ),
       )),
     );
   }
@@ -43,7 +49,7 @@ class MenuScreen extends StatelessWidget {
         alignment: Alignment.centerLeft,
         padding: EdgeInsets.only(left: 20),
         decoration: BoxDecoration(
-            color: Color.fromRGBO(253, 209, 243, 1),
+            color: Color.fromRGBO(68, 151, 223, 1),
             borderRadius: BorderRadius.only(bottomRight: Radius.circular(10))),
         child: Text(
           title,

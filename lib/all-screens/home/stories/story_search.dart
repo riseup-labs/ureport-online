@@ -171,7 +171,7 @@ class _StorySearchState extends State<StorySearch> {
 
                 for (int i = 0; i < categoryListFull.length; i++) {
                   StorySearchList category =
-                      StorySearchList(categoryListFull[i].title, []);
+                      StorySearchList(categoryListFull[i].title, "", []);
                   for (int j = 0;
                       j < categoryListFull[i].children.length;
                       j++) {

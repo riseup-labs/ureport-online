@@ -108,39 +108,43 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Scaffold(
       appBar: TopHeaderWidget(title: "Profil"),
       body: SafeArea(
-        child: Column(children: [
-          Container(
-            width: 400,
-            height: 100,
-            child: TabBar(
-              indicatorColor: Color.fromRGBO(253, 209, 243, 1),
-              unselectedLabelColor: Color.fromRGBO(0, 0, 0, 0.5),
-              labelColor: Color.fromRGBO(152, 8, 119, 1),
-              labelStyle: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-              controller: _controller,
-              tabs: [
-                Text("Istoric"),
-                Text(
-                  "Medalii",
-                  style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.5)),
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(children: [
+            ProfileHeaderComponent(),
+            Container(
+              width: 400,
+              height: 100,
+              child: TabBar(
+                indicatorColor: Color.fromRGBO(68, 151, 223, 1),
+                unselectedLabelColor: Color.fromRGBO(0, 0, 0, 0.5),
+                labelColor: Color.fromRGBO(68, 151, 223, 1),
+                labelStyle: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
                 ),
-              ],
+                controller: _controller,
+                tabs: [
+                  Text("Istoric"),
+                  Text(
+                    "Medalii",
+                    style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.5)),
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: Container(
+            SizedBox(
+              height: 10,
+            ),
+            Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: TabBarView(
                 controller: _controller,
                 children: [
                   ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
                     itemCount: medalsList.length,
                     itemBuilder: (context, index) => Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -150,6 +154,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                     ),
                   ),
                   ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
                     itemCount: medalsList.length,
                     itemBuilder: (context, index) => MedalWidget(
                       medal: medalsList[index],
@@ -158,8 +164,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                 ],
               ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }

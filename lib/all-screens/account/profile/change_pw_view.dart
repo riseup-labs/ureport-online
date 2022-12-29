@@ -81,7 +81,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   height: 44,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(253, 209, 243, 1),
+                      backgroundColor: Color.fromRGBO(68, 151, 223, 1),
                     ),
                     child: Text(
                       "Confirmare",

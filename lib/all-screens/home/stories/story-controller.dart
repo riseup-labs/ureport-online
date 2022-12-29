@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/model/response-story-details.dart';
+import 'package:ureport_ecaro/all-screens/home/stories/model/searchbar.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/save_story.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story-repository.dart';
 import 'package:ureport_ecaro/database/database_helper.dart';
@@ -167,7 +168,7 @@ class StoryController extends ConnectivityController {
     }
   }
 
-  getCategories(String program) {
+  Future<List<StorySearchList>> getCategories(String program) {
     return _databaseHelper.getStoryCategories(program);
   }
 
