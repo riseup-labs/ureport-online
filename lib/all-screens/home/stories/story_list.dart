@@ -20,6 +20,10 @@ import 'model/ResponseStoryLocal.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StoryList extends StatefulWidget {
+  final List<ResultLocal>? stories;
+
+  const StoryList({Key? key, this.stories}) : super(key: key);
+
   @override
   _StoryListState createState() => _StoryListState();
 }
@@ -157,9 +161,7 @@ class _StoryListState extends State<StoryList>
                                           child: index < provider.itemCount &&
                                                   index < stories!.length
                                               ? getItem(
-                                                  stories![index] != null
-                                                      ? stories![index].images!
-                                                      : "",
+                                                  stories![index].images,
                                                   stories![index].featured!,
                                                   stories![index].title!,
                                                   stories![index].summary!,
@@ -240,7 +242,7 @@ class _StoryListState extends State<StoryList>
   @override
   bool get wantKeepAlive => true;
 
-  getItem(String image_url, String featured, String title, String summery,
+  getItem(String? image_url, String featured, String title, String summery,
       BuildContext context) {
     return Card(
       elevation: 2,
@@ -262,7 +264,7 @@ class _StoryListState extends State<StoryList>
 
 //test
 
-  getItemTitleImage(String image_url) {
+  getItemTitleImage(String? image_url) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10), topRight: Radius.circular(10)),

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/account/login-register/login.dart';
 import 'package:ureport_ecaro/all-screens/account/login-register/login_register_widgets.dart';
+import 'package:ureport_ecaro/all-screens/home/articles/shared/top_header_widget.dart';
+import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
+import 'package:ureport_ecaro/utils/firebase_apis.dart';
 
 import 'package:ureport_ecaro/utils/nav_utils.dart';
+import 'package:ureport_ecaro/utils/top_bar_background.dart';
 import 'package:validators/validators.dart' as validator;
 
 class RegisterScreen extends StatefulWidget {
@@ -23,6 +27,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var _confirmPwError;
   var _nameError;
 
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -34,12 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         body: SafeArea(
             child: SingleChildScrollView(
       child: Column(children: [
-        Container(
-            width: double.infinity,
-            child: Image.asset(
-              'assets/images/top_header_ro.png',
-              fit: BoxFit.fitWidth,
-            )),
+        TopHeaderWidget(title: "ÎNREGISTRARE"),
         Container(
             margin: EdgeInsets.only(top: 80, left: 10),
             width: double.infinity,
@@ -58,14 +59,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Expanded(
-                child: loginButton(
+                child: submitButton(
                     type: 'google',
                     onPressed: () {
                       print("google");
                     }),
               ),
               Expanded(
-                child: loginButton(
+                child: submitButton(
                     type: 'facebook',
                     onPressed: () {
                       print("facebook");
@@ -129,61 +130,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           width: double.infinity,
           margin: EdgeInsets.only(right: 16, left: 16, top: 20),
           height: 44,
-          child: loginButton(
-            type: 'register',
-            onPressed: () {
-              if (_nameController.text.isEmpty ||
-                  _nameController.text.length < 3) {
-                setState(() {
-                  _nameError = "Numele este prea scurt";
-                });
-                return;
-              } else {
-                setState(() {
-                  _nameError = null;
-                });
-              }
-
-              if (!validator.isEmail(_emailController.text)) {
-                setState(() {
-                  _emailError = "Email invalid";
-                });
-                return;
-              } else {
-                setState(() {
-                  _emailError = null;
-                });
-              }
-
-              if (_passwdController.text.length < 6) {
-                setState(() {
-                  _passwordError = "Parola este prea scurtă";
-                });
-                return;
-              } else {
-                setState(() {
-                  _passwordError = null;
-                });
-              }
-              if (_passwdController.text != _confirmPwController.text) {
-                setState(() {
-                  _confirmPwError = "Parolele nu se potrivesc";
-                });
-                return;
-              } else {
-                setState(() {
-                  _confirmPwError = null;
-                });
-              }
-              showCompletedLogin(
-                  context: context,
-                  type: 'register',
-                  onPressed: () {
-                    //TODO: register system
-                    Navigator.pop(context);
-                  });
-            },
-          ),
+          child: _isLoading
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(),
+                )
+              : submitButton(
+                  type: 'register', onPressed: () async => await register()),
         ),
         SizedBox(
           height: 30,
@@ -205,8 +158,97 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ],
             ),
           ),
-        )
+        ),
+        SizedBox(
+          height: 30,
+        ),
       ]),
     )));
+  }
+
+  void toggleIsLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
+  Future<void> register() async {
+    if (_nameController.text.isEmpty || _nameController.text.length < 3) {
+      setState(() {
+        _nameError = "Numele este prea scurt";
+      });
+      return;
+    } else {
+      setState(() {
+        _nameError = null;
+      });
+    }
+
+    if (!validator.isEmail(_emailController.text)) {
+      setState(() {
+        _emailError = "Email invalid";
+      });
+      return;
+    } else {
+      setState(() {
+        _emailError = null;
+      });
+    }
+
+    if (_passwdController.text.length < 6) {
+      setState(() {
+        _passwordError = "Parola este prea scurtă";
+      });
+      return;
+    } else {
+      setState(() {
+        _passwordError = null;
+      });
+    }
+    if (_passwdController.text != _confirmPwController.text) {
+      setState(() {
+        _confirmPwError = "Parolele nu se potrivesc";
+      });
+      return;
+    } else {
+      setState(() {
+        _confirmPwError = null;
+      });
+    }
+    toggleIsLoading();
+
+    final registerResult = await FirebaseApis().register(
+      name: _nameController.text,
+      email: _emailController.text,
+      password: _passwdController.text,
+    );
+    if (registerResult == RegisterStatus.SUCCESS) {
+      toggleIsLoading();
+
+      showPopup(
+          context: context,
+          type: 'register',
+          onPressed: () {
+            NavUtils.pushAndRemoveUntil(context, NavigationScreen(0, 'ro'));
+          });
+    } else if (registerResult == RegisterStatus.EMAIL_EXISTS) {
+      toggleIsLoading();
+      showPopup(
+          context: context,
+          message: "Contul acesta deja exista",
+          type: 'error',
+          onPressed: () {
+            Navigator.pop(context);
+          });
+    } else {
+      toggleIsLoading();
+      showPopup(
+          context: context,
+          message: "S-a produs o eroare",
+          type: 'error',
+          onPressed: () {
+            Navigator.pop(context);
+          });
+    }
   }
 }

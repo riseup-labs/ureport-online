@@ -134,11 +134,17 @@ class StoryController extends ConnectivityController {
           if (value.length != 0)
             {
               if (sp.getInt("${program}_${SPUtil.STORY_COUNT}") > 5)
-                {itemCount = 5, notifyListeners()},
+                {
+                  itemCount = 5,
+                  notifyListeners(),
+                },
               fetchFirstStoryFromRemote(url, program, value[0].id!)
             }
           else
-            {setLoading(), getStoriesFromRemote(url, program)}
+            {
+              setLoading(),
+              getStoriesFromRemote(url, program),
+            }
         });
   }
 

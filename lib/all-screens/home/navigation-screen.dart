@@ -1,13 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:ureport_ecaro/all-screens/account/login-register/login.dart';
+import 'package:ureport_ecaro/all-screens/home/stories/category_list.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/story_list.dart';
-import 'package:ureport_ecaro/all-screens/home/articles/categories/category_view.dart';
 import 'package:ureport_ecaro/all-screens/settings/settings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
-
+import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'chat/Chat.dart';
 import 'opinion/opinion_screen.dart';
 
@@ -15,7 +18,10 @@ class NavigationScreen extends StatefulWidget {
   int changedIndex;
   final String? region;
 
-  NavigationScreen(this.changedIndex, this.region);
+  NavigationScreen(
+    this.changedIndex,
+    this.region,
+  );
 
   @override
   _NavigationScreenState createState() => _NavigationScreenState(changedIndex);
@@ -30,14 +36,24 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   void initState() {
-    if (widget.region == 'ro') {
+    var spset = locator<SPUtil>();
+
+    if (spset.getValue(SPUtil.PROGRAMKEY) != null &&
+        spset.getValue(SPUtil.PROGRAMKEY)!.toLowerCase().startsWith('ro')) {
       tabs = [
-        CategoryView(),
+        CategoryListScreen(),
+        SizedBox(),
+        SizedBox(),
+        Opinion(),
+        Settings(
+          region: spset.getValue(SPUtil.PROGRAMKEY),
+        )
       ];
     } else {
       tabs = [StoryList(), SizedBox(), Opinion(), Settings()];
-      getfirebaseonApp(context);
     }
+
+    getfirebaseonApp(context);
 
     super.initState();
   }
@@ -56,15 +72,16 @@ class _NavigationScreenState extends State<NavigationScreen> {
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-              icon: widget.region == "ro"
-                  ? Icon(Icons.article, color: Color.fromRGBO(248, 149, 220, 1))
+              icon: widget.region!.toLowerCase().startsWith('ro')
+                  ? Icon(Icons.article_outlined,
+                      color: Color.fromRGBO(248, 149, 220, 1))
                   : Image.asset(
                       "assets/images/ic_stories.png",
                       height: 40.18,
                       width: 33.66,
                     ),
-              activeIcon: widget.region == "ro"
-                  ? Icon(Icons.article,
+              activeIcon: widget.region!.toLowerCase().startsWith('ro')
+                  ? Icon(Icons.article_outlined,
                       color: Color.fromARGB(255, 237, 27, 177))
                   : Image.asset(
                       "assets/images/ic_stories_on.png",
@@ -77,13 +94,15 @@ class _NavigationScreenState extends State<NavigationScreen> {
             BottomNavigationBarItem(
               icon: Container(
                 margin: EdgeInsets.only(left: 5),
-                child: widget.region == "ro"
-                    ? Icon(Icons.chat, color: Color.fromRGBO(248, 149, 220, 1))
+                child: widget.region!.toLowerCase().startsWith('ro')
+                    ? Icon(Icons.chat_outlined,
+                        color: Color.fromRGBO(248, 149, 220, 1))
                     : Image.asset("assets/images/ic_chat.png",
                         height: 40.18, width: 33.66),
               ),
-              activeIcon: widget.region == "ro"
-                  ? Icon(Icons.chat, color: Color.fromARGB(255, 237, 27, 177))
+              activeIcon: widget.region!.toLowerCase().startsWith('ro')
+                  ? Icon(Icons.chat_outlined,
+                      color: Color.fromARGB(255, 237, 27, 177))
                   : Image.asset(
                       "assets/images/ic_chat_on.png",
                       height: 40.18,
@@ -92,20 +111,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     ),
               label: "${AppLocalizations.of(context)!.chat}",
             ),
-            if (widget.region == "ro")
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home, color: Color.fromRGBO(248, 149, 220, 1)),
-                activeIcon:
-                    Icon(Icons.home, color: Color.fromARGB(255, 237, 27, 177)),
-                label: "Acasă",
-              ),
             BottomNavigationBarItem(
-              icon: widget.region == "ro"
-                  ? Icon(Icons.article, color: Color.fromRGBO(248, 149, 220, 1))
+              icon: widget.region!.toLowerCase().startsWith('ro')
+                  ? Icon(Icons.article_outlined,
+                      color: Color.fromRGBO(248, 149, 220, 1))
                   : Image.asset("assets/images/ic_opinions.png",
                       height: 40.18, width: 33.66),
-              activeIcon: widget.region == "ro"
-                  ? Icon(Icons.article,
+              activeIcon: widget.region!.toLowerCase().startsWith('ro')
+                  ? Icon(Icons.article_outlined,
                       color: Color.fromARGB(255, 237, 27, 177))
                   : Image.asset(
                       "assets/images/ic_opinions_on.png",
@@ -116,12 +129,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
               label: "${AppLocalizations.of(context)!.opinions}",
             ),
             BottomNavigationBarItem(
-              icon: widget.region == "ro"
-                  ? Icon(Icons.menu, color: Color.fromRGBO(248, 149, 220, 1))
+              icon: widget.region!.toLowerCase().startsWith('ro')
+                  ? Icon(Icons.menu_outlined,
+                      color: Color.fromRGBO(248, 149, 220, 1))
                   : Image.asset("assets/images/ic_more.png",
                       height: 40.18, width: 33.66),
-              activeIcon: widget.region == "ro"
-                  ? Icon(Icons.article,
+              activeIcon: widget.region!.toLowerCase().startsWith('ro')
+                  ? Icon(Icons.menu_outlined,
                       color: Color.fromARGB(255, 237, 27, 177))
                   : Image.asset(
                       "assets/images/ic_more_on.png",
@@ -135,7 +149,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           backgroundColor: Colors.white,
           showUnselectedLabels: true,
           showSelectedLabels: true,
-          selectedItemColor: widget.region == "ro"
+          selectedItemColor: widget.region!.toLowerCase().startsWith('ro')
               ? Colors.black
               : RemoteConfigData.getPrimaryColor(),
           selectedFontSize: 13,
@@ -144,7 +158,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           onTap: (int i) {
             ClickSound.soundClick();
             setState(() {
-              if (i == 1 && widget.region != "ro") {
+              if (i == 1 && widget.region!.toLowerCase().startsWith('ro')) {
                 NavUtils.pushToChat(context, "Home");
               } else {
                 changedIndex = i;
@@ -156,7 +170,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   getfirebaseonApp(context) {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? remoteMessage) {
-      print("Navigation screen called");
       if (remoteMessage != null) {
         NavUtils.pushReplacement(context, Chat("notification"));
       }

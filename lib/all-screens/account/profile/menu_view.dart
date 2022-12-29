@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/account/profile/about_view.dart';
+import 'package:ureport_ecaro/all-screens/account/profile/change_pw_view.dart';
 import 'package:ureport_ecaro/all-screens/account/profile/components/profile_header_component.dart';
 import 'package:ureport_ecaro/all-screens/account/profile/language_view.dart';
 import 'package:ureport_ecaro/all-screens/account/profile/profile_view.dart';
@@ -23,7 +24,7 @@ class MenuScreen extends StatelessWidget {
               menuItem(context, "Profilul tau", ProfileScreen()),
               menuItem(context, "Schimba programul", null),
               menuItem(context, "Schimba limba", LanguageChooser()),
-              menuItem(context, "Schimba parola", null),
+              menuItem(context, "Schimba parola", ChangePasswordScreen()),
               menuItem(context, "Sterge cont", null),
             ]),
           ),

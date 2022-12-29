@@ -27,6 +27,7 @@ class SPUtil {
   static String ABOUT_TITLE = "about_title";
   static String STORY_NEXT = "story_next";
   static String STORY_COUNT = "story_count";
+  static String CATEGORY_COUNT = "category_count";
 
   setValue(String key, String value) async {
     GetStorage().write(key, value);

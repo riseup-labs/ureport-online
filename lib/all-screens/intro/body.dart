@@ -4,7 +4,9 @@ import 'package:ureport_ecaro/all-screens/account/profile/menu_view.dart';
 import 'package:ureport_ecaro/all-screens/account/profile/profile_view.dart';
 import 'package:ureport_ecaro/all-screens/chooser/program_chooser.dart';
 import 'package:ureport_ecaro/all-screens/home/articles/categories/category_view.dart';
+import 'package:ureport_ecaro/all-screens/home/articles/shared/top_header_widget.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/Chat.dart';
+import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
@@ -40,26 +42,26 @@ class _IntroScreenState extends State<IntroScreen> {
     var region = _sp.getValue(SPConstant.SELECTED_LANGUAGE);
 
     List<Map<String, String>> splashData = [
-      //TODO: CHANGE IMAGES IF REGION IS RO
+      // Different text and image for language romanian
       {
         "text": "${AppLocalizations.of(context)!.stories}",
         "text2": "${AppLocalizations.of(context)!.intro_text1}",
         "image": region == 'ro'
-            ? "assets/images/drawable-xxhdpi/v2_about_1.png"
+            ? "assets/images/drawable-xxhdpi/v2_about_1_ro.png"
             : "assets/images/drawable-xxhdpi/v2_about_1.png"
       },
       {
         "text": "${AppLocalizations.of(context)!.chat}",
         "text2": "${AppLocalizations.of(context)!.intro_text2}",
         "image": region == 'ro'
-            ? "assets/images/drawable-xxhdpi/v2_about_2.png"
+            ? "assets/images/drawable-xxhdpi/v2_about_2_ro.png"
             : "assets/images/drawable-xxhdpi/v2_about_2.png"
       },
       {
         "text": "${AppLocalizations.of(context)!.opinions}",
         "text2": "${AppLocalizations.of(context)!.intro_text3}",
         "image": region == 'ro'
-            ? "assets/images/into_page_3.png"
+            ? "assets/images/into_page_3_ro.png"
             : "assets/images/into_page_3.png"
       },
     ];
@@ -80,12 +82,9 @@ class _IntroScreenState extends State<IntroScreen> {
             child: Column(
               children: <Widget>[
                 region == 'ro'
-                    ? Container(
-                        width: double.infinity,
-                        child: Image.asset(
-                          'assets/images/top_header_ro.png',
-                          fit: BoxFit.fitWidth,
-                        ))
+                    ? TopHeaderWidget(
+                        title: "Intro",
+                      )
                     : Container(),
                 Expanded(
                   child: Container(
@@ -117,11 +116,8 @@ class _IntroScreenState extends State<IntroScreen> {
                           GestureDetector(
                             onTap: () {
                               ClickSound.soundClick();
-                              region == 'ro'
-                                  ? NavUtils.pushAndRemoveUntil(
-                                      context, MenuScreen())
-                                  : NavUtils.pushAndRemoveUntil(
-                                      context, ProgramChooser("intro"));
+                              NavUtils.pushAndRemoveUntil(
+                                  context, ProgramChooser("intro"));
                             },
                             child: Text("${AppLocalizations.of(context)!.skip}",
                                 style: TextStyle(
@@ -147,11 +143,8 @@ class _IntroScreenState extends State<IntroScreen> {
                                 ClickSound.soundClick();
                                 currentPage++;
                                 if (currentPage >= 3) {
-                                  region == 'ro'
-                                      ? NavUtils.pushAndRemoveUntil(
-                                          context, LoginScreen())
-                                      : NavUtils.pushAndRemoveUntil(
-                                          context, ProgramChooser("intro"));
+                                  NavUtils.pushAndRemoveUntil(
+                                      context, ProgramChooser("intro"));
                                 } else {
                                   _pageController!.nextPage(
                                       duration: Duration(milliseconds: 100),

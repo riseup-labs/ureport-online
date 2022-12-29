@@ -47,14 +47,16 @@ dependencies:
 
   # firebase config
   firebase_messaging: ^14.1.0
-  firebase_core: ^2.2.0
-  flutter_local_notifications: ^12.0.3
+  firebase_auth: ^4.2.0
+  firebase_core: ^2.4.0
+  cloud_firestore: ^4.3.0
+  flutter_local_notifications: ^13.0.0
   firebase_analytics: ^10.0.5
   firebase_core_platform_interface: ^4.5.2
   firebase_crashlytics: any
 
   #Remote config
-  firebase_remote_config: ^3.0.5
+  firebase_remote_config: ^3.0.0
 
   percent_indicator: ^4.2.2
   webview_flutter_plus: ^0.3.0+2
@@ -73,7 +75,7 @@ dependencies:
   keyboard_visibility: any
   lottie: ^2.0.0
   package_info_plus: any
-  flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.11.0
   permission_handler: ^10.2.0
   validators: ^3.0.0
 

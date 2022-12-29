@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ureport_ecaro/all-screens/account/login-register/login.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/home/opinion/opinion_controller.dart';
@@ -12,7 +12,6 @@ import 'package:ureport_ecaro/utils/click_sound.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
 import 'package:ureport_ecaro/utils/snackbar.dart';
-import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -27,8 +26,6 @@ class ProgramChooser extends StatefulWidget {
 
 class _ProgramChooserState extends State<ProgramChooser> {
   String from;
-
-  var _sp = locator<SPUtil>();
 
   var spset = locator<SPUtil>();
 
@@ -212,12 +209,15 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                                         listen: false)
                                                     .createContact();
                                               }
-                                              NavUtils.pushAndRemoveUntil(
-                                                  context,
-                                                  NavigationScreen(
-                                                      0,
-                                                      _sp.getValue(SPConstant
-                                                          .SELECTED_LANGUAGE)));
+                                              if (mounted && from == "login") {
+                                                NavUtils.pushAndRemoveUntil(
+                                                    context, LoginScreen());
+                                              } else {
+                                                NavUtils.pushAndRemoveUntil(
+                                                    context,
+                                                    NavigationScreen(
+                                                        0, dropdownValue));
+                                              }
                                             } else {
                                               ShowSnackBar
                                                   .showNoInternetMessage(

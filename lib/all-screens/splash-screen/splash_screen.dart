@@ -1,17 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
+import 'package:ureport_ecaro/all-screens/account/login-register/login.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/Chat.dart';
 import 'package:ureport_ecaro/all-screens/home/chat/chat-controller.dart';
 import 'package:ureport_ecaro/all-screens/home/navigation-screen.dart';
 import 'package:ureport_ecaro/all-screens/intro/intro_page_first.dart';
-import 'package:ureport_ecaro/database/database_helper.dart';
 import 'package:ureport_ecaro/firebase-remote-config/remote-config-controller.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/network_operation/firebase/firebase_icoming_message_handling.dart';
@@ -21,7 +20,6 @@ import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/resources.dart';
 import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -130,9 +128,16 @@ class _SplashScreenState extends State<SplashScreen> {
       () {
         var spset = locator<SPUtil>();
         String? isSigned = spset.getValue(SPUtil.PROGRAMKEY);
+        final user = FirebaseAuth.instance.currentUser;
+
         if (isSigned != null) {
-          NavUtils.pushAndRemoveUntil(context,
-              NavigationScreen(0, _sp.getValue(SPConstant.SELECTED_LANGUAGE)));
+          if (isSigned.toLowerCase().startsWith('ro') && user == null) {
+            //Login screen only for Romanian program
+            NavUtils.pushAndRemoveUntil(context, LoginScreen());
+          } else {
+            NavUtils.pushAndRemoveUntil(context,
+                NavigationScreen(0, spset.getValue(SPUtil.PROGRAMKEY)));
+          }
         } else {
           if (Provider.of<ConnectivityController>(context, listen: false)
               .isOnline) {

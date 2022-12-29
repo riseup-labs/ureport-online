@@ -30,11 +30,21 @@ class SplashContent extends StatelessWidget {
                 region == 'ro'
                     ? StoriesTextWidget(text: text, text2: text2)
                     : SizedBox(height: 20),
-                region != 'ro' ? StoriesImageWidget(image: image) : SizedBox(),
+                region != 'ro'
+                    ? StoriesImageWidget(
+                        image: image,
+                        region: region,
+                      )
+                    : SizedBox(),
                 region != 'ro'
                     ? StoriesTextWidget(text: text, text2: text2)
                     : SizedBox(),
-                region == 'ro' ? StoriesImageWidget(image: image) : SizedBox(),
+                region == 'ro'
+                    ? StoriesImageWidget(
+                        image: image,
+                        region: region,
+                      )
+                    : SizedBox(),
               ],
             )
           :
@@ -52,7 +62,12 @@ class SplashContent extends StatelessWidget {
                             region: region,
                           )
                         : SizedBox(height: 20),
-                    region != 'ro' ? ChatImageWidget(image: image) : SizedBox(),
+                    region != 'ro'
+                        ? ChatImageWidget(
+                            image: image,
+                            region: region,
+                          )
+                        : SizedBox(),
                     region != 'ro'
                         ? ChatTextWidget(
                             text: text,
@@ -60,7 +75,12 @@ class SplashContent extends StatelessWidget {
                             region: region,
                           )
                         : SizedBox(),
-                    region == 'ro' ? ChatImageWidget(image: image) : SizedBox(),
+                    region == 'ro'
+                        ? ChatImageWidget(
+                            image: image,
+                            region: region,
+                          )
+                        : SizedBox(),
                   ],
                 )
               :
@@ -79,7 +99,10 @@ class SplashContent extends StatelessWidget {
                         : SizedBox(height: 20),
                     region != 'ro'
                         ? OpinionImageWidget(
-                            devicePixelRatio: devicePixelRatio, image: image)
+                            devicePixelRatio: devicePixelRatio,
+                            image: image,
+                            region: region,
+                          )
                         : SizedBox(),
                     region != 'ro'
                         ? OpinionTextWidget(
@@ -90,7 +113,10 @@ class SplashContent extends StatelessWidget {
                         : SizedBox(),
                     region == 'ro'
                         ? OpinionImageWidget(
-                            devicePixelRatio: devicePixelRatio, image: image)
+                            devicePixelRatio: devicePixelRatio,
+                            image: image,
+                            region: region,
+                          )
                         : SizedBox(),
                   ],
                 ),
@@ -160,10 +186,12 @@ class OpinionImageWidget extends StatelessWidget {
     Key? key,
     required this.devicePixelRatio,
     required this.image,
+    required this.region,
   }) : super(key: key);
 
   final double devicePixelRatio;
   final String image;
+  final String region;
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +201,7 @@ class OpinionImageWidget extends StatelessWidget {
         width: double.infinity,
         child: Image.asset(
           image,
-          fit: BoxFit.fill,
+          fit: region == "ro" ? BoxFit.contain : BoxFit.fill,
         ),
       ),
     );
@@ -236,12 +264,11 @@ class ChatTextWidget extends StatelessWidget {
 }
 
 class ChatImageWidget extends StatelessWidget {
-  const ChatImageWidget({
-    Key? key,
-    required this.image,
-  }) : super(key: key);
+  const ChatImageWidget({Key? key, required this.image, required this.region})
+      : super(key: key);
 
   final String image;
+  final String region;
 
   @override
   Widget build(BuildContext context) {
@@ -250,7 +277,7 @@ class ChatImageWidget extends StatelessWidget {
         padding: EdgeInsets.only(left: 30, right: 30, top: 50),
         child: Image.asset(
           image,
-          fit: BoxFit.fill,
+          fit: region == "ro" ? BoxFit.contain : BoxFit.fill,
         ),
       ),
     );
@@ -261,9 +288,11 @@ class StoriesImageWidget extends StatelessWidget {
   const StoriesImageWidget({
     Key? key,
     required this.image,
+    required this.region,
   }) : super(key: key);
 
   final String image;
+  final String region;
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +300,7 @@ class StoriesImageWidget extends StatelessWidget {
       child: Container(
         child: Image.asset(
           image,
-          fit: BoxFit.fill,
+          fit: region == "ro" ? BoxFit.contain : BoxFit.fill,
         ),
       ),
     );

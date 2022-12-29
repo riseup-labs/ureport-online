@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget loginButton({
+Widget submitButton({
   required String type,
   required Function() onPressed,
 }) {
@@ -131,9 +131,10 @@ Widget textField({
   );
 }
 
-void showCompletedLogin({
+void showPopup({
   required BuildContext context,
-  required String type,
+  String? type,
+  String? message,
   required Function() onPressed,
 }) async {
   return showDialog<void>(
@@ -141,12 +142,14 @@ void showCompletedLogin({
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Succes!'),
-        content: Text(type == 'register'
-            ? 'Contul tău a fost creat cu succes. De acum poți avea acces la toate articolele din aplicație și poți câștiga puncte dacă ești un uReporter conștiincios! '
-            : type == 'pwrecover'
-                ? "Noua parolă a fost setată!"
-                : 'Ai fost autentificat cu succes!'),
+        title: const Text('U-Report'),
+        content: message == null
+            ? Text(type == 'register'
+                ? 'Contul tău a fost creat cu succes. De acum poți avea acces la toate articolele din aplicație și poți câștiga puncte dacă ești un uReporter conștiincios! '
+                : type == 'pwrecover'
+                    ? "Ai primit pe email modalitatea de resetare a parolei!"
+                    : 'Ai fost autentificat cu succes!')
+            : Text(message),
         actions: <Widget>[
           ElevatedButton(
             style: ElevatedButton.styleFrom(

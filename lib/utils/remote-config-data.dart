@@ -10,11 +10,15 @@ import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 class RemoteConfigData {
   static getProgramList() {
+    print("program list");
     List<String> list = [];
-    ResponseRemoteConfigData data = getAllData();
-    data.programs.forEach((element) {
-      list.add(element.name);
-    });
+ 
+      ResponseRemoteConfigData data = getAllData();
+      data.programs.forEach((element) {
+        list.add(element.name);
+      });
+
+
     return list;
   }
 
@@ -305,7 +309,7 @@ class RemoteConfigData {
   static getAllData() {
     var sp = locator<SPUtil>();
     Map<String, dynamic> data =
-        jsonDecode(sp.getValue(SPConstant.ALL_PROGRAMS) ?? "");
+        jsonDecode(sp.getValue(SPConstant.ALL_PROGRAMS)!);
     var values = ResponseRemoteConfigData.fromJson(data);
     return values;
   }

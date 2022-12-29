@@ -1,37 +1,37 @@
 {
   "project_info": {
-    "project_number": "273616988374",
-    "project_id": "u-report-7f1f3",
-    "storage_bucket": "u-report-7f1f3.appspot.com"
+    "project_number": "1053882350049",
+    "project_id": "u-report-romania-dev",
+    "storage_bucket": "u-report-romania-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:273616988374:android:ffe15d769b9560c1b48177",
+        "mobilesdk_app_id": "1:1053882350049:android:49eb00d10c6e0c5ea5faa0",
         "android_client_info": {
           "package_name": "org.unicef.ureport"
         }
       },
       "oauth_client": [
         {
-          "client_id": "273616988374-1jpra9i5v19sbr1qj1ful1m4lqkgtcb6.apps.googleusercontent.com",
+          "client_id": "1053882350049-7tse2e9f0s3jgtephee16hg9fdvmuknk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCUt78tOAjH99qYZF36y14u_bSiemWQqww"
+          "current_key": "AIzaSyAPP8T_-eVAYZU4ZJRwmcss08mMaBtGSmg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "273616988374-1jpra9i5v19sbr1qj1ful1m4lqkgtcb6.apps.googleusercontent.com",
+              "client_id": "1053882350049-7tse2e9f0s3jgtephee16hg9fdvmuknk.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "273616988374-7vg3kacloapv770fakqcbh976t0n11v0.apps.googleusercontent.com",
+              "client_id": "1053882350049-hco5asoj27tjmkuglhv7qvup7dsk1m7s.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "org.unicef.ureport"

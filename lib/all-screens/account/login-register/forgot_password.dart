@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/account/login-register/login.dart';
 import 'package:ureport_ecaro/all-screens/account/login-register/login_register_widgets.dart';
+import 'package:ureport_ecaro/utils/firebase_apis.dart';
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:validators/validators.dart' as validator;
 
@@ -13,15 +14,17 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _emailController = TextEditingController();
-  final _codeController = TextEditingController();
-  final _newPwController = TextEditingController();
-  final _confirmPwController = TextEditingController();
+  //final _codeController = TextEditingController();
+  //final _newPwController = TextEditingController();
+  //final _confirmPwController = TextEditingController();
 
-  var _pwError;
-  var _confirmPwError;
+  //var _pwError;
+  //var _confirmPwError;
   var _emailError;
-  var _codeError;
-  bool _codeSent = false;
+ // var _codeError;
+  //bool _codeSent = false;
+
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +51,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       fontFamily: 'Heebo'),
                 ),
               ),
-              _codeSent
-                  ? SizedBox()
-                  : textField(
+              // _codeSent
+              //     ? SizedBox()
+              //     : 
+                  
+                  textField(
                       label: "Email",
                       textInputAction: TextInputAction.done,
                       obscureText: false,
@@ -58,36 +63,36 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       controller: _emailController,
                       errorText: _emailError,
                     ),
-              _codeSent
-                  ? textField(
-                      label: "Parola nouă",
-                      textInputAction: TextInputAction.next,
-                      obscureText: false,
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _newPwController,
-                      errorText: _pwError,
-                    )
-                  : SizedBox(),
-              _codeSent
-                  ? textField(
-                      label: "Confirmare parolă nouă",
-                      textInputAction: TextInputAction.next,
-                      obscureText: false,
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _confirmPwController,
-                      errorText: _confirmPwError,
-                    )
-                  : SizedBox(),
-              _codeSent
-                  ? textField(
-                      label: "Cod primit",
-                      textInputAction: TextInputAction.done,
-                      obscureText: true,
-                      keyboardType: TextInputType.visiblePassword,
-                      controller: _codeController,
-                      errorText: _codeError,
-                    )
-                  : SizedBox(),
+              // _codeSent
+              //     ? textField(
+              //         label: "Parola nouă",
+              //         textInputAction: TextInputAction.next,
+              //         obscureText: false,
+              //         keyboardType: TextInputType.emailAddress,
+              //         controller: _newPwController,
+              //         errorText: _pwError,
+              //       )
+              //     : SizedBox(),
+              // _codeSent
+              //     ? textField(
+              //         label: "Confirmare parolă nouă",
+              //         textInputAction: TextInputAction.next,
+              //         obscureText: false,
+              //         keyboardType: TextInputType.emailAddress,
+              //         controller: _confirmPwController,
+              //         errorText: _confirmPwError,
+              //       )
+              //     : SizedBox(),
+              // _codeSent
+              //     ? textField(
+              //         label: "Cod primit",
+              //         textInputAction: TextInputAction.done,
+              //         obscureText: true,
+              //         keyboardType: TextInputType.visiblePassword,
+              //         controller: _codeController,
+              //         errorText: _codeError,
+              //       )
+              //     : SizedBox(),
               Container(
                 width: double.infinity,
                 margin: EdgeInsets.only(right: 16, left: 16, top: 20),
@@ -97,59 +102,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     backgroundColor: Color.fromRGBO(253, 209, 243, 1),
                   ),
                   child: Text(
-                    _codeSent ? "Confirmare" : "Trimite cod",
+                    "Trimite cod",
+                    //_codeSent ? "Confirmare" : "Trimite cod",
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  onPressed: () {
-                    if (_codeSent) {
-                      if (_newPwController.text.length < 6) {
-                        setState(() {
-                          _pwError = "Parola este prea scurtă";
-                        });
-                        return;
-                      } else {
-                        setState(() {
-                          _pwError = null;
-                        });
-                      }
-                      if (_newPwController.text != _confirmPwController.text) {
-                        setState(() {
-                          _confirmPwError = "Parolele nu se potrivesc";
-                        });
-                        return;
-                      } else {
-                        setState(() {
-                          _confirmPwError = null;
-                        });
-                      }
-
-                      showCompletedLogin(
-                          context: context,
-                          type: 'pwrecover',
-                          onPressed: () {
-                            // TODO: implement password recovery
-                            NavUtils.pushAndRemoveUntil(context, LoginScreen());
-                          });
-                    } else {
-                      if (!validator.isEmail(_emailController.text)) {
-                        setState(() {
-                          _emailError = "Email invalid";
-                        });
-                        return;
-                      } else {
-                        setState(() {
-                          _emailError = null;
-                        });
-                      }
-
-                      setState(() {
-                        _codeSent = true;
-                      });
-                    }
-                  },
+                  onPressed: () => sendForgotPassword(),
                 ),
               ),
               SizedBox(
@@ -182,4 +142,61 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
     );
   }
+
+  void toggleIsLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
+  Future<void> sendForgotPassword() async {
+    // if (_codeSent) {
+    //   if (_newPwController.text.length < 6) {
+    //     setState(() {
+    //       _pwError = "Parola este prea scurtă";
+    //     });
+    //     return;
+    //   } else {
+    //     setState(() {
+    //       _pwError = null;
+    //     });
+    //   }
+      // if (_newPwController.text != _confirmPwController.text) {
+      //   setState(() {
+      //     _confirmPwError = "Parolele nu se potrivesc";
+      //   });
+      //   return;
+      // } else {
+      //   setState(() {
+      //     _confirmPwError = null;
+      //   });
+     // }
+       if (!validator.isEmail(_emailController.text)) {
+        setState(() {
+          _emailError = "Email invalid";
+        });
+        return;
+      } else {
+        setState(() {
+          _emailError = null;
+        });
+      }
+      toggleIsLoading();
+
+      await FirebaseApis().resetPassword(
+        email: _emailController.text,
+      );
+
+      showPopup(
+          context: context,
+          type: 'pwrecover',
+          onPressed: () {
+            NavUtils.pushAndRemoveUntil(context, LoginScreen());
+          });
+    } 
+    
+
+   
+    
+  
 }
