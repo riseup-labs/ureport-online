@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ureport_ecaro/all-screens/account/login-register/login_register_widgets.dart';
 import 'package:ureport_ecaro/all-screens/home/articles/shared/top_header_widget.dart';
@@ -17,6 +18,18 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   var _pwError;
   var _newPwError;
   var _confNewPwError;
+
+  Future<void> changePassword() async {
+    User user = FirebaseAuth.instance.currentUser!;
+
+    await user
+        .reauthenticateWithCredential(EmailAuthProvider.credential(
+            email: user.email!, password: currentPwController.text))
+        .then((value) {
+      user.updatePassword(newPwController.text);
+      Navigator.of(context).pop();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,12 +94,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   height: 44,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(68, 151, 223, 1),
+                      backgroundColor: Color.fromRGBO(167, 45, 111, 1),
                     ),
                     child: Text(
                       "Confirmare",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.white,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -114,6 +127,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           _confNewPwError = null;
                         }
                       });
+                      changePassword();
                     }),
                   )),
             ],

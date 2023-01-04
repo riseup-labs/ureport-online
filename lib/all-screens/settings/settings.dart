@@ -1,27 +1,19 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ureport_ecaro/all-screens/chooser/language_chooser.dart';
 import 'package:ureport_ecaro/all-screens/chooser/program_chooser.dart';
 import 'package:ureport_ecaro/all-screens/settings/change-language.dart';
-import 'package:ureport_ecaro/all-screens/settings/privacy_policy.dart';
 import 'package:ureport_ecaro/all-screens/settings/settings_details.dart';
-import 'package:ureport_ecaro/all-screens/settings/terms_and_conditions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/click_sound.dart';
-
 import 'package:ureport_ecaro/utils/nav_utils.dart';
 import 'package:ureport_ecaro/utils/remote-config-data.dart';
-import 'package:ureport_ecaro/utils/sp_constant.dart';
-import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'package:ureport_ecaro/utils/top_bar_background.dart';
 
 import 'about/about.dart';
 
 class Settings extends StatelessWidget {
-  final String? region;
-
-  const Settings({Key? key, this.region}) : super(key: key);
+  const Settings({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,23 +67,6 @@ class Settings extends StatelessWidget {
                       "${AppLocalizations.of(context)!.change_ureport_program}",
                       "assets/images/v2_ic_program.png"),
                 ),
-                region != null && region!.toLowerCase().startsWith('ro')
-                    ? GestureDetector(
-                        onTap: () {
-                          var spset = locator<SPUtil>();
-
-                          ClickSound.soundClick();
-
-                          FirebaseAuth.instance.signOut();
-                          spset.deleteKey(SPUtil.PROGRAMKEY);
-                          spset.deleteKey(SPConstant.SELECTED_LANGUAGE);
-                          NavUtils.pushAndRemoveUntil(
-                              context, LanguageChooser());
-                        },
-                        child: getItem(
-                            "Ieși din cont", "assets/images/v2_ic_program.png"),
-                      )
-                    : SizedBox(),
               ],
             ),
           ),

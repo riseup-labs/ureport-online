@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ureport_ecaro/all-screens/account/profile/menu_view.dart';
+import 'package:ureport_ecaro/utils/nav_utils.dart';
 
 class ProfileHeaderComponent extends StatelessWidget {
   const ProfileHeaderComponent({Key? key}) : super(key: key);
@@ -57,9 +59,14 @@ class ProfileHeaderComponent extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(
-                  Icons.settings,
-                  color: Color.fromRGBO(68, 151, 223, 1),
+                GestureDetector(
+                  onTap: () {
+                    NavUtils.push(context, MenuScreen());
+                  },
+                  child: Icon(
+                    Icons.settings,
+                    color: Color.fromRGBO(68, 151, 223, 1),
+                  ),
                 ),
               ],
             ),
