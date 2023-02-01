@@ -14,8 +14,7 @@ class StroyRipository {
     return ApiResponse(
         httpCode: apiResponse.httpCode,
         message: apiResponse.message,
-        data: ResponseStories.fromJson(apiResponse.data.data)
-    );
+        data: ResponseStories.fromJson(apiResponse.data.data));
   }
 
   Future<ApiResponse<ResponseStoryDetails>> getStoryDetails(String url) async {
@@ -24,7 +23,6 @@ class StroyRipository {
     return ApiResponse(
         httpCode: apiResponse.httpCode,
         message: apiResponse.message,
-        data: ResponseStoryDetails.fromJson(apiResponse.data.data)
-    );
+        data: ResponseStoryDetails.fromJson(apiResponse.data.data));
   }
 }

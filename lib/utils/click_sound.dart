@@ -1,93 +1,86 @@
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:ureport_ecaro/locator/locator.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 class ClickSound {
-
-
-  static soundClick(){
-    final  player = AudioCache();
+  static soundClick() {
+    final player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status == "true"){
-      player.play('audio/v2_click.mp3');
+    if (status == "true") {
+      player.load('audio/v2_click.mp3');
     }
   }
 
-  static soundClose(){
-    final  player = AudioCache();
+  static soundClose() {
+    final player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status == "true"){
-      player.play('audio/v2_close.mp3');
+    if (status == "true") {
+      player.load('audio/v2_close.mp3');
     }
   }
 
-  static soundDropdown(){
-    final  player = AudioCache();
+  static soundDropdown() {
+    final player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status == "true"){
-      player.play('audio/v2_dropdown.wav');
+    if (status == "true") {
+      player.load('audio/v2_dropdown.wav');
     }
   }
 
-  static soundMsgReceived(){
-    final  player = AudioCache();
+  static soundMsgReceived() {
+    final player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status == "true"){
-      player.play('audio/v2_msg_received.mp3');
+    if (status == "true") {
+      player.load('audio/v2_msg_received.mp3');
     }
   }
 
-  static soundMsgSend(){
-    final  player = AudioCache();
+  static soundMsgSend() {
+    final player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status == "true"){
-      player.play('audio/v2_msg_send.mp3');
+    if (status == "true") {
+      player.load('audio/v2_msg_send.mp3');
     }
   }
 
-  static soundTyping(){
-    final  player = AudioCache();
+  static soundTyping() {
+    final player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status == "true"){
-      player.play('audio/v2_msg_typing.mp3');
+    if (status == "true") {
+      player.load('audio/v2_msg_typing.mp3');
     }
   }
 
-  static soundShare(){
-    final  player = AudioCache();
+  static soundShare() {
+    final player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status == "true"){
-      player.play('audio/v2_share.mp3');
+    if (status == "true") {
+      player.load('audio/v2_share.mp3');
     }
   }
 
-  static soundTap(){
-    final  player = AudioCache();
+  static soundTap() {
+    final player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status == "true"){
-      player.play('audio/v2_click.mp3');
+    if (status == "true") {
+      player.load('audio/v2_click.mp3');
     }
   }
 
-  static soundNoInternet(){
-    final  player = AudioCache();
+  static soundNoInternet() {
+    final player = AudioCache();
     var sp = locator<SPUtil>();
     String status = sp.getValue(SPUtil.SOUND);
-    if(status == "true"){
-      player.play('audio/no_internet_alert.mp3');
+    if (status == "true") {
+      player.load('audio/no_internet_alert.mp3');
     }
   }
-
-
-
-
 }

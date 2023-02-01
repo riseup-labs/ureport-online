@@ -49,7 +49,7 @@ class _StorySearchState extends State<StorySearch> {
 
   @override
   Widget build(BuildContext context) {
-    _future = Provider.of<StoryController>(context, listen: false)
+    _future = Provider.of<StoryController>(context, listen: true)
         .getCategories(sp.getValue(SPUtil.PROGRAMKEY));
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
@@ -212,12 +212,14 @@ class _StorySearchState extends State<StorySearch> {
               transition: CircularFloatingSearchBarTransition(),
               debounceDelay: Duration(milliseconds: 100),
               actions: [
-                isExpanded?GestureDetector(
-                    onTap: () {
-                      ClickSound.soundClose();
-                      _floatingSearchBarController.clear();
-                    },
-                    child: Icon(Icons.clear)):SizedBox()
+                isExpanded
+                    ? GestureDetector(
+                        onTap: () {
+                          ClickSound.soundClose();
+                          _floatingSearchBarController.clear();
+                        },
+                        child: Icon(Icons.clear))
+                    : SizedBox()
               ],
               builder: (context, transition) {
                 return Container();
@@ -252,13 +254,14 @@ class _StorySearchState extends State<StorySearch> {
                   children: [
                     Text(
                       popup.title,
-                      style: TextStyle(fontSize:18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
                 children: list,
                 initiallyExpanded: isExpanded,
-                onExpansionChanged: (value){
+                onExpansionChanged: (value) {
                   ClickSound.soundDropdown();
                 },
               ),

@@ -38,6 +38,8 @@ class NavUtils {
 
   static pushAndRemoveUntil(BuildContext context, Widget screen) {
     Navigator.pushAndRemoveUntil(
-        context, MaterialPageRoute(builder: (context) => screen), (_) => false);
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => screen),
+        (_) => false);
   }
 }

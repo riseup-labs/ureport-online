@@ -18,7 +18,6 @@ class IntroScreen extends StatefulWidget {
 class _IntroScreenState extends State<IntroScreen> {
   int currentPage = 0;
   PageController? _pageController;
-  
 
   @override
   void initState() {
@@ -28,7 +27,6 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     SizeConfig().init(context);
 
     List<Map<String, String>> splashData = [
@@ -50,7 +48,11 @@ class _IntroScreenState extends State<IntroScreen> {
     ];
 
     return Scaffold(
-      backgroundColor: currentPage == 0 ? AppColors.mainBgColor : currentPage == 1 ? AppColors.mainBgColor2 : AppColors.opinion_intro_back,
+      backgroundColor: currentPage == 0
+          ? AppColors.mainBgColor
+          : currentPage == 1
+              ? AppColors.mainBgColor2
+              : AppColors.opinion_intro_back,
       body: Container(
         margin: EdgeInsets.only(top: 0, bottom: 20),
         child: SizedBox(
@@ -59,12 +61,16 @@ class _IntroScreenState extends State<IntroScreen> {
             children: <Widget>[
               Expanded(
                 child: Container(
-                  color: currentPage == 0 ? AppColors.mainBgColor : currentPage == 1 ? AppColors.mainBgColor2 : AppColors.mainBgColor3,
-                  child: getPageBuilder(0,splashData),
+                  color: currentPage == 0
+                      ? AppColors.mainBgColor
+                      : currentPage == 1
+                          ? AppColors.mainBgColor2
+                          : AppColors.mainBgColor3,
+                  child: getPageBuilder(0, splashData),
                 ),
               ),
               Container(
-                color: currentPage == 2?AppColors.opinion_intro_back:null,
+                color: currentPage == 2 ? AppColors.opinion_intro_back : null,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: getProportionateScreenWidth(20)),
@@ -75,13 +81,18 @@ class _IntroScreenState extends State<IntroScreen> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             ClickSound.soundClick();
-                            NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
+                            NavUtils.pushAndRemoveUntil(
+                                context, ProgramChooser("intro"));
                           },
                           child: Text("${AppLocalizations.of(context)!.skip}",
-                              style:
-                                  TextStyle(fontSize: 16, color: currentPage != 0?Colors.white:Colors.black, fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: currentPage != 0
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontWeight: FontWeight.bold)),
                         ),
                         Container(
                           margin: EdgeInsets.only(bottom: 7),
@@ -91,24 +102,29 @@ class _IntroScreenState extends State<IntroScreen> {
                           ),
                         ),
                         GestureDetector(
-                            onTap: () {
-                              ClickSound.soundClick();
-                              currentPage++;
-                              if (currentPage >= 3) {
-                                NavUtils.pushAndRemoveUntil(context, ProgramChooser("intro"));
-                              }else{
-                                _pageController!.nextPage(
-                                    duration: Duration(milliseconds: 100),
-                                    curve: Curves.easeIn
-                                );
-                                setState(() {});
-                              }
-                            },
-                            child: Text(
-                              "${AppLocalizations.of(context)!.next}",
-                              style: TextStyle(
-                                  fontSize: 16, color: currentPage != 0?Colors.white:Colors.black, fontWeight: FontWeight.bold),
-                            )),
+                          onTap: () {
+                            ClickSound.soundClick();
+                            currentPage++;
+                            if (currentPage >= 3) {
+                              NavUtils.pushAndRemoveUntil(
+                                  context, ProgramChooser("intro"));
+                            } else {
+                              _pageController!.nextPage(
+                                  duration: Duration(milliseconds: 100),
+                                  curve: Curves.easeIn);
+                              setState(() {});
+                            }
+                          },
+                          child: Text(
+                            "${AppLocalizations.of(context)!.next}",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: currentPage != 0
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -128,7 +144,7 @@ class _IntroScreenState extends State<IntroScreen> {
     );
   }
 
-  getPageBuilder(int page,List<Map<String, String>> splashData) {
+  getPageBuilder(int page, List<Map<String, String>> splashData) {
     return Stack(
       children: [
         Positioned(
@@ -150,20 +166,19 @@ class _IntroScreenState extends State<IntroScreen> {
         Container(
           margin: EdgeInsets.only(top: 40),
           child: PageView.builder(
-            onPageChanged: (value) {
-              setState(() {
-                currentPage = value;
-              });
-            },
-            itemCount: splashData.length,
-            itemBuilder: (context, index) => SplashContent(
-              image: splashData[index]["image"]!,
-              text: splashData[index]['text']!,
-              text2: splashData[index]['text2']!,
-              key: null,
-            ),
-            controller: _pageController
-          ),
+              onPageChanged: (value) {
+                setState(() {
+                  currentPage = value;
+                });
+              },
+              itemCount: splashData.length,
+              itemBuilder: (context, index) => SplashContent(
+                    image: splashData[index]["image"]!,
+                    text: splashData[index]['text']!,
+                    text2: splashData[index]['text2']!,
+                    key: null,
+                  ),
+              controller: _pageController),
         ),
       ],
     );

@@ -18,12 +18,12 @@ class LanguageChooser extends StatefulWidget {
   @override
   _LanguageChooserState createState() => _LanguageChooserState();
 }
+
 var dropdownValue = "English";
 String selected_language = "";
 var _sp = locator<SPUtil>();
 
 class _LanguageChooserState extends State<LanguageChooser> {
-
   @override
   Widget build(BuildContext context) {
     return Consumer<RemoteConfigController>(
@@ -53,19 +53,32 @@ class _LanguageChooserState extends State<LanguageChooser> {
                         height: 40,
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: selected_language == "ru"?30:0),
+                        margin: EdgeInsets.only(
+                            left: selected_language == "ru" ? 30 : 0),
                         width: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
                               child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(text: "${AppLocalizations.of(context)!.welcome}!",style: TextStyle(fontSize: 45, fontWeight: FontWeight.w800, color: Colors.black, fontFamily: "Poppins")),
-                                    TextSpan(text: "\n${AppLocalizations.of(context)!.get_started}",style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500, color: Colors.black, fontFamily: "Poppins")),
-                                  ]
-                                ),
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text:
+                                          "${AppLocalizations.of(context)!.welcome}!",
+                                      style: TextStyle(
+                                          fontSize: 45,
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.black,
+                                          fontFamily: "Poppins")),
+                                  TextSpan(
+                                      text:
+                                          "\n${AppLocalizations.of(context)!.get_started}",
+                                      style: TextStyle(
+                                          fontSize: 35,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                          fontFamily: "Poppins")),
+                                ]),
                               ),
                             ),
                           ],
@@ -90,8 +103,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                               padding: const EdgeInsets.only(left: 5),
                               child: Text(
                                 "${AppLocalizations.of(context)!.select_language}",
-                                style: TextStyle(
-                                    fontSize: 22),
+                                style: TextStyle(fontSize: 22),
                               ),
                             ),
                             SizedBox(height: 10),
@@ -119,48 +131,50 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                           fontWeight: FontWeight.bold),
                                       onChanged: (String? newValue) {
                                         ClickSound.soundClick();
-                                        final provider_l = Provider.of<
-                                            LocaleProvider>(context, listen: false);
+                                        final provider_l =
+                                            Provider.of<LocaleProvider>(context,
+                                                listen: false);
 
-                                          dropdownValue = newValue!;
-                                          if (dropdownValue == "English") {
-                                            selected_language = "en";
-                                            provider_l.setLocale(new Locale('en'));
-                                          }
-                                          // else if (dropdownValue == "中國人") {
-                                          //   selected_language = "zh";
-                                          //   provider_l.setLocale(new Locale('zh'));
-                                          // }
-                                          else if (dropdownValue ==
-                                              "Français") {
-                                            selected_language = "fr";
-                                            provider_l.setLocale(new Locale('fr'));
-                                          }
-                                          // else if (dropdownValue ==
-                                          //     "русский") {
-                                          //   selected_language = "ru";
-                                          //   provider_l.setLocale(new Locale('ru'));
-                                          // }
-                                          else if (dropdownValue ==
-                                              "Español") {
-                                            selected_language = "es";
-                                            provider_l.setLocale(new Locale('es'));
-                                          }
-                                          else if (dropdownValue ==
-                                              "عربي") {
-                                            selected_language = "ar";
-                                            provider_l.setLocale(new Locale('ar'));
-                                          }
-                                          else if (dropdownValue ==
-                                              "Italiano") {
-                                            selected_language = "it";
-                                            provider_l.setLocale(new Locale('it'));
-                                          }
-                                          else {
-                                            selected_language = "en";
-                                            provider_l.setLocale(new Locale('en'));
-                                          }
-                                        _sp.setValue(SPConstant.SELECTED_LANGUAGE,
+                                        dropdownValue = newValue!;
+                                        if (dropdownValue == "English") {
+                                          selected_language = "en";
+                                          provider_l
+                                              .setLocale(new Locale('en'));
+                                        }
+                                        // else if (dropdownValue == "中國人") {
+                                        //   selected_language = "zh";
+                                        //   provider_l.setLocale(new Locale('zh'));
+                                        // }
+                                        else if (dropdownValue == "Français") {
+                                          selected_language = "fr";
+                                          provider_l
+                                              .setLocale(new Locale('fr'));
+                                        }
+                                        // else if (dropdownValue ==
+                                        //     "русский") {
+                                        //   selected_language = "ru";
+                                        //   provider_l.setLocale(new Locale('ru'));
+                                        // }
+                                        else if (dropdownValue == "Español") {
+                                          selected_language = "es";
+                                          provider_l
+                                              .setLocale(new Locale('es'));
+                                        } else if (dropdownValue == "عربي") {
+                                          selected_language = "ar";
+                                          provider_l
+                                              .setLocale(new Locale('ar'));
+                                        } else if (dropdownValue ==
+                                            "Italiano") {
+                                          selected_language = "it";
+                                          provider_l
+                                              .setLocale(new Locale('it'));
+                                        } else {
+                                          selected_language = "en";
+                                          provider_l
+                                              .setLocale(new Locale('en'));
+                                        }
+                                        _sp.setValue(
+                                            SPConstant.SELECTED_LANGUAGE,
                                             selected_language);
                                         setState(() {});
                                       },
@@ -180,7 +194,7 @@ class _LanguageChooserState extends State<LanguageChooser> {
                                           child: Text(value),
                                         );
                                       }).toList(),
-                                      onTap: (){
+                                      onTap: () {
                                         ClickSound.soundDropdown();
                                       },
                                     ),
@@ -196,49 +210,47 @@ class _LanguageChooserState extends State<LanguageChooser> {
                           height: 40,
                           child: Container(
                               child: GestureDetector(
-                                onTap: (){
-                                  ClickSound.soundClick();
-                                  final provider_l = Provider.of<
-                                      LocaleProvider>(context, listen: false);
-                                  if (selected_language == 'en') {
-                                    provider_l.setLocale(new Locale('en'));
-                                  }
-                                  // else if (selected_language == 'zh') {
-                                  //   provider_l.setLocale(new Locale('zh'));
-                                  // }
-                                  else if (selected_language == 'fr') {
-                                    provider_l.setLocale(new Locale('fr'));
-                                  }
-                                  // else if (selected_language == 'ru') {
-                                  //   provider_l.setLocale(new Locale('ru'));
-                                  // }
-                                  else if (selected_language == 'es') {
-                                    provider_l.setLocale(new Locale('es'));
-                                  }
-                                  // else if (selected_language == 'ar') {
-                                  //   provider_l.setLocale(new Locale('ar'));
-                                  // }
-                                  else if (selected_language == 'it') {
-                                    provider_l.setLocale(new Locale('it'));
-                                  }
-                                  else {
-                                    provider_l.setLocale(new Locale('en'));
-                                  }
-                                  _sp.setValue(SPConstant.SELECTED_LANGUAGE,
-                                      selected_language);
-                                  NavUtils.push(context, IntroScreen());
-                                },
-                                  child: Center(
-                                    child: Text(
-                                        AppLocalizations.of(context)!.continu,
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        decoration: TextDecoration.underline
-                                      ),
-                                    ),
-                                  ),
-                              )
-                          ),
+                            onTap: () {
+                              ClickSound.soundClick();
+                              final provider_l = Provider.of<LocaleProvider>(
+                                  context,
+                                  listen: false);
+                              if (selected_language == 'en') {
+                                provider_l.setLocale(new Locale('en'));
+                              }
+                              // else if (selected_language == 'zh') {
+                              //   provider_l.setLocale(new Locale('zh'));
+                              // }
+                              else if (selected_language == 'fr') {
+                                provider_l.setLocale(new Locale('fr'));
+                              }
+                              // else if (selected_language == 'ru') {
+                              //   provider_l.setLocale(new Locale('ru'));
+                              // }
+                              else if (selected_language == 'es') {
+                                provider_l.setLocale(new Locale('es'));
+                              }
+                              // else if (selected_language == 'ar') {
+                              //   provider_l.setLocale(new Locale('ar'));
+                              // }
+                              else if (selected_language == 'it') {
+                                provider_l.setLocale(new Locale('it'));
+                              } else {
+                                provider_l.setLocale(new Locale('en'));
+                              }
+                              _sp.setValue(SPConstant.SELECTED_LANGUAGE,
+                                  selected_language);
+                              NavUtils.push(context, IntroScreen());
+                            },
+                            child: Center(
+                              child: Text(
+                                AppLocalizations.of(context)!.continu,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    decoration: TextDecoration.underline),
+                              ),
+                            ),
+                          )),
                         )
                       ],
                     ),

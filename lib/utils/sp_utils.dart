@@ -28,7 +28,6 @@ class SPUtil {
   static String STORY_NEXT = "story_next";
   static String STORY_COUNT = "story_count";
 
-
   setValue(String key, String value) async {
     GetStorage().write(key, value);
   }
@@ -42,21 +41,22 @@ class SPUtil {
   }
 
   String getValue(String key) {
-    return GetStorage().read(key);
+    var result = GetStorage().read(key);
+    return result == null ? "" : GetStorage().read(key);
   }
 
   int getInt(String key) {
-    if(GetStorage().hasData(key)){
+    if (GetStorage().hasData(key)) {
       return GetStorage().read(key);
-    }else{
+    } else {
       return 0;
     }
   }
 
   String getValueNoNull(String key) {
-    if(GetStorage().hasData(key)){
+    if (GetStorage().hasData(key)) {
       return GetStorage().read(key);
-    }else{
+    } else {
       return "";
     }
   }

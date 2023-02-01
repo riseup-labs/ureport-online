@@ -34,12 +34,11 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<LocaleProvider>(context);
 
-    String already_selected = sp.getValue(SPConstant.SELECTED_LANGUAGE);
+    String already_selected = sp.getValue(SPConstant.SELECTED_LANGUAGE)!;
 
     if (already_selected == "") {
       selectedValue = values.first;
-    }
-    else if (already_selected == "en") {
+    } else if (already_selected == "en") {
       selectedValue = values[0];
     }
     // else if (already_selected == "zh") {
@@ -50,17 +49,13 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
     // }
     else if (already_selected == "es") {
       selectedValue = values[1];
-    }
-    else if (already_selected == "fr") {
+    } else if (already_selected == "fr") {
       selectedValue = values[2];
-    }
-    else if (already_selected == "it") {
+    } else if (already_selected == "it") {
       selectedValue = values[3];
-    }
-    else if (already_selected == "ar") {
+    } else if (already_selected == "ar") {
       selectedValue = values[4];
-    }
-    else {
+    } else {
       selectedValue = values.first;
     }
 
@@ -78,7 +73,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                 ClickSound.soundClose();
               },
               child: Container(
-                margin: EdgeInsets.only(left: 20,top: 10),
+                margin: EdgeInsets.only(left: 20, top: 10),
                 height: 70,
                 child: Image(
                   height: 60,
@@ -147,11 +142,9 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                   // }
                                   else if (this.selectedValue == values[1]) {
                                     setLocal(provider, "es");
-                                  }
-                                  else if (this.selectedValue == values[2]) {
+                                  } else if (this.selectedValue == values[2]) {
                                     setLocal(provider, "fr");
-                                  }
-                                  else if (this.selectedValue == values[3]) {
+                                  } else if (this.selectedValue == values[3]) {
                                     setLocal(provider, "it");
                                   }
                                   // else if (this.selectedValue == values[3]) {
@@ -160,7 +153,6 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                   else if (this.selectedValue == values[4]) {
                                     setLocal(provider, "ar");
                                   }
-
                                 },
                                 child: Container(
                                     padding: EdgeInsets.only(
@@ -196,15 +188,14 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                                                 values[1])
                                               {setLocal(provider, "es")}
                                             else if (this.selectedValue ==
-                                                  values[2])
-                                                {setLocal(provider, "fr")}
-                                              else if (this.selectedValue ==
-                                                    values[3])
-                                                  {setLocal(provider, "it")}
+                                                values[2])
+                                              {setLocal(provider, "fr")}
+                                            else if (this.selectedValue ==
+                                                values[3])
+                                              {setLocal(provider, "it")}
                                             else if (this.selectedValue ==
                                                 values[4])
                                               {setLocal(provider, "ar")}
-
                                           })
                                     }),
                           )
@@ -258,16 +249,13 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
     else if (language == "es") {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "es");
       provider.setLocale(new Locale('es'));
-    }
-    else if (language == "ar") {
+    } else if (language == "ar") {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "ar");
       provider.setLocale(new Locale('ar'));
-    }
-    else if (language == "it") {
+    } else if (language == "it") {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "it");
       provider.setLocale(new Locale('it'));
-    }
-    else {
+    } else {
       sp.setValue(SPConstant.SELECTED_LANGUAGE, "en");
       provider.setLocale(new Locale('en'));
     }

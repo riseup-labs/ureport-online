@@ -61,44 +61,44 @@ class StoryController extends ConnectivityController {
       if (apiresponsedata.data.count > 5) {
         itemCount = 5;
         notifyListeners();
-      }else{
+      } else {
         itemCount = apiresponsedata.data.count;
       }
 
-    if (apiresponsedata.data.next != null) {
-    sp.setValue("${program}_${SPUtil.STORY_NEXT}", apiresponsedata.data.next);
-    }
+      if (apiresponsedata.data.next != null) {
+        sp.setValue(
+            "${program}_${SPUtil.STORY_NEXT}", apiresponsedata.data.next);
+      }
     } else {
-    isLoading = false;
-    isSyncing = false;
-    notifyListeners();
+      isLoading = false;
+      isSyncing = false;
+      notifyListeners();
     }
   }
 
   checkForNextStories(String program) async {
-    
     _databaseHelper.getStoryCount(program).then((value) => {
-      if(itemCount < value){
-        itemCount = itemCount + 5,
-        if(itemCount >= value){
-          itemCount = value,
-          notifyListeners(),
-        },
-        notifyListeners()
-      }else{
-        getNextStoriesFromRemote(program)
-      }
-    });
-
+          if (itemCount < value)
+            {
+              itemCount = itemCount + 5,
+              if (itemCount >= value)
+                {
+                  itemCount = value,
+                  notifyListeners(),
+                },
+              notifyListeners()
+            }
+          else
+            {getNextStoriesFromRemote(program)}
+        });
   }
-  
-  getNextStoriesFromRemote(String program) async{
 
-    if(sp.getValue("${program}_${SPUtil.STORY_NEXT}") != "null"){
+  getNextStoriesFromRemote(String program) async {
+    if (sp.getValue("${program}_${SPUtil.STORY_NEXT}") != "null") {
       setNextLoading();
       items.clear();
-      var apiresponsedata = await _storyservice.getStory(
-          sp.getValue("${program}_${SPUtil.STORY_NEXT}"));
+      var apiresponsedata = await _storyservice
+          .getStory(sp.getValue("${program}_${SPUtil.STORY_NEXT}"));
       if (apiresponsedata.httpCode == 200) {
         items.addAll(apiresponsedata.data.results);
         await _databaseHelper.insertStory(items, program);
@@ -107,15 +107,16 @@ class StoryController extends ConnectivityController {
         });
 
         itemCount = itemCount + 5;
-        if(itemCount >= apiresponsedata.data.count){
+        if (itemCount >= apiresponsedata.data.count) {
           itemCount = apiresponsedata.data.count - 1;
         }
         nextLoading = false;
         notifyListeners();
         if (apiresponsedata.data.next != null) {
-          sp.setValue("${program}_${SPUtil.STORY_NEXT}", apiresponsedata.data.next);
-        }else{
-          sp.setValue("${program}_${SPUtil.STORY_NEXT}","null");
+          sp.setValue(
+              "${program}_${SPUtil.STORY_NEXT}", apiresponsedata.data.next);
+        } else {
+          sp.setValue("${program}_${SPUtil.STORY_NEXT}", "null");
         }
       } else {
         nextLoading = false;
@@ -129,29 +130,25 @@ class StoryController extends ConnectivityController {
   }
 
   getRecentStory(String url, String program) {
-    _databaseHelper.getRecentStory(program).then((value) =>
-    {
-      if (value.length != 0)
-        {
-          if(sp.getInt("${program}_${SPUtil.STORY_COUNT}") > 5){
-            itemCount = 5,
-            notifyListeners()
-          },
-          fetchFirstStoryFromRemote(url, program, value[0].id)
-        }
-      else
-        {
-          setLoading(),
-          getStoriesFromRemote(url, program)
-        }
-    });
+    _databaseHelper.getRecentStory(program).then((value) => {
+          if (value.length != 0)
+            {
+              if (sp.getInt("${program}_${SPUtil.STORY_COUNT}") > 5)
+                {itemCount = 5, notifyListeners()},
+              fetchFirstStoryFromRemote(url, program, value[0].id)
+            }
+          else
+            {setLoading(), getStoriesFromRemote(url, program)}
+        });
   }
 
   fetchFirstStoryFromRemote(String url, String program, int id) async {
-    var apiresponsedata = await _storyservice.getStory(url + "?limit=1");
+    var apiResponseData = await _storyservice.getStory(url + "?limit=1");
 
-    if (apiresponsedata.httpCode == 200) {
-      if (apiresponsedata.data.results[0].id != id) {
+    print(apiResponseData.httpCode);
+
+    if (apiResponseData.httpCode == 200) {
+      if (apiResponseData.data.results[0].id != id) {
         getStoriesFromRemote(url, program);
       } else {
         ClickSound.soundShare();

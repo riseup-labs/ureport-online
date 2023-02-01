@@ -13,7 +13,6 @@ class IntroPageFirst extends StatefulWidget {
 }
 
 class _IntroPageFirstState extends State<IntroPageFirst> {
-
   @override
   void initState() {
     senDToLanguageChooser();
