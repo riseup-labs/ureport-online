@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.4+5
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=3.0.5 <4.0.0" 
 
 dependencies:
   platform: ^3.1.0
@@ -43,7 +43,7 @@ dependencies:
   #Sqflite
   sqflite:
   share: ^2.0.1
-  intl: ^0.17.0
+  intl: any
   flutter_localizations: # Add this line
     sdk: flutter
 
@@ -61,10 +61,11 @@ dependencies:
   webview_flutter_plus: ^0.3.0+2
   autocomplete_textfield: ^2.0.1
   flutter_typeahead: ^4.0.1
-  cached_network_image: ^3.0.0
+  cached_network_image: ^3.2.0
   infinite_scroll_pagination: ^3.2.0
   dotted_line: ^3.1.0
-  material_floating_search_bar: ^0.3.7
+  # material_floating_search_bar: ^0.3.7
+  material_floating_search_bar_2: ^0.5.0
   audioplayers: ^2.0.0
   flutter_scatter: ^0.2.0
   connectivity: ^3.0.6
@@ -73,7 +74,7 @@ dependencies:
   url_launcher: ^6.1.7
   #  keyboard_visibility: any
   lottie: ^2.2.0
-  package_info_plus: ^3.0.2
+  package_info_plus: ^4.0.2
   flutter_launcher_icons: ^0.11.0
   permission_handler: ^10.2.0
 
