@@ -13,20 +13,20 @@ class StatisticsLocationSpinner extends StatefulWidget {
   questionArray.Question question;
   Color color;
 
-  StatisticsLocationSpinner(this.question,this.color);
+  StatisticsLocationSpinner(this.question, this.color);
 
   @override
   _StatisticsLocationSpinnerState createState() =>
-      _StatisticsLocationSpinnerState(question,color);
+      _StatisticsLocationSpinnerState(question, color);
 }
 
 class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
   questionArray.Question question;
   Color color;
-  _StatisticsLocationSpinnerState(this.question,this.color);
+  _StatisticsLocationSpinnerState(this.question, this.color);
 
   List<ResultsByLocation> resultsByLocation = [];
-  
+
   String dropdownValue = "";
   late ResultsByLocation location;
   var isLoaded = true;
@@ -51,39 +51,39 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
 
     countries.sort();
 
-
-    if(isLoaded){
+    if (isLoaded) {
       location = question.resultsByLocation[0];
       dropdownValue = countries[0];
       isLoaded = false;
     }
     return Consumer<OpinionController>(builder: (context, provider, snapshot) {
-
       return Column(
         children: [
           DropdownButton<String>(
-              value: dropdownValue,
-              iconSize: 24,
-              elevation: 16,
-              style:
-              TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16,),
-              onChanged: (String? newValue) {
-                ClickSound.soundClick();
-                  dropdownValue = newValue!;
-                  // print("the value is : $dropdownValue");
-                  resultsByLocation.forEach((element) {
-                    if(element.label == dropdownValue){
-                      location = element;
-                    }
-                  });
-                  setState(() {});
-              },
-              items: countryList,
-            onTap: (){
+            value: dropdownValue,
+            iconSize: 24,
+            elevation: 16,
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+            ),
+            onChanged: (String? newValue) {
+              ClickSound.soundClick();
+              dropdownValue = newValue!;
+              // print("the value is : $dropdownValue");
+              resultsByLocation.forEach((element) {
+                if (element.label == dropdownValue) {
+                  location = element;
+                }
+              });
+              setState(() {});
+            },
+            items: countryList,
+            onTap: () {
               ClickSound.soundDropdown();
             },
           ),
-          
           ListView.builder(
               shrinkWrap: true,
               physics: BouncingScrollPhysics(),
@@ -112,7 +112,8 @@ class _StatisticsLocationSpinnerState extends State<StatisticsLocationSpinner> {
                                           fontWeight: FontWeight.w600))),
                             ],
                           ),
-                          linearStrokeCap: LinearStrokeCap.roundAll,
+                          barRadius: const Radius.circular(8),
+                          // linearStrokeCap: LinearStrokeCap.roundAll,
                           progressColor: color,
                         ),
                       ),

@@ -97,7 +97,9 @@ class MyApp extends StatelessWidget {
                 title: "Ureport Ecaro",
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
-                    primarySwatch: Colors.blue, fontFamily: "Montserrat"),
+                    useMaterial3: false,
+                    primarySwatch: Colors.blue,
+                    fontFamily: "Montserrat"),
                 home: Directionality(
                   textDirection: TextDirection.ltr,
                   child: SplashScreen(),
