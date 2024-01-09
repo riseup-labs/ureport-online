@@ -13,7 +13,7 @@ class RemoteConfigController extends ChangeNotifier {
   late ResponseRemoteConfigData remoteConfigData;
 
   getInitialData(BuildContext context) async {
-    RemoteConfig remoteConfig = RemoteConfig.instance;
+    final remoteConfig = FirebaseRemoteConfig.instance;
 
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: Duration(seconds: 60),

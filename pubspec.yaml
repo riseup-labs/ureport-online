@@ -48,14 +48,14 @@ dependencies:
     sdk: flutter
 
   # firebase config
-  firebase_messaging: ^14.2.1
-  firebase_core: ^2.4.1
+  firebase_messaging: ^14.7.10
+  firebase_core: ^2.24.2
   flutter_local_notifications: ^6.1.0
   firebase_analytics: ^10.1.0
-  firebase_crashlytics: any
+  firebase_crashlytics: ^3.4.9
 
   #Remote config
-  firebase_remote_config: ^3.0.9
+  firebase_remote_config: ^4.3.8
 
   percent_indicator: ^4.2.2
   webview_flutter_plus: ^0.3.0+2
