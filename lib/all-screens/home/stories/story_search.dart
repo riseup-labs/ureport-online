@@ -1,7 +1,8 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+// import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:provider/provider.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/save_story.dart';
 import 'package:ureport_ecaro/all-screens/home/stories/stories-details.dart';
@@ -49,7 +50,7 @@ class _StorySearchState extends State<StorySearch> {
 
   @override
   Widget build(BuildContext context) {
-    _future = Provider.of<StoryController>(context, listen: false)
+    _future = Provider.of<StoryController>(context, listen: true)
         .getCategories(sp.getValue(SPUtil.PROGRAMKEY));
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
@@ -212,12 +213,14 @@ class _StorySearchState extends State<StorySearch> {
               transition: CircularFloatingSearchBarTransition(),
               debounceDelay: Duration(milliseconds: 100),
               actions: [
-                isExpanded?GestureDetector(
-                    onTap: () {
-                      ClickSound.soundClose();
-                      _floatingSearchBarController.clear();
-                    },
-                    child: Icon(Icons.clear)):SizedBox()
+                isExpanded
+                    ? GestureDetector(
+                        onTap: () {
+                          ClickSound.soundClose();
+                          _floatingSearchBarController.clear();
+                        },
+                        child: Icon(Icons.clear))
+                    : SizedBox()
               ],
               builder: (context, transition) {
                 return Container();
@@ -252,13 +255,14 @@ class _StorySearchState extends State<StorySearch> {
                   children: [
                     Text(
                       popup.title,
-                      style: TextStyle(fontSize:18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
                 children: list,
                 initiallyExpanded: isExpanded,
-                onExpansionChanged: (value){
+                onExpansionChanged: (value) {
                   ClickSound.soundDropdown();
                 },
               ),

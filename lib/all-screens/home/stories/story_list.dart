@@ -41,14 +41,14 @@ class _StoryListState extends State<StoryList>
 
     if (Provider.of<StoryController>(context, listen: false).isLoaded) {
       Provider.of<StoryController>(context, listen: false).getRecentStory(
-          RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-          sp.getValue(SPUtil.PROGRAMKEY));
+          RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)!),
+          sp.getValue(SPUtil.PROGRAMKEY)!);
       Provider.of<StoryController>(context, listen: false).isLoaded = false;
     }
 
     return Consumer<StoryController>(builder: (context, provider, snapshot) {
       var _futureStory =
-          provider.getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY));
+          provider.getStoriesFromLocal(sp.getValue(SPUtil.PROGRAMKEY)!);
       return Scaffold(
           body: Container(
         child: Column(
@@ -177,7 +177,7 @@ class _StoryListState extends State<StoryList>
                                                                 .isOnline) {
                                                               provider.checkForNextStories(
                                                                   sp.getValue(SPUtil
-                                                                      .PROGRAMKEY));
+                                                                      .PROGRAMKEY)!);
                                                             } else {
                                                               ShowSnackBar
                                                                   .showNoInternetMessage(
@@ -230,8 +230,8 @@ class _StoryListState extends State<StoryList>
       Provider.of<StoryController>(context, listen: false).setSyncing();
       return Provider.of<StoryController>(context, listen: false)
           .getRecentStory(
-              RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)),
-              sp.getValue(SPUtil.PROGRAMKEY));
+              RemoteConfigData.getStoryUrl(sp.getValue(SPUtil.PROGRAMKEY)!),
+              sp.getValue(SPUtil.PROGRAMKEY)!);
     } else {
       return ShowSnackBar.showNoInternetMessage(context);
     }

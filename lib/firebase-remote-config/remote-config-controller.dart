@@ -8,13 +8,12 @@ import 'package:ureport_ecaro/utils/sp_constant.dart';
 import 'package:ureport_ecaro/utils/sp_utils.dart';
 
 class RemoteConfigController extends ChangeNotifier {
-
   var sp = locator<SPUtil>();
 
   late ResponseRemoteConfigData remoteConfigData;
 
   getInitialData(BuildContext context) async {
-    RemoteConfig remoteConfig = RemoteConfig.instance;
+    final remoteConfig = FirebaseRemoteConfig.instance;
 
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: Duration(seconds: 60),

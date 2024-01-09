@@ -6,9 +6,8 @@ import 'package:ureport_ecaro/utils/sp_utils.dart';
 import 'model/response_opinions.dart' as questionArray;
 
 class StatisticsAll {
-
-  static Widget getAllStatistics(questionArray.Question question,Color color) {
-    int set  = question.results.resultsSet;
+  static Widget getAllStatistics(questionArray.Question question, Color color) {
+    int set = question.results.resultsSet;
     return ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -22,19 +21,26 @@ class StatisticsAll {
                   margin: EdgeInsets.only(top: 5),
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child:
-                    LinearPercentIndicator(
+                    child: LinearPercentIndicator(
                       animation: false,
                       lineHeight: 28.0,
                       backgroundColor: Colors.white,
-                      percent: question.results.categories[index].count/set,
+                      percent: question.results.categories[index].count / set,
                       center: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Expanded(child: Text("${question.results.categories[index].label}",style: TextStyle(fontWeight: FontWeight.w600),maxLines: 1,)),
+                          Expanded(
+                              child: Text(
+                            "${question.results.categories[index].label}",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                            maxLines: 1,
+                          )),
                         ],
                       ),
-                      linearStrokeCap: LinearStrokeCap.round,
+
+                      barRadius: const Radius.circular(8),
+
+                      // linearStrokeCap: LinearStrokeCap.round,
                       progressColor: color,
                     ),
                   ),
@@ -45,7 +51,8 @@ class StatisticsAll {
                 child: Center(
                   child: Container(
                     margin: EdgeInsets.only(top: 4),
-                    child: Text("${(question.results.categories[index].count/set*100).round()}%"),
+                    child: Text(
+                        "${(question.results.categories[index].count / set * 100).round()}%"),
                   ),
                 ),
               ),

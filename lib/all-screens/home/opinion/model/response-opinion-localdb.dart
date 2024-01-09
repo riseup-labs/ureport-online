@@ -12,7 +12,6 @@ class ResultOpinionLocal {
     required this.questionList,
   });
 
-
   int id;
   String title;
   dynamic org;
@@ -21,16 +20,15 @@ class ResultOpinionLocal {
   String polldate;
   List<questionArray.Question> questionList;
 
-
   factory ResultOpinionLocal.fromJson(Map<String, dynamic> json) =>
       ResultOpinionLocal(
-        id: json["id"],
-        title: json["title"],
+        id: json["id"] == null ? 0 : json["id"],
+        title: json["title"] == null ? "" : json["title"],
         org: json["org"],
         category: json["category"],
-        polldate: json["poll_date"],
-        questions: json["questions"],
-        questionList: json["questionsL"],
+        polldate: json["poll_date"] == null ? "" : json["poll_date"],
+        questions: json["questions"] == null ? "" : json["questions"],
+        questionList: json["questionsL"] == null ? [] : json["questionsL"],
       );
 
   Map<String, dynamic> toJson() => {

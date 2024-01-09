@@ -3,46 +3,44 @@ import 'package:ureport_ecaro/locator/locator.dart';
 
 import 'sp_utils.dart';
 
-class LoadDataHandling{
-
-  static bool checkStoryLoadAvailability(){
-
+class LoadDataHandling {
+  static bool checkStoryLoadAvailability() {
     var sp = locator<SPUtil>();
-    String lastUpdate = sp.getValue("${SPUtil.STORY_LAST_UPDATE}_${sp.getValue(SPUtil.PROGRAMKEY)}");
+    String lastUpdate = sp.getValue(
+        "${SPUtil.STORY_LAST_UPDATE}_${sp.getValue(SPUtil.PROGRAMKEY)}")!;
 
-    if(lastUpdate == null){
+    if (lastUpdate == null) {
       return true;
-    }else{
+    } else {
       DateTime lastDate = DateTime.parse(lastUpdate);
       DateTime currentDate = getCurrentDate();
-      if(lastDate.isBefore(currentDate)){
+      if (lastDate.isBefore(currentDate)) {
         return true;
-      }else{
+      } else {
         return false;
       }
     }
   }
 
-  static bool checkOpinionLoadAvailability(){
-
+  static bool checkOpinionLoadAvailability() {
     var sp = locator<SPUtil>();
-    String lastUpdate = sp.getValue("${SPUtil.OPINION_LAST_UPDATE}_${sp.getValue(SPUtil.PROGRAMKEY)}");
+    String lastUpdate = sp.getValue(
+        "${SPUtil.OPINION_LAST_UPDATE}_${sp.getValue(SPUtil.PROGRAMKEY)}")!;
 
-    if(lastUpdate == null){
+    if (lastUpdate == null) {
       return true;
-    }else{
+    } else {
       DateTime lastDate = DateTime.parse(lastUpdate);
       DateTime currentDate = getCurrentDate();
-      if(lastDate.isBefore(currentDate)){
+      if (lastDate.isBefore(currentDate)) {
         return true;
-      }else{
+      } else {
         return false;
       }
     }
   }
 
-  static DateTime getCurrentDate(){
-
+  static DateTime getCurrentDate() {
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     final String formatted = formatter.format(now);
@@ -50,18 +48,16 @@ class LoadDataHandling{
     return currentDate;
   }
 
-  static storeStoryLastUpdate(){
-
+  static storeStoryLastUpdate() {
     var sp = locator<SPUtil>();
-    sp.setValue("${SPUtil.STORY_LAST_UPDATE}_${sp.getValue(SPUtil.PROGRAMKEY)}", getCurrentDate().toString());
-
+    sp.setValue("${SPUtil.STORY_LAST_UPDATE}_${sp.getValue(SPUtil.PROGRAMKEY)}",
+        getCurrentDate().toString());
   }
 
-  static storeOpinionLastUpdate(){
+  static storeOpinionLastUpdate() {
     var sp = locator<SPUtil>();
-    sp.setValue("${SPUtil.OPINION_LAST_UPDATE}_${sp.getValue(SPUtil.PROGRAMKEY)}", getCurrentDate().toString());
-
+    sp.setValue(
+        "${SPUtil.OPINION_LAST_UPDATE}_${sp.getValue(SPUtil.PROGRAMKEY)}",
+        getCurrentDate().toString());
   }
-
-
 }

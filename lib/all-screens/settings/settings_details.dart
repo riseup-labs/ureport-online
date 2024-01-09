@@ -18,7 +18,8 @@ class SettingDetails extends StatefulWidget {
   _SettingDetailsState createState() => _SettingDetailsState();
 }
 
-class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObserver{
+class _SettingDetailsState extends State<SettingDetails>
+    with WidgetsBindingObserver {
   DatabaseHelper _databaseHelper = DatabaseHelper();
   var spservice = locator<SPUtil>();
   late String switchstate;
@@ -33,13 +34,13 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
   void initState() {
     super.initState();
     switchstate = spservice.getValue(
-        "${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.DELETE5DAYS}");
+        "${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.DELETE5DAYS}")!;
     if (switchstate == "true") {
       statesf = true;
     } else
       statesf = false;
 
-    soundstate = spservice.getValue(SPUtil.SOUND);
+    soundstate = spservice.getValue(SPUtil.SOUND)!;
     if (soundstate == "true") {
       statesSound = true;
     } else
@@ -55,22 +56,22 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
     }
   }
 
-  checkPermission() async{
+  checkPermission() async {
     var status = await Permission.notification.status;
     print("Permission : $status");
-    if(status.isGranted){
+    if (status.isGranted) {
       setState(() {
         statesNotification = true;
       });
-    }else{
+    } else {
       setState(() {
         statesNotification = false;
       });
     }
   }
 
-  requestPermission() async{
-      await openAppSettings();
+  requestPermission() async {
+    await openAppSettings();
   }
 
   @override
@@ -121,8 +122,8 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
                             width: 35,
                             child: Image(
                               color: RemoteConfigData.getTextColor(),
-                              image:
-                              AssetImage("assets/images/v2_ic_settings.png"),
+                              image: AssetImage(
+                                  "assets/images/v2_ic_settings.png"),
                             ),
                           )
                         ],
@@ -131,76 +132,81 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
                     SizedBox(
                       height: 10,
                     ),
-                    Platform.isIOS?
+                    Platform.isIOS
+                        ? Container(
+                            padding: EdgeInsets.only(
+                                left: 20, right: 20, top: 0, bottom: 0),
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, top: 15, bottom: 7),
+                            decoration: BoxDecoration(
+                              color: RemoteConfigData.getBackgroundColor(),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)!.notification,
+                                  style: TextStyle(
+                                      color: RemoteConfigData.getTextColor(),
+                                      fontSize: 21,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/v2_ic_sound.png",
+                                          height: 18,
+                                          width: 18,
+                                          color:
+                                              RemoteConfigData.getTextColor(),
+                                        ),
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Text(
+                                          "${AppLocalizations.of(context)!.on}/${AppLocalizations.of(context)!.off}",
+                                          style: TextStyle(
+                                              color: RemoteConfigData
+                                                  .getTextColor(),
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    Switch(
+                                        activeColor: Colors.white,
+                                        value: statesNotification,
+                                        onChanged: (value) {
+                                          ClickSound.soundTap();
+                                          requestPermission();
+                                          // if(!statesNotification){
+                                          //   requestPermission();
+                                          // }
+                                          // statesNotification = !statesNotification;
+                                          // setState(() {});
+                                        }),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container(),
                     Container(
-                      padding:
-                      EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
-                      margin: EdgeInsets.only(
-                          left: 20, right: 20, top: 15, bottom: 7),
-                      decoration: BoxDecoration(
-                        color: RemoteConfigData.getBackgroundColor(),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            AppLocalizations.of(context)!.notification,
-                            style: TextStyle(
-                                color: RemoteConfigData.getTextColor(),
-                                fontSize: 21,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    "assets/images/v2_ic_sound.png",
-                                    height: 18,
-                                    width: 18,
-                                    color: RemoteConfigData.getTextColor(),
-                                  ),
-                                  SizedBox(
-                                    width: 8,
-                                  ),
-                                  Text(
-                                    "${AppLocalizations.of(context)!.on}/${AppLocalizations.of(context)!.off}",
-                                    style: TextStyle(
-                                        color: RemoteConfigData.getTextColor(),
-                                        fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                              Switch(
-                                  activeColor: Colors.white,
-                                  value: statesNotification,
-                                  onChanged: (value) {
-                                    ClickSound.soundTap();
-                                    requestPermission();
-                                    // if(!statesNotification){
-                                    //   requestPermission();
-                                    // }
-                                    // statesNotification = !statesNotification;
-                                    // setState(() {});
-                                  }),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ):Container(),
-                    Container(
-                      padding:
-                      EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 0, bottom: 0),
                       margin: EdgeInsets.only(
                           left: 20, right: 20, top: 15, bottom: 7),
                       decoration: BoxDecoration(
@@ -307,7 +313,7 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
                                         "${AppLocalizations.of(context)!.five_days_delete_text}",
                                         style: TextStyle(
                                             color:
-                                            RemoteConfigData.getTextColor(),
+                                                RemoteConfigData.getTextColor(),
                                             fontSize: 16),
                                       ),
                                     ),
@@ -353,7 +359,7 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
                                             .remove_all_message_text,
                                         style: TextStyle(
                                             color:
-                                            RemoteConfigData.getTextColor(),
+                                                RemoteConfigData.getTextColor(),
                                             fontSize: 16),
                                       ),
                                     ),
@@ -371,17 +377,17 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
                                       left: 15, right: 15, top: 3, bottom: 3),
                                   decoration: BoxDecoration(
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
+                                        BorderRadius.all(Radius.circular(15)),
                                     color: Colors.white,
                                   ),
                                   child: Center(
                                       child: Text(
-                                        AppLocalizations.of(context)!.remove,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold),
-                                      )),
+                                    AppLocalizations.of(context)!.remove,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                  )),
                                 ),
                               ),
                             ],
@@ -403,11 +409,12 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
   showVersion() {
     return FutureBuilder(
         future: getVersionNumber(),
-        builder: (context, snapshot){
+        builder: (context, snapshot) {
           return Container(
             margin: EdgeInsets.only(right: 20, bottom: 5),
             width: double.infinity,
-            child: Text("Ver: ${snapshot.data}", style: TextStyle(), textAlign: TextAlign.end),
+            child: Text("Ver: ${snapshot.data}",
+                style: TextStyle(), textAlign: TextAlign.end),
           );
         });
   }
@@ -431,7 +438,7 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
             ClickSound.soundClick();
             await _databaseHelper
                 .deleteConversation(
-                locator<SPUtil>().getValue(SPUtil.PROGRAMKEY))
+                    locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)!)
                 .then((value) {
               Navigator.pop(context);
               Provider.of<ChatController>(context, listen: false)
@@ -465,5 +472,4 @@ class _SettingDetailsState extends State<SettingDetails> with WidgetsBindingObse
       },
     );
   }
-
 }

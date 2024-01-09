@@ -1,9 +1,10 @@
-
 import 'dart:convert';
 
-ResponseStories responseStoriesFromJson(String str) => ResponseStories.fromJson(json.decode(str));
+ResponseStories responseStoriesFromJson(String str) =>
+    ResponseStories.fromJson(json.decode(str));
 
-String responseStoriesToJson(ResponseStories data) => json.encode(data.toJson());
+String responseStoriesToJson(ResponseStories data) =>
+    json.encode(data.toJson());
 
 class ResponseStories {
   ResponseStories({
@@ -18,19 +19,21 @@ class ResponseStories {
   dynamic previous;
   List<Result> results;
 
-  factory ResponseStories.fromJson(Map<String, dynamic> json) => ResponseStories(
-    count: json["count"],
-    next: json["next"],
-    previous: json["previous"],
-    results: List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
-  );
+  factory ResponseStories.fromJson(Map<String, dynamic> json) =>
+      ResponseStories(
+        count: json["count"],
+        next: json["next"],
+        previous: json["previous"],
+        results:
+            List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "count": count,
-    "next": next,
-    "previous": previous,
-    "results": List<dynamic>.from(results.map((x) => x.toJson())),
-  };
+        "count": count,
+        "next": next,
+        "previous": previous,
+        "results": List<dynamic>.from(results.map((x) => x.toJson())),
+      };
 }
 
 class Result {
@@ -63,34 +66,34 @@ class Result {
   DateTime createdOn;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-    id: json["id"],
-    title: json["title"],
-    featured: json["featured"],
-    summary: json["summary"],
-    content: json["content"],
-    videoId: json["video_id"] == null ? "null" : json["video_id"],
-    audioLink: json["audio_link"] == null ? "null" : json["audio_link"],
-    tags: json["tags"] == null ? "null" : json["tags"],
-    org: json["org"],
-    images: List<String>.from(json["images"].map((x) => x)),
-    category: Category.fromJson(json["category"]),
-    createdOn: DateTime.parse(json["created_on"]),
-  );
+        id: json["id"],
+        title: json["title"],
+        featured: json["featured"],
+        summary: json["summary"],
+        content: json["content"],
+        videoId: json["video_id"] == null ? "null" : json["video_id"],
+        audioLink: json["audio_link"] == null ? "null" : json["audio_link"],
+        tags: json["tags"] == null ? "null" : json["tags"],
+        org: json["org"],
+        images: List<String>.from(json["images"].map((x) => x)),
+        category: Category.fromJson(json["category"]),
+        createdOn: DateTime.parse(json["created_on"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "title": title,
-    "featured": featured,
-    "summary": summary,
-    "content": content,
-    "video_id": videoId == null ? null : videoId,
-    "audio_link": audioLink == null ? null : audioLink,
-    "tags": tags == null ? null : tags,
-    "org": org,
-    "images": List<dynamic>.from(images.map((x) => x)),
-    "category": category.toJson(),
-    "created_on": createdOn.toIso8601String(),
-  };
+        "id": id,
+        "title": title,
+        "featured": featured,
+        "summary": summary,
+        "content": content,
+        "video_id": videoId == null ? null : videoId,
+        "audio_link": audioLink == null ? null : audioLink,
+        "tags": tags == null ? null : tags,
+        "org": org,
+        "images": List<dynamic>.from(images.map((x) => x)),
+        "category": category.toJson(),
+        "created_on": createdOn.toIso8601String(),
+      };
 }
 
 class Category {
@@ -103,12 +106,12 @@ class Category {
   String name;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-    imageUrl: json["image_url"],
-    name: json["name"],
-  );
+        imageUrl: json["image_url"] == null ? "" : json["image_url"],
+        name: json["name"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "image_url": imageUrl,
-    "name": name,
-  };
+        "image_url": imageUrl,
+        "name": name,
+      };
 }

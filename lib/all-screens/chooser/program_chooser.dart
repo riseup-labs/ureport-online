@@ -31,23 +31,25 @@ class _ProgramChooserState extends State<ProgramChooser> {
 
   _ProgramChooserState(this.from);
 
-  var dropdownValue = "";
+  var dropdownValue = "Global";
 
   @override
   void initState() {
-    Provider.of<ConnectivityController>(context, listen: false).startMonitoring();
-    Provider.of<RemoteConfigController>(context, listen: false)
-        .getInitialData(context);
-    dropdownValue = spset.getValue(SPUtil.PROGRAMKEY) == null
-        ? "Global"
-        : spset.getValue(SPUtil.PROGRAMKEY);
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<ConnectivityController>(context, listen: false)
+          .startMonitoring();
+      await Provider.of<RemoteConfigController>(context, listen: false)
+          .getInitialData(context);
+      dropdownValue = spset.getValue(SPUtil.PROGRAMKEY).isEmpty
+          ? "Global"
+          : spset.getValue(SPUtil.PROGRAMKEY);
+    });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Consumer<RemoteConfigController>(
       builder: (context, provider, child) {
         return Scaffold(
@@ -73,7 +75,9 @@ class _ProgramChooserState extends State<ProgramChooser> {
                             child: Image(
                               height: 60,
                               width: 60,
-                              image: AssetImage("assets/images/v2_ic_back.png",),
+                              image: AssetImage(
+                                "assets/images/v2_ic_back.png",
+                              ),
                             ),
                           ),
                         )
@@ -138,7 +142,9 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                               left: 15.0, right: 15),
                                           child: DropdownButtonHideUnderline(
                                             child: DropdownButton<String>(
-                                              value: dropdownValue,
+                                              value: dropdownValue.isNotEmpty
+                                                  ? dropdownValue
+                                                  : null,
                                               iconSize: 24,
                                               elevation: 16,
                                               style: TextStyle(
@@ -152,7 +158,7 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                               },
                                               items: RemoteConfigData
                                                   .getProgramListForProgramChooser(),
-                                              onTap: (){
+                                              onTap: () {
                                                 ClickSound.soundDropdown();
                                               },
                                             ),
@@ -169,35 +175,61 @@ class _ProgramChooserState extends State<ProgramChooser> {
                                     child: Container(
                                       child: GestureDetector(
                                           onTap: () {
-                                            if(Provider.of<ConnectivityController>(context, listen: false).isOnline){
+                                            if (Provider.of<
+                                                        ConnectivityController>(
+                                                    context,
+                                                    listen: false)
+                                                .isOnline) {
                                               ClickSound.soundClick();
                                               spset.setValue(SPUtil.PROGRAMKEY,
                                                   dropdownValue);
-                                              Provider.of<OpinionController>(context, listen: false).opinionID = 0;
-                                              Provider.of<OpinionController>(context, listen: false).notify();
-                                              Provider.of<StoryController>(context, listen: false).isLoaded = true;
-                                              Provider.of<OpinionController>(context, listen: false).isLoaded = true;
-                                              Provider.of<OpinionController>(context, listen: false).items = [];
-                                              Provider.of<ChatController>(context, listen: false).loaddefaultmessage();
-                                              if(from == "more"){
+                                              Provider.of<OpinionController>(
+                                                      context,
+                                                      listen: false)
+                                                  .opinionID = 0;
+                                              Provider.of<OpinionController>(
+                                                      context,
+                                                      listen: false)
+                                                  .notify();
+                                              Provider.of<StoryController>(
+                                                      context,
+                                                      listen: false)
+                                                  .isLoaded = true;
+                                              Provider.of<OpinionController>(
+                                                      context,
+                                                      listen: false)
+                                                  .isLoaded = true;
+                                              Provider.of<OpinionController>(
+                                                      context,
+                                                      listen: false)
+                                                  .items = [];
+                                              Provider.of<ChatController>(
+                                                      context,
+                                                      listen: false)
+                                                  .loadDefaultMessage();
+                                              if (from == "more") {
                                                 // locator<SPUtil>().setValue("${locator<SPUtil>().getValue(SPUtil.PROGRAMKEY)}_${SPUtil.REG_CALLED}", "false");
-                                                Provider.of<ChatController>(context, listen: false).createContact();
+                                                Provider.of<ChatController>(
+                                                        context,
+                                                        listen: false)
+                                                    .createContact();
                                               }
                                               NavUtils.pushAndRemoveUntil(
                                                   context, NavigationScreen(0));
-                                            }else{
-                                              ShowSnackBar.showNoInternetMessage(context);
+                                            } else {
+                                              ShowSnackBar
+                                                  .showNoInternetMessage(
+                                                      context);
                                             }
-
                                           },
                                           child: Center(
                                             child: Text(
                                               AppLocalizations.of(context)!
                                                   .continu,
                                               style: TextStyle(
-                                                fontSize: 20,
-                                                decoration: TextDecoration.underline
-                                              ),
+                                                  fontSize: 20,
+                                                  decoration:
+                                                      TextDecoration.underline),
                                             ),
                                           )),
                                     ),
